@@ -1,0 +1,245 @@
+syntax = "proto3";
+
+package auth_service;
+
+import "google/protobuf/timestamp.proto";
+
+service AuthService {
+    // Core authentication operations
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc Logout(LogoutRequest) returns (LogoutResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+    
+    // Token verification and validation
+    rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+    rpc ValidateSession(ValidateSessionRequest) returns (ValidateSessionResponse);
+    
+    // Password management
+    rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+    rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse);
+    rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
+    
+    // Session management
+    rpc GetActiveSessions(GetActiveSessionsRequest) returns (GetActiveSessionsResponse);
+    rpc RevokeSession(RevokeSessionRequest) returns (RevokeSessionResponse);
+    rpc RevokeAllSessions(RevokeAllSessionsRequest) returns (RevokeAllSessionsResponse);
+    
+    // Account management
+    rpc DeactivateAccount(DeactivateAccountRequest) returns (DeactivateAccountResponse);
+    rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
+    
+    // Health check
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+// Core authentication messages
+message RegisterRequest {
+    string email = 1;
+    string username = 2;
+    string password = 3;
+    string display_name = 4;
+    optional string bio = 5;
+    optional string avatar_url = 6;
+    string client_ip = 7;
+    string user_agent = 8;
+}
+
+message RegisterResponse {
+    bool success = 1;
+    optional string user_id = 2;
+    optional string access_token = 3;
+    optional string refresh_token = 4;
+    optional string error_message = 5;
+    google.protobuf.Timestamp expires_at = 6;
+}
+
+message LoginRequest {
+    string identifier = 1; // email or username
+    string password = 2;
+    string client_ip = 3;
+    string user_agent = 4;
+    bool remember_me = 5;
+}
+
+message LoginResponse {
+    bool success = 1;
+    optional string user_id = 2;
+    optional string access_token = 3;
+    optional string refresh_token = 4;
+    optional string error_message = 5;
+    google.protobuf.Timestamp expires_at = 6;
+    UserInfo user_info = 7;
+}
+
+message LogoutRequest {
+    string access_token = 1;
+    string refresh_token = 2;
+    string client_ip = 3;
+}
+
+message LogoutResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message RefreshTokenRequest {
+    string refresh_token = 1;
+    string client_ip = 2;
+    string user_agent = 3;
+}
+
+message RefreshTokenResponse {
+    bool success = 1;
+    optional string access_token = 2;
+    optional string refresh_token = 3;
+    optional string error_message = 4;
+    google.protobuf.Timestamp expires_at = 5;
+}
+
+// Token verification messages
+message VerifyTokenRequest {
+    string token = 1;
+    string client_ip = 2;
+}
+
+message VerifyTokenResponse {
+    bool valid = 1;
+    optional string user_id = 2;
+    optional string error_message = 3;
+    google.protobuf.Timestamp expires_at = 4;
+    repeated string permissions = 5;
+}
+
+message ValidateSessionRequest {
+    string session_id = 1;
+    string client_ip = 2;
+}
+
+message ValidateSessionResponse {
+    bool valid = 1;
+    optional string user_id = 2;
+    optional string error_message = 3;
+    google.protobuf.Timestamp expires_at = 4;
+}
+
+// Password management messages
+message ChangePasswordRequest {
+    string access_token = 1;
+    string current_password = 2;
+    string new_password = 3;
+    string client_ip = 4;
+}
+
+message ChangePasswordResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message ResetPasswordRequest {
+    string email = 1;
+    string client_ip = 2;
+}
+
+message ResetPasswordResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message ConfirmPasswordResetRequest {
+    string reset_token = 1;
+    string new_password = 2;
+    string client_ip = 3;
+}
+
+message ConfirmPasswordResetResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+// Session management messages
+message GetActiveSessionsRequest {
+    string access_token = 1;
+}
+
+message GetActiveSessionsResponse {
+    bool success = 1;
+    repeated SessionInfo sessions = 2;
+    optional string error_message = 3;
+}
+
+message RevokeSessionRequest {
+    string access_token = 1;
+    string session_id = 2;
+}
+
+message RevokeSessionResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message RevokeAllSessionsRequest {
+    string access_token = 1;
+}
+
+message RevokeAllSessionsResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+// Account management messages
+message DeactivateAccountRequest {
+    string access_token = 1;
+    string password = 2;
+    string client_ip = 3;
+}
+
+message DeactivateAccountResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message DeleteAccountRequest {
+    string access_token = 1;
+    string password = 2;
+    string client_ip = 3;
+}
+
+message DeleteAccountResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+// Health check
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+    bool healthy = 1;
+    string version = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+
+// Common data structures
+message UserInfo {
+    string user_id = 1;
+    string username = 2;
+    string email = 3;
+    string display_name = 4;
+    optional string bio = 5;
+    optional string avatar_url = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+    bool email_verified = 9;
+    bool account_active = 10;
+    repeated string roles = 11;
+}
+
+message SessionInfo {
+    string session_id = 1;
+    string client_ip = 2;
+    string user_agent = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp last_activity = 5;
+    google.protobuf.Timestamp expires_at = 6;
+    bool is_current = 7;
+}
