@@ -121,22 +121,6 @@ let PostMeta = (opts: PostMetaOpts): React.ReactNode => {
                 />
               </View>
             )}
-            <WebOnlyInlineLinkText
-              emoji
-              numberOfLines={1}
-              to={profileLink}
-              label={_(msg`View profile`)}
-              disableMismatchWarning
-              disableUnderline
-              onPress={onBeforePressAuthor}
-              style={[
-                a.text_md,
-                t.atoms.text_contrast_medium,
-                a.leading_tight,
-                {flexShrink: 10},
-              ]}>
-              {NON_BREAKING_SPACE + sanitizeHandle(handle, '@')}
-            </WebOnlyInlineLinkText>
           </View>
         </ProfileHoverCard>
 

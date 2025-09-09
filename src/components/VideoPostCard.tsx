@@ -12,7 +12,7 @@ import {
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
-import {sanitizeHandle} from '#/lib/strings/handles'
+import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {formatCount} from '#/view/com/util/numeric/format'
 import {UserAvatar} from '#/view/com/util/UserAvatar'
 import {VideoFeedSourceContext} from '#/screens/VideoFeed/types'
@@ -110,7 +110,7 @@ export function VideoPostCard({
             t.atoms.text_contrast_medium,
           ]}
           numberOfLines={1}>
-          {sanitizeHandle(post.author.handle, '@')}
+          {sanitizeDisplayName(post.author.displayName || post.author.handle)}
         </Text>
       </View>
     </View>
@@ -318,7 +318,7 @@ export function VideoPostCardTextPlaceholder({
                 t.atoms.text_contrast_medium,
               ]}
               numberOfLines={1}>
-              {sanitizeHandle(author.handle, '@')}
+              {sanitizeDisplayName(author.displayName || author.handle)}
             </Text>
           </View>
         ) : (
