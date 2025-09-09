@@ -951,7 +951,7 @@ function ExpandedAuthorCard({author}: {author: Author}) {
               a.flex_shrink,
               t.atoms.text_contrast_medium,
             ]}>
-            {sanitizeHandle(author.profile.handle, '@')}
+            {sanitizeDisplayName(author.profile.displayName || author.profile.handle)}
           </Text>
         </View>
       </View>

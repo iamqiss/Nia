@@ -379,8 +379,7 @@ let FeedItemInner = ({
                             style={pal.textLight}
                             lineHeight={1.2}>
                             {sanitizeDisplayName(
-                              reason.by.displayName ||
-                                sanitizeHandle(reason.by.handle),
+                              reason.by.displayName || reason.by.handle,
                               moderation.ui('displayName'),
                             )}
                           </Text>

@@ -10,9 +10,9 @@ import {
 
 const themes = createThemes({
   hues: {
-    primary: BLUE_HUE,
-    negative: RED_HUE,
-    positive: GREEN_HUE,
+    primary: 0, // Monochrome - no hue
+    negative: 0, // Monochrome - no hue
+    positive: 0, // Monochrome - no hue
   },
 })
 
@@ -60,7 +60,7 @@ export function createThemes({
   dim: Theme
 } {
   const color = {
-    like: '#ec4899',
+    like: '#666666', // Monochrome gray instead of pink
     trueBlack: '#000000',
 
     gray_0: `hsl(${hues.primary}, 20%, ${defaultScale[14]}%)`,
