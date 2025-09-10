@@ -2,14 +2,196 @@ syntax = "proto3";
 
 package user_service;
 
-service UserserviceService {
-    rpc Ping(PingRequest) returns (PingResponse);
+import "google/protobuf/timestamp.proto";
+
+// Core user service focused on identity, profiles, social graph, and privacy
+service UserService {
+    // Health
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+
+    // Identity & profiles
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+    rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+    rpc UpdateSettings(UpdateSettingsRequest) returns (UpdateSettingsResponse);
+
+    // Username/email availability
+    rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
+
+    // Social graph
+    rpc Follow(FollowRequest) returns (FollowResponse);
+    rpc Unfollow(UnfollowRequest) returns (UnfollowResponse);
+    rpc GetFollowers(GetFollowersRequest) returns (GetFollowersResponse);
+    rpc GetFollowing(GetFollowingRequest) returns (GetFollowingResponse);
+
+    // Privacy controls
+    rpc Block(BlockRequest) returns (BlockResponse);
+    rpc Unblock(UnblockRequest) returns (UnblockResponse);
+    rpc Mute(MuteRequest) returns (MuteResponse);
+    rpc Unmute(UnmuteRequest) returns (UnmuteResponse);
+
+    // Discovery
+    rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse);
 }
 
-message PingRequest {
-    string message = 1;
+// --------------- Health ---------------
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+    bool healthy = 1;
+    string version = 2;
+    google.protobuf.Timestamp timestamp = 3;
 }
 
-message PingResponse {
-    string message = 1;
+// --------------- Core Models ---------------
+message User {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string display_name = 4;
+    optional string bio = 5;
+    optional string avatar_url = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+    bool email_verified = 9;
+    bool account_active = 10;
+}
+
+message PublicUser {
+    string id = 1;
+    string username = 2;
+    string display_name = 3;
+    optional string bio = 4;
+    optional string avatar_url = 5;
+}
+
+// --------------- Identity & Profiles ---------------
+message CreateUserRequest {
+    string username = 1;
+    string email = 2;
+    string display_name = 3;
+    optional string bio = 4;
+    optional string avatar_url = 5;
+    string request_id = 6; // idempotency key
+}
+
+message CreateUserResponse {
+    bool success = 1;
+    optional string user_id = 2;
+    optional string error_message = 3;
+}
+
+message GetUserRequest {
+    oneof lookup {
+        string id = 1;
+        string username = 2;
+    }
+}
+
+message GetUserResponse {
+    optional User user = 1;
+}
+
+message GetUsersRequest {
+    repeated string ids = 1;
+}
+
+message GetUsersResponse {
+    repeated User users = 1;
+}
+
+message UpdateProfileRequest {
+    string user_id = 1;
+    optional string display_name = 2;
+    optional string bio = 3;
+    optional string avatar_url = 4;
+}
+
+message UpdateProfileResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+message UpdateSettingsRequest {
+    string user_id = 1;
+    optional bool is_private = 2;
+    optional string locale = 3;
+    optional string timezone = 4;
+}
+
+message UpdateSettingsResponse {
+    bool success = 1;
+    optional string error_message = 2;
+}
+
+// --------------- Availability ---------------
+message CheckAvailabilityRequest {
+    oneof query {
+        string username = 1;
+        string email = 2;
+    }
+}
+
+message CheckAvailabilityResponse {
+    bool available = 1;
+}
+
+// --------------- Social Graph ---------------
+message FollowRequest {
+    string follower_id = 1;
+    string followee_id = 2;
+}
+
+message FollowResponse { bool success = 1; optional string error_message = 2; }
+
+message UnfollowRequest {
+    string follower_id = 1;
+    string followee_id = 2;
+}
+
+message UnfollowResponse { bool success = 1; optional string error_message = 2; }
+
+message GetFollowersRequest {
+    string user_id = 1;
+    optional string cursor = 2;
+    uint32 limit = 3;
+}
+
+message GetFollowersResponse {
+    repeated PublicUser users = 1;
+    optional string next_cursor = 2;
+}
+
+message GetFollowingRequest {
+    string user_id = 1;
+    optional string cursor = 2;
+    uint32 limit = 3;
+}
+
+message GetFollowingResponse {
+    repeated PublicUser users = 1;
+    optional string next_cursor = 2;
+}
+
+// --------------- Privacy Controls ---------------
+message BlockRequest { string blocker_id = 1; string blockee_id = 2; }
+message BlockResponse { bool success = 1; optional string error_message = 2; }
+message UnblockRequest { string blocker_id = 1; string blockee_id = 2; }
+message UnblockResponse { bool success = 1; optional string error_message = 2; }
+message MuteRequest { string muter_id = 1; string mutee_id = 2; }
+message MuteResponse { bool success = 1; optional string error_message = 2; }
+message UnmuteRequest { string muter_id = 1; string mutee_id = 2; }
+message UnmuteResponse { bool success = 1; optional string error_message = 2; }
+
+// --------------- Discovery ---------------
+message SearchUsersRequest {
+    string query = 1;
+    optional string cursor = 2;
+    uint32 limit = 3;
+}
+
+message SearchUsersResponse {
+    repeated PublicUser users = 1;
+    optional string next_cursor = 2;
 }
