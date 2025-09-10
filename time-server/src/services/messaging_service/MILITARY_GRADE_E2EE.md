@@ -1,4 +1,4 @@
-# Sonet Messaging Service
+# time Messaging Service
 ## Military-Grade E2EE Communication Platform
 
 ### 🛡️ **WORLD-CLASS SECURITY ARCHITECTURE**

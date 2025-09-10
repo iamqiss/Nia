@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-namespace sonet::gateway::responses {
+namespace time::gateway::responses {
 
 inline nlohmann::json ok(const nlohmann::json& data = {}) {
     nlohmann::json j = data;

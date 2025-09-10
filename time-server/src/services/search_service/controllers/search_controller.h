@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Search controller for handling Twitter-scale search requests.
  * This orchestrates all search operations with intelligent routing,
@@ -24,7 +24,7 @@
 #include <mutex>
 #include <optional>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace controllers {
 
@@ -218,4 +218,4 @@ private:
 
 } // namespace controllers
 } // namespace search_service
-} // namespace sonet
+} // namespace time

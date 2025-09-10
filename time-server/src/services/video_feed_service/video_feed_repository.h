@@ -11,7 +11,7 @@
 #include "proto/common/video_types.pb.h"
 #include "proto/common/pagination.proto"
 
-namespace sonet {
+namespace time {
 namespace video_feed {
 
 // Forward declarations
@@ -243,4 +243,4 @@ private:
 };
 
 } // namespace video_feed
-} // namespace sonet
+} // namespace time

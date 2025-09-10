@@ -15,9 +15,9 @@
 #include <optional>
 #include <memory>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
-using namespace sonet::note::models;
+using namespace time::note::models;
 
 /**
  * Thread repository interface for managing note threads
@@ -218,4 +218,4 @@ public:
     static bool test_thread_schema(CassSession* session, const std::string& keyspace);
 };
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

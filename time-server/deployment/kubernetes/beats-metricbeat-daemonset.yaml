@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: sonet-observability
+  name: time-observability
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: metricbeat
-  namespace: sonet-observability
+  namespace: time-observability
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -31,17 +31,17 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: metricbeat
-    namespace: sonet-observability
+    namespace: time-observability
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: metricbeat-config
-  namespace: sonet-observability
+  namespace: time-observability
   labels:
     app: metricbeat
     k8s-app: metricbeat
-    managed-by: sonet
+    managed-by: time
 data:
   metricbeat.yml: |
     metricbeat.autodiscover:
@@ -66,17 +66,17 @@ data:
       - add_host_metadata: ~
 
     output.elasticsearch:
-      hosts: ["http://elasticsearch.sonet-observability.svc:9200"]
+      hosts: ["http://elasticsearch.time-observability.svc:9200"]
 
     setup.kibana:
-      host: "kibana.sonet-observability.svc:5601"
+      host: "kibana.time-observability.svc:5601"
 
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: metricbeat
-  namespace: sonet-observability
+  namespace: time-observability
   labels:
     k8s-app: metricbeat
 spec:

@@ -15,7 +15,7 @@
 #include <thread>
 #include <functional>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Connection pool optimization configuration
@@ -281,4 +281,4 @@ private:
 };
 
 } // namespace database
-} // namespace sonet
+} // namespace time

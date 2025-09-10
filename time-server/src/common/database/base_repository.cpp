@@ -4,7 +4,7 @@
 #include <cctype>
 #include <iomanip>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // BaseRepository implementation
@@ -464,4 +464,4 @@ std::string ResultSet::get_error() const {
 }
 
 } // namespace database
-} // namespace sonet
+} // namespace time

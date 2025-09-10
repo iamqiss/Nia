@@ -10,7 +10,7 @@
 #include <spdlog/spdlog.h>
 #include <chrono>
 
-namespace sonet::note {
+namespace time::note {
 
 NoteService::NoteService(
     std::shared_ptr<NoteRepository> note_repository,
@@ -223,4 +223,4 @@ void NoteService::invalidate_timeline_cache(const std::string& user_id) {
     spdlog::debug("Invalidating timeline cache for user {}", user_id);
 }
 
-} // namespace sonet::note
+} // namespace time::note

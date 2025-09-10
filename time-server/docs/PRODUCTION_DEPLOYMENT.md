@@ -1,7 +1,7 @@
-# 🚀 Sonet Production Deployment Guide
+# 🚀 time Production Deployment Guide
 
 ## Overview
-This guide provides step-by-step instructions for deploying the Sonet moderation system to production with enterprise-grade security, monitoring, and operational procedures.
+This guide provides step-by-step instructions for deploying the time moderation system to production with enterprise-grade security, monitoring, and operational procedures.
 
 ## 🎯 Pre-Deployment Requirements
 
@@ -13,7 +13,7 @@ This guide provides step-by-step instructions for deploying the Sonet moderation
 - **Network**: Stable internet connection with static IP
 
 ### Domain & SSL
-- **Domain**: sonet.com (or your domain)
+- **Domain**: time.com (or your domain)
 - **SSL Certificate**: Let's Encrypt or commercial certificate
 - **DNS**: A record pointing to your server IP
 
@@ -41,9 +41,9 @@ sudo systemctl restart ssh
 
 ### Step 2: Run Production Setup Script
 ```bash
-# Clone Sonet repository
-git clone https://github.com/sonet/sonet.git
-cd sonet
+# Clone time repository
+git clone https://github.com/time/time.git
+cd time
 
 # Make setup script executable
 chmod +x scripts/setup-production.sh
@@ -55,7 +55,7 @@ sudo ./scripts/setup-production.sh
 ### Step 3: Configure Environment Variables
 ```bash
 # Edit production environment file
-sudo nano /opt/sonet/config/production.env
+sudo nano /opt/time/config/production.env
 
 # Update these critical values:
 # - DOMAIN=your-domain.com
@@ -67,23 +67,23 @@ sudo nano /opt/sonet/config/production.env
 
 ### Step 4: Deploy Services
 ```bash
-# Start Sonet services
-sudo systemctl start sonet.service
+# Start time services
+sudo systemctl start time.service
 
 # Check service status
-sudo systemctl status sonet.service
+sudo systemctl status time.service
 
 # View logs
-sudo journalctl -u sonet.service -f
+sudo journalctl -u time.service -f
 ```
 
 ### Step 5: Database Initialization
 ```bash
 # Connect to postgresql
-sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production
+sudo docker exec -it time_notegres_prod psql -U time_app -d time_production
 
 # Run database migrations
-\i /opt/sonet/database/migrations/001_create_moderation_tables.sql
+\i /opt/time/database/migrations/001_create_moderation_tables.sql
 
 # Verify tables created
 \dt
@@ -99,7 +99,7 @@ sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production
 sudo apt install -y certbot python3-certbot-nginx
 
 # Generate SSL certificate
-sudo certbot --nginx -d sonet.com -d www.sonet.com
+sudo certbot --nginx -d time.com -d www.time.com
 
 # Test auto-renewal
 sudo certbot renew --dry-run
@@ -113,7 +113,7 @@ sudo certbot renew --dry-run
 # Kibana: http://your-server:5601
 
 # Import Grafana dashboards
-# 1. Create Sonet Moderation dashboard
+# 1. Create time Moderation dashboard
 # 2. Add Prometheus data source
 # 3. Import dashboard templates
 ```
@@ -155,21 +155,21 @@ sudo certbot renew --dry-run
 ```yaml
 # High Error Rate
 - alert: HighErrorRate
-  expr: rate(sonet_moderation_errors_total[5m]) > 0.1
+  expr: rate(time_moderation_errors_total[5m]) > 0.1
   for: 2m
   labels:
     severity: warning
 
 # Service Down
 - alert: ServiceDown
-  expr: up{job="sonet-moderation-service"} == 0
+  expr: up{job="time-moderation-service"} == 0
   for: 1m
   labels:
     severity: critical
 
 # High Response Time
 - alert: HighResponseTime
-  expr: histogram_quantile(0.95, rate(sonet_moderation_request_duration_seconds_bucket[5m])) > 1
+  expr: histogram_quantile(0.95, rate(time_moderation_request_duration_seconds_bucket[5m])) > 1
   for: 5m
   labels:
     severity: warning
@@ -187,22 +187,22 @@ sudo certbot renew --dry-run
 ### Automated Backups
 ```bash
 # Backup runs daily at 2 AM
-sudo systemctl status sonet-backup.timer
+sudo systemctl status time-backup.timer
 
 # Manual backup
-sudo systemctl start sonet-backup.service
+sudo systemctl start time-backup.service
 
 # Check backup status
-sudo journalctl -u sonet-backup.service
+sudo journalctl -u time-backup.service
 ```
 
 ### Backup Verification
 ```bash
 # List available backups
-ls -la /opt/sonet/backups/
+ls -la /opt/time/backups/
 
 # Verify backup integrity
-cd /opt/sonet/backups/sonet_backup_YYYYMMDD_HHMMSS
+cd /opt/time/backups/time_backup_YYYYMMDD_HHMMSS
 gunzip -t database.sql.gz
 cat manifest.json
 ```
@@ -210,24 +210,24 @@ cat manifest.json
 ### Recovery Procedures
 ```bash
 # Stop services
-sudo systemctl stop sonet.service
+sudo systemctl stop time.service
 
 # Restore database
-gunzip -c database.sql.gz | sudo docker exec -i sonet_notegres_prod psql -U sonet_app sonet_production
+gunzip -c database.sql.gz | sudo docker exec -i time_notegres_prod psql -U time_app time_production
 
 # Restore configuration
-sudo cp -r config/* /opt/sonet/config/
+sudo cp -r config/* /opt/time/config/
 
 # Start services
-sudo systemctl start sonet.service
+sudo systemctl start time.service
 ```
 
 ## 🚨 Incident Response
 
 ### Service Outage
 1. **Immediate Response**
-   - Check service status: `sudo systemctl status sonet.service`
-   - View logs: `sudo journalctl -u sonet.service -f`
+   - Check service status: `sudo systemctl status time.service`
+   - View logs: `sudo journalctl -u time.service -f`
    - Check resource usage: `htop`, `df -h`
 
 2. **Investigation**
@@ -285,10 +285,10 @@ ORDER BY idx_scan DESC;
 sudo docker stats
 
 # Monitor API response times
-curl -w "@curl-format.txt" -o /dev/null -s "https://sonet.com/api/v1/health"
+curl -w "@curl-format.txt" -o /dev/null -s "https://time.com/api/v1/health"
 
 # Check resource usage
-sudo docker exec sonet_moderation_service_prod top
+sudo docker exec time_moderation_service_prod top
 ```
 
 ### Scaling Considerations
@@ -323,18 +323,18 @@ sudo docker exec sonet_moderation_service_prod top
 ### Update Procedures
 ```bash
 # Create backup before updates
-sudo systemctl start sonet-backup.service
+sudo systemctl start time-backup.service
 
 # Update application
-cd /opt/sonet
+cd /opt/time
 git pull origin main
 
 # Rebuild and restart services
-sudo systemctl restart sonet.service
+sudo systemctl restart time.service
 
 # Verify update success
-sudo systemctl status sonet.service
-curl -f https://sonet.com/health
+sudo systemctl status time.service
+curl -f https://time.com/health
 ```
 
 ## 📋 Note-Deployment Checklist
@@ -379,19 +379,19 @@ curl -f https://sonet.com/health
 ### Useful Commands
 ```bash
 # Service management
-sudo systemctl status sonet.service
-sudo journalctl -u sonet.service -f
+sudo systemctl status time.service
+sudo journalctl -u time.service -f
 
 # Docker management
 sudo docker ps
-sudo docker logs sonet_moderation_service_prod
+sudo docker logs time_moderation_service_prod
 
 # Database access
-sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production
+sudo docker exec -it time_notegres_prod psql -U time_app -d time_production
 
 # Log analysis
 sudo tail -f /var/log/nginx/access.log
-sudo tail -f /var/log/sonet/deployment.log
+sudo tail -f /var/log/time/deployment.log
 
 # System monitoring
 htop
@@ -404,11 +404,11 @@ free -h
 - **Logs**: Review service and system logs
 - **Monitoring**: Check Prometheus and Grafana dashboards
 - **Community**: GitHub issues and discussions
-- **Support**: Contact Sonet engineering team
+- **Support**: Contact time engineering team
 
 ## 🎉 Deployment Complete!
 
-Congratulations! You've successfully deployed the Sonet moderation system to production. The system is now ready to handle enterprise-grade moderation with complete founder anonymity and professional appearance.
+Congratulations! You've successfully deployed the time moderation system to production. The system is now ready to handle enterprise-grade moderation with complete founder anonymity and professional appearance.
 
 **Remember**: Regular monitoring, maintenance, and security updates are essential for keeping your production system healthy and secure.
 
@@ -416,4 +416,4 @@ Congratulations! You've successfully deployed the Sonet moderation system to pro
 
 *Last updated: 2024-01-01*
 *Version: 1.0.0*
-*Author: Sonet Engineering Team*
+*Author: time Engineering Team*

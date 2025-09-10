@@ -2,7 +2,7 @@
 
 #include "../service.h"
 
-namespace sonet {
+namespace time {
 namespace timeline {
 
 class ChronologicalRankingEngine : public RankingEngine {
@@ -10,7 +10,7 @@ public:
     ~ChronologicalRankingEngine() override = default;
 
     std::vector<RankedTimelineItem> ScoreNotes(
-        const std::vector<::sonet::note::Note>& notes,
+        const std::vector<::time::note::Note>& notes,
         const std::string& user_id,
         const UserEngagementProfile& profile,
         const TimelineConfig& config
@@ -21,4 +21,4 @@ public:
 };
 
 } // namespace timeline
-} // namespace sonet
+} // namespace time

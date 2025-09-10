@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the email channel for beautiful notification emails.
- * I built this to send engaging emails that bring users back to Sonet
+ * I built this to send engaging emails that bring users back to time
  * without being spammy. The templates are mobile-responsive and accessible.
  */
 
@@ -17,7 +17,7 @@
 #include <mutex>
 #include <atomic>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -55,7 +55,7 @@ struct SMTPEmailChannel::Impl {
         EmailTemplate like_template;
         like_template.subject_template = "{{sender_name}} liked your note";
         like_template.html_template = create_like_html_template();
-        like_template.text_template = "{{sender_name}} liked your note: \"{{note_excerpt}}\"\n\nView on Sonet: {{note_url}}";
+        like_template.text_template = "{{sender_name}} liked your note: \"{{note_excerpt}}\"\n\nView on time: {{note_url}}";
         like_template.required_variables = {"sender_name", "note_excerpt", "note_url"};
         templates[models::NotificationType::LIKE] = like_template;
         
@@ -71,7 +71,7 @@ struct SMTPEmailChannel::Impl {
         EmailTemplate follow_template;
         follow_template.subject_template = "{{sender_name}} is now following you";
         follow_template.html_template = create_follow_html_template();
-        follow_template.text_template = "{{sender_name}} started following you on Sonet!\n\nView their profile: {{sender_profile_url}}";
+        follow_template.text_template = "{{sender_name}} started following you on time!\n\nView their profile: {{sender_profile_url}}";
         follow_template.required_variables = {"sender_name", "sender_profile_url"};
         templates[models::NotificationType::FOLLOW] = follow_template;
         
@@ -87,7 +87,7 @@ struct SMTPEmailChannel::Impl {
         EmailTemplate renote_template;
         renote_template.subject_template = "{{sender_name}} renoted your note";
         renote_template.html_template = create_renote_html_template();
-        renote_template.text_template = "{{sender_name}} renoted your note: \"{{note_excerpt}}\"\n\nView on Sonet: {{note_url}}";
+        renote_template.text_template = "{{sender_name}} renoted your note: \"{{note_excerpt}}\"\n\nView on time: {{note_url}}";
         renote_template.required_variables = {"sender_name", "note_excerpt", "note_url"};
         templates[models::NotificationType::RENOTE] = renote_template;
         
@@ -95,7 +95,7 @@ struct SMTPEmailChannel::Impl {
         EmailTemplate dm_template;
         dm_template.subject_template = "New message from {{sender_name}}";
         dm_template.html_template = create_dm_html_template();
-        dm_template.text_template = "You have a new message from {{sender_name}} on Sonet.\n\nView your messages: {{messages_url}}";
+        dm_template.text_template = "You have a new message from {{sender_name}} on time.\n\nView your messages: {{messages_url}}";
         dm_template.required_variables = {"sender_name", "messages_url"};
         templates[models::NotificationType::DIRECT_MESSAGE] = dm_template;
     }
@@ -125,15 +125,15 @@ struct SMTPEmailChannel::Impl {
             <h1>❤️ Someone liked your note!</h1>
         </div>
         <div class="content">
-            <p><strong>{{sender_name}}</strong> liked your note on Sonet.</p>
+            <p><strong>{{sender_name}}</strong> liked your note on time.</p>
             <div class="note-preview">
                 <p>"{{note_excerpt}}"</p>
             </div>
-            <a href="{{note_url}}" class="btn">View on Sonet</a>
+            <a href="{{note_url}}" class="btn">View on time</a>
             <p>Keep sharing great content!</p>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -173,7 +173,7 @@ struct SMTPEmailChannel::Impl {
             <p>Join the discussion!</p>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -204,12 +204,12 @@ struct SMTPEmailChannel::Impl {
             <h1>🎉 New follower!</h1>
         </div>
         <div class="content">
-            <p><strong>{{sender_name}}</strong> started following you on Sonet!</p>
+            <p><strong>{{sender_name}}</strong> started following you on time!</p>
             <p>You're building a great community. Keep sharing!</p>
             <a href="{{sender_profile_url}}" class="btn">View Their Profile</a>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -249,7 +249,7 @@ struct SMTPEmailChannel::Impl {
             <p>See what they said about you!</p>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -285,11 +285,11 @@ struct SMTPEmailChannel::Impl {
             <div class="note-preview">
                 <p>"{{note_excerpt}}"</p>
             </div>
-            <a href="{{note_url}}" class="btn">View on Sonet</a>
+            <a href="{{note_url}}" class="btn">View on time</a>
             <p>Your content is being shared!</p>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -320,12 +320,12 @@ struct SMTPEmailChannel::Impl {
             <h1>✉️ New message!</h1>
         </div>
         <div class="content">
-            <p>You have a new message from <strong>{{sender_name}}</strong> on Sonet.</p>
+            <p>You have a new message from <strong>{{sender_name}}</strong> on time.</p>
             <a href="{{messages_url}}" class="btn">Read Message</a>
             <p>Stay connected with your community!</p>
         </div>
         <div class="footer">
-            <p>This email was sent by Sonet. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+            <p>This email was sent by time. <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
         </div>
     </div>
 </body>
@@ -397,7 +397,7 @@ std::future<EmailDeliveryResult> SMTPEmailChannel::send_notification_email(
             
             // Extract variables from notification
             auto variables = extract_template_variables(notification);
-            variables["unsubscribe_url"] = "https://sonet.app/settings/notifications";
+            variables["unsubscribe_url"] = "https://time.app/settings/notifications";
             
             // Render email content
             std::string subject = replace_template_variables(email_template.subject_template, variables);
@@ -597,10 +597,10 @@ std::unordered_map<std::string, std::string> SMTPEmailChannel::extract_template_
         }
     }
     
-    // Add default Sonet URLs
-    variables["sonet_url"] = "https://sonet.app";
-    variables["settings_url"] = "https://sonet.app/settings";
-    variables["profile_url"] = "https://sonet.app/profile/" + notification.user_id;
+    // Add default time URLs
+    variables["time_url"] = "https://time.app";
+    variables["settings_url"] = "https://time.app/settings";
+    variables["profile_url"] = "https://time.app/profile/" + notification.user_id;
     
     return variables;
 }
@@ -684,4 +684,4 @@ EmailTemplate EmailChannelFactory::create_comment_template() {
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

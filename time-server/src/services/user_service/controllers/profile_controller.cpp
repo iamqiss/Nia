@@ -11,9 +11,9 @@
 #include <chrono>
 #include <algorithm>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
-ProfileController::ProfileController(std::shared_ptr<sonet::user::UserServiceImpl> user_service)
+ProfileController::ProfileController(std::shared_ptr<time::user::UserServiceImpl> user_service)
     : user_service_(std::move(user_service)) {
     spdlog::info("Profile controller initialized");
 }
@@ -29,8 +29,8 @@ nlohmann::json ProfileController::handle_get_public_profile(const GetPublicProfi
         profile["username"] = request.username;
         profile["full_name"] = "John Doe";
         profile["bio"] = "Software engineer passionate about C++ and distributed systems";
-        profile["avatar_url"] = "https://cdn.sonet.com/avatars/johndoe.jpg";
-        profile["banner_url"] = "https://cdn.sonet.com/banners/johndoe.jpg";
+        profile["avatar_url"] = "https://cdn.time.com/avatars/johndoe.jpg";
+        profile["banner_url"] = "https://cdn.time.com/banners/johndoe.jpg";
         profile["location"] = "San Francisco, CA";
         profile["website"] = "https://johndoe.dev";
         profile["is_verified"] = true;
@@ -224,7 +224,7 @@ nlohmann::json ProfileController::handle_get_followers(const GetFollowersRequest
         follower["user_id"] = "follower-123";
         follower["username"] = "janedoe";
         follower["full_name"] = "Jane Doe";
-        follower["avatar_url"] = "https://cdn.sonet.com/avatars/janedoe.jpg";
+        follower["avatar_url"] = "https://cdn.time.com/avatars/janedoe.jpg";
         follower["is_verified"] = false;
         follower["followed_at"] = std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::system_clock::now().time_since_epoch()).count() - 86400;  // 1 day ago
@@ -259,7 +259,7 @@ nlohmann::json ProfileController::handle_get_following(const GetFollowingRequest
         followed_user["user_id"] = "following-456";
         followed_user["username"] = "bobsmith";
         followed_user["full_name"] = "Bob Smith";
-        followed_user["avatar_url"] = "https://cdn.sonet.com/avatars/bobsmith.jpg";
+        followed_user["avatar_url"] = "https://cdn.time.com/avatars/bobsmith.jpg";
         followed_user["is_verified"] = true;
         followed_user["followed_at"] = std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::system_clock::now().time_since_epoch()).count() - 172800;  // 2 days ago
@@ -529,4 +529,4 @@ nlohmann::json ProfileController::format_activity_log_entry(const std::string& a
     return entry;
 }
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

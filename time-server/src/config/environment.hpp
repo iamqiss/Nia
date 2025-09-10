@@ -1,4 +1,4 @@
-// Sonet Services Environment Configuration
+// time Services Environment Configuration
 // Unified with monorepo environment management
 
 #pragma once
@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <iostream>
 
-namespace sonet {
+namespace time {
 namespace config {
 
 /**
@@ -96,9 +96,9 @@ public:
 struct DatabaseConfig {
     std::string host = Environment::get("postgres_host", "localhost");
     int port = Environment::getInt("postgres_port", 5432);
-    std::string user = Environment::get("postgres_user", "sonet");
-    std::string password = Environment::get("postgres_password", "sonet_dev_password");
-    std::string database = Environment::get("postgres_db", "sonet_dev");
+    std::string user = Environment::get("postgres_user", "time");
+    std::string password = Environment::get("postgres_password", "time_dev_password");
+    std::string database = Environment::get("postgres_db", "time_dev");
     std::string sslMode = Environment::get("postgres_ssl_mode", "disable");
     
     std::string getConnectionString() const {
@@ -128,7 +128,7 @@ struct RedisConfig {
  * Service configuration
  */
 struct ServiceConfig {
-    std::string name = Environment::get("SERVICE_NAME", "sonet-service");
+    std::string name = Environment::get("SERVICE_NAME", "time-service");
     int port = Environment::getInt("SERVICE_PORT", 8080);
     int grpcPort = Environment::getInt("SERVICE_GRPC_PORT", 9090);
     std::string logLevel = Environment::get("LOG_LEVEL", "debug");
@@ -172,7 +172,7 @@ struct CDNConfig {
     std::string region = Environment::get("CDN_REGION", "us-east-1");
     std::string accessKeyId = Environment::get("CDN_ACCESS_KEY_ID", "");
     std::string secretAccessKey = Environment::get("CDN_SECRET_ACCESS_KEY", "");
-    std::string bucketName = Environment::get("CDN_BUCKET_NAME", "sonet-media");
+    std::string bucketName = Environment::get("CDN_BUCKET_NAME", "time-media");
 };
 
 /**
@@ -180,8 +180,8 @@ struct CDNConfig {
  */
 struct MonitoringConfig {
     std::string sentryDsn = Environment::get("SENTRY_DSN", "");
-    std::string sentryOrg = Environment::get("SENTRY_ORG", "sonet");
-    std::string sentryProject = Environment::get("SENTRY_PROJECT", "sonet-app");
+    std::string sentryOrg = Environment::get("SENTRY_ORG", "time");
+    std::string sentryProject = Environment::get("SENTRY_PROJECT", "time-app");
     std::string sentryAuthToken = Environment::get("SENTRY_AUTH_TOKEN", "");
     std::string logLevel = Environment::get("LOG_LEVEL", "debug");
     std::string logFormat = Environment::get("LOG_FORMAT", "json");
@@ -245,7 +245,7 @@ public:
      * Print configuration summary
      */
     void printSummary() const {
-        std::cout << "\n🔧 Sonet Service Configuration Summary" << std::endl;
+        std::cout << "\n🔧 time Service Configuration Summary" << std::endl;
         std::cout << "=====================================" << std::endl;
         std::cout << "Service: " << service.name << std::endl;
         std::cout << "Environment: " << service.environment << std::endl;
@@ -269,4 +269,4 @@ extern Config globalConfig;
 void initializeConfig();
 
 } // namespace config
-} // namespace sonet
+} // namespace time

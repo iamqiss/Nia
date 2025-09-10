@@ -18,7 +18,7 @@
 #include <random>
 #include <json/json.h>
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 enum class CryptoAlgorithm {
     AES_256_GCM,
@@ -403,4 +403,4 @@ public:
     void optimize_memory_usage();
 };
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

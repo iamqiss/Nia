@@ -15,7 +15,7 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 using json = nlohmann::json;
 
@@ -399,4 +399,4 @@ namespace attachment_constants {
     constexpr int MAX_MODERATION_FLAGS = 10;                 // Max flags per attachment
 }
 
-} // namespace sonet::note::models
+} // namespace time::note::models

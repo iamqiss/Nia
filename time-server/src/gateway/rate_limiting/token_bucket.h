@@ -2,7 +2,7 @@
 #include <chrono>
 #include <mutex>
 
-namespace sonet::gateway::rate_limiting {
+namespace time::gateway::rate_limiting {
 
 class TokenBucket {
 public:

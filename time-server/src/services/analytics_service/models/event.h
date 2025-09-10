@@ -14,7 +14,7 @@
 #include <string_view>
 #include <unordered_map>
 
-namespace sonet::analytics_service::model {
+namespace time::analytics_service::model {
 
 struct Event {
 	std::string id;
@@ -35,5 +35,5 @@ struct Event {
 	static bool IsTimestampReasonable(int64_t epoch_ms);
 };
 
-} // namespace sonet::analytics_service::model
+} // namespace time::analytics_service::model
 

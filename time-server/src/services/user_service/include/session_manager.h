@@ -15,7 +15,7 @@
 #include <memory>
 #include <mutex>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Session Manager - Keeping track of who's online and what they're doing
@@ -102,4 +102,4 @@ private:
     void remove_expired_session(const std::string& session_id);
 };
 
-} // namespace sonet::user
+} // namespace time::user

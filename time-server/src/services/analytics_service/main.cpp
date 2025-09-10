@@ -16,7 +16,7 @@ static std::string GetEnvOr(const char* key, const std::string& def) {
 }
 
 int main() {
-	sonet::analytics_service::Config cfg;
+	time::analytics_service::Config cfg;
 	cfg.bind_address = GetEnvOr("ANALYTICS_BIND", "0.0.0.0:6007");
 	{
 		const char* cap = std::getenv("ANALYTICS_QUEUE_CAPACITY");
@@ -34,7 +34,7 @@ int main() {
 	std::signal(SIGINT, HandleSig);
 	std::signal(SIGTERM, HandleSig);
 
-	sonet::analytics_service::AnalyticsServer server(cfg);
+	time::analytics_service::AnalyticsServer server(cfg);
 	if (!server.Start()) {
 		std::cerr << "Failed to start analytics_service" << std::endl;
 		return 1;

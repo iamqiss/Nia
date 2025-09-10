@@ -13,7 +13,7 @@
 #include <thread>
 #include <atomic>
 
-namespace sonet::messaging::encryption {
+namespace time::messaging::encryption {
 
 enum class EncryptionAlgorithm {
     AES_256_GCM = 0,
@@ -215,4 +215,4 @@ private:
     void perform_rekey_if_needed(DoubleRatchetState& state);
 };
 
-} // namespace sonet::messaging::encryption
+} // namespace time::messaging::encryption

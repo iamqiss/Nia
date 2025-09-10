@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace sonet::analytics_service::model {
+namespace time::analytics_service::model {
 
 enum class Operation {
 	Count,
@@ -39,5 +39,5 @@ struct MetricQuery {
 	bool IsValid(std::string& reason) const;
 };
 
-} // namespace sonet::analytics_service::model
+} // namespace time::analytics_service::model
 

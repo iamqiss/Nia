@@ -18,7 +18,7 @@
 #include <json/json.h>
 #include "message.hpp"
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 enum class ChatType {
     DIRECT_MESSAGE,
@@ -360,4 +360,4 @@ public:
     static std::string sanitize_chat_description(const std::string& description);
 };
 
-} // namespace sonet::messaging
+} // namespace time::messaging

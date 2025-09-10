@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This defines the search result models for our Twitter-scale search service.
  * I designed this to handle rich search results with highlighting, aggregations,
@@ -18,7 +18,7 @@
 #include <nlohmann/json.hpp>
 #include "search_query.h"
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace models {
 
@@ -529,4 +529,4 @@ namespace result_cache {
 
 } // namespace models
 } // namespace search_service
-} // namespace sonet
+} // namespace time

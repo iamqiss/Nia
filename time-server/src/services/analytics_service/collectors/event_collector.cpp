@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-namespace sonet::analytics_service::collectors {
+namespace time::analytics_service::collectors {
 
 bool EventCollector::Enqueue(model::Event&& event) {
 	std::unique_lock<std::mutex> lock(mutex_);
@@ -35,5 +35,5 @@ size_t EventCollector::Size() const {
 	return queue_.size();
 }
 
-} // namespace sonet::analytics_service::collectors
+} // namespace time::analytics_service::collectors
 

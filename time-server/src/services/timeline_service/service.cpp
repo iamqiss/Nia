@@ -16,12 +16,12 @@
 #include <unordered_set>
 #include <cstring>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Helper to convert system_clock::time_point to protobuf timestamp
-    ::sonet::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
-        ::sonet::common::Timestamp result;
+    ::time::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
+        ::time::common::Timestamp result;
         auto duration = tp.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
         auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - seconds);
@@ -32,7 +32,7 @@ namespace {
     }
 
     // Helper to convert protobuf timestamp to system_clock::time_point
-    std::chrono::system_clock::time_point FromProtoTimestamp(const ::sonet::common::Timestamp& ts) {
+    std::chrono::system_clock::time_point FromProtoTimestamp(const ::time::common::Timestamp& ts) {
         auto duration = std::chrono::seconds(ts.seconds()) + std::chrono::nanoseconds(ts.nanos());
         return std::chrono::system_clock::time_point(duration);
     }
@@ -63,8 +63,8 @@ TimelineServiceImpl::TimelineServiceImpl(
     std::shared_ptr<RankingEngine> ranking_engine,
     std::shared_ptr<ContentFilter> content_filter,
     std::shared_ptr<RealtimeNotifier> realtime_notifier,
-    std::unordered_map<::sonet::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources,
-    std::shared_ptr<::sonet::follow::FollowService::Stub> follow_service
+    std::unordered_map<::time::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources,
+    std::shared_ptr<::time::follow::FollowService::Stub> follow_service
 ) : cache_(std::move(cache)),
     ranking_engine_(std::move(ranking_engine)),
     content_filter_(std::move(content_filter)),
@@ -73,7 +73,7 @@ TimelineServiceImpl::TimelineServiceImpl(
     follow_service_(std::move(follow_service)) {
     
     // Initialize default configuration
-    default_config_.algorithm = ::sonet::timeline::TIMELINE_ALGORITHM_HYBRID;
+    default_config_.algorithm = ::time::timeline::TIMELINE_ALGORITHM_HYBRID;
     default_config_.max_items = 50;
     default_config_.max_age_hours = 24;
     default_config_.min_score_threshold = 0.1;
@@ -104,8 +104,8 @@ TimelineServiceImpl::~TimelineServiceImpl() {
 
 grpc::Status TimelineServiceImpl::GetTimeline(
     grpc::ServerContext* context,
-    const ::sonet::timeline::GetTimelineRequest* request,
-    ::sonet::timeline::GetTimelineResponse* response
+    const ::time::timeline::GetTimelineRequest* request,
+    ::time::timeline::GetTimelineResponse* response
 ) {
     try {
         // Per-user rate limit
@@ -121,7 +121,7 @@ grpc::Status TimelineServiceImpl::GetTimeline(
 
         // Get user configuration
         TimelineConfig config = GetUserTimelineConfig(request->user_id());
-        if (request->algorithm() != ::sonet::timeline::TIMELINE_ALGORITHM_UNKNOWN) {
+        if (request->algorithm() != ::time::timeline::TIMELINE_ALGORITHM_UNKNOWN) {
             config.algorithm = request->algorithm();
         }
 
@@ -208,8 +208,8 @@ grpc::Status TimelineServiceImpl::GetTimeline(
 
 grpc::Status TimelineServiceImpl::RefreshTimeline(
     grpc::ServerContext* context,
-    const ::sonet::timeline::RefreshTimelineRequest* request,
-    ::sonet::timeline::RefreshTimelineResponse* response
+    const ::time::timeline::RefreshTimelineRequest* request,
+    ::time::timeline::RefreshTimelineResponse* response
 ) {
     try {
         if (!IsAuthorized(context, request->user_id())) {
@@ -260,8 +260,8 @@ grpc::Status TimelineServiceImpl::RefreshTimeline(
 
 grpc::Status TimelineServiceImpl::MarkTimelineRead(
     grpc::ServerContext* context,
-    const ::sonet::timeline::MarkTimelineReadRequest* request,
-    ::sonet::timeline::MarkTimelineReadResponse* response
+    const ::time::timeline::MarkTimelineReadRequest* request,
+    ::time::timeline::MarkTimelineReadResponse* response
 ) {
     try {
         if (!IsAuthorized(context, request->user_id())) {
@@ -284,8 +284,8 @@ grpc::Status TimelineServiceImpl::MarkTimelineRead(
 
 grpc::Status TimelineServiceImpl::HealthCheck(
     grpc::ServerContext* /*context*/,
-    const ::sonet::timeline::HealthCheckRequest* /*request*/,
-    ::sonet::timeline::HealthCheckResponse* response
+    const ::time::timeline::HealthCheckRequest* /*request*/,
+    ::time::timeline::HealthCheckResponse* response
 ) {
     response->set_status("healthy");
     
@@ -310,8 +310,8 @@ grpc::Status TimelineServiceImpl::HealthCheck(
 
 grpc::Status TimelineServiceImpl::RecordEngagement(
     grpc::ServerContext* /*context*/,
-    const ::sonet::timeline::RecordEngagementRequest* request,
-    ::sonet::timeline::RecordEngagementResponse* response
+    const ::time::timeline::RecordEngagementRequest* request,
+    ::time::timeline::RecordEngagementResponse* response
 ) {
     try {
         if (!request) {
@@ -334,16 +334,16 @@ grpc::Status TimelineServiceImpl::RecordEngagement(
 
 grpc::Status TimelineServiceImpl::GetForYouTimeline(
     grpc::ServerContext* context,
-    const ::sonet::timeline::GetForYouTimelineRequest* request,
-    ::sonet::timeline::GetForYouTimelineResponse* response
+    const ::time::timeline::GetForYouTimelineRequest* request,
+    ::time::timeline::GetForYouTimelineResponse* response
 ) {
     if (!request) {
         return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "invalid request");
     }
     TimelineConfig config = GetUserTimelineConfig(request->user_id());
-    if (config.algorithm == ::sonet::timeline::TIMELINE_ALGORITHM_UNKNOWN ||
-        config.algorithm == ::sonet::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL) {
-        config.algorithm = ::sonet::timeline::TIMELINE_ALGORITHM_HYBRID;
+    if (config.algorithm == ::time::timeline::TIMELINE_ALGORITHM_UNKNOWN ||
+        config.algorithm == ::time::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL) {
+        config.algorithm = ::time::timeline::TIMELINE_ALGORITHM_HYBRID;
     }
     ApplyABOverridesFromMetadata(context, config);
     // Discovery toggles from headers (For You only)
@@ -443,14 +443,14 @@ grpc::Status TimelineServiceImpl::GetForYouTimeline(
 
 grpc::Status TimelineServiceImpl::GetFollowingTimeline(
     grpc::ServerContext* context,
-    const ::sonet::timeline::GetFollowingTimelineRequest* request,
-    ::sonet::timeline::GetFollowingTimelineResponse* response
+    const ::time::timeline::GetFollowingTimelineRequest* request,
+    ::time::timeline::GetFollowingTimelineResponse* response
 ) {
     if (!request) {
         return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "invalid request");
     }
     TimelineConfig config = GetUserTimelineConfig(request->user_id());
-    config.algorithm = ::sonet::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL;
+    config.algorithm = ::time::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL;
     ApplyABOverridesFromMetadata(context, config);
     config.following_content_ratio = 1.0;
     config.recommended_content_ratio = 0.0;
@@ -469,7 +469,7 @@ grpc::Status TimelineServiceImpl::GetFollowingTimeline(
         const auto& it = items[i];
         auto* item = response->add_items();
         *item->mutable_note() = it.note;
-        item->set_source(::sonet::timeline::CONTENT_SOURCE_FOLLOWING);
+        item->set_source(::time::timeline::CONTENT_SOURCE_FOLLOWING);
         item->set_final_score(it.final_score);
         *item->mutable_injected_at() = ToProtoTimestamp(it.injected_at);
         item->set_injection_reason("following");
@@ -507,7 +507,7 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
     auto profile = GetOrCreateUserProfile(user_id);
     
     // Collect content from various sources
-    std::vector<::sonet::note::Note> all_notes;
+    std::vector<::time::note::Note> all_notes;
     all_notes.reserve(static_cast<size_t>(limit) * 2);
     
     // Following content (70% of timeline)
@@ -541,7 +541,7 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
     int32_t lists_limit = static_cast<int32_t>(limit * config.lists_content_ratio * config.ab_lists_weight);
     lists_limit = std::min(lists_limit, config.cap_lists);
     if (lists_limit > 0) {
-        auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_LISTS);
+        auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_LISTS);
         if (it != content_sources_.end()) {
             auto lists_notes = it->second->GetContent(user_id, config, since, lists_limit);
             all_notes.insert(all_notes.end(), lists_notes.begin(), lists_notes.end());
@@ -553,7 +553,7 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
     if (!all_notes.empty()) {
         std::unordered_set<std::string> seen_ids;
         seen_ids.reserve(all_notes.size());
-        std::vector<::sonet::note::Note> unique_notes;
+        std::vector<::time::note::Note> unique_notes;
         unique_notes.reserve(all_notes.size());
         for (const auto& note : all_notes) {
             auto id = note.id();
@@ -573,12 +573,12 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
 
     // Score and rank content
     std::vector<RankedTimelineItem> ranked_items;
-    if (config.algorithm == ::sonet::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL || !ranking_engine_) {
+    if (config.algorithm == ::time::timeline::TIMELINE_ALGORITHM_CHRONOLOGICAL || !ranking_engine_) {
         // Pure chronological ordering
         for (const auto& note : all_notes) {
             RankedTimelineItem item;
             item.note = note;
-            item.source = ::sonet::timeline::CONTENT_SOURCE_FOLLOWING;
+            item.source = ::time::timeline::CONTENT_SOURCE_FOLLOWING;
             item.final_score = static_cast<double>(FromProtoTimestamp(note.created_at()).time_since_epoch().count());
             item.injected_at = std::chrono::system_clock::now();
             item.injection_reason = "chronological";
@@ -597,17 +597,17 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
     // Apply score threshold and limit; enforce per-source caps on final output as a last safety net
     std::vector<RankedTimelineItem> final_items;
     final_items.reserve(static_cast<size_t>(limit));
-    std::unordered_map<::sonet::timeline::ContentSource, int> final_counts;
+    std::unordered_map<::time::timeline::ContentSource, int> final_counts;
     for (const auto& item : ranked_items) {
         if (item.final_score < config.min_score_threshold) continue;
         if (static_cast<int32_t>(final_items.size()) >= limit) break;
         // Enforce caps by source
         int cap = 0;
         switch (item.source) {
-            case ::sonet::timeline::CONTENT_SOURCE_FOLLOWING: cap = config.cap_following; break;
-            case ::sonet::timeline::CONTENT_SOURCE_RECOMMENDED: cap = config.cap_recommended; break;
-            case ::sonet::timeline::CONTENT_SOURCE_TRENDING: cap = config.cap_trending; break;
-            case ::sonet::timeline::CONTENT_SOURCE_LISTS: cap = config.cap_lists; break;
+            case ::time::timeline::CONTENT_SOURCE_FOLLOWING: cap = config.cap_following; break;
+            case ::time::timeline::CONTENT_SOURCE_RECOMMENDED: cap = config.cap_recommended; break;
+            case ::time::timeline::CONTENT_SOURCE_TRENDING: cap = config.cap_trending; break;
+            case ::time::timeline::CONTENT_SOURCE_LISTS: cap = config.cap_lists; break;
             default: cap = limit; break;
         }
         if (final_counts[item.source] >= cap) continue;
@@ -619,26 +619,26 @@ std::vector<RankedTimelineItem> TimelineServiceImpl::GenerateTimeline(
     return final_items;
 }
 
-std::vector<::sonet::note::Note> TimelineServiceImpl::FetchFollowingContent(
+std::vector<::time::note::Note> TimelineServiceImpl::FetchFollowingContent(
     const std::string& user_id,
     const TimelineConfig& config,
     std::chrono::system_clock::time_point since,
     int32_t limit
 ) {
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_FOLLOWING);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_FOLLOWING);
     if (it != content_sources_.end()) {
         return it->second->GetContent(user_id, config, since, limit);
     }
     return {};
 }
 
-std::vector<::sonet::note::Note> TimelineServiceImpl::FetchRecommendedContent(
+std::vector<::time::note::Note> TimelineServiceImpl::FetchRecommendedContent(
     const std::string& user_id,
     const UserEngagementProfile& /*profile*/,
     const TimelineConfig& config,
     int32_t limit
 ) {
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_RECOMMENDED);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_RECOMMENDED);
     if (it != content_sources_.end()) {
         auto since = std::chrono::system_clock::now() - std::chrono::hours(24);
         return it->second->GetContent(user_id, config, since, limit);
@@ -646,12 +646,12 @@ std::vector<::sonet::note::Note> TimelineServiceImpl::FetchRecommendedContent(
     return {};
 }
 
-std::vector<::sonet::note::Note> TimelineServiceImpl::FetchTrendingContent(
+std::vector<::time::note::Note> TimelineServiceImpl::FetchTrendingContent(
     const std::string& user_id,
     const TimelineConfig& config,
     int32_t limit
 ) {
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_TRENDING);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_TRENDING);
     if (it != content_sources_.end()) {
         auto since = std::chrono::system_clock::now() - std::chrono::hours(6);
         return it->second->GetContent(user_id, config, since, limit);
@@ -679,7 +679,7 @@ UserEngagementProfile TimelineServiceImpl::GetOrCreateUserProfile(const std::str
 TimelineConfig TimelineServiceImpl::GetUserTimelineConfig(const std::string& user_id) {
     // For now, return default config
     // In production, this would fetch user preferences from database
-    ::sonet::timeline::TimelinePreferences prefs;
+    ::time::timeline::TimelinePreferences prefs;
     {
         std::lock_guard<std::mutex> lock(preferences_mutex_);
         auto it = user_preferences_.find(user_id);
@@ -689,7 +689,7 @@ TimelineConfig TimelineServiceImpl::GetUserTimelineConfig(const std::string& use
     }
     // Defaults if not set
     TimelineConfig config;
-    config.algorithm = prefs.algorithm() != ::sonet::timeline::TIMELINE_ALGORITHM_UNKNOWN ? prefs.algorithm() : default_config_.algorithm;
+    config.algorithm = prefs.algorithm() != ::time::timeline::TIMELINE_ALGORITHM_UNKNOWN ? prefs.algorithm() : default_config_.algorithm;
     config.max_items = prefs.max_items() > 0 ? prefs.max_items() : default_config_.max_items;
     config.max_age_hours = prefs.max_age_hours() > 0 ? prefs.max_age_hours() : default_config_.max_age_hours;
     config.min_score_threshold = prefs.min_score_threshold() > 0.0 ? prefs.min_score_threshold() : default_config_.min_score_threshold;
@@ -709,12 +709,12 @@ TimelineConfig TimelineServiceImpl::GetUserTimelineConfig(const std::string& use
     return config;
 }
 
-::sonet::timeline::TimelineMetadata TimelineServiceImpl::BuildTimelineMetadata(
+::time::timeline::TimelineMetadata TimelineServiceImpl::BuildTimelineMetadata(
     const std::vector<RankedTimelineItem>& items,
     const std::string& user_id,
     const TimelineConfig& config
 ) {
-    ::sonet::timeline::TimelineMetadata metadata;
+    ::time::timeline::TimelineMetadata metadata;
     
     metadata.set_total_items(static_cast<int32_t>(items.size()));
     metadata.set_algorithm_used(config.algorithm);
@@ -758,7 +758,7 @@ bool TimelineServiceImpl::IsAuthorized(grpc::ServerContext* context, const std::
     }
     
     // Check auth token if required
-    const char* required_token = std::getenv("SONET_TIMELINE_TOKEN");
+    const char* required_token = std::getenv("time_TIMELINE_TOKEN");
     if (required_token && std::strlen(required_token) > 0) {
         std::string provided_token = GetMetadataValue(context, "x-auth-token");
         if (provided_token != required_token) {
@@ -810,7 +810,7 @@ bool TimelineServiceImpl::RateAllow(const std::string& key, int override_rpm) {
     return false;
 }
 
-void TimelineServiceImpl::OnNewNote(const ::sonet::note::Note& note) {
+void TimelineServiceImpl::OnNewNote(const ::time::note::Note& note) {
     std::cout << "Processing new note event: " << note.id() << " by " << note.author_id() << std::endl;
     
     // Invalidate author's followers' timelines
@@ -820,7 +820,7 @@ void TimelineServiceImpl::OnNewNote(const ::sonet::note::Note& note) {
     // fanout_service_->InitiateFanout(note);
 
     // Notify streaming subscribers for the author followers (best-effort)
-    ::sonet::timeline::TimelineUpdate upd;
+    ::time::timeline::TimelineUpdate upd;
     PushUpdateToSubscribers(note.author_id(), upd);
 
     // Enqueue to fanout worker
@@ -840,7 +840,7 @@ void TimelineServiceImpl::OnNoteDeleted(const std::string& note_id, const std::s
     // TODO: Notify real-time subscribers about deletion
     // realtime_notifier_->NotifyItemDeleted("*", note_id);
 
-    ::sonet::timeline::TimelineUpdate upd;
+    ::time::timeline::TimelineUpdate upd;
     PushUpdateToSubscribers(author_id, upd);
 }
 
@@ -855,15 +855,15 @@ void TimelineServiceImpl::OnFollowEvent(const std::string& follower_id, const st
     // This would update affinity scores and interests
 }
 
-void TimelineServiceImpl::OnNoteUpdated(const ::sonet::note::Note& note) {
+void TimelineServiceImpl::OnNoteUpdated(const ::time::note::Note& note) {
     std::cout << "Processing note update: " << note.id() << " by " << note.author_id() << std::endl;
     // Invalidate timelines that may include this author's content
     cache_->InvalidateAuthorTimelines(note.author_id());
     // Optionally notify live connections (best-effort)
-    ::sonet::timeline::TimelineUpdate update;
+    ::time::timeline::TimelineUpdate update;
     if (realtime_notifier_) {
         // Also push to streaming sessions
-        ::sonet::timeline::TimelineUpdate upd;
+        ::time::timeline::TimelineUpdate upd;
         PushUpdateToSubscribers(note.author_id(), upd);
     }
 }
@@ -872,8 +872,8 @@ void TimelineServiceImpl::OnNoteUpdated(const ::sonet::note::Note& note) {
 
 grpc::Status TimelineServiceImpl::GetUserTimeline(
     grpc::ServerContext* context,
-    const ::sonet::timeline::GetUserTimelineRequest* request,
-    ::sonet::timeline::GetUserTimelineResponse* response
+    const ::time::timeline::GetUserTimelineRequest* request,
+    ::time::timeline::GetUserTimelineResponse* response
 ) {
     try {
         if (!request) {
@@ -890,7 +890,7 @@ grpc::Status TimelineServiceImpl::GetUserTimeline(
         auto since = std::chrono::system_clock::now() - std::chrono::hours(std::max(1, config.max_age_hours));
 
         // Generate sample notes authored by target user
-        std::vector<::sonet::note::Note> authored_notes;
+        std::vector<::time::note::Note> authored_notes;
         authored_notes.reserve(50);
 
         std::random_device rd;
@@ -902,11 +902,11 @@ grpc::Status TimelineServiceImpl::GetUserTimeline(
             auto created_time = std::chrono::system_clock::now() - std::chrono::hours(hours_dis(gen));
             if (created_time < since) created_time = since;
 
-            ::sonet::note::Note note;
+            ::time::note::Note note;
             note.set_id("user_note_" + std::to_string(i + 1));
             note.set_author_id(target_user_id);
             note.set_content("Note #" + std::to_string(i + 1) + " by " + target_user_id);
-            note.set_visibility(::sonet::note::VISIBILITY_PUBLIC);
+            note.set_visibility(::time::note::VISIBILITY_PUBLIC);
             *note.mutable_created_at() = ToProtoTimestamp(created_time);
             *note.mutable_updated_at() = ToProtoTimestamp(created_time);
             auto* metrics = note.mutable_metrics();
@@ -939,7 +939,7 @@ grpc::Status TimelineServiceImpl::GetUserTimeline(
             const auto& it = ranked_items[i];
             auto* item = response->add_items();
             *item->mutable_note() = it.note;
-            item->set_source(::sonet::timeline::CONTENT_SOURCE_FOLLOWING);
+            item->set_source(::time::timeline::CONTENT_SOURCE_FOLLOWING);
             item->set_final_score(it.final_score);
             *item->mutable_injected_at() = ToProtoTimestamp(std::chrono::system_clock::now());
             item->set_injection_reason("user_profile");
@@ -962,8 +962,8 @@ grpc::Status TimelineServiceImpl::GetUserTimeline(
 
 grpc::Status TimelineServiceImpl::UpdateTimelinePreferences(
     grpc::ServerContext* /*context*/,
-    const ::sonet::timeline::UpdateTimelinePreferencesRequest* request,
-    ::sonet::timeline::UpdateTimelinePreferencesResponse* response
+    const ::time::timeline::UpdateTimelinePreferencesRequest* request,
+    ::time::timeline::UpdateTimelinePreferencesResponse* response
 ) {
     try {
         if (!request) {
@@ -987,8 +987,8 @@ grpc::Status TimelineServiceImpl::UpdateTimelinePreferences(
 
 grpc::Status TimelineServiceImpl::GetTimelinePreferences(
     grpc::ServerContext* /*context*/,
-    const ::sonet::timeline::GetTimelinePreferencesRequest* request,
-    ::sonet::timeline::GetTimelinePreferencesResponse* response
+    const ::time::timeline::GetTimelinePreferencesRequest* request,
+    ::time::timeline::GetTimelinePreferencesResponse* response
 ) {
     try {
         if (!request) {
@@ -996,7 +996,7 @@ grpc::Status TimelineServiceImpl::GetTimelinePreferences(
             response->set_error_message("invalid request");
             return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "invalid request");
         }
-        ::sonet::timeline::TimelinePreferences prefs;
+        ::time::timeline::TimelinePreferences prefs;
         {
             std::lock_guard<std::mutex> lock(preferences_mutex_);
             auto it = user_preferences_.find(request->user_id());
@@ -1015,7 +1015,7 @@ grpc::Status TimelineServiceImpl::GetTimelinePreferences(
     }
 }
 
-void TimelineServiceImpl::PushUpdateToSubscribers(const std::string& user_id, const ::sonet::timeline::TimelineUpdate& update) {
+void TimelineServiceImpl::PushUpdateToSubscribers(const std::string& user_id, const ::time::timeline::TimelineUpdate& update) {
     std::lock_guard<std::mutex> lock(stream_mutex_);
     auto it = stream_sessions_.find(user_id);
     if (it == stream_sessions_.end()) return;
@@ -1036,8 +1036,8 @@ void TimelineServiceImpl::PushUpdateToSubscribers(const std::string& user_id, co
 
 grpc::Status TimelineServiceImpl::SubscribeTimelineUpdates(
     grpc::ServerContext* /*context*/,
-    const ::sonet::timeline::SubscribeTimelineUpdatesRequest* request,
-    grpc::ServerWriter<::sonet::timeline::TimelineUpdate>* writer
+    const ::time::timeline::SubscribeTimelineUpdatesRequest* request,
+    grpc::ServerWriter<::time::timeline::TimelineUpdate>* writer
 ) {
     if (!writer || !request) return grpc::Status::OK;
 
@@ -1061,7 +1061,7 @@ grpc::Status TimelineServiceImpl::SubscribeTimelineUpdates(
             last_refill = now;
         }
 
-        ::sonet::timeline::TimelineUpdate update;
+        ::time::timeline::TimelineUpdate update;
         {
             std::unique_lock<std::mutex> uq(session->mutex);
             if (session->pending_updates.empty()) {
@@ -1089,7 +1089,7 @@ grpc::Status TimelineServiceImpl::SubscribeTimelineUpdates(
 
 void TimelineServiceImpl::FanoutLoop() {
     while (fanout_running_.load()) {
-        ::sonet::note::Note note;
+        ::time::note::Note note;
         {
             std::unique_lock<std::mutex> ul(fanout_mutex_);
             if (fanout_queue_.empty()) {
@@ -1100,14 +1100,14 @@ void TimelineServiceImpl::FanoutLoop() {
         }
         // Compute affected users via follow service
         if (follow_service_) {
-            ::sonet::follow::GetFollowersRequest req; req.user_id_ = note.author_id();
+            ::time::follow::GetFollowersRequest req; req.user_id_ = note.author_id();
             auto followers = follow_service_->GetFollowers(req).user_ids();
             for (const auto& uid : followers) {
                 cache_->InvalidateTimeline(uid);
-                ::sonet::timeline::TimelineUpdate upd; PushUpdateToSubscribers(uid, upd);
+                ::time::timeline::TimelineUpdate upd; PushUpdateToSubscribers(uid, upd);
             }
         }
     }
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

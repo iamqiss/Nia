@@ -33,8 +33,8 @@ describe('linkRequiresWarning', () => {
     ['http://site.pages', 'site.pages.dev', true],
     ['http://bsky.app/profile/bob.test/post/3kbeuduu7m22v', 'my post', false],
     ['https://bsky.app/profile/bob.test/post/3kbeuduu7m22v', 'my post', false],
-    ['http://bsky.app/', 'bluesky', false],
-    ['https://bsky.app/', 'bluesky', false],
+    ['http://bsky.app/', 'Time', false],
+    ['https://bsky.app/', 'Time', false],
     [
       'http://bsky.app/profile/bob.test/post/3kbeuduu7m22v',
       'http://bsky.app/profile/bob.test/post/3kbeuduu7m22v',

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the complete server-side implementation of the Ghost Reply feature for the Sonet platform. The system provides anonymous commenting capabilities with custom ghost avatars and ephemeral IDs, complete with moderation tools, analytics, and real-time updates.
+This document describes the complete server-side implementation of the Ghost Reply feature for the time platform. The system provides anonymous commenting capabilities with custom ghost avatars and ephemeral IDs, complete with moderation tools, analytics, and real-time updates.
 
 ## 🏗️ Architecture
 
@@ -206,8 +206,8 @@ Content-Type: application/json
 # Database
 GHOST_REPLY_DB_HOST=localhost
 GHOST_REPLY_DB_PORT=5432
-GHOST_REPLY_DB_NAME=sonet
-GHOST_REPLY_DB_USER=sonet_user
+GHOST_REPLY_DB_NAME=time
+GHOST_REPLY_DB_USER=time_user
 GHOST_REPLY_DB_PASSWORD=secure_password
 
 # Redis (for caching)
@@ -301,7 +301,7 @@ GET /api/v1/ghost-replies/admin/performance
 
 ### 1. Build Service
 ```bash
-cd sonet
+cd time
 mkdir build && cd build
 cmake ..
 make ghost_reply_service
@@ -310,30 +310,30 @@ make ghost_reply_service
 ### 2. Database Setup
 ```bash
 # Run migration
-psql -U sonet_user -d sonet -f database/migrations/002_create_ghost_reply_tables.sql
+psql -U time_user -d time -f database/migrations/002_create_ghost_reply_tables.sql
 
 # Verify setup
-psql -U sonet_user -d sonet -c "SELECT COUNT(*) FROM ghost_avatars;"
+psql -U time_user -d time -c "SELECT COUNT(*) FROM ghost_avatars;"
 ```
 
 ### 3. Service Configuration
 ```bash
 # Copy configuration
-cp config/ghost_reply_service.conf /etc/sonet/
+cp config/ghost_reply_service.conf /etc/time/
 
 # Set permissions
-chown sonet:sonet /etc/sonet/ghost_reply_service.conf
-chmod 600 /etc/sonet/ghost_reply_service.conf
+chown time:time /etc/time/ghost_reply_service.conf
+chmod 600 /etc/time/ghost_reply_service.conf
 ```
 
 ### 4. Start Service
 ```bash
 # Start ghost reply service
-./bin/ghost_reply_service --config /etc/sonet/ghost_reply_service.conf
+./bin/ghost_reply_service --config /etc/time/ghost_reply_service.conf
 
 # Or as systemd service
-systemctl enable sonet-ghost-reply
-systemctl start sonet-ghost-reply
+systemctl enable time-ghost-reply
+systemctl start time-ghost-reply
 ```
 
 ### 5. Load Balancer Configuration
@@ -358,7 +358,7 @@ limit_req_zone $binary_remote_addr zone=ghost_reply:10m rate=10r/m;
 ### Unit Tests
 ```bash
 # Run ghost reply service tests
-cd sonet/build
+cd time/build
 make test_ghost_reply_service
 ./test/test_ghost_reply_service
 ```
@@ -398,7 +398,7 @@ wrk -t12 -c400 -d30s \
 systemctl status postgresql
 
 # Verify connection
-psql -U sonet_user -d sonet -c "SELECT 1;"
+psql -U time_user -d time -c "SELECT 1;"
 
 # Check logs
 tail -f /var/log/postgresql/postgresql-*.log
@@ -416,10 +416,10 @@ redis-cli monitor | grep ghost_reply
 #### Performance Issues
 ```bash
 # Check database performance
-psql -U sonet_user -d sonet -c "SELECT * FROM pg_stat_activity;"
+psql -U time_user -d time -c "SELECT * FROM pg_stat_activity;"
 
 # Check slow queries
-psql -U sonet_user -d sonet -c "SELECT * FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
+psql -U time_user -d time -c "SELECT * FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
 ```
 
 ### Debug Mode

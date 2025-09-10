@@ -11,7 +11,7 @@
 #include "proto/common/user_types.pb.h"
 #include "proto/common/ml_types.pb.h"
 
-namespace sonet {
+namespace time {
 namespace video_feed {
 
 // Forward declarations
@@ -180,4 +180,4 @@ private:
 };
 
 } // namespace video_feed
-} // namespace sonet
+} // namespace time

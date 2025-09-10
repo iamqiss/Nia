@@ -11,7 +11,7 @@
 #include "../repositories/note_repository.h"
 #include <nlohmann/json.hpp>
 
-namespace sonet::note::handlers {
+namespace time::note::handlers {
 
 // Placeholder implementation for update note handler
 class UpdateNoteHandler {
@@ -21,4 +21,4 @@ public:
     }
 };
 
-} // namespace sonet::note::handlers
+} // namespace time::note::handlers

@@ -18,7 +18,7 @@
 #include <sstream>
 #include <cassert>
 
-namespace sonet::user {
+namespace time::user {
 
 // Character sets for different purposes
 const std::string SecurityUtils::ALPHANUMERIC_CHARSET = 
@@ -383,4 +383,4 @@ std::vector<uint8_t> SecurityUtils::hex_decode(const std::string& hex) {
     return bytes;
 }
 
-} // namespace sonet::user
+} // namespace time::user

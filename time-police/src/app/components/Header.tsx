@@ -8,7 +8,7 @@ export function Header() {
     <header className="w-full border-b bg-white">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/" className="font-semibold">Sonet Police</Link>
+          <Link href="/" className="font-semibold">time Police</Link>
           <nav className="flex items-center gap-3 text-sm text-gray-600">
             <Link href="/queues">Queues</Link>
             <Link href="/audit">Audit</Link>

@@ -11,9 +11,9 @@
 #include <nlohmann/json.hpp>
 #include <regex>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
-AuthController::AuthController(std::shared_ptr<sonet::user::UserServiceImpl> user_service,
+AuthController::AuthController(std::shared_ptr<time::user::UserServiceImpl> user_service,
                                std::shared_ptr<email::EmailService> email_service,
                                const std::string& connection_string)
     : user_service_(std::move(user_service))
@@ -28,7 +28,7 @@ nlohmann::json AuthController::handle_register(const RegisterRequest& request) {
             return create_error_response("Invalid registration data");
         }
         auto grpc_request = to_grpc_register_request(request);
-        sonet::user::RegisterUserResponse grpc_response;
+        time::user::RegisterUserResponse grpc_response;
         grpc::ServerContext context;
         auto status = user_service_->RegisterUser(&context, &grpc_request, &grpc_response);
         if (!status.ok()) {
@@ -48,7 +48,7 @@ nlohmann::json AuthController::handle_login(const LoginRequest& request) {
             return create_error_response("Invalid login data");
         }
         auto grpc_request = to_grpc_login_request(request);
-        sonet::user::LoginUserResponse grpc_response;
+        time::user::LoginUserResponse grpc_response;
         grpc::ServerContext context;
         auto status = user_service_->LoginUser(&context, &grpc_request, &grpc_response);
         if (!status.ok()) {
@@ -68,7 +68,7 @@ nlohmann::json AuthController::handle_refresh_token(const RefreshTokenRequest& r
             return create_error_response("Refresh token is required");
         }
         auto grpc_request = to_grpc_refresh_request(request);
-        sonet::user::RefreshTokenResponse grpc_response;
+        time::user::RefreshTokenResponse grpc_response;
         grpc::ServerContext context;
         auto status = user_service_->RefreshToken(&context, &grpc_request, &grpc_response);
         if (!status.ok()) {
@@ -88,7 +88,7 @@ nlohmann::json AuthController::handle_logout(const LogoutRequest& request) {
             return create_error_response("Session ID is required");
         }
         auto grpc_request = to_grpc_logout_request(request);
-        sonet::user::LogoutResponse grpc_response;
+        time::user::LogoutResponse grpc_response;
         grpc::ServerContext context;
         auto status = user_service_->LogoutUser(&context, &grpc_request, &grpc_response);
         if (!status.ok()) {
@@ -146,7 +146,7 @@ nlohmann::json AuthController::handle_forgot_password(const ForgotPasswordReques
                 
                 if (stored) {
                     // Send password reset email
-                    std::string reset_url = "https://sonet.com/reset-password?token=" + reset_token;
+                    std::string reset_url = "https://time.com/reset-password?token=" + reset_token;
                     email_service_->send_password_reset_email(user_opt->email, user_opt->username, reset_token, reset_url);
                     
                     spdlog::info("Password reset email sent to: {}", request.email);
@@ -359,8 +359,8 @@ std::string AuthController::extract_bearer_token(const std::string& authorizatio
 
 // Conversion methods
 
-sonet::user::RegisterUserRequest AuthController::to_grpc_register_request(const RegisterRequest& request) {
-    sonet::user::RegisterUserRequest grpc_request;
+time::user::RegisterUserRequest AuthController::to_grpc_register_request(const RegisterRequest& request) {
+    time::user::RegisterUserRequest grpc_request;
     grpc_request.set_username(request.username);
     grpc_request.set_email(request.email);
     grpc_request.set_password(request.password);
@@ -370,22 +370,22 @@ sonet::user::RegisterUserRequest AuthController::to_grpc_register_request(const 
     return grpc_request;
 }
 
-sonet::user::LoginUserRequest AuthController::to_grpc_login_request(const LoginRequest& request) {
-    sonet::user::LoginUserRequest grpc_request;
+time::user::LoginUserRequest AuthController::to_grpc_login_request(const LoginRequest& request) {
+    time::user::LoginUserRequest grpc_request;
     auto* creds = grpc_request.mutable_credentials();
     creds->set_email(request.username);
     creds->set_password(request.password);
     return grpc_request;
 }
 
-sonet::user::RefreshTokenRequest AuthController::to_grpc_refresh_request(const RefreshTokenRequest& request) {
-    sonet::user::RefreshTokenRequest grpc_request;
+time::user::RefreshTokenRequest AuthController::to_grpc_refresh_request(const RefreshTokenRequest& request) {
+    time::user::RefreshTokenRequest grpc_request;
     grpc_request.set_refresh_token(request.refresh_token);
     return grpc_request;
 }
 
-sonet::user::LogoutRequest AuthController::to_grpc_logout_request(const LogoutRequest& request) {
-    sonet::user::LogoutRequest grpc_request;
+time::user::LogoutRequest AuthController::to_grpc_logout_request(const LogoutRequest& request) {
+    time::user::LogoutRequest grpc_request;
     grpc_request.set_session_id(request.session_id);
     grpc_request.set_logout_all_devices(request.logout_all_devices);
     return grpc_request;
@@ -393,7 +393,7 @@ sonet::user::LogoutRequest AuthController::to_grpc_logout_request(const LogoutRe
 
 // Response conversion methods
 
-nlohmann::json AuthController::grpc_response_to_json(const sonet::user::RegisterUserResponse& response) {
+nlohmann::json AuthController::grpc_response_to_json(const time::user::RegisterUserResponse& response) {
     nlohmann::json json_response;
     json_response["success"] = response.status().success();
     json_response["message"] = response.status().message();
@@ -411,7 +411,7 @@ nlohmann::json AuthController::grpc_response_to_json(const sonet::user::Register
     return json_response;
 }
 
-nlohmann::json AuthController::grpc_response_to_json(const sonet::user::LoginUserResponse& response) {
+nlohmann::json AuthController::grpc_response_to_json(const time::user::LoginUserResponse& response) {
     nlohmann::json json_response;
     json_response["success"] = response.status().success();
     json_response["message"] = response.status().message();
@@ -426,7 +426,7 @@ nlohmann::json AuthController::grpc_response_to_json(const sonet::user::LoginUse
     return json_response;
 }
 
-nlohmann::json AuthController::grpc_response_to_json(const sonet::user::RefreshTokenResponse& response) {
+nlohmann::json AuthController::grpc_response_to_json(const time::user::RefreshTokenResponse& response) {
     nlohmann::json json_response;
     json_response["success"] = response.status().success();
     json_response["message"] = response.status().message();
@@ -475,4 +475,4 @@ std::vector<std::string> AuthController::generate_username_suggestions(const std
     return suggestions;
 }
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

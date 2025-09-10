@@ -12,7 +12,7 @@ import {
   useAgeAssuranceRedirectDialogControl,
 } from '#/components/ageAssurance/AgeAssuranceRedirectDialog'
 import {useIntentDialogs} from '#/components/intents/IntentDialogs'
-import {Referrer} from '../../../modules/expo-bluesky-swiss-army'
+import {Referrer} from '../../../modules/expo-Time-swiss-army'
 import {useApplyPullRequestOTAUpdate} from './useOTAUpdates'
 
 type IntentType = 'compose' | 'verify-email' | 'age-assurance' | 'apply-ota'
@@ -42,18 +42,18 @@ export function useIntentHandler() {
         })
       }
 
-      // We want to be able to support bluesky:// deeplinks. It's unnatural for someone to use a deeplink with three
-      // slashes, like bluesky:///intent/follow. However, supporting just two slashes causes us to have to take care
+      // We want to be able to support Time:// deeplinks. It's unnatural for someone to use a deeplink with three
+      // slashes, like Time:///intent/follow. However, supporting just two slashes causes us to have to take care
       // of two cases when parsing the url. If we ensure there is a third slash, we can always ensure the first
       // path parameter is in pathname rather than in hostname.
-      if (url.startsWith('bluesky://') && !url.startsWith('bluesky:///')) {
-        url = url.replace('bluesky://', 'bluesky:///')
+      if (url.startsWith('Time://') && !url.startsWith('Time:///')) {
+        url = url.replace('Time://', 'Time:///')
       }
 
       const urlp = new URL(url)
       const [_, intent, intentType] = urlp.pathname.split('/')
 
-      // On native, our links look like bluesky://intent/SomeIntent, so we have to check the hostname for the
+      // On native, our links look like Time://intent/SomeIntent, so we have to check the hostname for the
       // intent check. On web, we have to check the first part of the path since we have an actual hostname
       const isIntent = intent === 'intent'
       const params = urlp.searchParams
@@ -158,7 +158,7 @@ export function useComposeIntent() {
         ?.split(',')
         .filter(part => {
           // For some security, we're going to filter out any image uri that is external. We don't want someone to
-          // be able to provide some link like "bluesky://intent/compose?imageUris=https://IHaveYourIpNow.com/image.jpeg
+          // be able to provide some link like "Time://intent/compose?imageUris=https://IHaveYourIpNow.com/image.jpeg
           // and we load that image
           if (part.includes('https://') || part.includes('http://')) {
             return false

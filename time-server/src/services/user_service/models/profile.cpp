@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <chrono>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 // CustomProfileField implementation
 CustomProfileField::CustomProfileField(const std::string& label, const std::string& value, 
@@ -974,4 +974,4 @@ ProfileFieldType string_to_profile_field_type(const std::string& type) {
     return ProfileFieldType::TEXT;
 }
 
-} // namespace sonet::user::models
+} // namespace time::user::models

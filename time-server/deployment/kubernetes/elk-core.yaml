@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: sonet-observability
+  name: time-observability
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: elasticsearch
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   selector:
     app: elasticsearch
@@ -23,7 +23,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   replicas: 1
   selector:
@@ -58,7 +58,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kibana
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   selector:
     app: kibana
@@ -71,7 +71,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   replicas: 1
   selector:
@@ -87,7 +87,7 @@ spec:
           image: docker.elastic.co/kibana/kibana:8.13.4
           env:
             - name: ELASTICSEARCH_HOSTS
-              value: http://elasticsearch.sonet-observability.svc:9200
+              value: http://elasticsearch.time-observability.svc:9200
           ports:
             - containerPort: 5601
 ---
@@ -95,10 +95,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: logstash-pipeline
-  namespace: sonet-observability
+  namespace: time-observability
   labels:
     app: logstash
-    managed-by: sonet
+    managed-by: time
 data:
   logstash.conf: |
     input {
@@ -117,7 +117,7 @@ data:
       }
     }
     output {
-      elasticsearch { hosts => ["http://elasticsearch.sonet-observability.svc:9200"] index => "sonet-logs-%{+YYYY.MM.dd}" }
+      elasticsearch { hosts => ["http://elasticsearch.time-observability.svc:9200"] index => "time-logs-%{+YYYY.MM.dd}" }
       stdout { codec => rubydebug }
     }
 ---
@@ -125,7 +125,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: logstash
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   selector:
     app: logstash
@@ -138,7 +138,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logstash
-  namespace: sonet-observability
+  namespace: time-observability
 spec:
   replicas: 1
   selector:

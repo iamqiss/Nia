@@ -1,4 +1,4 @@
-# Sonet API Inventory & Endpoint Plan
+# time API Inventory & Endpoint Plan
 
 Comprehensive extraction of current gRPC proto service surface (as of repo state) plus proposed REST mapping, identified gaps, and potential loopholes. Use this to accelerate client integration and guide secure build‑out.
 
@@ -9,15 +9,15 @@ Legend: ✅ implemented proto with messages; ⚠️ file exists but empty/placeh
 
 | Service File | Package / Service | Status | Key RPCs (abridged) |
 |--------------|------------------|--------|---------------------|
-| user.proto | sonet.user.UserService | ✅ | RegisterUser, LoginUser, LogoutUser, VerifyToken, RefreshToken, Change/Reset Password, Email + 2FA flows, Get/Terminate Sessions, Get/UpdateUserProfile |
-| note.proto | sonet.note.NoteService | ✅ (basic) | CreateNote, GetNote, DeleteNote, LikeNote, RenoteNote, GetUserNotes, GetNoteThread, SearchNotes, HealthCheck |
-| note_service.proto | sonet.note.grpc.NoteService | ✅ (expanded) ❗ | High‑perf superset: CreateNote, GetNote, UpdateNote, DeleteNote, GetNotesBatch, LikeNote, RenoteNote, QuoteRenote, BookmarkNote, multiple timeline + search variants, analytics, thread, streaming, moderation |
-| timeline.proto | sonet.timeline.TimelineService | ✅ | GetTimeline, GetUserTimeline, RefreshTimeline, MarkTimelineRead, Update/GetTimelinePreferences, SubscribeTimelineUpdates (stream), HealthCheck |
-| media.proto | sonet.media.MediaService | ✅ | Upload (client stream), GetMedia, DeleteMedia, ListUserMedia, HealthCheck |
-| fanout.proto | sonet.fanout.FanoutService | ✅ | InitiateFanout, GetFanoutJobStatus, CancelFanoutJob, GetUserTier, ProcessFollowerBatch, GetFanoutMetrics, HealthCheck |
-| messaging.proto | sonet.messaging.MessagingService | ✅ | SendMessage, GetMessages, UpdateMessageStatus, SearchMessages, CreateChat, GetChats, UploadAttachment, SetTyping, StreamMessages (bidi) |
-| follow.proto | sonet.follow.FollowService | ✅ | FollowUser, UnfollowUser, MuteUser, BlockUser, GetFollowers, GetFollowing, GetFollowSuggestions, GetRelationship |
-| notification.proto | sonet.notification.NotificationService | ✅ | ListNotifications, MarkNotificationsRead, StreamNotifications |
+| user.proto | time.user.UserService | ✅ | RegisterUser, LoginUser, LogoutUser, VerifyToken, RefreshToken, Change/Reset Password, Email + 2FA flows, Get/Terminate Sessions, Get/UpdateUserProfile |
+| note.proto | time.note.NoteService | ✅ (basic) | CreateNote, GetNote, DeleteNote, LikeNote, RenoteNote, GetUserNotes, GetNoteThread, SearchNotes, HealthCheck |
+| note_service.proto | time.note.grpc.NoteService | ✅ (expanded) ❗ | High‑perf superset: CreateNote, GetNote, UpdateNote, DeleteNote, GetNotesBatch, LikeNote, RenoteNote, QuoteRenote, BookmarkNote, multiple timeline + search variants, analytics, thread, streaming, moderation |
+| timeline.proto | time.timeline.TimelineService | ✅ | GetTimeline, GetUserTimeline, RefreshTimeline, MarkTimelineRead, Update/GetTimelinePreferences, SubscribeTimelineUpdates (stream), HealthCheck |
+| media.proto | time.media.MediaService | ✅ | Upload (client stream), GetMedia, DeleteMedia, ListUserMedia, HealthCheck |
+| fanout.proto | time.fanout.FanoutService | ✅ | InitiateFanout, GetFanoutJobStatus, CancelFanoutJob, GetUserTier, ProcessFollowerBatch, GetFanoutMetrics, HealthCheck |
+| messaging.proto | time.messaging.MessagingService | ✅ | SendMessage, GetMessages, UpdateMessageStatus, SearchMessages, CreateChat, GetChats, UploadAttachment, SetTyping, StreamMessages (bidi) |
+| follow.proto | time.follow.FollowService | ✅ | FollowUser, UnfollowUser, MuteUser, BlockUser, GetFollowers, GetFollowing, GetFollowSuggestions, GetRelationship |
+| notification.proto | time.notification.NotificationService | ✅ | ListNotifications, MarkNotificationsRead, StreamNotifications |
 | analytics.proto | (missing service declarations) | ⚠️ | — |
 | search.proto | (missing service declarations) | ⚠️ | — |
 | common/*.proto | Shared types | Partial | timestamp.proto OK; pagination.proto only defines Pagination while other protos reference PaginationRequest/Response (missing) |
@@ -134,7 +134,7 @@ Phase C: Merge Timeline logic: either keep dedicated `timeline.proto` (clean sep
 ---
 ## 8. Minimal Client Binding Set (MVP)
 
-Prioritize these for first Sonet client integration:
+Prioritize these for first time client integration:
 1. Auth: RegisterUser, LoginUser, RefreshToken, GetUserProfile
 2. Notes: CreateNote, GetNote, LikeNote (renote/quote later), GetUserNotes
 3. Timeline: GetTimeline (home), GetUserTimeline

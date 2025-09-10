@@ -16,7 +16,7 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 /**
  * Thread model for managing Twitter-style note threads
@@ -227,4 +227,4 @@ void from_json(const nlohmann::json& j, ThreadStatistics& stats);
 void to_json(nlohmann::json& j, const ThreadParticipant& participant);
 void from_json(const nlohmann::json& j, ThreadParticipant& participant);
 
-} // namespace sonet::note::models
+} // namespace time::note::models

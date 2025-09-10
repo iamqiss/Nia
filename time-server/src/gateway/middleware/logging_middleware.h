@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-namespace sonet::gateway::middleware {
+namespace time::gateway::middleware {
 
 // Placeholder logging utilities for potential future integration.
 struct LoggingHelper {

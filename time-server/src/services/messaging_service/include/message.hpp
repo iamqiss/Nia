@@ -16,7 +16,7 @@
 #include <optional>
 #include <json/json.h>
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 enum class MessageType {
     TEXT,
@@ -249,4 +249,4 @@ public:
     static double calculate_message_priority_score(const Message& message);
 };
 
-} // namespace sonet::messaging
+} // namespace time::messaging

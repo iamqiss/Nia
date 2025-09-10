@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the search result models for our Twitter-scale search service.
  * I built this to handle rich search results with intelligent highlighting,
@@ -16,7 +16,7 @@
 #include <cmath>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace models {
 
@@ -1118,4 +1118,4 @@ bool is_result_valid(const SearchResult& result, std::chrono::minutes max_age) {
 
 } // namespace models
 } // namespace search_service
-} // namespace sonet
+} // namespace time

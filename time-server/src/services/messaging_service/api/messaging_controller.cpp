@@ -19,7 +19,7 @@
 #include <sodium.h>
 #include "../../user_service/include/jwt_manager.h"
 
-namespace sonet::messaging::api {
+namespace time::messaging::api {
 
 // AttachmentMetadata implementation
 Json::Value AttachmentMetadata::to_json() const {
@@ -138,8 +138,8 @@ MessagingController::MessagingController(uint16_t http_port, uint16_t websocket_
     encryption_manager_ = std::make_unique<encryption::EncryptionManager>();
 
     // JWT manager for token validation (read signing key from env)
-    const char* jwt_secret = std::getenv("SONET_JWT_SECRET");
-    jwt_manager_ = std::make_unique<sonet::user::JWTManager>(jwt_secret ? jwt_secret : std::string("dev_secret"));
+    const char* jwt_secret = std::getenv("time_JWT_SECRET");
+    jwt_manager_ = std::make_unique<time::user::JWTManager>(jwt_secret ? jwt_secret : std::string("dev_secret"));
 
     // Set up WebSocket authentication callback
     websocket_manager_->set_authentication_callback(
@@ -871,7 +871,7 @@ MessagingController::create_http_response(int status_code, const std::string& re
         static_cast<http::status>(status_code), 11 // HTTP/1.1
     };
     
-    response.set(http::field::server, "Sonet Messaging Service v1.0");
+    response.set(http::field::server, "time Messaging Service v1.0");
     response.set(http::field::content_type, "application/json");
     response.set(http::field::access_control_allow_origin, "*");
     response.set(http::field::access_control_allow_methods, "GET, POST, PUT, DELETE, OPTIONS");
@@ -975,4 +975,4 @@ bool MessagingController::check_and_mark_replay_locked_(const std::string& chat_
     return true;
 }
 
-} // namespace sonet::messaging::api
+} // namespace time::messaging::api

@@ -81,7 +81,7 @@ let DrawerProfileCard = ({
       <UserAvatar
         size={52}
         avatar={profile?.avatar}
-        // See https://github.com/bluesky-social/social-app/pull/1801:
+        // See https://github.com/Time-social/social-app/pull/1801:
         usePlainRNImage={true}
         type={profile?.associated?.labeler ? 'labeler' : 'user'}
         live={live}

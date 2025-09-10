@@ -17,7 +17,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace sonet::messaging::realtime {
+namespace time::messaging::realtime {
 
 // ClientConnection implementation
 Json::Value ClientConnection::to_json() const {
@@ -941,4 +941,4 @@ void WebSocketManager::set_authentication_callback(
     auth_callback_ = callback;
 }
 
-} // namespace sonet::messaging::realtime
+} // namespace time::messaging::realtime

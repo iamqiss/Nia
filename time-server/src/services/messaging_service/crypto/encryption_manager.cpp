@@ -31,9 +31,9 @@
 
 namespace {
     std::string get_session_keys_path() {
-        const char* env = std::getenv("SONET_SESSION_KEYS_PATH");
+        const char* env = std::getenv("time_SESSION_KEYS_PATH");
         if (env && *env) return std::string(env);
-        return std::string("/tmp/sonet/messaging/session_keys.json");
+        return std::string("/tmp/time/messaging/session_keys.json");
     }
 
     void ensure_parent_dir(const std::string& path) {
@@ -42,7 +42,7 @@ namespace {
     }
 }
 
-namespace sonet::messaging::encryption {
+namespace time::messaging::encryption {
 
 static inline void secure_zero_string(std::string& s) {
     if (!s.empty()) {
@@ -1485,4 +1485,4 @@ std::vector<std::string> EncryptionManager::get_group_members(const std::string&
     return {};
 }
 
-} // namespace sonet::messaging::encryption
+} // namespace time::messaging::encryption

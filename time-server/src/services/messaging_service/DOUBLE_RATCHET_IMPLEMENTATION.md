@@ -1,8 +1,8 @@
-# Double Ratchet Implementation - Sonet Messaging Service
+# Double Ratchet Implementation - time Messaging Service
 
 ## Overview
 
-This document describes the complete Double Ratchet implementation added to the Sonet Messaging Service's `EncryptionManager` class. The Double Ratchet algorithm provides perfect forward secrecy and note-compromise security for end-to-end encrypted messaging.
+This document describes the complete Double Ratchet implementation added to the time Messaging Service's `EncryptionManager` class. The Double Ratchet algorithm provides perfect forward secrecy and note-compromise security for end-to-end encrypted messaging.
 
 ## Architecture
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <optional>
 
-namespace sonet::gateway::auth {
+namespace time::gateway::auth {
 
 struct JwtClaims {
 	std::string subject;

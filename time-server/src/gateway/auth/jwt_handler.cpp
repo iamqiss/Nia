@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace sonet::gateway::auth {
+namespace time::gateway::auth {
 
 std::optional<JwtClaims> JwtHandler::parse(const std::string& token) const {
 	// Extremely naive placeholder: treat token as JSON for now (dev only)

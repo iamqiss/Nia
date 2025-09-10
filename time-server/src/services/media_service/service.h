@@ -21,13 +21,13 @@
 // Generated gRPC headers for media service will be included via CMake-generated include dirs
 #include "services/media.grpc.pb.h"
 
-namespace sonet::media_service {
+namespace time::media_service {
 
 // Lightweight metadata model used internally
 struct MediaRecord {
 	std::string id;
 	std::string owner_user_id;
-	::sonet::media::MediaType type{};
+	::time::media::MediaType type{};
 	std::string mime_type;
 	uint64_t size_bytes{};
 	uint32_t width{};
@@ -70,7 +70,7 @@ class VideoProcessor { public: virtual ~VideoProcessor() = default; virtual bool
 class GifProcessor   { public: virtual ~GifProcessor()   = default; virtual bool Process(const std::string& path_in, std::string& path_out, std::string& thumb_out, double& duration, uint32_t& width, uint32_t& height) = 0; };
 
 // NSFW/content scanning hook (simple interface; implementations can call external tools/models)
-class NsfwScanner { public: virtual ~NsfwScanner() = default; virtual bool IsAllowed(const std::string& local_path, ::sonet::media::MediaType type, std::string& reason) = 0; };
+class NsfwScanner { public: virtual ~NsfwScanner() = default; virtual bool IsAllowed(const std::string& local_path, ::time::media::MediaType type, std::string& reason) = 0; };
 
 // Simple local implementations provided in this service for now
 std::unique_ptr<MediaRepository> CreateInMemoryRepo();
@@ -86,7 +86,7 @@ std::unique_ptr<NsfwScanner> CreateBasicScanner(bool enable);
 // Optional postgres repository factory (returns nullptr if not available/configured)
 std::unique_ptr<MediaRepository> CreateNotegresRepo(const std::string& conn_str);
 
-class MediaServiceImpl final : public ::sonet::media::MediaService::Service {
+class MediaServiceImpl final : public ::time::media::MediaService::Service {
 public:
 	MediaServiceImpl(std::shared_ptr<MediaRepository> repo,
 					 std::shared_ptr<StorageBackend> storage,
@@ -99,28 +99,28 @@ public:
 
 	// Client streaming upload implementation
 	::grpc::Status Upload(::grpc::ServerContext* context,
-						  ::grpc::ServerReader< ::sonet::media::UploadRequest>* reader,
-						  ::sonet::media::UploadResponse* response) override;
+						  ::grpc::ServerReader< ::time::media::UploadRequest>* reader,
+						  ::time::media::UploadResponse* response) override;
 
 	::grpc::Status GetMedia(::grpc::ServerContext* context,
-							const ::sonet::media::GetMediaRequest* request,
-							::sonet::media::GetMediaResponse* response) override;
+							const ::time::media::GetMediaRequest* request,
+							::time::media::GetMediaResponse* response) override;
 
 	::grpc::Status DeleteMedia(::grpc::ServerContext* context,
-							   const ::sonet::media::DeleteMediaRequest* request,
-							   ::sonet::media::DeleteMediaResponse* response) override;
+							   const ::time::media::DeleteMediaRequest* request,
+							   ::time::media::DeleteMediaResponse* response) override;
 
 	::grpc::Status ListUserMedia(::grpc::ServerContext* context,
-								 const ::sonet::media::ListUserMediaRequest* request,
-								 ::sonet::media::ListUserMediaResponse* response) override;
+								 const ::time::media::ListUserMediaRequest* request,
+								 ::time::media::ListUserMediaResponse* response) override;
 
 	::grpc::Status HealthCheck(::grpc::ServerContext* context,
-								 const ::sonet::media::HealthCheckRequest* request,
-								 ::sonet::media::HealthCheckResponse* response) override;
+								 const ::time::media::HealthCheckRequest* request,
+								 ::time::media::HealthCheckResponse* response) override;
 
 	::grpc::Status ToggleMediaLike(::grpc::ServerContext* context,
-									 const ::sonet::media::ToggleMediaLikeRequest* request,
-									 ::sonet::media::ToggleMediaLikeResponse* response) override;
+									 const ::time::media::ToggleMediaLikeRequest* request,
+									 ::time::media::ToggleMediaLikeResponse* response) override;
 
 private:
 	std::shared_ptr<MediaRepository> repo_;
@@ -132,5 +132,5 @@ private:
 	uint64_t max_upload_bytes_{};
 };
 
-} // namespace sonet::media_service
+} // namespace time::media_service
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Test runner script for Sonet Messaging Service
+# Test runner script for time Messaging Service
 # This script runs the comprehensive test suite for X3DH, Double Ratchet, and security features
 
 set -e
 
-echo "🧪 Running Sonet Messaging Service Tests"
+echo "🧪 Running time Messaging Service Tests"
 echo "========================================"
 
 # Check if we're in the right directory

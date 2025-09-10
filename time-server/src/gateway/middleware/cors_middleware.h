@@ -1,7 +1,7 @@
 #pragma once
 #include <httplib.h>
 
-namespace sonet::gateway::middleware {
+namespace time::gateway::middleware {
 
 struct CORSHelper {
 	static void apply(httplib::Response& res) {

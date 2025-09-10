@@ -6,7 +6,7 @@
 #include <memory>
 #include <stdexcept>
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 class MessagingGRPCServer {
 public:
@@ -51,7 +51,7 @@ private:
     std::unique_ptr<grpc::Server> server_;
 };
 
-} // namespace sonet::messaging
+} // namespace time::messaging
 
 // Main function for standalone gRPC server
 int main(int argc, char* argv[]) {
@@ -62,14 +62,14 @@ int main(int argc, char* argv[]) {
             address = argv[1];
         }
         
-        spdlog::info("Starting Sonet Messaging gRPC Server");
+        spdlog::info("Starting time Messaging gRPC Server");
         spdlog::info("Address: {}", address);
         
         // Create messaging service
-        auto service = std::make_shared<sonet::messaging::MessagingService>();
+        auto service = std::make_shared<time::messaging::MessagingService>();
         
         // Create and start gRPC server
-        sonet::messaging::MessagingGRPCServer server(address, service);
+        time::messaging::MessagingGRPCServer server(address, service);
         server.Start();
         
         // Wait for shutdown signal

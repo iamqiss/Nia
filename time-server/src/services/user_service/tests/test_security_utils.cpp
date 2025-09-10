@@ -11,7 +11,7 @@
 #include <string>
 #include <regex>
 
-using namespace sonet::user;
+using namespace time::user;
 
 class SecurityUtilsTest : public ::testing::Test {
 protected:

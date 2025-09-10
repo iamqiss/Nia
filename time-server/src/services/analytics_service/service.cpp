@@ -9,7 +9,7 @@
 #include "aggregators/real_time_aggregator.h"
 #include "processors/stream_processor.h"
 
-namespace sonet::analytics_service {
+namespace time::analytics_service {
 
 AnalyticsServer::AnalyticsServer(const Config& config)
 	: config_(config) {}
@@ -44,5 +44,5 @@ void AnalyticsServer::Stop() {
 	}
 }
 
-} // namespace sonet::analytics_service
+} // namespace time::analytics_service
 

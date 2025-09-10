@@ -13,7 +13,7 @@
 #include <future>
 #include "crypto_engine.hpp"
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 // Forward declarations
 class CryptoEngine;
@@ -219,4 +219,4 @@ std::future<T> PerformanceOptimizer::execute_async_with_timeout(std::function<T(
     }, priority);
 }
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

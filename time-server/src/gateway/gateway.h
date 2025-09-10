@@ -9,7 +9,7 @@
 #include <nlohmann/json.hpp>
 #include <httplib.h>
 
-namespace sonet::gateway {
+namespace time::gateway {
 
 namespace rate_limiting { class RateLimiter; }
 namespace responses {}
@@ -44,4 +44,4 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<rate_limiting::RateLimiter>> limiters_;
 };
 
-} // namespace sonet::gateway
+} // namespace time::gateway

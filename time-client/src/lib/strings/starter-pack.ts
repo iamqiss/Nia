@@ -12,7 +12,7 @@ export function createStarterPackLinkFromAndroidReferrer(
     const utmSource = url.searchParams.get('utm_source')
 
     if (!utmContent) return null
-    if (utmSource !== 'bluesky') return null
+    if (utmSource !== 'Time') return null
 
     // This should be a string like `starterpack_haileyok.com_rkey`
     const contentParts = utmContent.split('_')

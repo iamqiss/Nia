@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Rate Limiter - Because attackers are relentless
@@ -121,4 +121,4 @@ private:
     } auth_limits_;
 };
 
-} // namespace sonet::user
+} // namespace time::user

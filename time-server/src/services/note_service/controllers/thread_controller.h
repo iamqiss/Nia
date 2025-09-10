@@ -26,13 +26,13 @@
 #include <functional>
 #include <optional>
 
-namespace sonet::note::controllers {
+namespace time::note::controllers {
 
 using json = nlohmann::json;
-using namespace sonet::note::models;
-using namespace sonet::note::repositories;
-using namespace sonet::note::services;
-using namespace sonet::note::security;
+using namespace time::note::models;
+using namespace time::note::repositories;
+using namespace time::note::services;
+using namespace time::note::security;
 
 /**
  * @brief HTTP status codes for thread operations
@@ -491,4 +491,4 @@ private:
     json get_pagination_info(int total_count, int limit, int offset) const;
 };
 
-} // namespace sonet::note::controllers
+} // namespace time::note::controllers

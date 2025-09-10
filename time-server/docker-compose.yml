@@ -13,9 +13,9 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      postgres_db: sonet_dev
-      postgres_user: sonet
-      postgres_password: ${postgres_password:-sonet_dev_password}
+      postgres_db: time_dev
+      postgres_user: time
+      postgres_password: ${postgres_password:-time_dev_password}
       POSTGRES_MULTIPLE_DATABASES: "user_service,note_service,media_service,follow_service,notification_service,messaging_service,timeline_service,search_service,analytics_service"
     ports:
       - "5432:5432"
@@ -24,9 +24,9 @@ services:
       - ./database/schemas:/docker-entrypoint-initdb.d/schemas
       - ./database/seeds:/docker-entrypoint-initdb.d/seeds
     networks:
-      - sonet-network
+      - time-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U sonet -d sonet_dev"]
+      test: ["CMD-SHELL", "pg_isready -U time -d time_dev"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -39,7 +39,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - sonet-network
+      - time-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -73,7 +73,7 @@ services:
       note-service:
         condition: service_started
     networks:
-      - sonet-network
+      - time-network
     volumes:
       - ./proto:/app/proto:ro
 
@@ -88,7 +88,7 @@ services:
       - "8081:8080"
       - "9090:9090"
     environment:
-      - DATABASE_URL=postgresql://sonet:${postgres_password:-sonet_dev_password}@postgres:5432/user_service
+      - DATABASE_URL=postgresql://time:${postgres_password:-time_dev_password}@postgres:5432/user_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=user-service
@@ -98,7 +98,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Note Service
   note-service:
@@ -111,7 +111,7 @@ services:
       - "8082:8080"
       - "9090:9090"
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/note_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/note_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=note-service
@@ -121,7 +121,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   timeline-service:
     build:
@@ -130,7 +130,7 @@ services:
       target: runtime
     command: ["./bin/timeline_service"]
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/timeline_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/timeline_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=timeline-service
@@ -142,7 +142,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Follow Service
   follow-service:
@@ -153,7 +153,7 @@ services:
     ports:
       - "8083:8080"
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/follow_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/follow_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=follow-service
@@ -163,7 +163,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Media Service
   media-service:
@@ -176,7 +176,7 @@ services:
       - "8084:8080"
       - "9090:9090"
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/media_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/media_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=media-service
@@ -186,7 +186,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Notification Service
   notification-service:
@@ -194,12 +194,12 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runtime
-    command: ["./bin/sonet-notification-service"]
+    command: ["./bin/time-notification-service"]
     ports:
       - "8085:8080"
       - "9090:9090"
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/notification_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/notification_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=notification-service
@@ -209,7 +209,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Messaging Service
   messaging-service:
@@ -221,7 +221,7 @@ services:
       - "8086:8080"
       - "9096:9090"  # WebSocket port for real-time messaging
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/messaging_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/messaging_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=messaging-service
@@ -233,7 +233,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Monitoring - Prometheus
   prometheus:
@@ -244,7 +244,7 @@ services:
       - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     networks:
-      - sonet-network
+      - time-network
 
   # Monitoring - Grafana
   grafana:
@@ -257,7 +257,7 @@ services:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana:/etc/grafana/provisioning
     networks:
-      - sonet-network
+      - time-network
 
   # Tracing - Jaeger
   jaeger:
@@ -268,7 +268,7 @@ services:
     environment:
       - COLLECTOR_OTLP_ENABLED=true
     networks:
-      - sonet-network
+      - time-network
 
   # ELK - Elasticsearch
   elasticsearch:
@@ -283,7 +283,7 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
     networks:
-      - sonet-network
+      - time-network
 
   # ELK - Kibana
   kibana:
@@ -295,7 +295,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - sonet-network
+      - time-network
 
   # ELK - Logstash
   logstash:
@@ -307,7 +307,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - sonet-network
+      - time-network
 
   # Beats - Filebeat (collect Docker logs)
   filebeat:
@@ -321,7 +321,7 @@ services:
     depends_on:
       - logstash
     networks:
-      - sonet-network
+      - time-network
 
   # Beats - Metricbeat (system and docker metrics)
   metricbeat:
@@ -338,19 +338,19 @@ services:
       - elasticsearch
       - kibana
     networks:
-      - sonet-network
+      - time-network
 
   search-service:
     build:
       context: .
       dockerfile: Dockerfile
       target: runtime
-    command: ["./bin/sonet-search-service"]
+    command: ["./bin/time-search-service"]
     ports:
       - "8087:8080"
       - "9090:9090"
     environment:
-      - DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/search_service
+      - DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/search_service
       - REDIS_URL=redis://redis:6379
       - LOG_LEVEL=debug
       - SERVICE_NAME=search-service
@@ -360,7 +360,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - sonet-network
+      - time-network
 
   # Minimal Search Service (temporary)
   minimal-search-service:
@@ -372,7 +372,7 @@ services:
     ports:
       - "9096:9096"
     networks:
-      - sonet-network
+      - time-network
 
   # Minimal Notification Service (temporary)
   minimal-notification-service:
@@ -384,7 +384,7 @@ services:
     ports:
       - "9097:9097"
     networks:
-      - sonet-network
+      - time-network
 
 volumes:
   postgres_data:
@@ -394,5 +394,5 @@ volumes:
   es_data:
 
 networks:
-  sonet-network:
+  time-network:
     driver: bridge

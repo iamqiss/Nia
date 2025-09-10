@@ -26,7 +26,7 @@
 #include <json/json.h>
 #include <filesystem>
 
-namespace sonet::messaging::attachments {
+namespace time::messaging::attachments {
 
 /**
  * @brief Attachment type classification
@@ -660,4 +660,4 @@ public:
     static std::vector<std::string> list_archive_contents(const std::vector<uint8_t>& archive_data);
 };
 
-} // namespace sonet::messaging::attachments
+} // namespace time::messaging::attachments

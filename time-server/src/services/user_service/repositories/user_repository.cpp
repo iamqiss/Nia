@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <regex>
 
-namespace sonet::user::repositories {
+namespace time::user::repositories {
 
 // PostgreSQLUserRepository implementation
 PostgreSQLUserRepository::PostgreSQLUserRepository(std::shared_ptr<pqxx::connection> connection)
@@ -1028,4 +1028,4 @@ void RepositoryFactory::shutdown_connection_pool() {
     // Implementation would shutdown connection pool
 }
 
-} // namespace sonet::user::repositories
+} // namespace time::user::repositories

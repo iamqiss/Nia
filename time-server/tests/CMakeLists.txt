@@ -39,7 +39,7 @@ else()
     target_link_libraries(test_main 
         GTest::gtest 
         GTest::gtest_main
-        sonet_proto
+        time_proto
     )
     
     # Add test subdirectories

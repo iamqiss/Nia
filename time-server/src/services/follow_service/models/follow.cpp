@@ -11,7 +11,7 @@
 #include <chrono>
 #include <cmath>
 
-namespace sonet::follow::models {
+namespace time::follow::models {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -456,4 +456,4 @@ void Follow::unmute() {
     spdlog::debug("🔊 Follow unmuted: {} -> {}", follower_id, following_id);
 }
 
-} // namespace sonet::follow::models
+} // namespace time::follow::models

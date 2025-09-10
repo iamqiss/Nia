@@ -15,7 +15,7 @@
 #include <random>
 #include <unordered_set>
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 // Note constructors
 Note::Note(const std::string& author_id, const std::string& content)
@@ -1594,4 +1594,4 @@ void from_json(const nlohmann::json& j, NoteMetrics& metrics) {
     metrics.from_json(j);
 }
 
-} // namespace sonet::note::models
+} // namespace time::note::models

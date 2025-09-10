@@ -5,7 +5,7 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: sonet_moderation
+      POSTGRES_DB: time_moderation
       POSTGRES_USER: moderation_user
       POSTGRES_PASSWORD: development_password
     ports:
@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U moderation_user -d sonet_moderation"]
+      test: ["CMD-SHELL", "pg_isready -U moderation_user -d time_moderation"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -118,7 +118,7 @@ services:
       RUST_ENV: development
       RUST_LOG: moderation=debug,tower_http=info
       CONFIG_PATH: /app/config
-      DATABASE_URL: postgresql://moderation_user:development_password@postgres:5432/sonet_moderation
+      DATABASE_URL: postgresql://moderation_user:development_password@postgres:5432/time_moderation
       REDIS_URL: redis://redis:6379
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     volumes:
@@ -157,4 +157,4 @@ volumes:
 
 networks:
   default:
-    name: sonet_moderation_network
+    name: time_moderation_network

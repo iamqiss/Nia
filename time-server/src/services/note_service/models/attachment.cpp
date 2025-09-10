@@ -16,7 +16,7 @@
 #include <unordered_set>
 #include <filesystem>
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 // TenorGifData implementation
 
@@ -1173,4 +1173,4 @@ AttachmentCollection AttachmentCollection::from_json(const json& j) {
     return collection;
 }
 
-} // namespace sonet::note::models
+} // namespace time::note::models

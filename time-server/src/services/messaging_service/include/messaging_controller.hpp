@@ -26,7 +26,7 @@
 #include "websocket_manager.hpp"
 #include "../../user_service/include/jwt_manager.h"
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 struct AttachmentUpload {
     std::string id;
@@ -99,7 +99,7 @@ private:
     std::unique_ptr<ChatManager> chat_manager_;
     std::unique_ptr<encryption::EncryptionManager> encryption_manager_;
     std::unique_ptr<realtime::WebSocketManager> websocket_manager_;
-    std::unique_ptr<sonet::user::JWTManager> jwt_manager_;
+    std::unique_ptr<time::user::JWTManager> jwt_manager_;
     
     // Database and storage
     std::string database_connection_string_;
@@ -435,4 +435,4 @@ public:
     Json::Value create_success_response(const Json::Value& data = Json::Value::null);
 };
 
-} // namespace sonet::messaging
+} // namespace time::messaging

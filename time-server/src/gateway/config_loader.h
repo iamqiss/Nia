@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 
-namespace sonet::gateway::config {
+namespace time::gateway::config {
 
 inline GatewayConfig load_config(const std::string& path) {
     GatewayConfig cfg;

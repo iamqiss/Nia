@@ -23,7 +23,7 @@
 #include "../../../proto/services/stub_protos.h"
 #include "clients/grpc_clients.h"
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 // ============= ML-BASED RANKING ENGINE =============
 
@@ -33,7 +33,7 @@ public:
     ~MLRankingEngine() override = default;
 
     std::vector<RankedTimelineItem> ScoreNotes(
-        const std::vector<::sonet::note::Note>& notes,
+        const std::vector<::time::note::Note>& notes,
         const std::string& user_id,
         const UserEngagementProfile& profile,
         const TimelineConfig& config
@@ -60,24 +60,24 @@ private:
 
     // Content quality assessment
     double CalculateContentQuality(
-        const ::sonet::note::Note& note,
+        const ::time::note::Note& note,
         const UserEngagementProfile& profile
     );
 
     // Engagement velocity prediction
     double CalculateEngagementVelocity(
-        const ::sonet::note::Note& note
+        const ::time::note::Note& note
     );
 
     // Personalization score based on user history
     double CalculatePersonalizationScore(
-        const ::sonet::note::Note& note,
+        const ::time::note::Note& note,
         const UserEngagementProfile& profile
     );
 
     // Recency score with time decay
     double CalculateRecencyScore(
-        const ::sonet::note::Note& note,
+        const ::time::note::Note& note,
         double half_life_hours = 6.0
     );
 
@@ -158,7 +158,7 @@ private:
     std::string redis_host_;
     int redis_port_;
     
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     std::unique_ptr<sw::redis::Redis> redis_;
 #endif
     
@@ -180,8 +180,8 @@ public:
     AdvancedContentFilter();
     ~AdvancedContentFilter() override = default;
 
-    std::vector<::sonet::note::Note> FilterNotes(
-        const std::vector<::sonet::note::Note>& notes,
+    std::vector<::time::note::Note> FilterNotes(
+        const std::vector<::time::note::Note>& notes,
         const std::string& user_id,
         const UserEngagementProfile& profile
     ) override;
@@ -200,11 +200,11 @@ public:
 private:
     // Filter implementations
     bool IsUserMuted(const std::string& user_id, const std::string& author_id);
-    bool ContainsMutedKeywords(const std::string& user_id, const ::sonet::note::Note& note);
-    bool ViolatesContentPolicy(const ::sonet::note::Note& note);
-    bool MeetsEngagementThreshold(const ::sonet::note::Note& note, const UserEngagementProfile& profile);
-    bool IsAppropriateForUserAge(const ::sonet::note::Note& note, const UserEngagementProfile& profile);
-    bool PassesSpamDetection(const ::sonet::note::Note& note);
+    bool ContainsMutedKeywords(const std::string& user_id, const ::time::note::Note& note);
+    bool ViolatesContentPolicy(const ::time::note::Note& note);
+    bool MeetsEngagementThreshold(const ::time::note::Note& note, const UserEngagementProfile& profile);
+    bool IsAppropriateForUserAge(const ::time::note::Note& note, const UserEngagementProfile& profile);
+    bool PassesSpamDetection(const ::time::note::Note& note);
 
     // User mute lists
     std::unordered_map<std::string, std::unordered_set<std::string>> muted_users_;
@@ -233,7 +233,7 @@ public:
     void NotifyItemUpdate(
         const std::string& user_id,
         const std::string& item_id,
-        const ::sonet::timeline::TimelineUpdate& update
+        const ::time::timeline::TimelineUpdate& update
     ) override;
 
     void NotifyItemDeleted(
@@ -274,10 +274,10 @@ private:
 
 class FollowingContentAdapter : public ContentSourceAdapter {
 public:
-    explicit FollowingContentAdapter(std::shared_ptr<::sonet::note::NoteService::Stub> note_service);
+    explicit FollowingContentAdapter(std::shared_ptr<::time::note::NoteService::Stub> note_service);
     ~FollowingContentAdapter() override = default;
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& config,
         std::chrono::system_clock::time_point since,
@@ -287,7 +287,7 @@ public:
 private:
     std::vector<std::string> GetFollowingList(const std::string& user_id);
     
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service_;
+    std::shared_ptr<::time::note::NoteService::Stub> note_service_;
     
     // Cache following lists for better performance
     std::unordered_map<std::string, std::vector<std::string>> following_cache_;
@@ -298,12 +298,12 @@ private:
 class RecommendedContentAdapter : public ContentSourceAdapter {
 public:
     explicit RecommendedContentAdapter(
-        std::shared_ptr<::sonet::note::NoteService::Stub> note_service,
+        std::shared_ptr<::time::note::NoteService::Stub> note_service,
         std::shared_ptr<MLRankingEngine> ranking_engine
     );
     ~RecommendedContentAdapter() override = default;
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& config,
         std::chrono::system_clock::time_point since,
@@ -311,13 +311,13 @@ public:
     ) override;
 
 private:
-    std::vector<::sonet::note::Note> FindSimilarContent(
+    std::vector<::time::note::Note> FindSimilarContent(
         const std::string& user_id,
         const UserEngagementProfile& profile,
         int32_t limit
     );
     
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service_;
+    std::shared_ptr<::time::note::NoteService::Stub> note_service_;
     std::shared_ptr<MLRankingEngine> ranking_engine_;
 };
 
@@ -326,7 +326,7 @@ class ITrendingProvider {
 public:
     virtual ~ITrendingProvider() = default;
     virtual void MaybeRefresh() = 0;
-    virtual std::vector<::sonet::note::Note> Get(int32_t limit,
+    virtual std::vector<::time::note::Note> Get(int32_t limit,
         std::chrono::system_clock::time_point since) = 0;
 };
 
@@ -334,7 +334,7 @@ class TrendingHashtagsProvider : public ITrendingProvider {
 public:
     TrendingHashtagsProvider();
     void MaybeRefresh() override;
-    std::vector<::sonet::note::Note> Get(int32_t limit,
+    std::vector<::time::note::Note> Get(int32_t limit,
         std::chrono::system_clock::time_point since) override;
 private:
     void UpdateTrendingHashtags();
@@ -347,7 +347,7 @@ class TrendingTopicsProvider : public ITrendingProvider {
 public:
     TrendingTopicsProvider();
     void MaybeRefresh() override;
-    std::vector<::sonet::note::Note> Get(int32_t limit,
+    std::vector<::time::note::Note> Get(int32_t limit,
         std::chrono::system_clock::time_point since) override;
 private:
     void UpdateTrendingTopics();
@@ -358,24 +358,24 @@ private:
 
 class TrendingVideosProvider : public ITrendingProvider {
 public:
-    explicit TrendingVideosProvider(std::shared_ptr<::sonet::note::NoteService::Stub> note_service);
+    explicit TrendingVideosProvider(std::shared_ptr<::time::note::NoteService::Stub> note_service);
     void MaybeRefresh() override;
-    std::vector<::sonet::note::Note> Get(int32_t limit,
+    std::vector<::time::note::Note> Get(int32_t limit,
         std::chrono::system_clock::time_point since) override;
 private:
     void UpdateTrendingVideos();
     std::vector<std::string> trending_video_urls_;
     std::chrono::system_clock::time_point last_update_{};
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service_;
+    std::shared_ptr<::time::note::NoteService::Stub> note_service_;
     mutable std::mutex mutex_;
 };
 
 class TrendingContentAdapter : public ContentSourceAdapter {
 public:
-    explicit TrendingContentAdapter(std::shared_ptr<::sonet::note::NoteService::Stub> note_service);
+    explicit TrendingContentAdapter(std::shared_ptr<::time::note::NoteService::Stub> note_service);
     ~TrendingContentAdapter() override = default;
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& config,
         std::chrono::system_clock::time_point since,
@@ -387,7 +387,7 @@ private:
     std::unique_ptr<TrendingHashtagsProvider> hashtags_provider_;
     std::unique_ptr<TrendingTopicsProvider> topics_provider_;
     std::unique_ptr<TrendingVideosProvider> videos_provider_;
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service_;
+    std::shared_ptr<::time::note::NoteService::Stub> note_service_;
 };
 
 class RealFollowingContentAdapter : public ContentSourceAdapter {
@@ -396,7 +396,7 @@ public:
                                 std::shared_ptr<clients::FollowClient> follow_client)
         : note_client_(std::move(note_client)), follow_client_(std::move(follow_client)) {}
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& /*config*/,
         std::chrono::system_clock::time_point since,
@@ -417,7 +417,7 @@ public:
     RealListsContentAdapter(std::shared_ptr<clients::NoteClient> note_client)
         : note_client_(std::move(note_client)) {}
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& /*config*/,
         std::chrono::system_clock::time_point since,
@@ -438,7 +438,7 @@ std::shared_ptr<TimelineServiceImpl> CreateTimelineService(
     const std::string& redis_host = "localhost",
     int redis_port = 6379,
     int websocket_port = 8081,
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service = nullptr
+    std::shared_ptr<::time::note::NoteService::Stub> note_service = nullptr
 );
 
-} // namespace sonet::timeline
+} // namespace time::timeline

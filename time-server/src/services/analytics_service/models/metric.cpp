@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace sonet::analytics_service::model {
+namespace time::analytics_service::model {
 
 static bool IsKnownOperation(Operation op) {
 	switch (op) {
@@ -28,5 +28,5 @@ bool MetricQuery::IsValid(std::string& reason) const {
 	return true;
 }
 
-} // namespace sonet::analytics_service::model
+} // namespace time::analytics_service::model
 

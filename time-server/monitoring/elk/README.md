@@ -1,4 +1,4 @@
-# ELK + Beats for Sonet
+# ELK + Beats for time
 
 This directory contains configuration for:
 - Elasticsearch (single-node, security disabled for local dev)
@@ -8,12 +8,12 @@ This directory contains configuration for:
 - Metricbeat (system and Docker metrics, ships to Elasticsearch)
 
 How to use:
-1. From `sonet/`, run:
+1. From `time/`, run:
    ```bash
    docker-compose up -d elasticsearch kibana logstash filebeat metricbeat
    ```
 2. Access Kibana at http://localhost:5601 and add index patterns:
-   - `sonet-logs-*` for logs
+   - `time-logs-*` for logs
    - `metricbeat-*` for metrics
 3. Start the rest of the stack (gateway and services). Filebeat will autodiscover containers and ship logs.
 

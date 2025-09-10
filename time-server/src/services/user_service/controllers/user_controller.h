@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
 /**
  * User controller handling REST API endpoints for user management and profiles.
@@ -25,7 +25,7 @@ namespace sonet::user::controllers {
  */
 class UserController {
 public:
-    explicit UserController(std::shared_ptr<sonet::user::UserServiceImpl> user_service,
+    explicit UserController(std::shared_ptr<time::user::UserServiceImpl> user_service,
                            std::shared_ptr<storage::FileUploadService> file_service = nullptr,
                            const std::string& connection_string = "");
     ~UserController() = default;
@@ -116,19 +116,19 @@ public:
     std::string extract_bearer_token(const std::string& authorization_header);
 
 private:
-    std::shared_ptr<sonet::user::UserServiceImpl> user_service_;
+    std::shared_ptr<time::user::UserServiceImpl> user_service_;
     std::shared_ptr<storage::FileUploadService> file_service_;
     std::string connection_string_;
     
     // Helper methods
     nlohmann::json create_error_response(const std::string& message);
     nlohmann::json create_success_response(const std::string& message, const nlohmann::json& data = nlohmann::json{});
-    nlohmann::json user_data_to_json(const sonet::user::UserProfile& user);
-    nlohmann::json session_data_to_json(const sonet::user::Session& session);
+    nlohmann::json user_data_to_json(const time::user::UserProfile& user);
+    nlohmann::json session_data_to_json(const time::user::Session& session);
     
     // Image processing helpers
     bool is_valid_image_format(const std::vector<uint8_t>& data);
     std::string save_uploaded_image(const std::vector<uint8_t>& data, const std::string& user_id, const std::string& type);
 };
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

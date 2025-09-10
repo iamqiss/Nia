@@ -22,7 +22,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 // CryptoKey implementation
 Json::Value CryptoKey::to_json() const {
@@ -902,4 +902,4 @@ bool CryptoEngine::verify_signature(
     return true;
 }
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

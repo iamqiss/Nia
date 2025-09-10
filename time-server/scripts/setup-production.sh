@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Sonet Production Setup Script
+# time Production Setup Script
 # This script sets up the complete production infrastructure
 
 set -euo pipefail
@@ -8,13 +8,13 @@ set -euo pipefail
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-SETUP_LOG="/var/log/sonet/setup.log"
-PRODUCTION_DIR="/opt/sonet"
-BACKUP_DIR="/opt/sonet/backups"
-DATA_DIR="/opt/sonet/data"
-LOGS_DIR="/opt/sonet/logs"
-CONFIG_DIR="/opt/sonet/config"
-CERTS_DIR="/opt/sonet/certs"
+SETUP_LOG="/var/log/time/setup.log"
+PRODUCTION_DIR="/opt/time"
+BACKUP_DIR="/opt/time/backups"
+DATA_DIR="/opt/time/data"
+LOGS_DIR="/opt/time/logs"
+CONFIG_DIR="/opt/time/config"
+CERTS_DIR="/opt/time/certs"
 
 # Colors
 RED='\033[0;31m'
@@ -179,10 +179,10 @@ create_directory_structure() {
     mkdir -p "$LOGS_DIR"/{nginx,moderation,api,postgres,redis}
     mkdir -p "$CONFIG_DIR"/{nginx,monitoring,backup}
     mkdir -p "$CERTS_DIR"/{ssl,ca}
-    mkdir -p /var/log/sonet
+    mkdir -p /var/log/time
     
     # Set proper permissions
-    chown -R sonet:sonet "$PRODUCTION_DIR" 2>/dev/null || true
+    chown -R time:time "$PRODUCTION_DIR" 2>/dev/null || true
     chmod -R 750 "$PRODUCTION_DIR"
     chmod -R 755 "$LOGS_DIR"
     chmod -R 600 "$CONFIG_DIR"
@@ -193,19 +193,19 @@ create_directory_structure() {
 
 # Create system user
 create_system_user() {
-    log "Creating system user for Sonet..."
+    log "Creating system user for time..."
     
     # Check if user exists
-    if id "sonet" &>/dev/null; then
-        log "User 'sonet' already exists"
+    if id "time" &>/dev/null; then
+        log "User 'time' already exists"
     else
         # Create user and group
-        useradd -r -s /bin/bash -d "$PRODUCTION_DIR" -c "Sonet Application User" sonet
-        usermod -aG docker sonet
+        useradd -r -s /bin/bash -d "$PRODUCTION_DIR" -c "time Application User" time
+        usermod -aG docker time
     fi
     
     # Set ownership
-    chown -R sonet:sonet "$PRODUCTION_DIR"
+    chown -R time:time "$PRODUCTION_DIR"
     
     success "System user created successfully"
 }
@@ -248,9 +248,9 @@ configure_firewall() {
 configure_fail2ban() {
     log "Configuring fail2ban..."
     
-    # Create custom jail for Sonet
+    # Create custom jail for time
     cat > /etc/fail2ban/jail.local << 'EOF'
-[sonet-ssh]
+[time-ssh]
 enabled = true
 port = ssh
 filter = sshd
@@ -259,10 +259,10 @@ maxretry = 3
 bantime = 3600
 findtime = 600
 
-[sonet-api]
+[time-api]
 enabled = true
 port = 80,443
-filter = sonet-api
+filter = time-api
 logpath = /var/log/nginx/access.log
 maxretry = 10
 bantime = 1800
@@ -270,7 +270,7 @@ findtime = 300
 EOF
     
     # Create custom filter for API
-    cat > /etc/fail2ban/filter.d/sonet-api.conf << 'EOF'
+    cat > /etc/fail2ban/filter.d/time-api.conf << 'EOF'
 [Definition]
 failregex = ^<HOST> .* "(GET|NOTE|PUT|DELETE) /api/.*" (4\d{2}|5\d{2}) .*$
 ignoreregex = ^<HOST> .* "(GET|NOTE|PUT|DELETE) /api/health.*" 200 .*$
@@ -287,28 +287,28 @@ EOF
 configure_logrotate() {
     log "Configuring logrotate..."
     
-    cat > /etc/logrotate.d/sonet << 'EOF'
-/var/log/sonet/*.log {
+    cat > /etc/logrotate.d/time << 'EOF'
+/var/log/time/*.log {
     daily
     missingok
     rotate 30
     compress
     delaycompress
     notifempty
-    create 644 sonet sonet
+    create 644 time time
     noterotate
         systemctl reload rsyslog >/dev/null 2>&1 || true
     endscript
 }
 
-/opt/sonet/logs/*.log {
+/opt/time/logs/*.log {
     daily
     missingok
     rotate 30
     compress
     delaycompress
     notifempty
-    create 644 sonet sonet
+    create 644 time time
 }
 EOF
     
@@ -320,15 +320,15 @@ configure_system_limits() {
     log "Configuring system limits..."
     
     # Increase file descriptor limits
-    cat > /etc/security/limits.d/sonet.conf << 'EOF'
-sonet soft nofile 65536
-sonet hard nofile 65536
-sonet soft nproc 32768
-sonet hard nproc 32768
+    cat > /etc/security/limits.d/time.conf << 'EOF'
+time soft nofile 65536
+time hard nofile 65536
+time soft nproc 32768
+time hard nproc 32768
 EOF
     
     # Increase kernel limits
-    cat > /etc/sysctl.d/99-sonet.conf << 'EOF'
+    cat > /etc/sysctl.d/99-time.conf << 'EOF'
 # File descriptor limits
 fs.file-max = 2097152
 fs.nr_open = 2097152
@@ -351,7 +351,7 @@ vm.dirty_background_ratio = 5
 EOF
     
     # Apply sysctl changes
-    sysctl -p /etc/sysctl.d/99-sonet.conf
+    sysctl -p /etc/sysctl.d/99-time.conf
     
     success "System limits configured successfully"
 }
@@ -367,14 +367,14 @@ generate_ssl_certificates() {
     
     # Generate CA certificate
     openssl req -new -x509 -days 3650 -key ca/ca.key -out ca/ca.crt \
-        -subj "/C=US/ST=CA/L=San Francisco/O=Sonet/OU=IT/CN=Sonet Root CA"
+        -subj "/C=US/ST=CA/L=San Francisco/O=time/OU=IT/CN=time Root CA"
     
     # Generate server private key
     openssl genrsa -out ssl/server.key 2048
     
     # Generate server CSR
     openssl req -new -key ssl/server.key -out ssl/server.csr \
-        -subj "/C=US/ST=CA/L=San Francisco/O=Sonet/OU=IT/CN=sonet.com"
+        -subj "/C=US/ST=CA/L=San Francisco/O=time/OU=IT/CN=time.com"
     
     # Generate server certificate
     openssl x509 -req -days 365 -in ssl/server.csr -CA ca/ca.crt -CAkey ca/ca.key \
@@ -410,7 +410,7 @@ create_production_env() {
     
     # Set permissions
     chmod 600 "$env_file"
-    chown sonet:sonet "$env_file"
+    chown time:time "$env_file"
     
     success "Production environment file created successfully"
 }
@@ -419,19 +419,19 @@ create_production_env() {
 create_systemd_services() {
     log "Creating systemd services..."
     
-    # Create Sonet service
-    cat > /etc/systemd/system/sonet.service << 'EOF'
+    # Create time service
+    cat > /etc/systemd/system/time.service << 'EOF'
 [Unit]
-Description=Sonet Moderation System
+Description=time Moderation System
 After=docker.service
 Requires=docker.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/opt/sonet
-ExecStart=/usr/bin/docker-compose -f /opt/sonet/docker-compose.production.yml up -d
-ExecStop=/usr/bin/docker-compose -f /opt/sonet/docker-compose.production.yml down
+WorkingDirectory=/opt/time
+ExecStart=/usr/bin/docker-compose -f /opt/time/docker-compose.production.yml up -d
+ExecStop=/usr/bin/docker-compose -f /opt/time/docker-compose.production.yml down
 TimeoutStartSec=0
 
 [Install]
@@ -439,27 +439,27 @@ WantedBy=multi-user.target
 EOF
     
     # Create backup service
-    cat > /etc/systemd/system/sonet-backup.service << 'EOF'
+    cat > /etc/systemd/system/time-backup.service << 'EOF'
 [Unit]
-Description=Sonet Database Backup Service
-After=sonet.service
+Description=time Database Backup Service
+After=time.service
 
 [Service]
 Type=oneshot
-WorkingDirectory=/opt/sonet
-ExecStart=/opt/sonet/scripts/backup.sh
-User=sonet
-Group=sonet
+WorkingDirectory=/opt/time
+ExecStart=/opt/time/scripts/backup.sh
+User=time
+Group=time
 
 [Install]
 WantedBy=multi-user.target
 EOF
     
     # Create backup timer
-    cat > /etc/systemd/system/sonet-backup.timer << 'EOF'
+    cat > /etc/systemd/system/time-backup.timer << 'EOF'
 [Unit]
-Description=Run Sonet backup daily
-Requires=sonet-backup.service
+Description=Run time backup daily
+Requires=time-backup.service
 
 [Timer]
 OnCalendar=daily
@@ -473,8 +473,8 @@ EOF
     systemctl daemon-reload
     
     # Enable services
-    systemctl enable sonet.service
-    systemctl enable sonet-backup.timer
+    systemctl enable time.service
+    systemctl enable time-backup.timer
     
     success "Systemd services created successfully"
 }
@@ -491,33 +491,33 @@ create_monitoring_config() {
     
     cat > "$CONFIG_DIR/monitoring/rules/alerts.yml" << 'EOF'
 groups:
-  - name: sonet-moderation
+  - name: time-moderation
     rules:
       - alert: HighErrorRate
-        expr: rate(sonet_moderation_errors_total[5m]) > 0.1
+        expr: rate(time_moderation_errors_total[5m]) > 0.1
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "High error rate in Sonet moderation service"
+          summary: "High error rate in time moderation service"
           description: "Error rate is {{ $value }} errors per second"
 
       - alert: ServiceDown
-        expr: up{job="sonet-moderation-service"} == 0
+        expr: up{job="time-moderation-service"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "Sonet moderation service is down"
+          summary: "time moderation service is down"
           description: "Service has been down for more than 1 minute"
 
       - alert: HighResponseTime
-        expr: histogram_quantile(0.95, rate(sonet_moderation_request_duration_seconds_bucket[5m])) > 1
+        expr: histogram_quantile(0.95, rate(time_moderation_request_duration_seconds_bucket[5m])) > 1
         for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "High response time in Sonet moderation service"
+          summary: "High response time in time moderation service"
           description: "95th percentile response time is {{ $value }} seconds"
 
       - alert: HighCPUUsage
@@ -558,31 +558,31 @@ create_backup_script() {
     cat > "$PRODUCTION_DIR/scripts/backup.sh" << 'EOF'
 #!/bin/bash
 
-# Sonet Backup Script
+# time Backup Script
 set -euo pipefail
 
-BACKUP_DIR="/opt/sonet/backups"
-BACKUP_NAME="sonet_backup_$(date +'%Y%m%d_%H%M%S')"
+BACKUP_DIR="/opt/time/backups"
+BACKUP_NAME="time_backup_$(date +'%Y%m%d_%H%M%S')"
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
 
 # Create backup directory
 mkdir -p "$BACKUP_PATH"
 
 # Database backup
-if docker ps --format "{{.Names}}" | grep -q "sonet_notegres_prod"; then
+if docker ps --format "{{.Names}}" | grep -q "time_notegres_prod"; then
     echo "Creating database backup..."
-    docker exec sonet_notegres_prod pg_dump -U sonet_app sonet_production > "$BACKUP_PATH/database.sql"
+    docker exec time_notegres_prod pg_dump -U time_app time_production > "$BACKUP_PATH/database.sql"
     gzip "$BACKUP_PATH/database.sql"
 fi
 
 # Configuration backup
 echo "Creating configuration backup..."
-cp -r /opt/sonet/config "$BACKUP_PATH/"
-cp -r /opt/sonet/nginx "$BACKUP_PATH/"
+cp -r /opt/time/config "$BACKUP_PATH/"
+cp -r /opt/time/nginx "$BACKUP_PATH/"
 
 # Logs backup
 echo "Creating logs backup..."
-tar -czf "$BACKUP_PATH/logs.tar.gz" -C /opt/sonet/logs .
+tar -czf "$BACKUP_PATH/logs.tar.gz" -C /opt/time/logs .
 
 # Create backup manifest
 cat > "$BACKUP_PATH/manifest.json" << MANIFEST
@@ -595,20 +595,20 @@ cat > "$BACKUP_PATH/manifest.json" << MANIFEST
 MANIFEST
 
 # Cleanup old backups (keep last 30)
-find "$BACKUP_DIR" -name "sonet_backup_*" -type d -mtime +30 -exec rm -rf {} \;
+find "$BACKUP_DIR" -name "time_backup_*" -type d -mtime +30 -exec rm -rf {} \;
 
 echo "Backup completed: $BACKUP_PATH"
 EOF
     
     chmod +x "$PRODUCTION_DIR/scripts/backup.sh"
-    chown sonet:sonet "$PRODUCTION_DIR/scripts/backup.sh"
+    chown time:time "$PRODUCTION_DIR/scripts/backup.sh"
     
     success "Backup script created successfully"
 }
 
 # Main setup function
 main() {
-    log "Starting Sonet production setup..."
+    log "Starting time production setup..."
     
     # Pre-setup checks
     check_root
@@ -639,15 +639,15 @@ main() {
     # Copy project files
     log "Copying project files..."
     cp -r "$PROJECT_ROOT" "$PRODUCTION_DIR/"
-    chown -R sonet:sonet "$PRODUCTION_DIR"
+    chown -R time:time "$PRODUCTION_DIR"
     
     success "Production setup completed successfully!"
     log "Setup log: $SETUP_LOG"
     log "Production directory: $PRODUCTION_DIR"
     log "Next steps:"
-    log "1. Edit /opt/sonet/config/production.env with your domain and settings"
-    log "2. Run: systemctl start sonet.service"
-    log "3. Check logs: journalctl -u sonet.service -f"
+    log "1. Edit /opt/time/config/production.env with your domain and settings"
+    log "2. Run: systemctl start time.service"
+    log "3. Check logs: journalctl -u time.service -f"
 }
 
 # Execute main function

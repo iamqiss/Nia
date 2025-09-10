@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <chrono>
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 // KeyBundle JSON serialization
 Json::Value KeyBundle::to_json() const {
@@ -562,7 +562,7 @@ std::vector<uint8_t> E2EEncryptionManager::encrypt_group_message(const std::stri
     
     // Use full MLS protocol for encryption
     if (!mls_protocol_) {
-        mls_protocol_ = std::make_unique<sonet::mls::MLSProtocol>();
+        mls_protocol_ = std::make_unique<time::mls::MLSProtocol>();
     }
     
     // Convert group_id to bytes for MLS protocol
@@ -655,7 +655,7 @@ std::string E2EEncryptionManager::generate_safety_number(const std::string& user
 
 std::string E2EEncryptionManager::generate_qr_code(const std::string& user_id, const std::string& other_user_id) {
     // Generate QR code data (simplified - would use actual QR library)
-    std::string qr_data = "sonet://verify/" + user_id + "/" + other_user_id + "/" + 
+    std::string qr_data = "time://verify/" + user_id + "/" + other_user_id + "/" + 
                           generate_safety_number(user_id, other_user_id);
     return qr_data;
 }
@@ -954,53 +954,53 @@ bool E2EEncryptionManager::optimize_memory_usage() {
 // PQC Operations Implementation
 std::vector<uint8_t> E2EEncryptionManager::pqc_encrypt(const std::vector<uint8_t>& plaintext, const std::vector<uint8_t>& public_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // Use Kyber-768 for encryption (NIST PQC standard)
-    auto encrypted = pqc_algorithms_->hybrid_encrypt(plaintext, public_key, sonet::pqc::PQCAlgorithm::KYBER_768);
+    auto encrypted = pqc_algorithms_->hybrid_encrypt(plaintext, public_key, time::pqc::PQCAlgorithm::KYBER_768);
     return encrypted.classical_ciphertext;
 }
 
 std::vector<uint8_t> E2EEncryptionManager::pqc_decrypt(const std::vector<uint8_t>& ciphertext, const std::vector<uint8_t>& private_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // For decryption, we need the full hybrid encryption result
     // This is a simplified implementation - in practice, you'd need to reconstruct the HybridEncryptionResult
-    sonet::pqc::HybridEncryptionResult encrypted_data;
+    time::pqc::HybridEncryptionResult encrypted_data;
     encrypted_data.classical_ciphertext = ciphertext;
-    encrypted_data.pqc_algorithm = sonet::pqc::PQCAlgorithm::KYBER_768;
+    encrypted_data.pqc_algorithm = time::pqc::PQCAlgorithm::KYBER_768;
     
     return pqc_algorithms_->hybrid_decrypt(encrypted_data, private_key);
 }
 
 std::vector<uint8_t> E2EEncryptionManager::pqc_sign(const std::vector<uint8_t>& message, const std::vector<uint8_t>& private_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // Use Dilithium-3 for signatures (NIST PQC standard)
-    return pqc_algorithms_->dilithium_sign(message, private_key, sonet::pqc::PQCAlgorithm::DILITHIUM_3);
+    return pqc_algorithms_->dilithium_sign(message, private_key, time::pqc::PQCAlgorithm::DILITHIUM_3);
 }
 
 bool E2EEncryptionManager::pqc_verify(const std::vector<uint8_t>& message, const std::vector<uint8_t>& signature, const std::vector<uint8_t>& public_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // Use Dilithium-3 for verification
-    return pqc_algorithms_->dilithium_verify(message, signature, public_key, sonet::pqc::PQCAlgorithm::DILITHIUM_3);
+    return pqc_algorithms_->dilithium_verify(message, signature, public_key, time::pqc::PQCAlgorithm::DILITHIUM_3);
 }
 
 std::vector<uint8_t> E2EEncryptionManager::hybrid_encrypt(const std::vector<uint8_t>& plaintext, const std::vector<uint8_t>& pqc_public_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // Use hybrid encryption with Kyber-768
-    auto result = pqc_algorithms_->hybrid_encrypt(plaintext, pqc_public_key, sonet::pqc::PQCAlgorithm::KYBER_768);
+    auto result = pqc_algorithms_->hybrid_encrypt(plaintext, pqc_public_key, time::pqc::PQCAlgorithm::KYBER_768);
     
     // Combine all components into a single result
     std::vector<uint8_t> combined;
@@ -1013,7 +1013,7 @@ std::vector<uint8_t> E2EEncryptionManager::hybrid_encrypt(const std::vector<uint
 
 std::vector<uint8_t> E2EEncryptionManager::hybrid_decrypt(const std::vector<uint8_t>& encrypted_data, const std::vector<uint8_t>& pqc_private_key) {
     if (!pqc_algorithms_) {
-        pqc_algorithms_ = std::make_unique<sonet::pqc::PQCAlgorithms>();
+        pqc_algorithms_ = std::make_unique<time::pqc::PQCAlgorithms>();
     }
     
     // Extract components from combined data
@@ -1021,16 +1021,16 @@ std::vector<uint8_t> E2EEncryptionManager::hybrid_decrypt(const std::vector<uint
         return {};
     }
     
-    sonet::pqc::HybridEncryptionResult result;
+    time::pqc::HybridEncryptionResult result;
     result.nonce.assign(encrypted_data.begin(), encrypted_data.begin() + 12);
     
     // Extract classical and PQC ciphertexts (simplified)
     size_t classical_size = encrypted_data.size() - 12 - 32; // Assume 32 bytes for PQC
     result.classical_ciphertext.assign(encrypted_data.begin() + 12, encrypted_data.begin() + 12 + classical_size);
     result.pqc_ciphertext.assign(encrypted_data.begin() + 12 + classical_size, encrypted_data.end());
-    result.pqc_algorithm = sonet::pqc::PQCAlgorithm::KYBER_768;
+    result.pqc_algorithm = time::pqc::PQCAlgorithm::KYBER_768;
     
     return pqc_algorithms_->hybrid_decrypt(result, pqc_private_key);
 }
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

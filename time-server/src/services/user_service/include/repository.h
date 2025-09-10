@@ -15,7 +15,7 @@
 #include <optional>
 #include <map>
 
-namespace sonet::user::repository {
+namespace time::user::repository {
 
 struct UserSearchCriteria {
     std::string query;
@@ -183,4 +183,4 @@ public:
     static std::unique_ptr<SessionRepository> create_session_repository(const std::string& connection_string);
 };
 
-} // namespace sonet::user::repository
+} // namespace time::user::repository

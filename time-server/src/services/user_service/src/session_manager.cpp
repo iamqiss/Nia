@@ -13,7 +13,7 @@
 #include <spdlog/spdlog.h>
 #include <openssl/rand.h>
 
-namespace sonet::user {
+namespace time::user {
 
 SessionManager::SessionManager() {
     spdlog::info("Session manager initialized - ready to track user sessions like a security expert");
@@ -407,4 +407,4 @@ size_t SessionManager::get_active_session_count() {
     return count;
 }
 
-} // namespace sonet::user
+} // namespace time::user

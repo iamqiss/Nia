@@ -14,7 +14,7 @@
 #include <algorithm>
 #include "../clients/moderation_client.h"
 
-namespace sonet::note::handlers {
+namespace time::note::handlers {
 
 CreateNoteHandler::CreateNoteHandler(
     std::shared_ptr<NoteRepository> note_repo,
@@ -51,7 +51,7 @@ json CreateNoteHandler::handle_create_note(const json& request_data, const std::
         {
             static const char* MOD_ADDR = std::getenv("MODERATION_GRPC_ADDR");
             const std::string target = MOD_ADDR ? std::string(MOD_ADDR) : std::string("127.0.0.1:9090");
-            sonet::note::clients::ModerationClient mod_client(target);
+            time::note::clients::ModerationClient mod_client(target);
             std::string label; float confidence = 0.0f;
             bool ok = mod_client.Classify(note.note_id, user_id, note.content, &label, &confidence, 150);
             if (!ok) {
@@ -426,4 +426,4 @@ json CreateNoteHandler::create_error_response(const std::string& error_code, con
     };
 }
 
-} // namespace sonet::note::handlers
+} // namespace time::note::handlers

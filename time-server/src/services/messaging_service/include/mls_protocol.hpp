@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <optional>
 
-namespace sonet::mls {
+namespace time::mls {
 
 // MLS Protocol Constants (RFC 9420)
 constexpr uint16_t MLS_VERSION = 0x0001;
@@ -341,4 +341,4 @@ private:
     std::pair<std::vector<uint8_t>, std::vector<uint8_t>> x25519_generate_keypair();
 };
 
-} // namespace sonet::mls
+} // namespace time::mls

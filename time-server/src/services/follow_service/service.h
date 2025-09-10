@@ -19,7 +19,7 @@
 #include <unordered_map>
 #include <chrono>
 
-namespace sonet::follow {
+namespace time::follow {
 
 using json = nlohmann::json;
 
@@ -97,4 +97,4 @@ private:
                              const std::string& event_type, const std::string& source);
 };
 
-} // namespace sonet::follow
+} // namespace time::follow

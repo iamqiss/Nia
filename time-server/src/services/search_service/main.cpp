@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
- * Main entry point for the Sonet Search Service.
+ * Main entry point for the time Search Service.
  * This launches a Twitter-scale search service capable of handling
  * millions of search requests per second with real-time indexing.
  */
@@ -26,7 +26,7 @@
 extern class SearchGrpcService; // defined in service.cpp include chain
 #endif
 
-using namespace sonet::search_service;
+using namespace time::search_service;
 
 // Global service instance for signal handling
 std::unique_ptr<SearchService> g_service;
@@ -89,7 +89,7 @@ void print_banner() {
  */
 void print_usage(const char* program_name) {
     std::cout << "Usage: " << program_name << " [OPTIONS]\n\n";
-    std::cout << "Sonet Search Service - Twitter-scale search engine\n\n";
+    std::cout << "time Search Service - Twitter-scale search engine\n\n";
     std::cout << "Options:\n";
     std::cout << "  -h, --help              Show this help message\n";
     std::cout << "  -v, --version           Show version information\n";
@@ -119,7 +119,7 @@ void print_usage(const char* program_name) {
  * Print version information
  */
 void print_version() {
-    std::cout << "Sonet Search Service v1.0.0\n";
+    std::cout << "time Search Service v1.0.0\n";
     std::cout << "Built with:\n";
     std::cout << "  - Elasticsearch C++ Client\n";
     std::cout << "  - MongoDB C++ Driver\n";
@@ -317,9 +317,9 @@ int main(int argc, char* argv[]) {
     setup_signal_handlers();
 
     // Initialize JSON logger
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"startup","message":"Starting Sonet Search Service"})");
-    spdlog::info(R"({"event":"banner","service":"search","message":"Sonet Search Service starting"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"startup","message":"Starting time Search Service"})");
+    spdlog::info(R"({"event":"banner","service":"search","message":"time Search Service starting"})");
     
     // Parse command line arguments
     std::string config_file;

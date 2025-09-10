@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-# Media Service (Sonet)
+# Media Service (time)
 
 This is a minimal, runnable gRPC media service implementing:
 
@@ -24,7 +24,7 @@ The top-level build can be configured to build only this service and generate gR
 Try:
 
 ```bash
-cd sonet
+cd time
 ./scripts/build/build.sh Debug
 # or direct:
 cd build
@@ -50,8 +50,8 @@ To enable native AWS SDK S3 backend instead of CLI fallback:
 
 ```bash
 ./scripts/build/install_aws_sdk.sh --version v1.11.210
-cmake -S sonet -B sonet/build
-cmake --build sonet/build --target media_service -j
+cmake -S time -B time/build
+cmake --build time/build --target media_service -j
 ```
 
 If the SDK is found, build output will show `AWS SDK found; enabling native S3 backend`.

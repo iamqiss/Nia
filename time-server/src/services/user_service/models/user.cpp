@@ -12,7 +12,7 @@
 #include <regex>
 #include <algorithm>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 User::User() {
     auto now = std::chrono::duration_cast<std::chrono::seconds>(
@@ -521,4 +521,4 @@ bool operator!=(const User& lhs, const User& rhs) {
     return !(lhs == rhs);
 }
 
-} // namespace sonet::user::models
+} // namespace time::user::models

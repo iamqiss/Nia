@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Sonet Founder Account Creation Script (Secure Version)
+# time Founder Account Creation Script (Secure Version)
 # This script creates the founder account through the proper application flow
 # with interactive credential input for security
 
 set -euo pipefail
 
 # Configuration
-PRODUCTION_DIR="/opt/sonet"
-CONFIG_DIR="/opt/sonet/config"
-LOGS_DIR="/opt/sonet/logs"
+PRODUCTION_DIR="/opt/time"
+CONFIG_DIR="/opt/time/config"
+LOGS_DIR="/opt/time/logs"
 API_BASE="http://localhost:8080/api/v1"
 
 # Colors
@@ -42,12 +42,12 @@ check_prerequisites() {
     fi
     
     # Check if services are running
-    if ! systemctl is-active --quiet sonet.service; then
-        error "Sonet services are not running. Start them first with: systemctl start sonet.service"
+    if ! systemctl is-active --quiet time.service; then
+        error "time services are not running. Start them first with: systemctl start time.service"
     fi
     
     # Check if database is accessible
-    if ! docker exec sonet_notegres_prod pg_isready -U sonet_app > /dev/null 2>&1; then
+    if ! docker exec time_notegres_prod pg_isready -U time_app > /dev/null 2>&1; then
         error "Database is not accessible"
     fi
     
@@ -64,7 +64,7 @@ get_account_details() {
     log "Getting founder account details..."
     
     echo ""
-    echo "=== Sonet Founder Account Creation ==="
+    echo "=== time Founder Account Creation ==="
     echo "Please provide the following information:"
     echo ""
     
@@ -86,7 +86,7 @@ get_account_details() {
     fi
     
     # Check if username already exists
-    local existing_user=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local existing_user=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT COUNT(*) FROM users WHERE username = '$USERNAME';
     " | tr -d ' ')
     
@@ -106,7 +106,7 @@ get_account_details() {
     fi
     
     # Check if email already exists
-    local existing_email=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local existing_email=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT COUNT(*) FROM users WHERE email = '$EMAIL';
     " | tr -d ' ')
     
@@ -192,7 +192,7 @@ create_user_account() {
     local current_timestamp=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
     
     # Connect to database and create user
-    docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production << EOF
+    docker exec time_notegres_prod psql -U time_app -d time_production << EOF
 -- Begin transaction
 BEGIN;
 
@@ -239,7 +239,7 @@ INSERT INTO user_profiles (
 ) VALUES (
     '$user_id',
     '$DISPLAY_NAME',
-    'Founder of Sonet - The future of social media moderation',
+    'Founder of time - The future of social media moderation',
     NULL,
     NULL,
     NULL,
@@ -315,7 +315,7 @@ verify_account_creation() {
     log "Verifying account creation..."
     
     # Check if user exists in database
-    local user_exists=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local user_exists=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT COUNT(*) FROM users WHERE username = '$USERNAME';
     " | tr -d ' ')
     
@@ -324,7 +324,7 @@ verify_account_creation() {
     fi
     
     # Check founder status
-    local founder_status=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local founder_status=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT is_founder, verification_status FROM users WHERE username = '$USERNAME';
     " | tr -d ' ')
     
@@ -337,7 +337,7 @@ verify_account_creation() {
     fi
     
     # Check email verification
-    local email_verified=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local email_verified=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT is_email_verified FROM users WHERE username = '$USERNAME';
     " | tr -d ' ')
     
@@ -393,7 +393,7 @@ create_founder_access_token() {
     
     local jwt_payload=$(cat << EOF
 {
-    "user_id": "$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "SELECT id FROM users WHERE username = '$USERNAME';" | tr -d ' ')",
+    "user_id": "$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "SELECT id FROM users WHERE username = '$USERNAME';" | tr -d ' ')",
     "username": "$USERNAME",
     "role": "founder",
     "iat": $current_time,
@@ -404,7 +404,7 @@ EOF
     
     # Create access token file
     cat > "$PRODUCTION_DIR/founder-access-token.txt" << EOF
-# Sonet Founder Access Token
+# time Founder Access Token
 # Generated: $(date)
 # Username: @$USERNAME
 # Role: founder
@@ -427,7 +427,7 @@ $(date -d "@$expiry_time")
 EOF
     
     chmod 600 "$PRODUCTION_DIR/founder-access-token.txt"
-    chown sonet:sonet "$PRODUCTION_DIR/founder-access-token.txt"
+    chown time:time "$PRODUCTION_DIR/founder-access-token.txt"
     
     success "Founder access token created: $PRODUCTION_DIR/founder-access-token.txt"
 }
@@ -439,7 +439,7 @@ create_founder_summary() {
     local summary_file="$PRODUCTION_DIR/docs/founder-account-summary.md"
     
     cat > "$summary_file" << EOF
-# 👑 Sonet Founder Account Summary
+# 👑 time Founder Account Summary
 
 ## Account Details
 - **Display Name**: $DISPLAY_NAME
@@ -454,7 +454,7 @@ create_founder_summary() {
 - ✅ **Account Management**: Flag, shadowban, suspend, ban users
 - ✅ **Content Moderation**: Delete notes, review flagged content
 - ✅ **System Access**: Monitoring dashboards, audit logs
-- ✅ **Complete Anonymity**: All actions appear from "Sonet Moderation"
+- ✅ **Complete Anonymity**: All actions appear from "time Moderation"
 
 ## Security Features
 - 🔒 **IP Whitelisting**: Access restricted to whitelisted IPs
@@ -491,7 +491,7 @@ The following records were created:
 ## Next Steps
 1. **Test Founder Access**: Verify all moderation actions work
 2. **Configure IP Whitelist**: Add your IP to founder whitelist
-3. **Test Anonymity**: Verify actions appear from "Sonet Moderation"
+3. **Test Anonymity**: Verify actions appear from "time Moderation"
 4. **Monitor System**: Check logs and monitoring dashboards
 5. **Begin Operations**: Start moderating content and users
 
@@ -504,7 +504,7 @@ The following records were created:
 
 ---
 
-*Generated by Sonet Founder Account Creation Script*
+*Generated by time Founder Account Creation Script*
 *Date: $(date)*
 EOF
     
@@ -518,7 +518,7 @@ test_founder_login() {
     # This would typically test the actual login API
     # For now, we'll verify the account can be found
     
-    local user_data=$(docker exec sonet_notegres_prod psql -U sonet_app -d sonet_production -t -c "
+    local user_data=$(docker exec time_notegres_prod psql -U time_app -d time_production -t -c "
         SELECT 
             username,
             email,
@@ -563,7 +563,7 @@ clear_sensitive_data() {
 
 # Main account creation function
 main() {
-    log "Starting Sonet founder account creation (Secure Mode)..."
+    log "Starting time founder account creation (Secure Mode)..."
     
     # Pre-creation checks
     check_root
@@ -587,7 +587,7 @@ main() {
     clear_sensitive_data
     
     # Final success message
-    success "🎉 SONET FOUNDER ACCOUNT CREATED SUCCESSFULLY!"
+    success "🎉 time FOUNDER ACCOUNT CREATED SUCCESSFULLY!"
     log ""
     log "👑 Founder Account Created:"
     log "  Display Name: [REDACTED]"
@@ -613,7 +613,7 @@ main() {
     log "3. Test founder anonymity features"
     log "4. Begin production operations"
     log ""
-    log "🌟 Welcome to Sonet, Founder! 🌟"
+    log "🌟 Welcome to time, Founder! 🌟"
 }
 
 # Execute main function

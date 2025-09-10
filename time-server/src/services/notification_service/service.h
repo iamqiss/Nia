@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This defines the main notification service interface that orchestrates all components.
  * I designed this as the central facade that brings together processors, channels,
@@ -19,7 +19,7 @@
 #include <atomic>
 #include <chrono>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 
 /**
@@ -30,7 +30,7 @@ namespace notification_service {
  */
 struct NotificationServiceConfig {
     // Database configuration
-    std::string database_url = "postgresql://localhost:5432/sonet";
+    std::string database_url = "postgresql://localhost:5432/time";
     std::string redis_url = "redis://localhost:6379";
     int database_pool_size = 10;
     bool enable_caching = true;
@@ -41,8 +41,8 @@ struct NotificationServiceConfig {
     std::string smtp_username;
     std::string smtp_password;
     bool smtp_use_tls = true;
-    std::string email_from_name = "Sonet";
-    std::string email_from_address = "notifications@sonet.app";
+    std::string email_from_name = "time";
+    std::string email_from_address = "notifications@time.app";
     int email_rate_limit_per_minute = 100;
     int email_rate_limit_per_hour = 1000;
     
@@ -337,4 +337,4 @@ namespace service_utils {
 }
 
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

@@ -22,10 +22,10 @@
 // Use real types; concrete proto types will be included where needed via CMake
 namespace grpc { class Server; class ServerBuilder; class ServerContext; }
 
-namespace sonet { namespace note { class Note; } }
-namespace sonet { namespace timeline { struct ContentSource; struct RankingSignals; } }
+namespace time { namespace note { class Note; } }
+namespace time { namespace timeline { struct ContentSource; struct RankingSignals; } }
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 // Forward declarations
 class TimelineCache;
@@ -46,9 +46,9 @@ struct ContentFilterPreferences {
 
 // Timeline item with computed ranking data
 struct RankedTimelineItem {
-    ::sonet::note::Note note;
-    ::sonet::timeline::ContentSource source;
-    ::sonet::timeline::RankingSignals signals;
+    ::time::note::Note note;
+    ::time::timeline::ContentSource source;
+    ::time::timeline::RankingSignals signals;
     double final_score = 0.0;
     std::chrono::system_clock::time_point injected_at{};
     std::string injection_reason;
@@ -63,7 +63,7 @@ struct RankedTimelineItem {
 
 // Timeline generation configuration
 struct TimelineConfig {
-    ::sonet::timeline::TimelineAlgorithm algorithm = ::sonet::timeline::TIMELINE_ALGORITHM_HYBRID;
+    ::time::timeline::TimelineAlgorithm algorithm = ::time::timeline::TIMELINE_ALGORITHM_HYBRID;
     int32_t max_items = 50;
     int32_t max_age_hours = 24;
     double min_score_threshold = 0.1;
@@ -111,19 +111,19 @@ public:
     
     // Score a single note for a user (default implementation uses batch scorer)
     virtual double ScoreNote(
-        const ::sonet::note::Note& note,
+        const ::time::note::Note& note,
         const std::string& user_id,
         const UserEngagementProfile& profile,
         const TimelineConfig& config
     ) {
-        std::vector<::sonet::note::Note> single{note};
+        std::vector<::time::note::Note> single{note};
         auto scored = ScoreNotes(single, user_id, profile, config);
         return scored.empty() ? 0.0 : scored.front().final_score;
     }
     
     // Batch score multiple notes
     virtual std::vector<RankedTimelineItem> ScoreNotes(
-        const std::vector<::sonet::note::Note>& notes,
+        const std::vector<::time::note::Note>& notes,
         const std::string& user_id,
         const UserEngagementProfile& profile,
         const TimelineConfig& config
@@ -150,14 +150,14 @@ public:
     
     // Check if note should be shown to user (default allow)
     virtual bool ShouldShowNote(
-        const ::sonet::note::Note& /*note*/,
+        const ::time::note::Note& /*note*/,
         const std::string& /*user_id*/,
         const UserEngagementProfile& /*profile*/
     ) { return true; }
     
     // Filter out inappropriate content
-    virtual std::vector<::sonet::note::Note> FilterNotes(
-        const std::vector<::sonet::note::Note>& notes,
+    virtual std::vector<::time::note::Note> FilterNotes(
+        const std::vector<::time::note::Note>& notes,
         const std::string& user_id,
         const UserEngagementProfile& profile
     ) = 0;
@@ -209,7 +209,7 @@ public:
     
     // Notify subscribers of timeline updates
     virtual void NotifyNewItems(const std::string& user_id, const std::vector<RankedTimelineItem>& items) = 0;
-    virtual void NotifyItemUpdate(const std::string& user_id, const std::string& item_id, const ::sonet::timeline::TimelineUpdate& update) = 0;
+    virtual void NotifyItemUpdate(const std::string& user_id, const std::string& item_id, const ::time::timeline::TimelineUpdate& update) = 0;
     virtual void NotifyItemDeleted(const std::string& user_id, const std::string& note_id) = 0;
 };
 
@@ -217,7 +217,7 @@ public:
 class ContentSourceAdapter {
 public:
     virtual ~ContentSourceAdapter() = default;
-    virtual std::vector<::sonet::note::Note> GetContent(
+    virtual std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& config,
         std::chrono::system_clock::time_point since,
@@ -226,15 +226,15 @@ public:
 };
 
 // Main Timeline Service Implementation
-class TimelineServiceImpl final : public ::sonet::timeline::TimelineService::Service {
+class TimelineServiceImpl final : public ::time::timeline::TimelineService::Service {
 public:
     TimelineServiceImpl(
         std::shared_ptr<TimelineCache> cache,
         std::shared_ptr<RankingEngine> ranking_engine,
         std::shared_ptr<ContentFilter> content_filter,
         std::shared_ptr<RealtimeNotifier> realtime_notifier,
-        std::unordered_map<::sonet::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources,
-        std::shared_ptr<::sonet::follow::FollowService::Stub> follow_service
+        std::unordered_map<::time::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources,
+        std::shared_ptr<::time::follow::FollowService::Stub> follow_service
     );
     ~TimelineServiceImpl();
     
@@ -244,74 +244,74 @@ public:
     // gRPC service methods
     grpc::Status GetTimeline(
         grpc::ServerContext* context,
-        const ::sonet::timeline::GetTimelineRequest* request,
-        ::sonet::timeline::GetTimelineResponse* response
+        const ::time::timeline::GetTimelineRequest* request,
+        ::time::timeline::GetTimelineResponse* response
     ) override;
     
     grpc::Status GetUserTimeline(
         grpc::ServerContext* context,
-        const ::sonet::timeline::GetUserTimelineRequest* request,
-        ::sonet::timeline::GetUserTimelineResponse* response
+        const ::time::timeline::GetUserTimelineRequest* request,
+        ::time::timeline::GetUserTimelineResponse* response
     ) override;
     
     grpc::Status RefreshTimeline(
         grpc::ServerContext* context,
-        const ::sonet::timeline::RefreshTimelineRequest* request,
-        ::sonet::timeline::RefreshTimelineResponse* response
+        const ::time::timeline::RefreshTimelineRequest* request,
+        ::time::timeline::RefreshTimelineResponse* response
     ) override;
     
     grpc::Status MarkTimelineRead(
         grpc::ServerContext* context,
-        const ::sonet::timeline::MarkTimelineReadRequest* request,
-        ::sonet::timeline::MarkTimelineReadResponse* response
+        const ::time::timeline::MarkTimelineReadRequest* request,
+        ::time::timeline::MarkTimelineReadResponse* response
     ) override;
     
     grpc::Status UpdateTimelinePreferences(
         grpc::ServerContext* context,
-        const ::sonet::timeline::UpdateTimelinePreferencesRequest* request,
-        ::sonet::timeline::UpdateTimelinePreferencesResponse* response
+        const ::time::timeline::UpdateTimelinePreferencesRequest* request,
+        ::time::timeline::UpdateTimelinePreferencesResponse* response
     ) override;
     
     grpc::Status GetTimelinePreferences(
         grpc::ServerContext* context,
-        const ::sonet::timeline::GetTimelinePreferencesRequest* request,
-        ::sonet::timeline::GetTimelinePreferencesResponse* response
+        const ::time::timeline::GetTimelinePreferencesRequest* request,
+        ::time::timeline::GetTimelinePreferencesResponse* response
     ) override;
     
     grpc::Status SubscribeTimelineUpdates(
         grpc::ServerContext* context,
-        const ::sonet::timeline::SubscribeTimelineUpdatesRequest* request,
-        grpc::ServerWriter<::sonet::timeline::TimelineUpdate>* writer
+        const ::time::timeline::SubscribeTimelineUpdatesRequest* request,
+        grpc::ServerWriter<::time::timeline::TimelineUpdate>* writer
     ) override;
     
     grpc::Status HealthCheck(
         grpc::ServerContext* context,
-        const ::sonet::timeline::HealthCheckRequest* request,
-        ::sonet::timeline::HealthCheckResponse* response
+        const ::time::timeline::HealthCheckRequest* request,
+        ::time::timeline::HealthCheckResponse* response
     ) override;
 
     grpc::Status RecordEngagement(
         grpc::ServerContext* context,
-        const ::sonet::timeline::RecordEngagementRequest* request,
-        ::sonet::timeline::RecordEngagementResponse* response
+        const ::time::timeline::RecordEngagementRequest* request,
+        ::time::timeline::RecordEngagementResponse* response
     ) override;
 
     grpc::Status GetForYouTimeline(
         grpc::ServerContext* context,
-        const ::sonet::timeline::GetForYouTimelineRequest* request,
-        ::sonet::timeline::GetForYouTimelineResponse* response
+        const ::time::timeline::GetForYouTimelineRequest* request,
+        ::time::timeline::GetForYouTimelineResponse* response
     ) override;
 
     grpc::Status GetFollowingTimeline(
         grpc::ServerContext* context,
-        const ::sonet::timeline::GetFollowingTimelineRequest* request,
-        ::sonet::timeline::GetFollowingTimelineResponse* response
+        const ::time::timeline::GetFollowingTimelineRequest* request,
+        ::time::timeline::GetFollowingTimelineResponse* response
     ) override;
     
     // Public methods for external services
-    void OnNewNote(const ::sonet::note::Note& note);
+    void OnNewNote(const ::time::note::Note& note);
     void OnNoteDeleted(const std::string& note_id, const std::string& author_id);
-    void OnNoteUpdated(const ::sonet::note::Note& note);
+    void OnNoteUpdated(const ::time::note::Note& note);
     void OnFollowEvent(const std::string& follower_id, const std::string& following_id, bool is_follow);
 
     // Public access for testing
@@ -327,21 +327,21 @@ private:
     );
     
     // Content source integration
-    std::vector<::sonet::note::Note> FetchFollowingContent(
+    std::vector<::time::note::Note> FetchFollowingContent(
         const std::string& user_id,
         const TimelineConfig& config,
         std::chrono::system_clock::time_point since,
         int32_t limit
     );
     
-    std::vector<::sonet::note::Note> FetchRecommendedContent(
+    std::vector<::time::note::Note> FetchRecommendedContent(
         const std::string& user_id,
         const UserEngagementProfile& profile,
         const TimelineConfig& config,
         int32_t limit
     );
     
-    std::vector<::sonet::note::Note> FetchTrendingContent(
+    std::vector<::time::note::Note> FetchTrendingContent(
         const std::string& user_id,
         const TimelineConfig& config,
         int32_t limit
@@ -357,7 +357,7 @@ private:
     
     // Helper methods
     TimelineConfig GetUserTimelineConfig(const std::string& user_id);
-    ::sonet::timeline::TimelineMetadata BuildTimelineMetadata(
+    ::time::timeline::TimelineMetadata BuildTimelineMetadata(
         const std::vector<RankedTimelineItem>& items,
         const std::string& user_id,
         const TimelineConfig& config
@@ -372,10 +372,10 @@ private:
     struct StreamSession {
         std::mutex mutex;
         std::condition_variable cv;
-        std::deque<::sonet::timeline::TimelineUpdate> pending_updates;
+        std::deque<::time::timeline::TimelineUpdate> pending_updates;
         std::atomic<bool> open{true};
     };
-    void PushUpdateToSubscribers(const std::string& user_id, const ::sonet::timeline::TimelineUpdate& update);
+    void PushUpdateToSubscribers(const std::string& user_id, const ::time::timeline::TimelineUpdate& update);
     std::unordered_map<std::string, std::vector<std::weak_ptr<StreamSession>>> stream_sessions_;
     std::mutex stream_mutex_;
     
@@ -387,7 +387,7 @@ private:
     bool RateAllow(const std::string& key, int override_rpm = -1);
     
     // Fanout worker for new notes
-    std::queue<::sonet::note::Note> fanout_queue_;
+    std::queue<::time::note::Note> fanout_queue_;
     std::mutex fanout_mutex_;
     std::condition_variable fanout_cv_;
     std::atomic<bool> fanout_running_{false};
@@ -398,8 +398,8 @@ private:
     std::shared_ptr<TimelineCache> cache_;
     std::shared_ptr<ContentFilter> content_filter_;
     std::shared_ptr<RealtimeNotifier> realtime_notifier_;
-    std::unordered_map<::sonet::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources_;
-    std::shared_ptr<::sonet::follow::FollowService::Stub> follow_service_;
+    std::unordered_map<::time::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources_;
+    std::shared_ptr<::time::follow::FollowService::Stub> follow_service_;
     
     // Optional external ranker client (Overdrive)
     std::shared_ptr<OverdriveClient> overdrive_client_;
@@ -412,11 +412,11 @@ private:
     mutable std::mutex metrics_mutex_;
     
     // Internal user preferences storage (in-memory for now)
-    std::unordered_map<std::string, ::sonet::timeline::TimelinePreferences> user_preferences_;
+    std::unordered_map<std::string, ::time::timeline::TimelinePreferences> user_preferences_;
     mutable std::mutex preferences_mutex_;
     
     // Thread safety
     mutable std::shared_mutex service_mutex_;
 };
 
-} // namespace sonet::timeline
+} // namespace time::timeline

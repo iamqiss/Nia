@@ -37,9 +37,9 @@
 #include <mutex>
 #include <atomic>
 
-namespace sonet::ghost_reply::controllers {
+namespace time::ghost_reply::controllers {
 
-using namespace sonet::ghost_reply::repositories;
+using namespace time::ghost_reply::repositories;
 using json = nlohmann::json;
 
 /**
@@ -61,8 +61,8 @@ public:
         std::shared_ptr<GhostReplyService> ghost_reply_service,
         std::shared_ptr<GhostReplyValidator> validator,
         std::shared_ptr<GhostReplyModerator> moderator,
-        std::shared_ptr<sonet::core::cache::RedisClient> redis_client,
-        std::shared_ptr<sonet::core::security::RateLimiter> rate_limiter
+        std::shared_ptr<time::core::cache::RedisClient> redis_client,
+        std::shared_ptr<time::core::security::RateLimiter> rate_limiter
     );
 
     // HTTP Route Registration for REST API
@@ -338,8 +338,8 @@ private:
     std::shared_ptr<GhostReplyService> ghost_reply_service_;
     std::shared_ptr<GhostReplyValidator> validator_;
     std::shared_ptr<GhostReplyModerator> moderator_;
-    std::shared_ptr<sonet::core::cache::RedisClient> redis_client_;
-    std::shared_ptr<sonet::core::security::RateLimiter> rate_limiter_;
+    std::shared_ptr<time::core::cache::RedisClient> redis_client_;
+    std::shared_ptr<time::core::security::RateLimiter> rate_limiter_;
 
     // Helper methods
     bool validate_ghost_reply_request(const json& request_data, std::string& error_message);
@@ -371,4 +371,4 @@ private:
     void broadcast_to_thread_subscribers(const std::string& thread_id, const json& event_data);
 };
 
-} // namespace sonet::ghost_reply::controllers
+} // namespace time::ghost_reply::controllers

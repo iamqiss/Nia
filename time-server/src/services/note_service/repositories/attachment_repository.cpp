@@ -11,7 +11,7 @@
 #include <vector>
 #include <optional>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
 // Placeholder implementation for attachment repository
 class AttachmentRepository {
@@ -37,4 +37,4 @@ public:
     }
 };
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

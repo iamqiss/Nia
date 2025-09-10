@@ -11,7 +11,7 @@
 #include <vector>
 #include <string>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
 // Placeholder implementation for timeline repository
 class TimelineRepository {
@@ -42,4 +42,4 @@ public:
     }
 };
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

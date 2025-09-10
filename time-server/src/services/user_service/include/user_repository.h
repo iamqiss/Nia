@@ -16,7 +16,7 @@
 #include <vector>
 #include <string>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Repository class for user-related database operations.
@@ -88,4 +88,4 @@ private:
     bool validate_session_data(const UserSession& session);
 };
 
-} // namespace sonet::user
+} // namespace time::user

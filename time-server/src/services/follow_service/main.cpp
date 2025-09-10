@@ -18,11 +18,11 @@
 #include <nlohmann/json.hpp>
 #include "../../core/logging/logger.h"
 
-using namespace sonet::follow;
+using namespace time::follow;
 using json = nlohmann::json;
 
 namespace {
-class MinimalFollowRepository : public sonet::follow::repositories::FollowRepository {
+class MinimalFollowRepository : public time::follow::repositories::FollowRepository {
 public:
     using FollowRepository::FollowRepository;
     std::future<models::Follow> create_follow(const std::string& follower_id, const std::string& following_id, const std::string& follow_type = "standard") override {
@@ -77,15 +77,15 @@ void setup_signal_handlers() {
 
 // Initialize logging
 void initialize_logging() {
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"startup","message":"Sonet Follow Service logging initialized"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"startup","message":"time Follow Service logging initialized"})");
 }
 
 // Display service information
 void display_service_info() {
     std::cout << R"(
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                           SONET FOLLOW SERVICE                              ║
+║                           time FOLLOW SERVICE                              ║
 ║                          Twitter-Scale Social Graph                         ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
@@ -431,17 +431,17 @@ int main(int /*argc*/, char* /*argv*/[]) {
 🐳 DOCKER DEPLOYMENT:
 
 1. Build the container:
-   docker build -t sonet-follow-service .
+   docker build -t time-follow-service .
 
 2. Run with environment variables:
    docker run -d \
-     --name sonet-follow \
+     --name time-follow \
      -p 8080:8080 \
      -p 9090:9090 \
-     -e DATABASE_URL="postgresql://user:pass@host:5432/sonet" \
+     -e DATABASE_URL="postgresql://user:pass@host:5432/time" \
      -e REDIS_URL="redis://host:6379" \
      -e LOG_LEVEL="info" \
-     sonet-follow-service
+     time-follow-service
 
 ☸️ KUBERNETES DEPLOYMENT:
 
@@ -449,10 +449,10 @@ int main(int /*argc*/, char* /*argv*/[]) {
    kubectl apply -f deployment/kubernetes/
 
 2. Check status:
-   kubectl get pods -l app=sonet-follow-service
+   kubectl get pods -l app=time-follow-service
 
 3. View logs:
-   kubectl logs -l app=sonet-follow-service -f
+   kubectl logs -l app=time-follow-service -f
 
 🔧 CONFIGURATION:
 

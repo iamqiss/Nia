@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <future>
 
-namespace sonet::follow::repositories {
+namespace time::follow::repositories {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -721,4 +721,4 @@ json RelationshipRepository::get_performance_metrics() const {
     return metrics;
 }
 
-} // namespace sonet::follow::repositories
+} // namespace time::follow::repositories

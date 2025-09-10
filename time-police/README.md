@@ -1,6 +1,6 @@
-# Sonet Police
+# time Police
 
-External moderation dashboard for Sonet.
+External moderation dashboard for time.
 
 ## Getting started
 

@@ -2,9 +2,9 @@
 # Twitter-Scale Social Graph Service
 cmake_minimum_required(VERSION 3.20)
 
-project(sonet_follow_service
+project(time_follow_service
     VERSION 1.0.0
-    DESCRIPTION "Twitter-Scale Follow Service for Sonet Network"
+    DESCRIPTION "Twitter-Scale Follow Service for time Network"
     LANGUAGES CXX
 )
 
@@ -153,15 +153,15 @@ set(FOLLOW_SERVICE_HEADERS
 # ========== LIBRARY TARGET ==========
 
 # Create follow service library
-add_library(sonet_follow_service_lib STATIC
+add_library(time_follow_service_lib STATIC
     ${FOLLOW_SERVICE_SOURCES}
     ${FOLLOW_SERVICE_HEADERS}
 )
 
 # Use std::format backend for spdlog to avoid compile-time fmt issues
-target_compile_definitions(sonet_follow_service_lib PUBLIC SPDLOG_USE_STD_FORMAT=1 SPDLOG_HEADER_ONLY=1)
+target_compile_definitions(time_follow_service_lib PUBLIC SPDLOG_USE_STD_FORMAT=1 SPDLOG_HEADER_ONLY=1)
 
-target_link_libraries(sonet_follow_service_lib
+target_link_libraries(time_follow_service_lib
     PUBLIC
         nlohmann_json::nlohmann_json
         spdlog::spdlog
@@ -171,7 +171,7 @@ target_link_libraries(sonet_follow_service_lib
         gRPC::grpc++_reflection
 )
 
-target_include_directories(sonet_follow_service_lib
+target_include_directories(time_follow_service_lib
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${PROTO_GENERATED_DIR}
@@ -182,15 +182,15 @@ target_include_directories(sonet_follow_service_lib
 option(BUILD_FOLLOW_EXECUTABLE "Build the Follow Service main executable" OFF)
 
 if(BUILD_FOLLOW_EXECUTABLE)
-  add_executable(sonet_follow_service
+  add_executable(time_follow_service
       main.cpp
   )
 
-  target_compile_definitions(sonet_follow_service PRIVATE SPDLOG_USE_STD_FORMAT=1 SPDLOG_HEADER_ONLY=1)
+  target_compile_definitions(time_follow_service PRIVATE SPDLOG_USE_STD_FORMAT=1 SPDLOG_HEADER_ONLY=1)
 
-  target_link_libraries(sonet_follow_service
+  target_link_libraries(time_follow_service
       PRIVATE
-          sonet_follow_service_lib
+          time_follow_service_lib
   )
 endif()
 
@@ -198,9 +198,9 @@ endif()
 
 # Link-time optimization for Release builds
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set_property(TARGET sonet_follow_service_lib PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_property(TARGET time_follow_service_lib PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
     if(BUILD_FOLLOW_EXECUTABLE)
-      set_property(TARGET sonet_follow_service PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+      set_property(TARGET time_follow_service PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
     endif()
     message(STATUS "🔥 Enabled link-time optimization for performance")
 endif()
@@ -214,7 +214,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests)
   file(GLOB TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
   if(TEST_SOURCES)
     add_executable(follow_service_tests ${TEST_SOURCES})
-    target_link_libraries(follow_service_tests PRIVATE sonet_follow_service_lib GTest::gtest GTest::gtest_main)
+    target_link_libraries(follow_service_tests PRIVATE time_follow_service_lib GTest::gtest GTest::gtest_main)
     add_test(NAME FollowServiceUnitTests COMMAND follow_service_tests)
   endif()
 endif()
@@ -224,7 +224,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration)
   file(GLOB INTEGRATION_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/*.cpp)
   if(INTEGRATION_TEST_SOURCES)
     add_executable(follow_service_integration_tests ${INTEGRATION_TEST_SOURCES})
-    target_link_libraries(follow_service_integration_tests PRIVATE sonet_follow_service_lib GTest::gtest GTest::gtest_main)
+    target_link_libraries(follow_service_integration_tests PRIVATE time_follow_service_lib GTest::gtest GTest::gtest_main)
     add_test(NAME FollowServiceIntegrationTests COMMAND follow_service_integration_tests)
   endif()
 endif()
@@ -235,7 +235,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks)
   file(GLOB BENCH_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/*.cpp)
   if(BENCH_SOURCES)
     add_executable(follow_service_benchmarks ${BENCH_SOURCES})
-    target_link_libraries(follow_service_benchmarks PRIVATE sonet_follow_service_lib benchmark::benchmark benchmark::benchmark_main)
+    target_link_libraries(follow_service_benchmarks PRIVATE time_follow_service_lib benchmark::benchmark benchmark::benchmark_main)
   endif()
 endif()
 
@@ -243,26 +243,26 @@ endif()
 
 # Install targets
 if(BUILD_FOLLOW_EXECUTABLE)
-install(TARGETS sonet_follow_service
+install(TARGETS time_follow_service
     RUNTIME DESTINATION bin
     COMPONENT Runtime
 )
 endif()
 
-install(TARGETS sonet_follow_service_lib
+install(TARGETS time_follow_service_lib
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     COMPONENT Development
 )
 
 install(FILES ${FOLLOW_SERVICE_HEADERS}
-    DESTINATION include/sonet/follow
+    DESTINATION include/time/follow
     COMPONENT Development
 )
 
 # ========== PACKAGING ==========
 
-set(CPACK_PACKAGE_NAME "sonet-follow-service")
+set(CPACK_PACKAGE_NAME "time-follow-service")
 set(CPACK_PACKAGE_VERSION_MAJOR 1)
 set(CPACK_PACKAGE_VERSION_MINOR 0)
 set(CPACK_PACKAGE_VERSION_PATCH 0)
@@ -272,7 +272,7 @@ set(CPACK_PACKAGE_CONTACT "support@neoqiss.com")
 
 # Docker packaging
 add_custom_target(docker_build
-    COMMAND docker build -t sonet-follow-service:latest .
+    COMMAND docker build -t time-follow-service:latest .
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Building Docker image for Follow Service"
 )
@@ -293,15 +293,15 @@ add_custom_target(analyze
 
 # Performance profiling
 add_custom_target(profile
-    COMMAND perf record -g ./sonet_follow_service
-    DEPENDS sonet_follow_service
+    COMMAND perf record -g ./time_follow_service
+    DEPENDS time_follow_service
     COMMENT "Profiling Follow Service with perf"
 )
 
 # Memory leak check
 add_custom_target(memcheck
-    COMMAND valgrind --tool=memcheck --leak-check=full ./sonet_follow_service
-    DEPENDS sonet_follow_service
+    COMMAND valgrind --tool=memcheck --leak-check=full ./time_follow_service
+    DEPENDS time_follow_service
     COMMENT "Checking for memory leaks with Valgrind"
 )
 
@@ -325,7 +325,7 @@ message(STATUS "   • 100M+ users, 10B+ relationships")
 # Available targets
 message(STATUS "🎯 Available Make Targets:")
 message(STATUS "   • make                    - Build all targets")
-message(STATUS "   • make sonet_follow_service - Build main executable")
+message(STATUS "   • make time_follow_service - Build main executable")
 message(STATUS "   • make test               - Run all tests")
 message(STATUS "   • make follow_service_benchmarks - Build benchmarks")
 message(STATUS "   • make docker_build       - Build Docker image")

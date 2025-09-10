@@ -15,9 +15,9 @@
 #include <memory>
 #include <pqxx/pqxx>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
-using namespace sonet::note::models;
+using namespace time::note::models;
 
 /**
  * Abstract repository interface for Note operations
@@ -232,4 +232,4 @@ private:
     static void validate_connection_string(const std::string& connection_string);
 };
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

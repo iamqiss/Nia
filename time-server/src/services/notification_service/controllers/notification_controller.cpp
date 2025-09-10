@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the notification controller with WebSocket support for real-time
  * notifications. I focused on making this fast and reliable for mobile users
@@ -19,7 +19,7 @@
 #include <iomanip>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace controllers {
 
@@ -1009,7 +1009,7 @@ bool NotificationController::authenticate_request(const std::string& token, std:
         auto decoded_token = jwt::decode(token);
         auto verifier = jwt::verify()
             .allow_algorithm(jwt::algorithm::hs256{pimpl_->config.jwt_secret})
-            .with_issuer("sonet")
+            .with_issuer("time")
             .leeway(5);
         
         verifier.verify(decoded_token);
@@ -1139,4 +1139,4 @@ std::unique_ptr<NotificationController> NotificationControllerFactory::create_fr
 
 } // namespace controllers
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

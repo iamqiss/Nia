@@ -14,7 +14,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 
-namespace sonet::follow::models {
+namespace time::follow::models {
 
 using json = nlohmann::json;
 using Clock = std::chrono::system_clock;
@@ -117,4 +117,4 @@ public:
     void unmark_as_verified();
 };
 
-} // namespace sonet::follow::models
+} // namespace time::follow::models

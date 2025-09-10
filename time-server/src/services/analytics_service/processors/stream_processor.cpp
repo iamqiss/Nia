@@ -2,7 +2,7 @@
 
 #include <utility>
 
-namespace sonet::analytics_service::processors {
+namespace time::analytics_service::processors {
 
 void StreamProcessor::Start() {
 	if (running_.exchange(true)) { return; }
@@ -27,5 +27,5 @@ void StreamProcessor::RunLoop() {
 	}
 }
 
-} // namespace sonet::analytics_service::processors
+} // namespace time::analytics_service::processors
 

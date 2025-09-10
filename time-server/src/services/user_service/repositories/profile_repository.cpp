@@ -15,7 +15,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace sonet::user::repositories {
+namespace time::user::repositories {
 
 // PostgreSQLProfileRepository implementation
 PostgreSQLProfileRepository::PostgreSQLProfileRepository(std::shared_ptr<pqxx::connection> connection)
@@ -1084,4 +1084,4 @@ std::shared_ptr<pqxx::connection> ProfileRepositoryFactory::create_database_conn
     }
 }
 
-} // namespace sonet::user::repositories
+} // namespace time::user::repositories

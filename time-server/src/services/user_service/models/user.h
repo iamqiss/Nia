@@ -13,7 +13,7 @@
 #include <vector>
 #include <optional>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 enum class UserStatus {
     ACTIVE = 0,
@@ -246,4 +246,4 @@ PrivacyLevel string_to_privacy_level(const std::string& level);
 bool operator==(const User& lhs, const User& rhs);
 bool operator!=(const User& lhs, const User& rhs);
 
-} // namespace sonet::user::models
+} // namespace time::user::models

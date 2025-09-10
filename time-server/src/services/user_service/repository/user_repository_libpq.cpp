@@ -14,7 +14,7 @@
 #include <random>
 #include <iomanip>
 
-namespace sonet::user {
+namespace time::user {
 
 UserRepositoryLibpq::UserRepositoryLibpq(database::ConnectionPool* pool)
     : database::BaseRepository(pool) {
@@ -2413,4 +2413,4 @@ UserLoginHistory UserRepositoryLibpq::map_result_to_user_login_history(pg_result
 }
 
 } // namespace user
-} // namespace sonet
+} // namespace time

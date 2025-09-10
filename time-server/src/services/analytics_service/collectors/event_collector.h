@@ -19,7 +19,7 @@
 
 #include "models/event.h"
 
-namespace sonet::analytics_service::collectors {
+namespace time::analytics_service::collectors {
 
 // Thread-safe event buffer with bounded capacity and batch dequeue
 class EventCollector {
@@ -39,5 +39,5 @@ private:
 	size_t batch_size_{};
 };
 
-} // namespace sonet::analytics_service::collectors
+} // namespace time::analytics_service::collectors
 

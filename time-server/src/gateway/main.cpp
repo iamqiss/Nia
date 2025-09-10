@@ -6,8 +6,8 @@
 #include <iterator>
 #include <nlohmann/json.hpp>
 
-using sonet::gateway::RestGateway;
-using sonet::gateway::GatewayRateLimitConfig;
+using time::gateway::RestGateway;
+using time::gateway::GatewayRateLimitConfig;
 
 static std::unique_ptr<RestGateway> g_gateway;
 

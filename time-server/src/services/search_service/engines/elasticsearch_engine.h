@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This defines the Elasticsearch engine for our Twitter-scale search service.
  * I designed this to handle billions of documents with real-time indexing,
@@ -22,7 +22,7 @@
 #include <atomic>
 #include <mutex>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace engines {
 
@@ -46,14 +46,14 @@ struct ElasticsearchConfig {
     int connection_pool_timeout_ms = 5000;
     
     // Index settings
-    std::string notes_index = "sonet_notes";
-    std::string users_index = "sonet_users";
-    std::string hashtags_index = "sonet_hashtags";
-    std::string suggestions_index = "sonet_suggestions";
+    std::string notes_index = "time_notes";
+    std::string users_index = "time_users";
+    std::string hashtags_index = "time_hashtags";
+    std::string suggestions_index = "time_suggestions";
     
     // Index templates and patterns
-    std::string notes_index_pattern = "sonet_notes_*";
-    std::string users_index_pattern = "sonet_users_*";
+    std::string notes_index_pattern = "time_notes_*";
+    std::string users_index_pattern = "time_users_*";
     std::string time_based_index_format = "yyyy.MM.dd";  // For time-based indices
     
     // Performance settings
@@ -635,4 +635,4 @@ namespace elasticsearch_utils {
 
 } // namespace engines
 } // namespace search_service
-} // namespace sonet
+} // namespace time

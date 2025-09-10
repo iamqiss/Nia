@@ -17,14 +17,14 @@
 #include <thread>
 #include <unordered_map>
 
-namespace sonet::media_service {
+namespace time::media_service {
 
 class Logger {
 public:
     enum Level { INFO, WARN, ERROR };
     static Logger& Instance() { static Logger inst; return inst; }
     Logger() {
-        const char* lvl = std::getenv("SONET_MEDIA_LOG_LEVEL");
+        const char* lvl = std::getenv("time_MEDIA_LOG_LEVEL");
         if (lvl) {
             std::string v = lvl; for (auto& c: v) c = static_cast<char>(std::tolower(c));
             if (v=="error") min_level_ = ERROR; else if (v=="warn") min_level_ = WARN; else min_level_ = INFO;
@@ -69,8 +69,8 @@ private:
     static std::string ThreadId() { std::ostringstream oss; oss << std::this_thread::get_id(); return oss.str(); }
 };
 
-#define LOG_INFO(msg, fields) ::sonet::media_service::Logger::Instance().Log(::sonet::media_service::Logger::INFO, (msg), (fields))
-#define LOG_WARN(msg, fields) ::sonet::media_service::Logger::Instance().Log(::sonet::media_service::Logger::WARN, (msg), (fields))
-#define LOG_ERROR(msg, fields) ::sonet::media_service::Logger::Instance().Log(::sonet::media_service::Logger::ERROR, (msg), (fields))
+#define LOG_INFO(msg, fields) ::time::media_service::Logger::Instance().Log(::time::media_service::Logger::INFO, (msg), (fields))
+#define LOG_WARN(msg, fields) ::time::media_service::Logger::Instance().Log(::time::media_service::Logger::WARN, (msg), (fields))
+#define LOG_ERROR(msg, fields) ::time::media_service::Logger::Instance().Log(::time::media_service::Logger::ERROR, (msg), (fields))
 
-} // namespace sonet::media_service
+} // namespace time::media_service

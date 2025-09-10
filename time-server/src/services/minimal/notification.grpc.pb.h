@@ -3,7 +3,7 @@
 #include "../../../proto/grpc_stub.h"
 #include "../../../proto/services/stub_protos.h"
 
-namespace sonet {
+namespace time {
 namespace notification {
     struct SendNotificationRequest {
         std::string user_id_;

@@ -42,12 +42,12 @@ find_program(PROTOC protoc)
 find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
 if(PROTOC AND GRPC_CPP_PLUGIN)
 	set(GEN_SRCS
-		${GEN_DIR}/sonet/analytics/analytics_service.pb.cc
-		${GEN_DIR}/sonet/analytics/analytics_service.grpc.pb.cc
+		${GEN_DIR}/time/analytics/analytics_service.pb.cc
+		${GEN_DIR}/time/analytics/analytics_service.grpc.pb.cc
 	)
 	set(GEN_HDRS
-		${GEN_DIR}/sonet/analytics/analytics_service.pb.h
-		${GEN_DIR}/sonet/analytics/analytics_service.grpc.pb.h
+		${GEN_DIR}/time/analytics/analytics_service.pb.h
+		${GEN_DIR}/time/analytics/analytics_service.grpc.pb.h
 	)
 	add_custom_command(
 		OUTPUT ${GEN_SRCS} ${GEN_HDRS}

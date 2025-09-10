@@ -15,7 +15,7 @@
 #include <fstream>
 
 namespace fs = std::filesystem;
-namespace sonet::media_service {
+namespace time::media_service {
 
 class MagickImageProcessor final : public ImageProcessor {
 public:
@@ -48,5 +48,5 @@ public:
 
 std::unique_ptr<ImageProcessor> CreateImageProcessor() { return std::make_unique<MagickImageProcessor>(); }
 
-} // namespace sonet::media_service
+} // namespace time::media_service
 

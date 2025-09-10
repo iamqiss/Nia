@@ -5,28 +5,28 @@
 #include <vector>
 #include <optional>
 
-namespace sonet {
+namespace time {
 namespace timeline {
 namespace controllers {
 
 struct HomeTimelineResult {
-    std::vector<::sonet::timeline::TimelineItem> items;
-    ::sonet::timeline::TimelineMetadata metadata;
-    ::sonet::common::Pagination pagination;
+    std::vector<::time::timeline::TimelineItem> items;
+    ::time::timeline::TimelineMetadata metadata;
+    ::time::common::Pagination pagination;
     bool success = false;
     std::string error_message;
 };
 
 struct UserTimelineResult {
-    std::vector<::sonet::timeline::TimelineItem> items;
-    ::sonet::common::Pagination pagination;
+    std::vector<::time::timeline::TimelineItem> items;
+    ::time::common::Pagination pagination;
     bool success = false;
     std::string error_message;
 };
 
 class TimelineController {
 public:
-    explicit TimelineController(std::shared_ptr<sonet::timeline::TimelineServiceImpl> service);
+    explicit TimelineController(std::shared_ptr<time::timeline::TimelineServiceImpl> service);
 
     HomeTimelineResult get_home_timeline(
         const std::string& user_id,
@@ -60,16 +60,16 @@ public:
 
     bool refresh_timeline(const std::string& user_id, int32_t max_items);
 
-    bool update_preferences(const std::string& user_id, const ::sonet::timeline::TimelinePreferences& prefs);
+    bool update_preferences(const std::string& user_id, const ::time::timeline::TimelinePreferences& prefs);
 
-    std::optional<::sonet::timeline::TimelinePreferences> get_preferences(const std::string& user_id);
+    std::optional<::time::timeline::TimelinePreferences> get_preferences(const std::string& user_id);
 
     bool record_engagement(const std::string& user_id, const std::string& note_id, const std::string& action, double duration_seconds = 0.0);
 
 private:
-    std::shared_ptr<sonet::timeline::TimelineServiceImpl> service_;
+    std::shared_ptr<time::timeline::TimelineServiceImpl> service_;
 };
 
 } // namespace controllers
 } // namespace timeline
-} // namespace sonet
+} // namespace time

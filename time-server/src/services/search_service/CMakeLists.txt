@@ -1,4 +1,4 @@
-# CMakeLists.txt for Sonet Search Service
+# CMakeLists.txt for time Search Service
 # Copyright (c) 2025 Neo Qiss
 #
 # This builds a Twitter-scale search service with real-time indexing,
@@ -6,9 +6,9 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-project(sonet_search_service
+project(time_search_service
     VERSION 1.0.0
-    DESCRIPTION "Sonet Twitter-Scale Search Service"
+    DESCRIPTION "time Twitter-Scale Search Service"
     LANGUAGES CXX
 )
 
@@ -62,7 +62,7 @@ if(NOT CURL_FOUND)
     add_compile_definitions(HAVE_CURL=0)
 else()
     add_compile_definitions(HAVE_CURL=1)
-    target_link_libraries(sonet_search_service PRIVATE CURL::libcurl)
+    target_link_libraries(time_search_service PRIVATE CURL::libcurl)
 endif()
 
 # Elasticsearch C++ client (optional placeholder)
@@ -181,11 +181,11 @@ set(SEARCH_SERVICE_SOURCES
 )
 
 # Create the main executable
-add_executable(sonet_search_service ${SEARCH_SERVICE_SOURCES})
+add_executable(time_search_service ${SEARCH_SERVICE_SOURCES})
 
 # Set target properties
-set_target_properties(sonet_search_service PROPERTIES
-    OUTPUT_NAME "sonet-search-service"
+set_target_properties(time_search_service PROPERTIES
+    OUTPUT_NAME "time-search-service"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
@@ -207,71 +207,71 @@ if(CPPJIEBA_INCLUDE_DIR)
     list(APPEND LOCAL_INCLUDE_DIRS ${CPPJIEBA_INCLUDE_DIR})
 endif()
 
-target_include_directories(sonet_search_service PRIVATE ${LOCAL_INCLUDE_DIRS})
+target_include_directories(time_search_service PRIVATE ${LOCAL_INCLUDE_DIRS})
 
 # Link libraries
-target_link_libraries(sonet_search_service PRIVATE
+target_link_libraries(time_search_service PRIVATE
     Threads::Threads
     nlohmann_json::nlohmann_json
 )
 
 if(OpenSSL_FOUND)
-    target_link_libraries(sonet_search_service PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_OPENSSL)
+    target_link_libraries(time_search_service PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+    target_compile_definitions(time_search_service PRIVATE HAVE_OPENSSL)
 endif()
 
 if(ENABLE_GRPC)
-    target_link_libraries(sonet_search_service PRIVATE gRPC::grpc++ protobuf::libprotobuf)
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_GRPC)
+    target_link_libraries(time_search_service PRIVATE gRPC::grpc++ protobuf::libprotobuf)
+    target_compile_definitions(time_search_service PRIVATE HAVE_GRPC)
 endif()
 
 if(ELASTICSEARCH_FOUND)
-    target_link_libraries(sonet_search_service PRIVATE ${ELASTICSEARCH_LIBRARY})
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_ELASTICSEARCH)
+    target_link_libraries(time_search_service PRIVATE ${ELASTICSEARCH_LIBRARY})
+    target_compile_definitions(time_search_service PRIVATE HAVE_ELASTICSEARCH)
 endif()
 
 if(REDIS_FOUND)
-    target_link_libraries(sonet_search_service PRIVATE ${REDIS_LIBRARY})
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_REDIS)
+    target_link_libraries(time_search_service PRIVATE ${REDIS_LIBRARY})
+    target_compile_definitions(time_search_service PRIVATE HAVE_REDIS)
 endif()
 
 if(MONGOCXX_FOUND)
-    target_link_libraries(sonet_search_service PRIVATE ${MONGOCXX_LIBRARY})
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_MONGOCXX)
+    target_link_libraries(time_search_service PRIVATE ${MONGOCXX_LIBRARY})
+    target_compile_definitions(time_search_service PRIVATE HAVE_MONGOCXX)
 endif()
 
 if(MONGOOSE_LIBRARY)
-    target_link_libraries(sonet_search_service PRIVATE ${MONGOOSE_LIBRARY})
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_MONGOOSE)
+    target_link_libraries(time_search_service PRIVATE ${MONGOOSE_LIBRARY})
+    target_compile_definitions(time_search_service PRIVATE HAVE_MONGOOSE)
 endif()
 
 if(CPPJIEBA_FOUND)
-    target_compile_definitions(sonet_search_service PRIVATE HAVE_CPPJIEBA)
+    target_compile_definitions(time_search_service PRIVATE HAVE_CPPJIEBA)
 endif()
 
 # Compiler-specific options
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(sonet_search_service PRIVATE
+    target_compile_options(time_search_service PRIVATE
         -Wall -Wextra -Wpedantic
         -Wno-unused-parameter
         -Wno-missing-field-initializers
     )
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(sonet_search_service PRIVATE
+        target_compile_options(time_search_service PRIVATE
             -O3 -march=native -mtune=native
             -flto
         )
-        target_link_options(sonet_search_service PRIVATE -flto)
+        target_link_options(time_search_service PRIVATE -flto)
     endif()
 endif()
 
 # Platform-specific settings
 if(UNIX AND NOT APPLE)
-    target_link_libraries(sonet_search_service PRIVATE rt dl)
+    target_link_libraries(time_search_service PRIVATE rt dl)
 elseif(APPLE)
-    target_link_libraries(sonet_search_service PRIVATE "-framework CoreFoundation")
+    target_link_libraries(time_search_service PRIVATE "-framework CoreFoundation")
 elseif(WIN32)
-    target_link_libraries(sonet_search_service PRIVATE ws2_32 wsock32)
+    target_link_libraries(time_search_service PRIVATE ws2_32 wsock32)
 endif()
 
 # gRPC/Protobuf code generation (optional)
@@ -302,32 +302,32 @@ if(ENABLE_GRPC)
             COMMENT "Generating protocol buffer files for ${PROTO_NAME}"
         )
         
-        target_sources(sonet_search_service PRIVATE ${PROTO_SRCS} ${GRPC_SRCS})
+        target_sources(time_search_service PRIVATE ${PROTO_SRCS} ${GRPC_SRCS})
     endforeach()
 
-    target_include_directories(sonet_search_service PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+    target_include_directories(time_search_service PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 # Tests and Benchmarks are disabled by default via options above
 
 # Installation rules
-install(TARGETS sonet_search_service
+install(TARGETS time_search_service
     RUNTIME DESTINATION bin
     COMPONENT Runtime
 )
 
 # CPack configuration for packaging (summary only)
-set(CPACK_PACKAGE_NAME "sonet-search-service")
+set(CPACK_PACKAGE_NAME "time-search-service")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_PACKAGE_DESCRIPTION "Sonet Twitter-Scale Search Service")
-set(CPACK_PACKAGE_CONTACT "Neo Qiss <neo@sonet.dev>")
-set(CPACK_PACKAGE_VENDOR "Sonet")
+set(CPACK_PACKAGE_DESCRIPTION "time Twitter-Scale Search Service")
+set(CPACK_PACKAGE_CONTACT "Neo Qiss <neo@time.dev>")
+set(CPACK_PACKAGE_VENDOR "time")
 
 include(CPack)
 
 # Build configuration summary
 message(STATUS "")
-message(STATUS "==== Sonet Search Service Build Configuration ====")
+message(STATUS "==== time Search Service Build Configuration ====")
 message(STATUS "Build Type:              ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ Standard:            ${CMAKE_CXX_STANDARD}")
 message(STATUS "Install Prefix:          ${CMAKE_INSTALL_PREFIX}")

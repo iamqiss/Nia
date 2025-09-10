@@ -7,7 +7,7 @@
 #include <optional>
 #include <functional>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Base repository class that all service repositories inherit from
@@ -187,4 +187,4 @@ private:
 };
 
 } // namespace database
-} // namespace sonet
+} // namespace time

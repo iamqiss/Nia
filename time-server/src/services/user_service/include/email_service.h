@@ -14,7 +14,7 @@
 #include <functional>
 #include <map>
 
-namespace sonet::user::email {
+namespace time::user::email {
 
 struct EmailTemplate {
     std::string subject;
@@ -29,8 +29,8 @@ struct EmailMessage {
     std::string subject;
     std::string html_body;
     std::string text_body;
-    std::string from_email = "noreply@sonet.com";
-    std::string from_name = "Sonet";
+    std::string from_email = "noreply@time.com";
+    std::string from_name = "time";
     int priority = 1; // 1=high, 2=normal, 3=low
 };
 
@@ -137,4 +137,4 @@ bool is_valid_email_address(const std::string& email);
 std::string generate_verification_url(const std::string& base_url, const std::string& token);
 std::string generate_reset_url(const std::string& base_url, const std::string& token);
 
-} // namespace sonet::user::email
+} // namespace time::user::email

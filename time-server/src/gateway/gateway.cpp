@@ -10,7 +10,7 @@
 
 using nlohmann::json;
 
-namespace sonet::gateway {
+namespace time::gateway {
 
 RestGateway::RestGateway(int port, GatewayRateLimitConfig rl) : port_(port), rl_cfg_(rl), server_(std::make_unique<httplib::Server>()) {
 	init_limiters();
@@ -91,8 +91,8 @@ void RestGateway::stop() {
 }
 
 void RestGateway::init_limiters() {
-	using RateLimiter = sonet::gateway::rate_limiting::RateLimiter;
-	using LimitConfig = sonet::gateway::rate_limiting::LimitConfig;
+	using RateLimiter = time::gateway::rate_limiting::RateLimiter;
+	using LimitConfig = time::gateway::rate_limiting::LimitConfig;
 	auto make = [](int per_min) { return std::make_unique<RateLimiter>(LimitConfig{per_min, per_min, 60'000}); };
 	limiters_["global"] = make(rl_cfg_.global_per_minute);
 	limiters_["auth_login"] = make(rl_cfg_.auth_login_per_minute);
@@ -107,4 +107,4 @@ bool RestGateway::rate_allow(const std::string& key) {
 	return it->second->allow(key);
 }
 
-} // namespace sonet::gateway
+} // namespace time::gateway

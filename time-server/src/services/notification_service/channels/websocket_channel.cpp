@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the WebSocket channel for real-time notifications.
  * I built this to deliver instant notifications when users are actively
- * browsing Sonet, making the experience feel live and engaging like magic.
+ * browsing time, making the experience feel live and engaging like magic.
  */
 
 #include "websocket_channel.h"
@@ -17,7 +17,7 @@
 #include <iomanip>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -75,7 +75,7 @@ struct WebSocketPPChannel::Impl {
         like_template.type = models::NotificationType::LIKE;
         like_template.title_template = "{{sender_name}} liked your note";
         like_template.message_template = "\"{{note_excerpt}}\"";
-        like_template.icon_template = "https://sonet.app/icons/like.svg";
+        like_template.icon_template = "https://time.app/icons/like.svg";
         like_template.action_template = "/note/{{note_id}}";
         like_template.show_avatar = true;
         like_template.show_timestamp = true;
@@ -88,7 +88,7 @@ struct WebSocketPPChannel::Impl {
         comment_template.type = models::NotificationType::COMMENT;
         comment_template.title_template = "{{sender_name}} commented";
         comment_template.message_template = "\"{{comment_text}}\"";
-        comment_template.icon_template = "https://sonet.app/icons/comment.svg";
+        comment_template.icon_template = "https://time.app/icons/comment.svg";
         comment_template.action_template = "/note/{{note_id}}";
         comment_template.show_avatar = true;
         comment_template.show_timestamp = true;
@@ -100,7 +100,7 @@ struct WebSocketPPChannel::Impl {
         follow_template.type = models::NotificationType::FOLLOW;
         follow_template.title_template = "New follower";
         follow_template.message_template = "{{sender_name}} started following you";
-        follow_template.icon_template = "https://sonet.app/icons/follow.svg";
+        follow_template.icon_template = "https://time.app/icons/follow.svg";
         follow_template.action_template = "/profile/{{sender_id}}";
         follow_template.show_avatar = true;
         follow_template.show_timestamp = true;
@@ -112,7 +112,7 @@ struct WebSocketPPChannel::Impl {
         mention_template.type = models::NotificationType::MENTION;
         mention_template.title_template = "{{sender_name}} mentioned you";
         mention_template.message_template = "\"{{note_text}}\"";
-        mention_template.icon_template = "https://sonet.app/icons/mention.svg";
+        mention_template.icon_template = "https://time.app/icons/mention.svg";
         mention_template.action_template = "/note/{{note_id}}";
         mention_template.show_avatar = true;
         mention_template.show_timestamp = true;
@@ -124,7 +124,7 @@ struct WebSocketPPChannel::Impl {
         renote_template.type = models::NotificationType::RENOTE;
         renote_template.title_template = "{{sender_name}} renoted your note";
         renote_template.message_template = "\"{{note_excerpt}}\"";
-        renote_template.icon_template = "https://sonet.app/icons/renote.svg";
+        renote_template.icon_template = "https://time.app/icons/renote.svg";
         renote_template.action_template = "/note/{{note_id}}";
         renote_template.show_avatar = true;
         renote_template.show_timestamp = true;
@@ -137,7 +137,7 @@ struct WebSocketPPChannel::Impl {
         dm_template.type = models::NotificationType::DIRECT_MESSAGE;
         dm_template.title_template = "{{sender_name}}";
         dm_template.message_template = "New message";
-        dm_template.icon_template = "https://sonet.app/icons/message.svg";
+        dm_template.icon_template = "https://time.app/icons/message.svg";
         dm_template.action_template = "/messages/{{conversation_id}}";
         dm_template.show_avatar = true;
         dm_template.show_timestamp = true;
@@ -482,7 +482,7 @@ struct WebSocketPPChannel::Impl {
             
             auto verifier = jwt::verify()
                 .allow_algorithm(jwt::algorithm::hs256{config.jwt_secret})
-                .with_issuer("sonet");
+                .with_issuer("time");
             
             auto decoded = jwt::decode(token);
             verifier.verify(decoded);
@@ -985,7 +985,7 @@ WebSocketTemplate WebSocketChannelFactory::create_like_template() {
     template.type = models::NotificationType::LIKE;
     template.title_template = "{{sender_name}} liked your note";
     template.message_template = "\"{{note_excerpt}}\"";
-    template.icon_template = "https://sonet.app/icons/like.svg";
+    template.icon_template = "https://time.app/icons/like.svg";
     template.action_template = "/note/{{note_id}}";
     template.auto_dismiss = true;
     template.dismiss_after = std::chrono::seconds{8};
@@ -994,4 +994,4 @@ WebSocketTemplate WebSocketChannelFactory::create_like_template() {
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

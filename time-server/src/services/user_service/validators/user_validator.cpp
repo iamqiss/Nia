@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <cmath>
 
-namespace sonet::user::validators {
+namespace time::user::validators {
 
 UserValidator::UserValidator() {
     initialize_patterns();
@@ -553,7 +553,7 @@ void UserValidator::load_blacklists() {
         "admin", "administrator", "root", "api", "www", "mail", "email",
         "support", "help", "info", "contact", "about", "legal", "privacy",
         "terms", "security", "safety", "team", "staff", "moderator", "mod",
-        "sonet", "twitter", "facebook", "instagram", "tiktok", "youtube",
+        "time", "twitter", "facebook", "instagram", "tiktok", "youtube",
         "system", "service", "bot", "official", "verified", "test", "demo"
     };
     
@@ -652,4 +652,4 @@ void UserValidator::cleanup_old_attempts() {
     }
 }
 
-} // namespace sonet::user::validators
+} // namespace time::user::validators

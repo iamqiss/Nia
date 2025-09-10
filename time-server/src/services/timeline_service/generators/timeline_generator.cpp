@@ -3,11 +3,11 @@
 #include <unordered_set>
 #include <iostream>
 
-namespace sonet {
+namespace time {
 namespace timeline {
 
 namespace {
-    std::chrono::system_clock::time_point FromProtoTimestamp(const ::sonet::common::Timestamp& ts) {
+    std::chrono::system_clock::time_point FromProtoTimestamp(const ::time::common::Timestamp& ts) {
         auto duration = std::chrono::seconds(ts.seconds()) + std::chrono::nanoseconds(ts.nanos());
         return std::chrono::system_clock::time_point(duration);
     }
@@ -16,32 +16,32 @@ namespace {
 TimelineGenerator::TimelineGenerator(
     std::shared_ptr<RankingEngine> ranking_engine,
     std::shared_ptr<ContentFilter> content_filter,
-    std::unordered_map<::sonet::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources
+    std::unordered_map<::time::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources
 ) : ranking_engine_(std::move(ranking_engine)),
     content_filter_(std::move(content_filter)),
     content_sources_(std::move(content_sources)) {}
 
-std::vector<::sonet::note::Note> TimelineGenerator::FetchFollowingContent(
+std::vector<::time::note::Note> TimelineGenerator::FetchFollowingContent(
     const std::string& user_id,
     const TimelineConfig& config,
     std::chrono::system_clock::time_point since,
     int32_t limit
 ) {
     (void)config;
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_FOLLOWING);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_FOLLOWING);
     if (it != content_sources_.end()) {
         return it->second->GetContent(user_id, config, since, limit);
     }
     return {};
 }
 
-std::vector<::sonet::note::Note> TimelineGenerator::FetchRecommendedContent(
+std::vector<::time::note::Note> TimelineGenerator::FetchRecommendedContent(
     const std::string& user_id,
     const UserEngagementProfile& /*profile*/,
     const TimelineConfig& config,
     int32_t limit
 ) {
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_RECOMMENDED);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_RECOMMENDED);
     if (it != content_sources_.end()) {
         auto since = std::chrono::system_clock::now() - std::chrono::hours(24);
         return it->second->GetContent(user_id, config, since, limit);
@@ -49,12 +49,12 @@ std::vector<::sonet::note::Note> TimelineGenerator::FetchRecommendedContent(
     return {};
 }
 
-std::vector<::sonet::note::Note> TimelineGenerator::FetchTrendingContent(
+std::vector<::time::note::Note> TimelineGenerator::FetchTrendingContent(
     const std::string& user_id,
     const TimelineConfig& config,
     int32_t limit
 ) {
-    auto it = content_sources_.find(::sonet::timeline::CONTENT_SOURCE_TRENDING);
+    auto it = content_sources_.find(::time::timeline::CONTENT_SOURCE_TRENDING);
     if (it != content_sources_.end()) {
         auto since = std::chrono::system_clock::now() - std::chrono::hours(6);
         return it->second->GetContent(user_id, config, since, limit);
@@ -69,7 +69,7 @@ std::vector<RankedTimelineItem> TimelineGenerator::Generate(
     int32_t limit
 ) {
     // Collect content
-    std::vector<::sonet::note::Note> all_notes;
+    std::vector<::time::note::Note> all_notes;
     all_notes.reserve(static_cast<size_t>(limit) * 2);
 
     int32_t following_limit = static_cast<int32_t>(limit * config.following_content_ratio);
@@ -93,7 +93,7 @@ std::vector<RankedTimelineItem> TimelineGenerator::Generate(
 
     // Deduplicate
     std::unordered_set<std::string> seen_ids;
-    std::vector<::sonet::note::Note> unique_notes;
+    std::vector<::time::note::Note> unique_notes;
     seen_ids.reserve(all_notes.size());
     unique_notes.reserve(all_notes.size());
     for (const auto& note : all_notes) {
@@ -110,7 +110,7 @@ std::vector<RankedTimelineItem> TimelineGenerator::Generate(
     if (!ranking_engine_) {
         std::vector<RankedTimelineItem> items;
         for (const auto& note : unique_notes) {
-            RankedTimelineItem item; item.note = note; item.source = ::sonet::timeline::CONTENT_SOURCE_FOLLOWING;
+            RankedTimelineItem item; item.note = note; item.source = ::time::timeline::CONTENT_SOURCE_FOLLOWING;
             item.final_score = static_cast<double>(FromProtoTimestamp(note.created_at()).time_since_epoch().count());
             item.injected_at = std::chrono::system_clock::now();
             item.injection_reason = "chronological";
@@ -128,4 +128,4 @@ std::vector<RankedTimelineItem> TimelineGenerator::Generate(
 }
 
 } // namespace timeline
-} // namespace sonet
+} // namespace time

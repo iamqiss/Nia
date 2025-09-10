@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the email channel for sending notification emails. I built this to
  * send beautiful, responsive emails that work great on both desktop and mobile.
@@ -19,7 +19,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -31,9 +31,9 @@ struct EmailTemplate {
     std::string subject_template;
     std::string html_template;
     std::string text_template;
-    std::string sender_name = "Sonet";
-    std::string sender_email = "notifications@sonet.app";
-    std::string reply_to_email = "noreply@sonet.app";
+    std::string sender_name = "time";
+    std::string sender_email = "notifications@time.app";
+    std::string reply_to_email = "noreply@time.app";
     bool include_unsubscribe_link = true;
     bool include_branding = true;
     std::unordered_map<std::string, std::string> custom_headers;
@@ -131,8 +131,8 @@ public:
         bool use_ssl = false;
         std::string username;
         std::string password;
-        std::string sender_email = "notifications@sonet.app";
-        std::string sender_name = "Sonet";
+        std::string sender_email = "notifications@time.app";
+        std::string sender_name = "time";
         
         // Connection settings
         std::chrono::seconds connection_timeout{30};
@@ -251,4 +251,4 @@ public:
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

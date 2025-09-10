@@ -17,7 +17,7 @@
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include "grpc/messaging_grpc_service.h"
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 // ServiceConfig implementation
 Json::Value ServiceConfig::to_json() const {
@@ -55,7 +55,7 @@ ServiceConfig ServiceConfig::from_json(const Json::Value& json) {
     config.enable_encryption = json.get("enable_encryption", true).asBool();
     config.enable_monitoring = json.get("enable_monitoring", true).asBool();
     config.log_level = json.get("log_level", "INFO").asString();
-    config.storage_path = json.get("storage_path", "/tmp/sonet/messaging").asString();
+    config.storage_path = json.get("storage_path", "/tmp/time/messaging").asString();
     config.metrics_port = json.get("metrics_port", 9090).asUInt();
     return config;
 }
@@ -298,14 +298,14 @@ ServiceConfig MessagingService::load_default_config() {
     config.http_port = 8080;
     config.websocket_port = 8081;
     config.grpc_port = 8082;
-    config.database_url = "postgresql://localhost:5432/sonet_messaging";
+    config.database_url = "postgresql://localhost:5432/time_messaging";
     config.redis_url = "redis://localhost:6379/0";
     config.max_connections = 10000;
     config.max_file_size = 100 * 1024 * 1024; // 100MB
     config.enable_encryption = true;
     config.enable_monitoring = true;
     config.log_level = "INFO";
-    config.storage_path = "/tmp/sonet/messaging";
+    config.storage_path = "/tmp/time/messaging";
     config.metrics_port = 9090;
     return config;
 }
@@ -443,7 +443,7 @@ bool MessagingService::start_grpc_server() {
 		builder.AddListeningPort(address, grpc::InsecureServerCredentials());
 		
 		// Register real gRPC messaging service implementation
-		static ::sonet::messaging::grpc_impl::MessagingGrpcService service_impl;
+		static ::time::messaging::grpc_impl::MessagingGrpcService service_impl;
 		builder.RegisterService(&service_impl);
 		
 		grpc_server_ = builder.BuildAndStart();
@@ -716,4 +716,4 @@ void MessagingService::log_debug(const std::string& message) {
     }
 }
 
-} // namespace sonet::messaging
+} // namespace time::messaging

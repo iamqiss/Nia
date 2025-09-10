@@ -12,7 +12,7 @@
 #include <sstream>
 #include <algorithm>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
 // postgresql implementation - keeping this simple since Cassandra is the star
 
@@ -419,4 +419,4 @@ bool CassandraRepositoryFactory::test_connection(
     }
 }
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

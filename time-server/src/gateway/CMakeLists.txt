@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(sonet_gateway LANGUAGES CXX)
+project(time_gateway LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,7 +13,7 @@ if(PkgConfig_FOUND)
 	pkg_check_modules(HTTPLIB QUIET cpp-httplib)
 endif()
 
-add_library(sonet_gateway_lib
+add_library(time_gateway_lib
 	gateway.cpp
 	controllers/api_controller.cpp
 	# Middleware cpp files removed (crow-based); future httplib middleware can be added here
@@ -22,24 +22,24 @@ add_library(sonet_gateway_lib
 	rate_limiting/token_bucket.cpp
 )
 
-target_include_directories(sonet_gateway_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-target_link_libraries(sonet_gateway_lib PUBLIC sonet_proto)
+target_include_directories(time_gateway_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
+target_link_libraries(time_gateway_lib PUBLIC time_proto)
 if (nlohmann_json_FOUND)
-	target_link_libraries(sonet_gateway_lib PUBLIC nlohmann_json::nlohmann_json)
+	target_link_libraries(time_gateway_lib PUBLIC nlohmann_json::nlohmann_json)
 endif()
 if (Boost_FOUND)
-	target_link_libraries(sonet_gateway_lib PUBLIC Boost::system Boost::filesystem Boost::thread)
+	target_link_libraries(time_gateway_lib PUBLIC Boost::system Boost::filesystem Boost::thread)
 endif()
 if (spdlog_FOUND)
-	target_link_libraries(sonet_gateway_lib PUBLIC spdlog::spdlog_header_only)
+	target_link_libraries(time_gateway_lib PUBLIC spdlog::spdlog_header_only)
 endif()
 if(HTTPLIB_FOUND)
-	target_include_directories(sonet_gateway_lib PUBLIC ${HTTPLIB_INCLUDE_DIRS})
-	target_link_libraries(sonet_gateway_lib PUBLIC ${HTTPLIB_LIBRARIES})
+	target_include_directories(time_gateway_lib PUBLIC ${HTTPLIB_INCLUDE_DIRS})
+	target_link_libraries(time_gateway_lib PUBLIC ${HTTPLIB_LIBRARIES})
 endif()
 
-add_executable(sonet_gateway main.cpp)
-target_link_libraries(sonet_gateway PRIVATE sonet_gateway_lib)
-target_include_directories(sonet_gateway PRIVATE ${CMAKE_BINARY_DIR})
+add_executable(time_gateway main.cpp)
+target_link_libraries(time_gateway PRIVATE time_gateway_lib)
+target_include_directories(time_gateway PRIVATE ${CMAKE_BINARY_DIR})
 
-install(TARGETS sonet_gateway RUNTIME DESTINATION bin)
+install(TARGETS time_gateway RUNTIME DESTINATION bin)

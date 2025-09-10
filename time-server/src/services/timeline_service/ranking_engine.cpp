@@ -14,12 +14,12 @@
 #include <iostream>
 #include <numeric>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Helper to convert system_clock::time_point to protobuf timestamp
-    ::sonet::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
-        ::sonet::common::Timestamp result;
+    ::time::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
+        ::time::common::Timestamp result;
         auto duration = tp.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
         auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - seconds);
@@ -30,7 +30,7 @@ namespace {
     }
 
     // Helper to convert protobuf timestamp to system_clock::time_point
-    std::chrono::system_clock::time_point FromProtoTimestamp(const ::sonet::common::Timestamp& ts) {
+    std::chrono::system_clock::time_point FromProtoTimestamp(const ::time::common::Timestamp& ts) {
         auto duration = std::chrono::seconds(ts.seconds()) + std::chrono::nanoseconds(ts.nanos());
         return std::chrono::system_clock::time_point(duration);
     }
@@ -68,7 +68,7 @@ namespace {
     }
 
     // Calculate engagement rate
-    double CalculateEngagementRate(const ::sonet::note::Note& note) {
+    double CalculateEngagementRate(const ::time::note::Note& note) {
         if (!note.has_metrics()) return 0.0;
         
         const auto& metrics = note.metrics();
@@ -89,7 +89,7 @@ MLRankingEngine::MLRankingEngine() {
 }
 
 std::vector<RankedTimelineItem> MLRankingEngine::ScoreNotes(
-    const std::vector<::sonet::note::Note>& notes,
+    const std::vector<::time::note::Note>& notes,
     const std::string& user_id,
     const UserEngagementProfile& profile,
     const TimelineConfig& config
@@ -106,15 +106,15 @@ std::vector<RankedTimelineItem> MLRankingEngine::ScoreNotes(
         
         // Determine content source
         if (profile.following_ids.count(note.author_id())) {
-            item.source = ::sonet::timeline::CONTENT_SOURCE_FOLLOWING;
+            item.source = ::time::timeline::CONTENT_SOURCE_FOLLOWING;
             item.injection_reason = "following";
         } else {
-            item.source = ::sonet::timeline::CONTENT_SOURCE_RECOMMENDED;
+            item.source = ::time::timeline::CONTENT_SOURCE_RECOMMENDED;
             item.injection_reason = "recommended";
         }
 
         // Calculate individual signal scores
-        ::sonet::timeline::RankingSignals signals;
+        ::time::timeline::RankingSignals signals;
         
         double author_affinity = CalculateAuthorAffinity(user_id, note.author_id(), profile);
         signals.set_author_affinity_score(author_affinity);
@@ -207,7 +207,7 @@ std::vector<RankedTimelineItem> MLRankingEngine::ScoreNotes(
     }
 
     // Hybrid-specific tweaks: freshness micro-boost and source diversity
-    if (config.algorithm == ::sonet::timeline::TIMELINE_ALGORITHM_HYBRID) {
+    if (config.algorithm == ::time::timeline::TIMELINE_ALGORITHM_HYBRID) {
         auto now = std::chrono::system_clock::now();
         for (auto& item : ranked_items) {
             // Micro-boost for very recent items (< 30 minutes)
@@ -217,9 +217,9 @@ std::vector<RankedTimelineItem> MLRankingEngine::ScoreNotes(
                 item.final_score += 0.02;
             }
             // Prefer some proportion of non-following content to improve discovery
-            if (item.source == ::sonet::timeline::CONTENT_SOURCE_RECOMMENDED ||
-                item.source == ::sonet::timeline::CONTENT_SOURCE_TRENDING ||
-                item.source == ::sonet::timeline::CONTENT_SOURCE_LISTS) {
+            if (item.source == ::time::timeline::CONTENT_SOURCE_RECOMMENDED ||
+                item.source == ::time::timeline::CONTENT_SOURCE_TRENDING ||
+                item.source == ::time::timeline::CONTENT_SOURCE_LISTS) {
                 item.final_score += 0.01;
             }
         }
@@ -263,7 +263,7 @@ double MLRankingEngine::CalculateAuthorAffinity(
 }
 
 double MLRankingEngine::CalculateContentQuality(
-    const ::sonet::note::Note& note,
+    const ::time::note::Note& note,
     const UserEngagementProfile& profile
 ) {
     double quality_score = 0.5; // Base quality
@@ -320,7 +320,7 @@ double MLRankingEngine::CalculateContentQuality(
     return std::max(0.0, std::min(1.0, quality_score));
 }
 
-double MLRankingEngine::CalculateEngagementVelocity(const ::sonet::note::Note& note) {
+double MLRankingEngine::CalculateEngagementVelocity(const ::time::note::Note& note) {
     if (!note.has_metrics()) return 0.0;
     
     auto created_time = FromProtoTimestamp(note.created_at());
@@ -339,7 +339,7 @@ double MLRankingEngine::CalculateEngagementVelocity(const ::sonet::note::Note& n
     return std::min(1.0, velocity / 10.0);
 }
 
-double MLRankingEngine::CalculateRecencyScore(const ::sonet::note::Note& note, double half_life_hours) {
+double MLRankingEngine::CalculateRecencyScore(const ::time::note::Note& note, double half_life_hours) {
     auto created_time = FromProtoTimestamp(note.created_at());
     auto now = std::chrono::system_clock::now();
     auto age_hours = std::chrono::duration_cast<std::chrono::hours>(now - created_time).count();
@@ -349,7 +349,7 @@ double MLRankingEngine::CalculateRecencyScore(const ::sonet::note::Note& note, d
 }
 
 double MLRankingEngine::CalculatePersonalizationScore(
-    const ::sonet::note::Note& note,
+    const ::time::note::Note& note,
     const UserEngagementProfile& profile
 ) {
     double personalization = 0.0;
@@ -480,4 +480,4 @@ void MLRankingEngine::TrainOnEngagementData(const std::vector<EngagementEvent>& 
     }
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

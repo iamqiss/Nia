@@ -12,7 +12,7 @@
 #include "models/user_session.h"
 #include <chrono>
 
-using namespace sonet::user;
+using namespace time::user;
 
 class JWTManagerTest : public ::testing::Test {
 protected:

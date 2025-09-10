@@ -13,7 +13,7 @@
 #include "mls_protocol.hpp"
 #include "pqc_algorithms.hpp"
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 // Forward declarations
 class CryptoEngine;
@@ -261,12 +261,12 @@ private:
     bool update_mls_epoch(const std::string& group_id);
     
     // PQC and MLS instances
-    std::unique_ptr<sonet::mls::MLSProtocol> mls_protocol_;
-    std::unique_ptr<sonet::pqc::PQCAlgorithms> pqc_algorithms_;
+    std::unique_ptr<time::mls::MLSProtocol> mls_protocol_;
+    std::unique_ptr<time::pqc::PQCAlgorithms> pqc_algorithms_;
     
     // Trust helpers
     std::string calculate_trust_hash(const std::string& user_id, const std::string& other_user_id);
     bool verify_trust_signature(const TrustState& trust_state);
 };
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(sonet_minimal_services LANGUAGES CXX)
+project(time_minimal_services LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,14 +22,14 @@ if(DEFINED USE_STUB_IMPLEMENTATIONS AND USE_STUB_IMPLEMENTATIONS)
         ${CMAKE_SOURCE_DIR}/proto/services 
         ${CMAKE_SOURCE_DIR}/proto/common
     )
-    target_link_libraries(minimal_search_server PRIVATE minimal_protos sonet_proto)
+    target_link_libraries(minimal_search_server PRIVATE minimal_protos time_proto)
     
     add_executable(minimal_notification_server notification_server.cpp)
     target_include_directories(minimal_notification_server PRIVATE 
         ${CMAKE_SOURCE_DIR}/proto/services 
         ${CMAKE_SOURCE_DIR}/proto/common
     )
-    target_link_libraries(minimal_notification_server PRIVATE minimal_protos sonet_proto)
+    target_link_libraries(minimal_notification_server PRIVATE minimal_protos time_proto)
     
 else()
     # Full gRPC mode

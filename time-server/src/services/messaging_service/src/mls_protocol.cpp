@@ -14,7 +14,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace sonet::mls {
+namespace time::mls {
 
 MLSProtocol::MLSProtocol() {
     // Initialize OpenSSL
@@ -948,4 +948,4 @@ std::vector<uint8_t> MLSProtocol::optimize_group_performance(const std::vector<u
     return serialize_group(group);
 }
 
-} // namespace sonet::mls
+} // namespace time::mls

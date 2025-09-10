@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document summarizes the complete integration of private profiles functionality across the entire Sonet system, including client-side components, server-side services, and API endpoints.
+This document summarizes the complete integration of private profiles functionality across the entire time system, including client-side components, server-side services, and API endpoints.
 
 ## ✅ **Integration Complete**
 
@@ -33,7 +33,7 @@ This document summarizes the complete integration of private profiles functional
 ### **Server-Side Integration**
 
 #### **1. Go User Service**
-- **Location**: `sonet/src/services/user_service_go/`
+- **Location**: `time/src/services/user_service_go/`
 - **Proto**: `user_service.proto` with privacy methods
 - **Models**: User, UserStats, UserViewer with protobuf conversion
 - **Repository**: Database operations with privacy checks
@@ -257,4 +257,4 @@ The private profiles integration is **complete and production-ready**. The imple
 - ✅ **Is performant and scalable**
 - ✅ **Ready for deployment**
 
-The system now provides a complete, secure, and user-friendly private profiles solution that seamlessly integrates with the existing Sonet architecture while maintaining the app's design language and user experience patterns.
+The system now provides a complete, secure, and user-friendly private profiles solution that seamlessly integrates with the existing time architecture while maintaining the app's design language and user experience patterns.

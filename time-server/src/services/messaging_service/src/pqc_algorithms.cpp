@@ -9,7 +9,7 @@
 #include <cstring>
 #include <stdexcept>
 
-namespace sonet::pqc {
+namespace time::pqc {
 
 PQCAlgorithms::PQCAlgorithms() {
     OpenSSL_add_all_algorithms();
@@ -587,4 +587,4 @@ bool PQCAlgorithms::sphincs_verify(const std::vector<uint8_t>& message,
     return signature.size() > 0;
 }
 
-} // namespace sonet::pqc
+} // namespace time::pqc

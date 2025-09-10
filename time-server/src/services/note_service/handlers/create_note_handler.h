@@ -15,12 +15,12 @@
 #include <string>
 #include <memory>
 
-namespace sonet::note::handlers {
+namespace time::note::handlers {
 
 using json = nlohmann::json;
-using namespace sonet::note::models;
-using namespace sonet::note::validators;
-using namespace sonet::note::repositories;
+using namespace time::note::models;
+using namespace time::note::validators;
+using namespace time::note::repositories;
 
 /**
  * @brief Handler for creating new notes with comprehensive validation
@@ -83,4 +83,4 @@ private:
     json create_error_response(const std::string& error_code, const std::string& message) const;
 };
 
-} // namespace sonet::note::handlers
+} // namespace time::note::handlers

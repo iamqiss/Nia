@@ -1,4 +1,4 @@
-# Sonet - Social Media Microservices Platform
+# time - Social Media Microservices Platform
 
 A high-performance, scalable social media platform built with C++ microservices architecture.
 
@@ -15,7 +15,7 @@ A high-performance, scalable social media platform built with C++ microservices 
 
 ```bash
 git clone <repository-url>
-cd Sonet/sonet
+cd time/time
 make setup
 ```
 

@@ -108,7 +108,7 @@ export const SplashScreen = ({
                 onPress={onPressCreateAccount}
                 label={_(msg`Create new account`)}
                 accessibilityHint={_(
-                  msg`Opens flow to create a new Bluesky account`,
+                  msg`Opens flow to create a new Time account`,
                 )}
                 size="large"
                 variant="solid"
@@ -122,7 +122,7 @@ export const SplashScreen = ({
                 onPress={onPressSignin}
                 label={_(msg`Sign in`)}
                 accessibilityHint={_(
-                  msg`Opens flow to sign in to your existing Bluesky account`,
+                  msg`Opens flow to sign in to your existing Time account`,
                 )}
                 size="large"
                 variant="solid"
@@ -165,19 +165,19 @@ function Footer() {
         t.atoms.border_contrast_medium,
       ]}>
       <InlineLinkText
-        label={_(msg`Learn more about Bluesky`)}
+        label={_(msg`Learn more about Time`)}
         to="https://bsky.social">
         <Trans>Business</Trans>
       </InlineLinkText>
       <InlineLinkText
-        label={_(msg`Read the Bluesky blog`)}
+        label={_(msg`Read the Time blog`)}
         to="https://bsky.social/about/blog">
         <Trans>Blog</Trans>
       </InlineLinkText>
       <InlineLinkText
-        label={_(msg`See jobs at Bluesky`)}
+        label={_(msg`See jobs at Time`)}
         to="https://bsky.social/about/join">
-        <Trans comment="Link to a page with job openings at Bluesky">
+        <Trans comment="Link to a page with job openings at Time">
           Jobs
         </Trans>
       </InlineLinkText>

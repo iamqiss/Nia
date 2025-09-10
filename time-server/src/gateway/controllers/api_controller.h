@@ -2,7 +2,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-namespace sonet::gateway::controllers {
+namespace time::gateway::controllers {
 
 class ApiController {
 public:

@@ -16,7 +16,7 @@
 #include <string>
 #include <functional>
 
-namespace sonet::user::handlers {
+namespace time::user::handlers {
 
 /**
  * HTTP request handler for the User Service REST API.
@@ -88,4 +88,4 @@ private:
     void log_request(const HttpRequest& request, const HttpResponse& response);
 };
 
-} // namespace sonet::user::handlers
+} // namespace time::user::handlers

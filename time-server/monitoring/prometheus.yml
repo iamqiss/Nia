@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: 'sonet-production'
+    cluster: 'time-production'
     environment: 'production'
 
 rule_files:
@@ -15,7 +15,7 @@ alerting:
           - alertmanager:9093
 
 scrape_configs:
-  - job_name: 'sonet-moderation-service'
+  - job_name: 'time-moderation-service'
     static_configs:
       - targets: ['moderation_service:50051']
     metrics_path: /metrics
@@ -23,7 +23,7 @@ scrape_configs:
     scrape_timeout: 5s
     honor_labels: true
 
-  - job_name: 'sonet-api-gateway'
+  - job_name: 'time-api-gateway'
     static_configs:
       - targets: ['api_gateway:8080']
     metrics_path: /metrics

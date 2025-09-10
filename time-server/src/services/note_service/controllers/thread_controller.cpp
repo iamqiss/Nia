@@ -15,7 +15,7 @@
 #include <chrono>
 #include <algorithm>
 
-namespace sonet::note::controllers {
+namespace time::note::controllers {
 
 // Request/Response struct implementations
 
@@ -595,7 +595,7 @@ json ThreadController::health_check() {
 
 json ThreadController::get_api_info() {
     json api_info = json{
-        {"service", "sonet_thread_service"},
+        {"service", "time_thread_service"},
         {"version", "1.0.0"},
         {"description", "Twitter-style thread management service"},
         {"author", "Neo Qiss"},
@@ -799,4 +799,4 @@ json ThreadController::get_pagination_info(int total_count, int limit, int offse
     };
 }
 
-} // namespace sonet::note::controllers
+} // namespace time::note::controllers

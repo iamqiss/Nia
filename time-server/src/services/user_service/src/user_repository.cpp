@@ -12,7 +12,7 @@
 #include <chrono>
 #include <stdexcept>
 
-namespace sonet::user {
+namespace time::user {
 
 UserRepository::UserRepository(std::shared_ptr<pqxx::connection_pool> pool)
     : connection_pool_(std::move(pool)) {
@@ -588,4 +588,4 @@ int64_t UserRepository::count_total_users() {
     }
 }
 
-} // namespace sonet::user
+} // namespace time::user

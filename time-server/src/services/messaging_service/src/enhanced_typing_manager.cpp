@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <cmath>
 
-namespace sonet::messaging::typing {
+namespace time::messaging::typing {
 
 // EnhancedTypingIndicator implementation
 Json::Value EnhancedTypingIndicator::to_json() const {
@@ -997,4 +997,4 @@ bool TypingUtils::is_reasonable_typing_speed(double wpm) {
     return wpm >= 0.0 && wpm <= 200.0; // Reasonable human typing speed range
 }
 
-} // namespace sonet::messaging::typing
+} // namespace time::messaging::typing

@@ -25,7 +25,7 @@
 #include "message.hpp"
 #include "chat.hpp"
 
-namespace sonet::messaging::realtime {
+namespace time::messaging::realtime {
 
 enum class ConnectionStatus {
     CONNECTING,
@@ -337,4 +337,4 @@ public:
     static std::string decompress_message(const std::string& compressed_message);
 };
 
-} // namespace sonet::messaging::realtime
+} // namespace time::messaging::realtime

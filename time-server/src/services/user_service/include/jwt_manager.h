@@ -13,7 +13,7 @@
 #include <optional>
 #include <memory>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * JWT Manager - Modern stateless authentication
@@ -24,7 +24,7 @@ namespace sonet::user {
  */
 class JWTManager {
 public:
-    JWTManager(const std::string& secret_key, const std::string& issuer = "sonet");
+    JWTManager(const std::string& secret_key, const std::string& issuer = "time");
     ~JWTManager() = default;
 
     // Core JWT operations
@@ -88,4 +88,4 @@ private:
     int64_t time_point_to_timestamp(const std::chrono::system_clock::time_point& tp);
 };
 
-} // namespace sonet::user
+} // namespace time::user

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the main entry point for the notification service.
  * I built this as a production-ready service runner that handles
@@ -18,7 +18,7 @@
 #include <cstdlib>
 #include <fstream>
 
-using namespace sonet::notification_service;
+using namespace time::notification_service;
 
 // Global service instance for signal handling
 static std::unique_ptr<NotificationService> g_service;
@@ -56,7 +56,7 @@ void setup_signal_handlers() {
 void print_usage(const char* program_name) {
     std::cout << "Usage: " << program_name << " [OPTIONS]\n"
               << "\n"
-              << "Sonet Notification Service - Real-time notification delivery\n"
+              << "time Notification Service - Real-time notification delivery\n"
               << "\n"
               << "Options:\n"
               << "  -c, --config FILE    Configuration file path\n"
@@ -68,17 +68,17 @@ void print_usage(const char* program_name) {
               << "  -v, --version        Show version information\n"
               << "\n"
               << "Environment Variables:\n"
-              << "  SONET_DB_URL         Database connection URL\n"
-              << "  SONET_REDIS_URL      Redis connection URL\n"
-              << "  SONET_JWT_SECRET     JWT secret for authentication\n"
-              << "  SONET_SMTP_HOST      SMTP server hostname\n"
-              << "  SONET_SMTP_USER      SMTP username\n"
-              << "  SONET_SMTP_PASS      SMTP password\n"
-              << "  SONET_FCM_KEY        FCM server key for push notifications\n"
-              << "  SONET_LOG_LEVEL      Log level (debug, info, warn, error)\n"
+              << "  time_DB_URL         Database connection URL\n"
+              << "  time_REDIS_URL      Redis connection URL\n"
+              << "  time_JWT_SECRET     JWT secret for authentication\n"
+              << "  time_SMTP_HOST      SMTP server hostname\n"
+              << "  time_SMTP_USER      SMTP username\n"
+              << "  time_SMTP_PASS      SMTP password\n"
+              << "  time_FCM_KEY        FCM server key for push notifications\n"
+              << "  time_LOG_LEVEL      Log level (debug, info, warn, error)\n"
               << "\n"
               << "Examples:\n"
-              << "  " << program_name << " --config /etc/sonet/notification.json\n"
+              << "  " << program_name << " --config /etc/time/notification.json\n"
               << "  " << program_name << " --env production --port 8081\n"
               << "  " << program_name << " --env development\n"
               << std::endl;
@@ -88,7 +88,7 @@ void print_usage(const char* program_name) {
  * Print version information
  */
 void print_version() {
-    std::cout << "Sonet Notification Service v1.0.0\n"
+    std::cout << "time Notification Service v1.0.0\n"
               << "Copyright (c) 2025 Neo Qiss\n"
               << "Built for real connections and instant communication\n"
               << std::endl;
@@ -148,37 +148,37 @@ NotificationServiceConfig load_configuration(int argc, char* argv[]) {
     }
     
     // Load from environment variables
-    const char* db_url = std::getenv("SONET_DB_URL");
+    const char* db_url = std::getenv("time_DB_URL");
     if (db_url) {
         config.database_url = db_url;
     }
     
-    const char* redis_url = std::getenv("SONET_REDIS_URL");
+    const char* redis_url = std::getenv("time_REDIS_URL");
     if (redis_url) {
         config.redis_url = redis_url;
     }
     
-    const char* jwt_secret = std::getenv("SONET_JWT_SECRET");
+    const char* jwt_secret = std::getenv("time_JWT_SECRET");
     if (jwt_secret) {
         config.jwt_secret = jwt_secret;
     }
     
-    const char* smtp_host = std::getenv("SONET_SMTP_HOST");
+    const char* smtp_host = std::getenv("time_SMTP_HOST");
     if (smtp_host) {
         config.smtp_host = smtp_host;
     }
     
-    const char* smtp_user = std::getenv("SONET_SMTP_USER");
+    const char* smtp_user = std::getenv("time_SMTP_USER");
     if (smtp_user) {
         config.smtp_username = smtp_user;
     }
     
-    const char* smtp_pass = std::getenv("SONET_SMTP_PASS");
+    const char* smtp_pass = std::getenv("time_SMTP_PASS");
     if (smtp_pass) {
         config.smtp_password = smtp_pass;
     }
     
-    const char* fcm_key = std::getenv("SONET_FCM_KEY");
+    const char* fcm_key = std::getenv("time_FCM_KEY");
     if (fcm_key) {
         config.fcm_server_key = fcm_key;
     }
@@ -211,7 +211,7 @@ NotificationServiceConfig load_configuration(int argc, char* argv[]) {
  */
 void setup_logging(const std::string& environment) {
     (void)environment;
-    (void)sonet::logging::init_json_stdout_logger();
+    (void)time::logging::init_json_stdout_logger();
     spdlog::info(R"({"event":"startup","message":"Notification logging initialized"})");
 }
 
@@ -256,7 +256,7 @@ bool validate_configuration(const NotificationServiceConfig& config) {
 void print_startup_banner(const NotificationServiceConfig& config) {
     std::cout << "\n";
     std::cout << "╔═══════════════════════════════════════════════════════════════╗\n";
-    std::cout << "║                  Sonet Notification Service                  ║\n";
+    std::cout << "║                  time Notification Service                  ║\n";
     std::cout << "║                     Version 1.0.0                           ║\n";
     std::cout << "║                Built for Real Connections                    ║\n";
     std::cout << "╚═══════════════════════════════════════════════════════════════╝\n";

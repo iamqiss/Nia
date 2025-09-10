@@ -1,9 +1,9 @@
-// Sonet Services Environment Configuration Implementation
+// time Services Environment Configuration Implementation
 // Unified with monorepo environment management
 
 #include "environment.hpp"
 
-namespace sonet {
+namespace time {
 namespace config {
 
 // Global configuration instance
@@ -24,4 +24,4 @@ void initializeConfig() {
 }
 
 } // namespace config
-} // namespace sonet
+} // namespace time

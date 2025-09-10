@@ -17,7 +17,7 @@
 #include <memory>
 #include <functional>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Performance metrics for a single query
@@ -237,8 +237,8 @@ private:
 
 // Utility macros for easy monitoring
 #define MONITOR_QUERY(query_type, table_name) \
-    sonet::database::QueryMonitorScope query_monitor( \
-        sonet::database::PerformanceMonitor::get_instance().hash_query(__PRETTY_FUNCTION__), \
+    time::database::QueryMonitorScope query_monitor( \
+        time::database::PerformanceMonitor::get_instance().hash_query(__PRETTY_FUNCTION__), \
         query_type, table_name)
 
 #define MONITOR_SELECT(table_name) MONITOR_QUERY("SELECT", table_name)
@@ -247,4 +247,4 @@ private:
 #define MONITOR_DELETE(table_name) MONITOR_QUERY("DELETE", table_name)
 
 } // namespace database
-} // namespace sonet
+} // namespace time

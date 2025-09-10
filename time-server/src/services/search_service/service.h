@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Main search service orchestrator for Twitter-scale search operations.
  * This coordinates all components: engines, indexers, controllers, and
@@ -25,7 +25,7 @@
 #include <vector>
 #include <functional>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 
 /**
@@ -33,7 +33,7 @@ namespace search_service {
  */
 struct SearchServiceConfig {
     // Service identification
-    std::string service_name = "sonet-search-service";
+    std::string service_name = "time-search-service";
     std::string service_version = "1.0.0";
     std::string service_id;  // Unique instance ID
     std::string environment = "production";  // production, staging, development, testing
@@ -63,7 +63,7 @@ struct SearchServiceConfig {
     std::string log_level = "INFO";  // DEBUG, INFO, WARN, ERROR, FATAL
     std::string log_format = "JSON";  // TEXT, JSON
     std::string log_output = "STDOUT";  // STDOUT, FILE, SYSLOG
-    std::string log_file_path = "/var/log/sonet/search-service.log";
+    std::string log_file_path = "/var/log/time/search-service.log";
     bool enable_request_logging = true;
     bool enable_audit_logging = true;
     
@@ -782,4 +782,4 @@ namespace service_utils {
 }
 
 } // namespace search_service
-} // namespace sonet
+} // namespace time

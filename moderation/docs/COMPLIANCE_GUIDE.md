@@ -2,7 +2,7 @@
 
 ## 🔒 **Complete Legal Compliance Solution**
 
-The Sonet Moderation Service provides **comprehensive compliance and data export capabilities** to meet all legal, regulatory, and business requirements. This system is designed to handle:
+The time Moderation Service provides **comprehensive compliance and data export capabilities** to meet all legal, regulatory, and business requirements. This system is designed to handle:
 
 - **Law enforcement requests** (CSAM, terrorism, harassment, etc.)
 - **Legal compliance** (GDPR, CCPA, local laws)
@@ -400,4 +400,4 @@ curl -X POST http://localhost:8080/api/v1/compliance/law-enforcement \
 
 ---
 
-**🔒 The Sonet Moderation Service provides enterprise-grade compliance and data export capabilities, ensuring your platform meets all legal and regulatory requirements while maintaining operational efficiency.**
+**🔒 The time Moderation Service provides enterprise-grade compliance and data export capabilities, ensuring your platform meets all legal and regulatory requirements while maintaining operational efficiency.**

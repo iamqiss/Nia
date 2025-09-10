@@ -3,7 +3,7 @@
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/client_context.h>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 OverdriveClientGrpc::OverdriveClientGrpc(const std::string& target_address) : target_(target_address) {
 	// Create gRPC channel
@@ -103,4 +103,4 @@ std::vector<OverdriveRankedItem> OverdriveClientGrpc::FallbackRanking(
 	return result;
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

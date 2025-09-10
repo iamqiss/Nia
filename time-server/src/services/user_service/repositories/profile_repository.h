@@ -16,9 +16,9 @@
 #include <vector>
 #include <string>
 
-namespace sonet::user::repositories {
+namespace time::user::repositories {
 
-using namespace sonet::user::models;
+using namespace time::user::models;
 
 // postgresql implementation of ProfileRepository
 class PostgreSQLProfileRepository : public IProfileRepository {
@@ -242,4 +242,4 @@ public:
         const std::string& connection_string);
 };
 
-} // namespace sonet::user::repositories
+} // namespace time::user::repositories

@@ -20,7 +20,7 @@ int main() {
         std::cout << "UserRepositoryLibpq header compiles successfully!" << std::endl;
         
         // Test creating a user model
-        sonet::user::models::User user;
+        time::user::models::User user;
         user.username = "testuser";
         user.email = "test@example.com";
         user.display_name = "Test User";
@@ -28,14 +28,14 @@ int main() {
         std::cout << "User model created: " << user.username << std::endl;
         
         // Test creating a profile model
-        sonet::user::models::Profile profile;
+        time::user::models::Profile profile;
         profile.user_id = "test-user-id";
         profile.bio = "Test bio";
         
         std::cout << "Profile model created: " << profile.user_id << std::endl;
         
         // Test creating a session model
-        sonet::user::models::Session session;
+        time::user::models::Session session;
         session.user_id = "test-user-id";
         session.token = "test-token";
         

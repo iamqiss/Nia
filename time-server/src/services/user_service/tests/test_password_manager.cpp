@@ -10,7 +10,7 @@
 #include "password_manager.h"
 #include <string>
 
-using namespace sonet::user;
+using namespace time::user;
 
 class PasswordManagerTest : public ::testing::Test {
 protected:

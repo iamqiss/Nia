@@ -2,7 +2,7 @@
 # Copyright (c) 2025 Neo Qiss
 # All rights r# Link with all the good stuff we need
 target_link_libraries(user_service PRIVATE
-    sonet_user_proto
+    time_user_proto
     gRPC::grpc++
     gRPC::grpc++_reflection
     protobuf::protobuf
@@ -78,10 +78,10 @@ set(USER_SERVICE_HEADERS
 # Executable
 add_executable(user_service ${USER_SERVICE_SOURCES} ${USER_SERVICE_HEADERS})
 
-# Link generated proto library name according to your proto build; default to sonet_proto
-# If your build generates a different target (e.g., sonet_user_proto), adjust here.
+# Link generated proto library name according to your proto build; default to time_proto
+# If your build generates a different target (e.g., time_user_proto), adjust here.
 target_link_libraries(user_service PRIVATE
-    sonet_proto
+    time_proto
     protobuf::protobuf
     nlohmann_json::nlohmann_json
     spdlog::spdlog

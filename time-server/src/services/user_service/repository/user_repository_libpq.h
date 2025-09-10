@@ -18,7 +18,7 @@
 #include <optional>
 #include <string>
 
-namespace sonet {
+namespace time {
 namespace user {
 
 // User repository interface using libpq infrastructure
@@ -142,4 +142,4 @@ private:
 };
 
 } // namespace user
-} // namespace sonet
+} // namespace time

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the notification processor - the brain of the notification system.
  * I built this to intelligently batch, rate limit, and route notifications so users
@@ -17,7 +17,7 @@
 #include <iomanip>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace processors {
 
@@ -731,4 +731,4 @@ NotificationProcessor::Config NotificationProcessorFactory::create_default_confi
 
 } // namespace processors
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

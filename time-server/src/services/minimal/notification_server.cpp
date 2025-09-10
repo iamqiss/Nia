@@ -1,15 +1,15 @@
 #include "../../../proto/grpc_stub.h"
 #include "notification.grpc.pb.h"
 
-class MinimalNotificationService final : public sonet::notification::NotificationService::Service {
+class MinimalNotificationService final : public time::notification::NotificationService::Service {
 public:
-  grpc::Status SendNotification(grpc::ServerContext*, const sonet::notification::SendNotificationRequest* req, sonet::notification::SendNotificationResponse* resp) override {
+  grpc::Status SendNotification(grpc::ServerContext*, const time::notification::SendNotificationRequest* req, time::notification::SendNotificationResponse* resp) override {
     (void)req; resp->set_success(true); return grpc::Status::OK;
   }
-  grpc::Status ListNotifications(grpc::ServerContext*, const sonet::notification::ListNotificationsRequest* req, sonet::notification::ListNotificationsResponse* resp) override {
+  grpc::Status ListNotifications(grpc::ServerContext*, const time::notification::ListNotificationsRequest* req, time::notification::ListNotificationsResponse* resp) override {
     (void)req; (void)resp; return grpc::Status::OK;
   }
-  grpc::Status MarkNotificationRead(grpc::ServerContext*, const sonet::notification::MarkNotificationReadRequest* req, sonet::notification::MarkNotificationReadResponse* resp) override {
+  grpc::Status MarkNotificationRead(grpc::ServerContext*, const time::notification::MarkNotificationReadRequest* req, time::notification::MarkNotificationReadResponse* resp) override {
     (void)req; resp->set_success(true); return grpc::Status::OK;
   }
 };

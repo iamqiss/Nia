@@ -9,7 +9,7 @@
 #include "note_websocket_handler.h"
 #include <spdlog/spdlog.h>
 
-namespace sonet::note::websocket {
+namespace time::note::websocket {
 
 NoteWebSocketHandler::NoteWebSocketHandler() {
     spdlog::info("NoteWebSocketHandler initialized");
@@ -356,4 +356,4 @@ void NoteWebSocketHandler::handle_typing_indicator(websocketpp::connection_hdl h
     }
 }
 
-} // namespace sonet::note::websocket
+} // namespace time::note::websocket

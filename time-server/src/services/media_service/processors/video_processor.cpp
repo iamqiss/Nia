@@ -14,7 +14,7 @@
 #include <fstream>
 
 namespace fs = std::filesystem;
-namespace sonet::media_service {
+namespace time::media_service {
 
 class FfmpegVideoProcessor final : public VideoProcessor {
 public:
@@ -47,5 +47,5 @@ public:
 
 std::unique_ptr<VideoProcessor> CreateVideoProcessor() { return std::make_unique<FfmpegVideoProcessor>(); }
 
-} // namespace sonet::media_service
+} // namespace time::media_service
 

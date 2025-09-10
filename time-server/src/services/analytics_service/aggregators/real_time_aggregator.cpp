@@ -5,7 +5,7 @@
 #include <sstream>
 #include <utility>
 
-namespace sonet::analytics_service::aggregators {
+namespace time::analytics_service::aggregators {
 
 size_t RealTimeAggregator::BucketKeyHash::operator()(const BucketKey& k) const noexcept {
 	std::hash<std::string> hs;
@@ -114,5 +114,5 @@ std::vector<Series> RealTimeAggregator::Query(const model::MetricQuery& query) c
 	return out;
 }
 
-} // namespace sonet::analytics_service::aggregators
+} // namespace time::analytics_service::aggregators
 

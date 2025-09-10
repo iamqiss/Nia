@@ -13,7 +13,7 @@
 #include <unordered_set>
 #include <regex>
 
-namespace sonet::user::validators {
+namespace time::user::validators {
 
 /**
  * Comprehensive validation system for user-related data.
@@ -104,4 +104,4 @@ private:
     void cleanup_old_attempts();
 };
 
-} // namespace sonet::user::validators
+} // namespace time::user::validators

@@ -161,16 +161,16 @@ std::map<std::string, std::string> config = {
     
     // Storage Configuration (Choose one)
     {"storage_provider", "local"},
-    {"storage_base_path", "/var/www/sonet/uploads"},
-    {"storage_public_url", "https://cdn.sonet.com"},
+    {"storage_base_path", "/var/www/time/uploads"},
+    {"storage_public_url", "https://cdn.time.com"},
     
     // OR AWS S3
     // {"storage_provider", "s3"},
-    // {"s3_bucket", "sonet-uploads"},
+    // {"s3_bucket", "time-uploads"},
     // {"aws_access_key", "your-key"},
     
     // Database
-    {"database_connection_string", "postgresql://user:pass@localhost:5432/sonet"}
+    {"database_connection_string", "postgresql://user:pass@localhost:5432/time"}
 };
 ```
 

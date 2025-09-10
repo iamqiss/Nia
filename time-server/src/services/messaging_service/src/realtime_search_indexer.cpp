@@ -16,7 +16,7 @@
 #include <locale>
 #include <regex>
 
-namespace sonet::messaging::search {
+namespace time::messaging::search {
 
 // SearchFilters implementation
 Json::Value SearchFilters::to_json() const {
@@ -1326,4 +1326,4 @@ std::string SearchUtils::format_search_summary(const std::vector<SearchResult>& 
     return summary;
 }
 
-} // namespace sonet::messaging::search
+} // namespace time::messaging::search

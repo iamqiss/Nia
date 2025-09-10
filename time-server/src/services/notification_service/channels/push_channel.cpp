@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the push notification channel for mobile and web notifications.
- * I built this to send timely push notifications that bring users back to Sonet
+ * I built this to send timely push notifications that bring users back to time
  * when something interesting happens. It works with FCM for cross-platform delivery.
  */
 
@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -692,4 +692,4 @@ PushTemplate PushChannelFactory::create_like_template() {
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the postgresql implementation of the notification repository.
  * I built this to handle millions of notifications with efficient caching
@@ -19,7 +19,7 @@
 #include <sstream>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace repositories {
 
@@ -1080,4 +1080,4 @@ std::unique_ptr<NotificationRepository> NotificationRepositoryFactory::create(
 
 } // namespace repositories
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

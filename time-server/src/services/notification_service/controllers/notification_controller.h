@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the HTTP controller for notification management. I built this to handle
  * both REST API endpoints and WebSocket connections for real-time notifications.
- * It's designed to scale with Sonet's growth while keeping the API simple.
+ * It's designed to scale with time's growth while keeping the API simple.
  */
 
 #pragma once
@@ -24,7 +24,7 @@
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace controllers {
 
@@ -390,4 +390,4 @@ public:
 
 } // namespace controllers
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

@@ -14,7 +14,7 @@
 #include <ctime>
 #include <memory>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 enum class SessionStatus {
     ACTIVE,
@@ -327,4 +327,4 @@ SessionType string_to_session_type(const std::string& type);
 std::string device_type_to_string(DeviceType type);
 DeviceType string_to_device_type(const std::string& type);
 
-} // namespace sonet::user::models
+} // namespace time::user::models

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the WebSocket channel for real-time notifications. I built this to
- * deliver instant notifications when users are actively browsing Sonet,
+ * deliver instant notifications when users are actively browsing time,
  * making the experience feel live and engaging.
  */
 
@@ -24,7 +24,7 @@
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -472,4 +472,4 @@ public:
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

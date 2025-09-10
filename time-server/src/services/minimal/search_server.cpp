@@ -1,12 +1,12 @@
 #include "../../../proto/grpc_stub.h"
 #include "search.grpc.pb.h"
 
-class MinimalSearchService final : public sonet::search::SearchService::Service {
+class MinimalSearchService final : public time::search::SearchService::Service {
 public:
-  grpc::Status SearchUsers(grpc::ServerContext*, const sonet::search::SearchUserRequest* req, sonet::search::SearchUserResponse* resp) override {
+  grpc::Status SearchUsers(grpc::ServerContext*, const time::search::SearchUserRequest* req, time::search::SearchUserResponse* resp) override {
     (void)req; (void)resp; return grpc::Status::OK;
   }
-  grpc::Status SearchNotes(grpc::ServerContext*, const sonet::search::SearchNoteRequest* req, sonet::search::SearchNoteResponse* resp) override {
+  grpc::Status SearchNotes(grpc::ServerContext*, const time::search::SearchNoteRequest* req, time::search::SearchNoteResponse* resp) override {
     (void)req; (void)resp; return grpc::Status::OK;
   }
 };

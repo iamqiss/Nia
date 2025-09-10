@@ -20,7 +20,7 @@
 #include <sstream>
 #include <uuid/uuid.h>
 
-namespace sonet::user::storage {
+namespace time::user::storage {
 
 // Image processing implementation using OpenCV
 class ImageProcessor {
@@ -673,4 +673,4 @@ bool FileTypeDetector::is_allowed_type(const std::string& content_type, const st
     return true;
 }
 
-} // namespace sonet::user::storage
+} // namespace time::user::storage

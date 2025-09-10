@@ -17,7 +17,7 @@
 #include "collectors/event_collector.h"
 #include "models/event.h"
 
-namespace sonet::analytics_service::processors {
+namespace time::analytics_service::processors {
 
 // StreamProcessor consumes events from EventCollector and forwards to a sink callback
 class StreamProcessor {
@@ -43,5 +43,5 @@ private:
 	std::thread thread_;
 };
 
-} // namespace sonet::analytics_service::processors
+} // namespace time::analytics_service::processors
 

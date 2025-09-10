@@ -13,12 +13,12 @@
 #include <random>
 #include <algorithm>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Helper to convert system_clock::time_point to protobuf timestamp
-    ::sonet::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
-        ::sonet::common::Timestamp result;
+    ::time::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
+        ::time::common::Timestamp result;
         auto duration = tp.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
         auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - seconds);
@@ -119,7 +119,7 @@ void WebSocketRealtimeNotifier::NotifyNewItems(
 void WebSocketRealtimeNotifier::NotifyItemUpdate(
     const std::string& user_id,
     const std::string& item_id,
-    const ::sonet::timeline::TimelineUpdate& update
+    const ::time::timeline::TimelineUpdate& update
 ) {
     std::ostringstream data_stream;
     data_stream << "{"
@@ -306,4 +306,4 @@ void WebSocketRealtimeNotifier::BroadcastToAll(const std::string& message) {
     std::cout << "Broadcast message sent to " << sent_count << " connections" << std::endl;
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

@@ -3,10 +3,10 @@
 #include "gateway/auth/jwt_handler.h"
 #include <memory>
 
-namespace sonet::gateway::middleware {
+namespace time::gateway::middleware {
 
 struct AuthHelper {
-	static bool authenticate(const httplib::Request& req, sonet::gateway::auth::JwtHandler& jwt, std::string& user_id) {
+	static bool authenticate(const httplib::Request& req, time::gateway::auth::JwtHandler& jwt, std::string& user_id) {
 		auto it = req.get_header_value("Authorization");
 		if (it.rfind("Bearer ", 0) == 0) {
 			auto token = it.substr(7);

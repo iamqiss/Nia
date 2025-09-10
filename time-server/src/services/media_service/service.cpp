@@ -23,7 +23,7 @@
 
 namespace fs = std::filesystem;
 
-namespace sonet::media_service {
+namespace time::media_service {
 
 // Persistent like state (development-grade durability)
 static std::mutex g_like_mu;
@@ -32,7 +32,7 @@ static std::unordered_map<std::string, bool> g_user_media_liked;      // user_id
 static bool g_likes_loaded = false;
 
 static std::string LikesStorePath() {
-	const char* env = std::getenv("SONET_MEDIA_LIKES_PATH");
+	const char* env = std::getenv("time_MEDIA_LIKES_PATH");
 	return env && *env ? std::string(env) : std::string("/tmp/media_likes.json");
 }
 
@@ -238,7 +238,7 @@ std::unique_ptr<GifProcessor> CreateGifProcessor() { return std::make_unique<Bas
 class BasicScanner final : public NsfwScanner {
 public:
 	explicit BasicScanner(bool enable): enable_(enable) {}
-	bool IsAllowed(const std::string& /*local_path*/, ::sonet::media::MediaType /*type*/, std::string& reason) override {
+	bool IsAllowed(const std::string& /*local_path*/, ::time::media::MediaType /*type*/, std::string& reason) override {
 		if (!enable_) return true; // scanning disabled -> allow
 		// TODO: plug a real model or API here. For now always allow.
 		reason.clear();
@@ -293,7 +293,7 @@ static bool IsAdmin(grpc::ServerContext* ctx) {
 class RateLimiter {
 public:
 	RateLimiter() {
-		const char* env = std::getenv("SONET_MEDIA_UPLOADS_PER_MIN");
+		const char* env = std::getenv("time_MEDIA_UPLOADS_PER_MIN");
 		if (env) { try { limit_per_min_ = std::stoul(env); } catch(...) {} }
 	}
 	bool Allow(const std::string& user) {
@@ -318,9 +318,9 @@ static RateLimiter g_upload_rate_limiter;
 
 // -------------- gRPC methods --------------
 ::grpc::Status MediaServiceImpl::Upload(::grpc::ServerContext* context,
-                          ::grpc::ServerReader< ::sonet::media::UploadRequest>* reader,
-                          ::sonet::media::UploadResponse* response) {
-    using namespace ::sonet::media;
+                          ::grpc::ServerReader< ::time::media::UploadRequest>* reader,
+                          ::time::media::UploadResponse* response) {
+    using namespace ::time::media;
     UploadRequest req; UploadInit init; bool got_init=false;
     auto tmp_dir = fs::temp_directory_path(); auto tmp_path = tmp_dir / ("upload-" + GenId());
     std::ofstream ofs(tmp_path, std::ios::binary); if (!ofs) return {::grpc::StatusCode::INTERNAL, "Failed to open temp file"};
@@ -333,7 +333,7 @@ static RateLimiter g_upload_rate_limiter;
             if (init.type()==MEDIA_TYPE_UNKNOWN) return {::grpc::StatusCode::INVALID_ARGUMENT, "media type required"};
             if (!g_upload_rate_limiter.Allow(init.owner_user_id())) return {::grpc::StatusCode::RESOURCE_EXHAUSTED, "rate limit"};
 			// Allow env override for max upload bytes
-			if (const char* e = std::getenv("SONET_MEDIA_MAX_UPLOAD")) { try { uint64_t v = std::stoull(e); if (v > 0) max_upload_bytes_ = v; } catch(...) {} }
+			if (const char* e = std::getenv("time_MEDIA_MAX_UPLOAD")) { try { uint64_t v = std::stoull(e); if (v > 0) max_upload_bytes_ = v; } catch(...) {} }
 			LOG_INFO("upload_init", (std::unordered_map<std::string,std::string>{{"owner", init.owner_user_id()},{"type", std::to_string(init.type())}}));
             continue;
         }
@@ -379,8 +379,8 @@ static RateLimiter g_upload_rate_limiter;
 }
 
 ::grpc::Status MediaServiceImpl::GetMedia(::grpc::ServerContext* context,
-										  const ::sonet::media::GetMediaRequest* request,
-										  ::sonet::media::GetMediaResponse* response) {
+										  const ::time::media::GetMediaRequest* request,
+										  ::time::media::GetMediaResponse* response) {
 	LOG_INFO("get_media", (std::unordered_map<std::string,std::string>{{"media_id", request->media_id()}}));
 	MediaRecord rec{};
 	if (!repo_->Get(request->media_id(), rec)) return {::grpc::StatusCode::NOT_FOUND, "not found"};
@@ -408,8 +408,8 @@ static RateLimiter g_upload_rate_limiter;
 }
 
 ::grpc::Status MediaServiceImpl::DeleteMedia(::grpc::ServerContext* context,
-											 const ::sonet::media::DeleteMediaRequest* request,
-											 ::sonet::media::DeleteMediaResponse* response) {
+											 const ::time::media::DeleteMediaRequest* request,
+											 ::time::media::DeleteMediaResponse* response) {
 	LOG_INFO("delete_media", (std::unordered_map<std::string,std::string>{{"media_id", request->media_id()}}));
 	// We delete from storage best-effort, then repo
 	MediaRecord rec{};
@@ -427,8 +427,8 @@ static RateLimiter g_upload_rate_limiter;
 }
 
 ::grpc::Status MediaServiceImpl::ListUserMedia(::grpc::ServerContext* context,
-											   const ::sonet::media::ListUserMediaRequest* request,
-											   ::sonet::media::ListUserMediaResponse* response) {
+											   const ::time::media::ListUserMediaRequest* request,
+											   ::time::media::ListUserMediaResponse* response) {
 	// Authorization: caller must match requested owner unless admin
 	std::string caller = GetMetadataValue(context, "x-user-id");
 	if (!caller.empty() && caller != request->owner_user_id() && !IsAdmin(context)) {
@@ -461,15 +461,15 @@ static RateLimiter g_upload_rate_limiter;
 }
 
 ::grpc::Status MediaServiceImpl::HealthCheck(::grpc::ServerContext* /*context*/,
-										 const ::sonet::media::HealthCheckRequest* /*request*/,
-										 ::sonet::media::HealthCheckResponse* response) {
+										 const ::time::media::HealthCheckRequest* /*request*/,
+										 ::time::media::HealthCheckResponse* response) {
 	response->set_status("ok");
 	return ::grpc::Status::OK;
 }
 
 ::grpc::Status MediaServiceImpl::ToggleMediaLike(::grpc::ServerContext* context,
-													 const ::sonet::media::ToggleMediaLikeRequest* request,
-													 ::sonet::media::ToggleMediaLikeResponse* response) {
+													 const ::time::media::ToggleMediaLikeRequest* request,
+													 ::time::media::ToggleMediaLikeResponse* response) {
 	if (!request || request->media_id().empty()) {
 		return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, "media_id required");
 	}
@@ -508,5 +508,5 @@ static RateLimiter g_upload_rate_limiter;
 	return ::grpc::Status::OK;
 }
 
-} // namespace sonet::media_service
+} // namespace time::media_service
 

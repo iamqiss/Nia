@@ -7,7 +7,7 @@
 #include <optional>
 #include <array>
 
-namespace sonet::pqc {
+namespace time::pqc {
 
 // PQC Algorithm Constants
 constexpr size_t KYBER_512_KEY_SIZE = 800;
@@ -273,4 +273,4 @@ private:
     std::vector<uint8_t> decode_ciphertext(const std::vector<uint8_t>& encoded, PQCAlgorithm algorithm);
 };
 
-} // namespace sonet::pqc
+} // namespace time::pqc

@@ -25,11 +25,11 @@ target_include_directories(timeline_service PUBLIC
     ${CMAKE_SOURCE_DIR}/proto/common
 )
 
-# Link required libraries including sonet_proto for gRPC support
+# Link required libraries including time_proto for gRPC support
 find_package(Threads REQUIRED)
 target_link_libraries(timeline_service PUBLIC
     Threads::Threads
-    sonet_proto  # This provides gRPC and protobuf support
+    time_proto  # This provides gRPC and protobuf support
 )
 
 # Set C++ standard
@@ -46,7 +46,7 @@ add_executable(timeline_service_main
 target_link_libraries(timeline_service_main
     timeline_service
     Threads::Threads
-    sonet_proto  # Ensure executable also has gRPC support
+    time_proto  # Ensure executable also has gRPC support
 )
 
 # Set properties for the executable
@@ -74,7 +74,7 @@ install(FILES
     controllers/timeline_controller.h
     clients/grpc_clients.h
     clients/kafka_fanout.h
-    DESTINATION include/sonet/timeline
+    DESTINATION include/time/timeline
 )
 
 message(STATUS "Timeline service configured successfully (simplified build)")

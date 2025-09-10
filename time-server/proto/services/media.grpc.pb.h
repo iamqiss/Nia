@@ -2,7 +2,7 @@
 
 #include "../grpc_stub.h"
 
-namespace sonet {
+namespace time {
 namespace media {
     enum MediaType {
         MEDIA_TYPE_UNKNOWN = 0,

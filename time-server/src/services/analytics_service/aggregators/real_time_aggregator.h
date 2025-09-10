@@ -21,7 +21,7 @@
 #include "models/event.h"
 #include "models/metric.h"
 
-namespace sonet::analytics_service::aggregators {
+namespace time::analytics_service::aggregators {
 
 struct Point { int64_t ts_ms{}; double value{}; };
 
@@ -62,5 +62,5 @@ private:
 	std::unordered_map<BucketKey, BucketValue, BucketKeyHash> buckets_;
 };
 
-} // namespace sonet::analytics_service::aggregators
+} // namespace time::analytics_service::aggregators
 

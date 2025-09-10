@@ -1,4 +1,4 @@
-# Sonet Messaging Service - Military-Grade E2EE Communication Platform
+# time Messaging Service - Military-Grade E2EE Communication Platform
 # Copyright (c) 2025 Neo Qiss. All rights reserved.
 
 cmake_minimum_required(VERSION 3.16)
@@ -41,7 +41,7 @@ find_package(PkgConfig REQUIRED)
 # Core dependencies
 find_package(Boost REQUIRED COMPONENTS system filesystem thread random chrono)
 find_package(OpenSSL REQUIRED)
-# Rely on top-level Protobuf/gRPC configuration and sonet_proto target
+# Rely on top-level Protobuf/gRPC configuration and time_proto target
 # find_package(protobuf REQUIRED)
 # find_package(gRPC REQUIRED)
 
@@ -179,7 +179,7 @@ target_link_libraries(messaging_service
     # ${ARGON2_LIBRARY} # optional
     Threads::Threads
     # header-only asio
-    sonet_proto
+    time_proto
 )
 
 # Optionally link Argon2 if found
@@ -247,7 +247,7 @@ install(TARGETS messaging_service
 # Install configuration files
 install(FILES
     config/messaging_service.json.example
-    DESTINATION etc/sonet
+    DESTINATION etc/time
     COMPONENT messaging_service_config
 )
 
@@ -380,9 +380,9 @@ if(ENABLE_COVERAGE)
 endif()
 
 # Packaging
-set(CPACK_PACKAGE_NAME "sonet-messaging-service")
+set(CPACK_PACKAGE_NAME "time-messaging-service")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Sonet Messaging Service - Military-Grade E2EE Communication")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "time Messaging Service - Military-Grade E2EE Communication")
 set(CPACK_PACKAGE_VENDOR "Neo Qiss")
 set(CPACK_PACKAGE_CONTACT "support@neoqiss.com")
 

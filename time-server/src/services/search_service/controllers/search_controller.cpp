@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Implementation of the search controller for Twitter-scale search operations.
  * This handles HTTP/gRPC requests, authentication, rate limiting, and response caching.
@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <cmath>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace controllers {
 
@@ -834,7 +834,7 @@ std::vector<std::string> SearchController::fetch_suggestions(const std::string& 
     } else if (prefix.substr(0, 2) == "ai") {
         suggestions = {"artificial intelligence", "ai", "airport", "air", "airbnb", "airline"};
     } else if (prefix.substr(0, 2) == "so") {
-        suggestions = {"social media", "software", "sonet", "soccer", "solution", "society", "sound", "source"};
+        suggestions = {"social media", "software", "time", "soccer", "solution", "society", "sound", "source"};
     } else {
         // Generic suggestions
         suggestions = {prefix + "1", prefix + "2", prefix + "3"};
@@ -938,4 +938,4 @@ double SearchControllerMetrics::get_average_response_time_ms() const {
 
 } // namespace controllers
 } // namespace search_service
-} // namespace sonet
+} // namespace time

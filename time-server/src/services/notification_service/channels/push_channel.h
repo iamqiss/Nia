@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the push notification channel for mobile and web notifications.
  * I built this to send timely, engaging push notifications that bring users
- * back to Sonet when something interesting happens with their notes.
+ * back to time when something interesting happens with their notes.
  */
 
 #pragma once
@@ -19,7 +19,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace channels {
 
@@ -429,4 +429,4 @@ public:
 
 } // namespace channels
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

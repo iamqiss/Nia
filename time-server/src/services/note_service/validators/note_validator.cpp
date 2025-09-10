@@ -15,7 +15,7 @@
 #include <unordered_set>
 #include <cctype>
 
-namespace sonet::note::validators {
+namespace time::note::validators {
 
 // Constructor
 NoteValidator::NoteValidator() {
@@ -921,4 +921,4 @@ bool NoteValidator::contains_illegal_content_indicators(const std::string& conte
     return false;
 }
 
-} // namespace sonet::note::validators
+} // namespace time::note::validators

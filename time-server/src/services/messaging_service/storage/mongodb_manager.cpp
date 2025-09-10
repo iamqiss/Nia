@@ -17,7 +17,7 @@
 #include <ctime>
 #include <sodium.h>
 
-namespace sonet::messaging::storage {
+namespace time::messaging::storage {
 
 // EncryptionMetadata implementation
 Json::Value EncryptionMetadata::to_json() const {
@@ -311,7 +311,7 @@ Json::Value MongoConfig::to_json() const {
 MongoConfig MongoConfig::from_json(const Json::Value& json) {
     MongoConfig config;
     config.connection_string = json.get("connection_string", "mongodb://localhost:27017").asString();
-    config.database_name = json.get("database_name", "sonet_messaging").asString();
+    config.database_name = json.get("database_name", "time_messaging").asString();
     config.min_pool_size = json.get("min_pool_size", 5).asUInt();
     config.max_pool_size = json.get("max_pool_size", 100).asUInt();
     config.connection_timeout = std::chrono::milliseconds(json.get("connection_timeout_ms", 30000).asInt64());
@@ -330,7 +330,7 @@ MongoConfig MongoConfig::from_json(const Json::Value& json) {
 MongoConfig MongoConfig::default_config() {
     MongoConfig config;
     config.connection_string = "mongodb://localhost:27017";
-    config.database_name = "sonet_messaging";
+    config.database_name = "time_messaging";
     config.min_pool_size = 5;
     config.max_pool_size = 100;
     config.connection_timeout = std::chrono::milliseconds(30000);
@@ -737,4 +737,4 @@ std::string MongoUtils::sanitize_field_name(const std::string& field_name) {
     return sanitized;
 }
 
-} // namespace sonet::messaging::storage
+} // namespace time::messaging::storage

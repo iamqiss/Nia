@@ -6,8 +6,8 @@
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
 
-#ifndef SONET_NOTE_GRPC_SERVICE_H
-#define SONET_NOTE_GRPC_SERVICE_H
+#ifndef time_NOTE_GRPC_SERVICE_H
+#define time_NOTE_GRPC_SERVICE_H
 
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/server.h>
@@ -33,23 +33,23 @@
 #include <thread>
 #include <mutex>
 
-namespace sonet::note::grpc {
+namespace time::note::grpc {
 
 using ::grpc::Status;
 using ::grpc::StatusCode;
 using ::grpc::ServerContext;
 using ::grpc::ServerWriter;
 
-class NoteGrpcService final : public sonet::note::grpc::NoteService::Service {
+class NoteGrpcService final : public time::note::grpc::NoteService::Service {
 public:
     explicit NoteGrpcService(
-        std::shared_ptr<sonet::note::NoteService> note_service,
-        std::shared_ptr<sonet::note::services::TimelineService> timeline_service,
-        std::shared_ptr<sonet::note::services::AnalyticsService> analytics_service,
-        std::shared_ptr<sonet::note::repositories::NoteRepository> note_repository,
-        std::shared_ptr<sonet::core::cache::RedisClient> redis_client,
-        std::shared_ptr<sonet::core::security::AuthService> auth_service,
-        std::shared_ptr<sonet::core::logging::MetricsCollector> metrics_collector
+        std::shared_ptr<time::note::NoteService> note_service,
+        std::shared_ptr<time::note::services::TimelineService> timeline_service,
+        std::shared_ptr<time::note::services::AnalyticsService> analytics_service,
+        std::shared_ptr<time::note::repositories::NoteRepository> note_repository,
+        std::shared_ptr<time::core::cache::RedisClient> redis_client,
+        std::shared_ptr<time::core::security::AuthService> auth_service,
+        std::shared_ptr<time::core::logging::MetricsCollector> metrics_collector
     );
 
     virtual ~NoteGrpcService() = default;
@@ -62,9 +62,9 @@ public:
     Status LikeNote(ServerContext* context, const LikeNoteRequest* request, LikeNoteResponse* response) override;
 
 private:
-    std::shared_ptr<sonet::note::NoteService> note_service_;
+    std::shared_ptr<time::note::NoteService> note_service_;
 };
 
-} // namespace sonet::note::grpc
+} // namespace time::note::grpc
 
-#endif // SONET_NOTE_GRPC_SERVICE_H
+#endif // time_NOTE_GRPC_SERVICE_H

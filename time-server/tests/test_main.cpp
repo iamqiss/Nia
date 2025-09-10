@@ -10,7 +10,7 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    std::cout << "🧪 Running Sonet Tests..." << std::endl;
+    std::cout << "🧪 Running time Tests..." << std::endl;
     
     ::testing::InitGoogleTest(&argc, argv);
     

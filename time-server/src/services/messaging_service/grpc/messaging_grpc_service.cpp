@@ -1,12 +1,12 @@
 #include "grpc/messaging_grpc_service.h"
 #include <random>
 
-namespace sonet::messaging::grpc_impl {
+namespace time::messaging::grpc_impl {
 
 MessagingGrpcService::MessagingGrpcService() {}
 MessagingGrpcService::~MessagingGrpcService() {}
 
-::grpc::Status MessagingGrpcService::SendMessage(::grpc::ServerContext* /*context*/, const ::sonet::messaging::SendMessageRequest* request, ::sonet::messaging::SendMessageResponse* response) {
+::grpc::Status MessagingGrpcService::SendMessage(::grpc::ServerContext* /*context*/, const ::time::messaging::SendMessageRequest* request, ::time::messaging::SendMessageResponse* response) {
 	if (!request || request->chat_id().empty() || request->content().empty()) {
 		auto* st = response->mutable_status();
 		st->set_code(1);
@@ -31,7 +31,7 @@ MessagingGrpcService::~MessagingGrpcService() {}
 	return ::grpc::Status::OK;
 }
 
-::grpc::Status MessagingGrpcService::GetMessages(::grpc::ServerContext* /*context*/, const ::sonet::messaging::GetMessagesRequest* request, ::sonet::messaging::GetMessagesResponse* response) {
+::grpc::Status MessagingGrpcService::GetMessages(::grpc::ServerContext* /*context*/, const ::time::messaging::GetMessagesRequest* request, ::time::messaging::GetMessagesResponse* response) {
 	if (!request || request->chat_id().empty()) {
 		return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, "missing chat_id");
 	}
@@ -48,7 +48,7 @@ MessagingGrpcService::~MessagingGrpcService() {}
 	return ::grpc::Status::OK;
 }
 
-::grpc::Status MessagingGrpcService::CreateChat(::grpc::ServerContext* /*context*/, const ::sonet::messaging::CreateChatRequest* request, ::sonet::messaging::CreateChatResponse* response) {
+::grpc::Status MessagingGrpcService::CreateChat(::grpc::ServerContext* /*context*/, const ::time::messaging::CreateChatRequest* request, ::time::messaging::CreateChatResponse* response) {
 	if (!request || request->participant_ids_size() == 0) {
 		return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, "missing participants");
 	}
@@ -56,7 +56,7 @@ MessagingGrpcService::~MessagingGrpcService() {}
 	participants.reserve(request->participant_ids_size());
 	for (const auto& p : request->participant_ids()) participants.push_back(p);
 	auto chat = build_chat(
-		request->type() == ::sonet::messaging::ChatType::CHAT_TYPE_GROUP ? "group" : "direct",
+		request->type() == ::time::messaging::ChatType::CHAT_TYPE_GROUP ? "group" : "direct",
 		participants,
 		request->name()
 	);
@@ -71,7 +71,7 @@ MessagingGrpcService::~MessagingGrpcService() {}
 	return ::grpc::Status::OK;
 }
 
-::grpc::Status MessagingGrpcService::GetChats(::grpc::ServerContext* /*context*/, const ::sonet::messaging::GetChatsRequest* request, ::sonet::messaging::GetChatsResponse* response) {
+::grpc::Status MessagingGrpcService::GetChats(::grpc::ServerContext* /*context*/, const ::time::messaging::GetChatsRequest* request, ::time::messaging::GetChatsResponse* response) {
 	(void)request;
 	std::lock_guard<std::mutex> lock(storage_mutex_);
 	for (const auto& [id, sc] : chats_by_id_) {
@@ -83,13 +83,13 @@ MessagingGrpcService::~MessagingGrpcService() {}
 	return ::grpc::Status::OK;
 }
 
-::grpc::Status MessagingGrpcService::SetTyping(::grpc::ServerContext* /*context*/, const ::sonet::messaging::SetTypingRequest* request, ::sonet::messaging::SetTypingResponse* response) {
+::grpc::Status MessagingGrpcService::SetTyping(::grpc::ServerContext* /*context*/, const ::time::messaging::SetTypingRequest* request, ::time::messaging::SetTypingResponse* response) {
 	append_event_typing(request->chat_id(), /*user_id*/"", request->is_typing());
 	(void)response;
 	return ::grpc::Status::OK;
 }
 
-::grpc::Status MessagingGrpcService::StreamMessages(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::sonet::messaging::WebSocketMessage, ::sonet::messaging::WebSocketMessage>* stream) {
+::grpc::Status MessagingGrpcService::StreamMessages(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::time::messaging::WebSocketMessage, ::time::messaging::WebSocketMessage>* stream) {
 	std::atomic<bool> running{true};
 	std::mutex write_mutex;
 	std::thread writer([&]() {
@@ -115,7 +115,7 @@ MessagingGrpcService::~MessagingGrpcService() {}
 		}
 	});
 
-	::sonet::messaging::WebSocketMessage inbound;
+	::time::messaging::WebSocketMessage inbound;
 	while (running && stream->Read(&inbound)) {
 		if (inbound.has_typing()) {
 			append_event_typing(inbound.typing().chat_id(), inbound.typing().user_id(), inbound.typing().is_typing());
@@ -137,40 +137,40 @@ std::string MessagingGrpcService::generate_id(const std::string& prefix) {
 	return prefix + buf;
 }
 
-::sonet::common::Timestamp MessagingGrpcService::now_ts() {
-	::sonet::common::Timestamp ts;
+::time::common::Timestamp MessagingGrpcService::now_ts() {
+	::time::common::Timestamp ts;
 	const auto now = std::chrono::system_clock::now().time_since_epoch();
 	ts.set_seconds(std::chrono::duration_cast<std::chrono::seconds>(now).count());
 	ts.set_nanos(static_cast<int32_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(now).count() % 1000000000));
 	return ts;
 }
 
-::sonet::messaging::Message MessagingGrpcService::build_message(const std::string& chat_id, const std::string& sender_id, const std::string& content, ::sonet::messaging::MessageType type) {
-	::sonet::messaging::Message m;
+::time::messaging::Message MessagingGrpcService::build_message(const std::string& chat_id, const std::string& sender_id, const std::string& content, ::time::messaging::MessageType type) {
+	::time::messaging::Message m;
 	m.set_message_id(generate_id("msg_"));
 	m.set_chat_id(chat_id);
 	m.set_sender_id(sender_id);
 	m.set_content(content);
-	m.set_type(type == ::sonet::messaging::MESSAGE_TYPE_UNSPECIFIED ? ::sonet::messaging::MESSAGE_TYPE_TEXT : type);
-	m.set_status(::sonet::messaging::MESSAGE_STATUS_SENT);
+	m.set_type(type == ::time::messaging::MESSAGE_TYPE_UNSPECIFIED ? ::time::messaging::MESSAGE_TYPE_TEXT : type);
+	m.set_status(::time::messaging::MESSAGE_STATUS_SENT);
 	*m.mutable_created_at() = now_ts();
 	*m.mutable_updated_at() = m.created_at();
 	return m;
 }
 
-::sonet::messaging::Chat MessagingGrpcService::build_chat(const std::string& type, const std::vector<std::string>& participant_ids, const std::string& name) {
-	::sonet::messaging::Chat c;
+::time::messaging::Chat MessagingGrpcService::build_chat(const std::string& type, const std::vector<std::string>& participant_ids, const std::string& name) {
+	::time::messaging::Chat c;
 	c.set_chat_id(generate_id("chat_"));
 	c.set_name(name);
-	c.set_type(type == "group" ? ::sonet::messaging::CHAT_TYPE_GROUP : ::sonet::messaging::CHAT_TYPE_DIRECT);
+	c.set_type(type == "group" ? ::time::messaging::CHAT_TYPE_GROUP : ::time::messaging::CHAT_TYPE_DIRECT);
 	for (const auto& p : participant_ids) c.add_participant_ids(p);
 	*m.mutable_created_at() = now_ts();
 	*m.mutable_updated_at() = c.created_at();
 	return c;
 }
 
-void MessagingGrpcService::append_event_new_message(const ::sonet::messaging::Message& msg) {
-	::sonet::messaging::WebSocketMessage ev;
+void MessagingGrpcService::append_event_new_message(const ::time::messaging::Message& msg) {
+	::time::messaging::WebSocketMessage ev;
 	*ev.mutable_new_message() = msg;
 	{
 		std::lock_guard<std::mutex> lk(events_mutex_);
@@ -180,7 +180,7 @@ void MessagingGrpcService::append_event_new_message(const ::sonet::messaging::Me
 }
 
 void MessagingGrpcService::append_event_typing(const std::string& chat_id, const std::string& user_id, bool is_typing) {
-	::sonet::messaging::WebSocketMessage ev;
+	::time::messaging::WebSocketMessage ev;
 	auto* typing = ev.mutable_typing();
 	typing->set_chat_id(chat_id);
 	typing->set_user_id(user_id);
@@ -193,4 +193,4 @@ void MessagingGrpcService::append_event_typing(const std::string& chat_id, const
 	events_cv_.notify_all();
 }
 
-} // namespace sonet::messaging::grpc_impl
+} // namespace time::messaging::grpc_impl

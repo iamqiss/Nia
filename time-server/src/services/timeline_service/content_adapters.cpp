@@ -11,12 +11,12 @@
 #include <random>
 #include <iostream>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Helper to convert system_clock::time_point to protobuf timestamp
-    ::sonet::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
-        ::sonet::common::Timestamp result;
+    ::time::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
+        ::time::common::Timestamp result;
         auto duration = tp.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
         auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - seconds);
@@ -27,17 +27,17 @@ namespace {
     }
 
     // Create sample note for testing
-    ::sonet::note::Note CreateSampleNote(
+    ::time::note::Note CreateSampleNote(
         const std::string& note_id,
         const std::string& author_id,
         const std::string& content,
         std::chrono::system_clock::time_point created_at = std::chrono::system_clock::now()
     ) {
-        ::sonet::note::Note note;
+        ::time::note::Note note;
         note.set_id(note_id);
         note.set_author_id(author_id);
         note.set_content(content);
-        note.set_visibility(::sonet::note::VISIBILITY_PUBLIC);
+        note.set_visibility(::time::note::VISIBILITY_PUBLIC);
         *note.mutable_created_at() = ToProtoTimestamp(created_at);
         *note.mutable_updated_at() = ToProtoTimestamp(created_at);
         
@@ -59,12 +59,12 @@ namespace {
 
 // ============= FOLLOWING CONTENT ADAPTER IMPLEMENTATION =============
 
-FollowingContentAdapter::FollowingContentAdapter(std::shared_ptr<::sonet::note::NoteService::Stub> note_service)
+FollowingContentAdapter::FollowingContentAdapter(std::shared_ptr<::time::note::NoteService::Stub> note_service)
     : note_service_(note_service) {
     std::cout << "Following Content Adapter initialized" << std::endl;
 }
 
-std::vector<::sonet::note::Note> FollowingContentAdapter::GetContent(
+std::vector<::time::note::Note> FollowingContentAdapter::GetContent(
     const std::string& user_id,
     const TimelineConfig& config,
     std::chrono::system_clock::time_point since,
@@ -73,7 +73,7 @@ std::vector<::sonet::note::Note> FollowingContentAdapter::GetContent(
     std::cout << "Fetching following content for user " << user_id 
               << " (limit: " << limit << ")" << std::endl;
     
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
     
     // Get the user's following list
     auto following_list = GetFollowingList(user_id);
@@ -128,7 +128,7 @@ std::vector<::sonet::note::Note> FollowingContentAdapter::GetContent(
     
     // Sort by creation time (newest first)
     std::sort(notes.begin(), notes.end(), 
-        [](const ::sonet::note::Note& a, const ::sonet::note::Note& b) {
+        [](const ::time::note::Note& a, const ::time::note::Note& b) {
             return a.created_at().seconds() > b.created_at().seconds();
         });
     
@@ -187,13 +187,13 @@ std::vector<std::string> FollowingContentAdapter::GetFollowingList(const std::st
 // ============= RECOMMENDED CONTENT ADAPTER IMPLEMENTATION =============
 
 RecommendedContentAdapter::RecommendedContentAdapter(
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service,
+    std::shared_ptr<::time::note::NoteService::Stub> note_service,
     std::shared_ptr<MLRankingEngine> ranking_engine
 ) : note_service_(note_service), ranking_engine_(ranking_engine) {
     std::cout << "Recommended Content Adapter initialized" << std::endl;
 }
 
-std::vector<::sonet::note::Note> RecommendedContentAdapter::GetContent(
+std::vector<::time::note::Note> RecommendedContentAdapter::GetContent(
     const std::string& user_id,
     const TimelineConfig& config,
     std::chrono::system_clock::time_point since,
@@ -205,7 +205,7 @@ std::vector<::sonet::note::Note> RecommendedContentAdapter::GetContent(
     // In production, this would use ML models to find similar content
     // For now, create sample recommended content
     
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
     
     std::vector<std::string> recommended_topics = {
         "Exciting developments in #AI and machine learning! 🤖 #technology #innovation",
@@ -247,7 +247,7 @@ std::vector<::sonet::note::Note> RecommendedContentAdapter::GetContent(
     
     // Sort by creation time (newest first)
     std::sort(notes.begin(), notes.end(), 
-        [](const ::sonet::note::Note& a, const ::sonet::note::Note& b) {
+        [](const ::time::note::Note& a, const ::time::note::Note& b) {
             return a.created_at().seconds() > b.created_at().seconds();
         });
     
@@ -255,7 +255,7 @@ std::vector<::sonet::note::Note> RecommendedContentAdapter::GetContent(
     return notes;
 }
 
-std::vector<::sonet::note::Note> RecommendedContentAdapter::FindSimilarContent(
+std::vector<::time::note::Note> RecommendedContentAdapter::FindSimilarContent(
     const std::string& user_id,
     const UserEngagementProfile& profile,
     int32_t limit
@@ -263,7 +263,7 @@ std::vector<::sonet::note::Note> RecommendedContentAdapter::FindSimilarContent(
     // TODO: Implement content similarity using ML
     // This would analyze user's engagement history and find similar content
     
-    std::vector<::sonet::note::Note> similar_notes;
+    std::vector<::time::note::Note> similar_notes;
     // Placeholder implementation
     return similar_notes;
 }
@@ -292,10 +292,10 @@ void TrendingHashtagsProvider::UpdateTrendingHashtags() {
     };
 }
 
-std::vector<::sonet::note::Note> TrendingHashtagsProvider::Get(int32_t limit,
+std::vector<::time::note::Note> TrendingHashtagsProvider::Get(int32_t limit,
     std::chrono::system_clock::time_point since) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -358,10 +358,10 @@ void TrendingTopicsProvider::UpdateTrendingTopics() {
     };
 }
 
-std::vector<::sonet::note::Note> TrendingTopicsProvider::Get(int32_t limit,
+std::vector<::time::note::Note> TrendingTopicsProvider::Get(int32_t limit,
     std::chrono::system_clock::time_point since) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> topic_dis(0, std::max(0, (int)trending_topics_.size() - 1));
@@ -385,7 +385,7 @@ std::vector<::sonet::note::Note> TrendingTopicsProvider::Get(int32_t limit,
     return notes;
 }
 
-TrendingVideosProvider::TrendingVideosProvider(std::shared_ptr<::sonet::note::NoteService::Stub> note_service)
+TrendingVideosProvider::TrendingVideosProvider(std::shared_ptr<::time::note::NoteService::Stub> note_service)
     : note_service_(note_service) {
     MaybeRefresh();
 }
@@ -410,10 +410,10 @@ void TrendingVideosProvider::UpdateTrendingVideos() {
     };
 }
 
-std::vector<::sonet::note::Note> TrendingVideosProvider::Get(int32_t limit,
+std::vector<::time::note::Note> TrendingVideosProvider::Get(int32_t limit,
     std::chrono::system_clock::time_point since) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> url_dis(0, std::max(0, (int)trending_video_urls_.size() - 1));
@@ -439,7 +439,7 @@ std::vector<::sonet::note::Note> TrendingVideosProvider::Get(int32_t limit,
 
 // ============= TRENDING CONTENT ADAPTER IMPLEMENTATION =============
 
-TrendingContentAdapter::TrendingContentAdapter(std::shared_ptr<::sonet::note::NoteService::Stub> note_service)
+TrendingContentAdapter::TrendingContentAdapter(std::shared_ptr<::time::note::NoteService::Stub> note_service)
     : note_service_(note_service) {
     hashtags_provider_ = std::make_unique<TrendingHashtagsProvider>();
     topics_provider_ = std::make_unique<TrendingTopicsProvider>();
@@ -447,7 +447,7 @@ TrendingContentAdapter::TrendingContentAdapter(std::shared_ptr<::sonet::note::No
     std::cout << "Trending Content Adapter initialized (hashtags/topics/videos)" << std::endl;
 }
 
-std::vector<::sonet::note::Note> TrendingContentAdapter::GetContent(
+std::vector<::time::note::Note> TrendingContentAdapter::GetContent(
     const std::string& user_id,
     const TimelineConfig& config,
     std::chrono::system_clock::time_point since,
@@ -470,7 +470,7 @@ std::vector<::sonet::note::Note> TrendingContentAdapter::GetContent(
     auto topic_notes   = topics_provider_->Get(topics_limit, since);
     auto video_notes   = videos_provider_->Get(videos_limit, since);
 
-    std::vector<::sonet::note::Note> notes;
+    std::vector<::time::note::Note> notes;
     notes.reserve(hashtag_notes.size() + topic_notes.size() + video_notes.size());
     notes.insert(notes.end(), hashtag_notes.begin(), hashtag_notes.end());
     notes.insert(notes.end(), topic_notes.begin(), topic_notes.end());
@@ -478,7 +478,7 @@ std::vector<::sonet::note::Note> TrendingContentAdapter::GetContent(
 
     // Sort by a simple engagement score (likes + renotes + replies)
     std::sort(notes.begin(), notes.end(),
-        [](const ::sonet::note::Note& a, const ::sonet::note::Note& b) {
+        [](const ::time::note::Note& a, const ::time::note::Note& b) {
             auto a_score = a.metrics().likes() + a.metrics().renotes() + a.metrics().replies();
             auto b_score = b.metrics().likes() + b.metrics().renotes() + b.metrics().replies();
             return a_score > b_score;
@@ -493,19 +493,19 @@ std::vector<::sonet::note::Note> TrendingContentAdapter::GetContent(
 
 class ListsContentAdapter : public ContentSourceAdapter {
 public:
-    explicit ListsContentAdapter(std::shared_ptr<::sonet::note::NoteService::Stub> note_service)
+    explicit ListsContentAdapter(std::shared_ptr<::time::note::NoteService::Stub> note_service)
         : note_service_(std::move(note_service)) {
         std::cout << "Lists Content Adapter initialized" << std::endl;
     }
 
-    std::vector<::sonet::note::Note> GetContent(
+    std::vector<::time::note::Note> GetContent(
         const std::string& user_id,
         const TimelineConfig& /*config*/,
         std::chrono::system_clock::time_point since,
         int32_t limit
     ) override {
         // Stub implementation: generate sample notes from a few list authors
-        std::vector<::sonet::note::Note> notes;
+        std::vector<::time::note::Note> notes;
         std::vector<std::string> list_authors = {"list_author_a", "list_author_b", "list_author_c"};
         std::vector<std::string> contents = {
             "Curated pick: Top engineering reads #tech",
@@ -519,11 +519,11 @@ public:
         for (int i = 0; i < limit; ++i) {
             auto created_time = std::chrono::system_clock::now() - std::chrono::hours(time_dis(gen));
             if (created_time < since) created_time = since;
-            ::sonet::note::Note note;
+            ::time::note::Note note;
             note.set_id("list_note_" + std::to_string(i + 1));
             note.set_author_id(list_authors[author_dis(gen)]);
             note.set_content(contents[content_dis(gen)] + " (for " + user_id + ")");
-            note.set_visibility(::sonet::note::VISIBILITY_PUBLIC);
+            note.set_visibility(::time::note::VISIBILITY_PUBLIC);
             *note.mutable_created_at() = ToProtoTimestamp(created_time);
             *note.mutable_updated_at() = ToProtoTimestamp(created_time);
             auto* metrics = note.mutable_metrics();
@@ -536,7 +536,7 @@ public:
     }
 
 private:
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service_;
+    std::shared_ptr<::time::note::NoteService::Stub> note_service_;
 };
 
 // ============= FACTORY FUNCTION =============
@@ -545,7 +545,7 @@ std::shared_ptr<TimelineServiceImpl> CreateTimelineService(
     const std::string& redis_host,
     int redis_port,
     int websocket_port,
-    std::shared_ptr<::sonet::note::NoteService::Stub> note_service
+    std::shared_ptr<::time::note::NoteService::Stub> note_service
 ) {
     // Create components
     auto cache = std::make_shared<RedisTimelineCache>(redis_host, redis_port);
@@ -554,27 +554,27 @@ std::shared_ptr<TimelineServiceImpl> CreateTimelineService(
     auto realtime_notifier = std::make_shared<WebSocketRealtimeNotifier>(websocket_port);
     
     // Create content source adapters
-    std::unordered_map<::sonet::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources;
+    std::unordered_map<::time::timeline::ContentSource, std::shared_ptr<ContentSourceAdapter>> content_sources;
     
     // Prefer real adapters when available services are provided
     if (note_service) {
         auto note_client = std::make_shared<clients::StubBackedNoteClient>(note_service);
         auto follow_client = std::make_shared<clients::StubBackedFollowClient>();
-        content_sources[::sonet::timeline::CONTENT_SOURCE_FOLLOWING] = 
+        content_sources[::time::timeline::CONTENT_SOURCE_FOLLOWING] = 
             std::make_shared<RealFollowingContentAdapter>(note_client, follow_client);
-        content_sources[::sonet::timeline::CONTENT_SOURCE_LISTS] =
+        content_sources[::time::timeline::CONTENT_SOURCE_LISTS] =
             std::make_shared<RealListsContentAdapter>(note_client);
     } else {
-        content_sources[::sonet::timeline::CONTENT_SOURCE_FOLLOWING] = 
+        content_sources[::time::timeline::CONTENT_SOURCE_FOLLOWING] = 
             std::make_shared<FollowingContentAdapter>(note_service);
-        content_sources[::sonet::timeline::CONTENT_SOURCE_LISTS] =
+        content_sources[::time::timeline::CONTENT_SOURCE_LISTS] =
             std::make_shared<ListsContentAdapter>(note_service);
     }
     
-    content_sources[::sonet::timeline::CONTENT_SOURCE_RECOMMENDED] = 
+    content_sources[::time::timeline::CONTENT_SOURCE_RECOMMENDED] = 
         std::make_shared<RecommendedContentAdapter>(note_service, ranking_engine);
     
-    content_sources[::sonet::timeline::CONTENT_SOURCE_TRENDING] = 
+    content_sources[::time::timeline::CONTENT_SOURCE_TRENDING] = 
         std::make_shared<TrendingContentAdapter>(note_service);
     
     // Start real-time notifier
@@ -582,11 +582,11 @@ std::shared_ptr<TimelineServiceImpl> CreateTimelineService(
     
     auto timeline_service = std::make_shared<TimelineServiceImpl>(
         cache, ranking_engine, content_filter, realtime_notifier, content_sources,
-        note_service ? std::make_shared<::sonet::follow::FollowService::Stub>() : nullptr);
+        note_service ? std::make_shared<::time::follow::FollowService::Stub>() : nullptr);
     
     std::cout << "Timeline service created with all components initialized" << std::endl;
     
     return timeline_service;
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

@@ -12,7 +12,7 @@
 #include <thread>
 #include <spdlog/spdlog.h>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // ConnectionPoolOptimizer implementation
@@ -882,4 +882,4 @@ double ConnectionPerformanceAnalyzer::calculate_standard_deviation(const std::ve
 }
 
 } // namespace database
-} // namespace sonet
+} // namespace time

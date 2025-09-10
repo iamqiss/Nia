@@ -6,16 +6,16 @@
 #include "models/event.h"
 #include "models/metric.h"
 
-namespace sonet::analytics_service::controllers {
+namespace time::analytics_service::controllers {
 
 AnalyticsController::AnalyticsController(std::shared_ptr<collectors::EventCollector> collector,
 											 std::shared_ptr<aggregators::RealTimeAggregator> aggregator)
 	: collector_(std::move(collector)), aggregator_(std::move(aggregator)) {}
 
 ::grpc::Status AnalyticsController::Ingest(::grpc::ServerContext* /*context*/,
-										      ::grpc::ServerReader< ::sonet::analytics::Event>* reader,
-										      ::sonet::analytics::IngestResponse* response) {
-	::sonet::analytics::Event incoming;
+										      ::grpc::ServerReader< ::time::analytics::Event>* reader,
+										      ::time::analytics::IngestResponse* response) {
+	::time::analytics::Event incoming;
 	uint32_t accepted = 0;
 	while (reader->Read(&incoming)) {
 		model::Event e{};
@@ -40,8 +40,8 @@ AnalyticsController::AnalyticsController(std::shared_ptr<collectors::EventCollec
 }
 
 ::grpc::Status AnalyticsController::Query(::grpc::ServerContext* /*context*/,
-										   const ::sonet::analytics::QueryRequest* request,
-										   ::sonet::analytics::QueryResponse* response) {
+										   const ::time::analytics::QueryRequest* request,
+										   ::time::analytics::QueryResponse* response) {
 	model::MetricQuery q{};
 	q.metric = request->metric();
 	const std::string op = request->operation();
@@ -81,11 +81,11 @@ AnalyticsController::AnalyticsController(std::shared_ptr<collectors::EventCollec
 }
 
 ::grpc::Status AnalyticsController::Health(::grpc::ServerContext* /*context*/,
-											  const ::sonet::analytics::HealthCheckRequest* /*request*/,
-											  ::sonet::analytics::HealthCheckResponse* response) {
+											  const ::time::analytics::HealthCheckRequest* /*request*/,
+											  ::time::analytics::HealthCheckResponse* response) {
 	response->set_status("ok");
 	return ::grpc::Status::OK;
 }
 
-} // namespace sonet::analytics_service::controllers
+} // namespace time::analytics_service::controllers
 

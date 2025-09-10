@@ -17,7 +17,7 @@
 #include <memory>
 #include <map>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Complete User Service Application with all real functionality
@@ -230,7 +230,7 @@ private:
     }
 };
 
-} // namespace sonet::user
+} // namespace time::user
 
 /**
  * Example usage of the complete User Service
@@ -253,22 +253,22 @@ void example_usage() {
             
             // File storage configuration
             {"storage_provider", "local"},
-            {"storage_base_path", "/var/www/sonet/uploads"},
-            {"storage_public_url", "https://cdn.sonet.com"},
+            {"storage_base_path", "/var/www/time/uploads"},
+            {"storage_public_url", "https://cdn.time.com"},
             
             // Alternative: S3 configuration
             // {"storage_provider", "s3"},
             // {"aws_access_key", "your-aws-access-key"},
             // {"aws_secret_key", "your-aws-secret-key"},
-            // {"s3_bucket", "sonet-uploads"},
+            // {"s3_bucket", "time-uploads"},
             // {"aws_region", "us-east-1"},
             
             // Database configuration
-            {"database_connection_string", "postgresql://user:password@localhost:5432/sonet"}
+            {"database_connection_string", "postgresql://user:password@localhost:5432/time"}
         };
         
         // Initialize the complete user service
-        auto user_service_app = std::make_unique<sonet::user::UserServiceApp>();
+        auto user_service_app = std::make_unique<time::user::UserServiceApp>();
         
         if (!user_service_app->initialize(config)) {
             spdlog::error("Failed to initialize User Service");
@@ -288,7 +288,7 @@ void example_usage() {
         auto http_handler = user_service_app->get_http_handler();
         
         // Example: Handle an HTTP request
-        sonet::user::handlers::HttpHandler::HttpRequest example_request = {
+        time::user::handlers::HttpHandler::HttpRequest example_request = {
             .method = "NOTE",
             .path = "/api/v1/auth/register",
             .headers = {{"Content-Type", "application/json"}},

@@ -1,10 +1,10 @@
-# SoNet Database Schemas
+# time Database Schemas
 
-This directory contains the complete database schemas for all microservices in the SoNet distributed system.
+This directory contains the complete database schemas for all microservices in the time distributed system.
 
 ## Overview
 
-The SoNet system uses postgresql as its primary database with separate schemas for each microservice. This approach provides:
+The time system uses postgresql as its primary database with separate schemas for each microservice. This approach provides:
 - **Service Isolation**: Each service has its own schema and can be deployed independently
 - **Data Consistency**: ACID transactions within each service
 - **Performance**: Optimized indexes and queries for each service's specific needs
@@ -68,7 +68,7 @@ The system uses Docker Compose with the following configuration:
 ### Environment Variables
 Each service connects to its database using:
 ```bash
-DATABASE_URL=postgresql://sonet:sonet_dev_password@postgres:5432/{service_name}
+DATABASE_URL=postgresql://time:time_dev_password@postgres:5432/{service_name}
 REDIS_URL=redis://redis:6379
 ```
 
@@ -187,4 +187,4 @@ Each schema includes common utility functions:
 
 ---
 
-This database schema provides a solid foundation for the SoNet distributed system. Each service has its own isolated data while maintaining the ability to share data through well-defined interfaces and cross-service queries when necessary.
+This database schema provides a solid foundation for the time distributed system. Each service has its own isolated data while maintaining the ability to share data through well-defined interfaces and cross-service queries when necessary.

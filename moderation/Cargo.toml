@@ -3,9 +3,9 @@ name = "moderation"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-authors = ["Sonet Team <dev@sonet.example>"]
-description = "Sonet moderation service: rules engine, classifiers, and APIs"
-repository = "https://example.com/sonet/moderation"
+authors = ["time Team <dev@time.example>"]
+description = "time moderation service: rules engine, classifiers, and APIs"
+repository = "https://example.com/time/moderation"
 
 [dependencies]
 # Web & gRPC

@@ -5,7 +5,7 @@
 #include <chrono>
 #include <thread>
 
-using namespace sonet::messaging::api;
+using namespace time::messaging::api;
 
 class ServerSecurityTest : public ::testing::Test {
 protected:

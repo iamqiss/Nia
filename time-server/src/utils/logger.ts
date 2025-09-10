@@ -14,7 +14,7 @@ export class Logger {
   private level: LogLevel
   private prefix: string
 
-  constructor(level: LogLevel = LogLevel.INFO, prefix: string = 'Sonet') {
+  constructor(level: LogLevel = LogLevel.INFO, prefix: string = 'time') {
     this.level = level
     this.prefix = prefix
   }
@@ -169,9 +169,9 @@ export class Logger {
 }
 
 // Create default logger instance
-export const defaultLogger = new Logger(LogLevel.INFO, 'Sonet')
+export const defaultLogger = new Logger(LogLevel.INFO, 'time')
 
 // Create service-specific loggers
 export const createServiceLogger = (serviceName: string, level?: LogLevel): Logger => {
-  return new Logger(level || LogLevel.INFO, `Sonet:${serviceName}`)
+  return new Logger(level || LogLevel.INFO, `time:${serviceName}`)
 }

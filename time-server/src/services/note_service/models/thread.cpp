@@ -14,7 +14,7 @@
 #include <unordered_set>
 #include <spdlog/spdlog.h>
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 // Constructors
 
@@ -735,4 +735,4 @@ void from_json(const nlohmann::json& j, ThreadParticipant& participant) {
     participant.from_json(j);
 }
 
-} // namespace sonet::note::models
+} // namespace time::note::models

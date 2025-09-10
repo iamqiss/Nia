@@ -17,32 +17,32 @@
 #include "collectors/event_collector.h"
 #include "processors/stream_processor.h"
 
-#include "sonet/analytics/analytics_service.grpc.pb.h"
+#include "time/analytics/analytics_service.grpc.pb.h"
 
-namespace sonet::analytics_service::controllers {
+namespace time::analytics_service::controllers {
 
-class AnalyticsController final : public ::sonet::analytics::AnalyticsService::Service {
+class AnalyticsController final : public ::time::analytics::AnalyticsService::Service {
 public:
 	AnalyticsController(std::shared_ptr<collectors::EventCollector> collector,
 					   std::shared_ptr<aggregators::RealTimeAggregator> aggregator);
 	~AnalyticsController() override = default;
 
 	::grpc::Status Ingest(::grpc::ServerContext* context,
-						  ::grpc::ServerReader< ::sonet::analytics::Event>* reader,
-						  ::sonet::analytics::IngestResponse* response) override;
+						  ::grpc::ServerReader< ::time::analytics::Event>* reader,
+						  ::time::analytics::IngestResponse* response) override;
 
 	::grpc::Status Query(::grpc::ServerContext* context,
-						 const ::sonet::analytics::QueryRequest* request,
-						 ::sonet::analytics::QueryResponse* response) override;
+						 const ::time::analytics::QueryRequest* request,
+						 ::time::analytics::QueryResponse* response) override;
 
 	::grpc::Status Health(::grpc::ServerContext* context,
-						  const ::sonet::analytics::HealthCheckRequest* request,
-						  ::sonet::analytics::HealthCheckResponse* response) override;
+						  const ::time::analytics::HealthCheckRequest* request,
+						  ::time::analytics::HealthCheckResponse* response) override;
 
 private:
 	std::shared_ptr<collectors::EventCollector> collector_;
 	std::shared_ptr<aggregators::RealTimeAggregator> aggregator_;
 };
 
-} // namespace sonet::analytics_service::controllers
+} // namespace time::analytics_service::controllers
 

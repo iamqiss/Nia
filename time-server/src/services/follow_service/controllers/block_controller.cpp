@@ -12,7 +12,7 @@
 #include <regex>
 #include <algorithm>
 
-namespace sonet::follow::controllers {
+namespace time::follow::controllers {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -787,4 +787,4 @@ int RateLimiter::get_reset_time(const std::string& client_id) {
     return 0;
 }
 
-} // namespace sonet::follow::controllers
+} // namespace time::follow::controllers

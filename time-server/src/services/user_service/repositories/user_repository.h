@@ -17,9 +17,9 @@
 #include <vector>
 #include <string>
 
-namespace sonet::user::repositories {
+namespace time::user::repositories {
 
-using namespace sonet::user::models;
+using namespace time::user::models;
 
 // postgresql implementation of UserRepository
 class PostgreSQLUserRepository : public IUserRepository {
@@ -215,4 +215,4 @@ public:
     static void shutdown_connection_pool();
 };
 
-} // namespace sonet::user::repositories
+} // namespace time::user::repositories

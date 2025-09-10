@@ -10,7 +10,7 @@
 
 ## Overview
 
-The Messaging Service is the core real-time communication engine for Sonet, providing enterprise-grade messaging capabilities including direct messages, group chats, file attachments, end-to-end encryption, and real-time features like typing indicators and read receipts.
+The Messaging Service is the core real-time communication engine for time, providing enterprise-grade messaging capabilities including direct messages, group chats, file attachments, end-to-end encryption, and real-time features like typing indicators and read receipts.
 
 ## Features
 

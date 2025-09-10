@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Implementation of the Elasticsearch engine for Twitter-scale search operations.
  * This is where the magic happens - sub-second search across billions of documents
@@ -23,7 +23,7 @@
 #include <future>
 #include <stdexcept>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace engines {
 
@@ -248,8 +248,8 @@ nlohmann::json IndexMappings::get_notes_mapping() {
                 }},
                 {"content", {
                     {"type", "text"},
-                    {"analyzer", "sonet_text_analyzer"},
-                    {"search_analyzer", "sonet_search_analyzer"},
+                    {"analyzer", "time_text_analyzer"},
+                    {"search_analyzer", "time_search_analyzer"},
                     {"fields", {
                         {"raw", {{"type", "keyword"}}},
                         {"stemmed", {{"type", "text"}, {"analyzer", "stemmed_analyzer"}}}
@@ -339,7 +339,7 @@ nlohmann::json IndexMappings::get_users_mapping() {
                 }},
                 {"bio", {
                     {"type", "text"},
-                    {"analyzer", "sonet_text_analyzer"}
+                    {"analyzer", "time_text_analyzer"}
                 }},
                 {"location", {{"type", "geo_point"}}},
                 {"location_name", {
@@ -470,19 +470,19 @@ nlohmann::json IndexMappings::get_index_settings() {
             {"max_result_window", 50000},
             {"analysis", {
                 {"analyzer", {
-                    {"sonet_text_analyzer", {
+                    {"time_text_analyzer", {
                         {"type", "custom"},
                         {"tokenizer", "standard"},
                         {"filter", {
                             "lowercase",
                             "stop",
-                            "sonet_hashtag_filter",
-                            "sonet_mention_filter",
-                            "sonet_url_filter",
+                            "time_hashtag_filter",
+                            "time_mention_filter",
+                            "time_url_filter",
                             "asciifolding"
                         }}
                     }},
-                    {"sonet_search_analyzer", {
+                    {"time_search_analyzer", {
                         {"type", "custom"},
                         {"tokenizer", "standard"},
                         {"filter", {
@@ -513,17 +513,17 @@ nlohmann::json IndexMappings::get_index_settings() {
                     }}
                 }},
                 {"filter", {
-                    {"sonet_hashtag_filter", {
+                    {"time_hashtag_filter", {
                         {"type", "pattern_capture"},
                         {"preserve_original", true},
                         {"patterns", {"#(\\w+)"}}
                     }},
-                    {"sonet_mention_filter", {
+                    {"time_mention_filter", {
                         {"type", "pattern_capture"},
                         {"preserve_original", true},
                         {"patterns", {"@(\\w+)"}}
                     }},
-                    {"sonet_url_filter", {
+                    {"time_url_filter", {
                         {"type", "pattern_replace"},
                         {"pattern", "https?://[^\\s]+"},
                         {"replacement", ""}
@@ -531,7 +531,7 @@ nlohmann::json IndexMappings::get_index_settings() {
                 }}
             }},
             {"similarity", {
-                {"sonet_similarity", {
+                {"time_similarity", {
                     {"type", "BM25"},
                     {"k1", 1.2},
                     {"b", 0.75}
@@ -1043,4 +1043,4 @@ nlohmann::json build_date_range_filter(const std::string& field,
 
 } // namespace engines
 } // namespace search_service
-} // namespace sonet
+} // namespace time

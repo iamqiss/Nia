@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "password_manager.h"
 
-using namespace sonet::user;
+using namespace time::user;
 
 class PassphraseManagerTest : public ::testing::Test {
 protected:

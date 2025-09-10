@@ -2,19 +2,19 @@
 
 ## Overview
 
-This document summarizes the complete implementation of Lists and Starterpacks services in the Sonet backend, fully replacing AT Protocol functionality with a centralized, performant solution.
+This document summarizes the complete implementation of Lists and Starterpacks services in the time backend, fully replacing AT Protocol functionality with a centralized, performant solution.
 
 ## Architecture
 
 ### Services Implemented
 
-1. **Lists Service** (`sonet/src/services/list_service/`)
+1. **Lists Service** (`time/src/services/list_service/`)
    - Go microservice with gRPC API
    - postgresql database backend
    - Full CRUD operations for lists and list members
    - Permission-based access control
 
-2. **Starterpacks Service** (`sonet/src/services/starterpack_service/`)
+2. **Starterpacks Service** (`time/src/services/starterpack_service/`)
    - Go microservice with gRPC API
    - postgresql database backend
    - Full CRUD operations for starterpacks and items
@@ -26,8 +26,8 @@ This document summarizes the complete implementation of Lists and Starterpacks s
    - gRPC client integration
    - Error handling and validation
 
-4. **Client Integration** (`sonet-client/`)
-   - New query hooks for Sonet APIs
+4. **Client Integration** (`time-client/`)
+   - New query hooks for time APIs
    - TypeScript interfaces
    - React Query integration
    - Migration-ready components
@@ -183,17 +183,17 @@ useRemoveStarterpackItemMutation()
 LIST_SERVICE_PORT=9098
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=sonet
-DB_PASSWORD=sonet
-DB_NAME=sonet
+DB_USER=time
+DB_PASSWORD=time
+DB_NAME=time
 
 # Starterpacks Service
 STARTERPACK_SERVICE_PORT=9099
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=sonet
-DB_PASSWORD=sonet
-DB_NAME=sonet
+DB_USER=time
+DB_PASSWORD=time
+DB_NAME=time
 ```
 
 ### Docker Support

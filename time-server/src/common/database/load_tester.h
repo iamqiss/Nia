@@ -20,7 +20,7 @@
 #include <thread>
 #include <random>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Load test configuration
@@ -347,4 +347,4 @@ private:
 };
 
 } // namespace database
-} // namespace sonet
+} // namespace time

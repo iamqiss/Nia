@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 
-namespace sonet::logging {
+namespace time::logging {
 
 inline spdlog::level::level_enum parse_level_from_env(const char* env_key, spdlog::level::level_enum fallback) {
     const char* value = std::getenv(env_key);
@@ -26,7 +26,7 @@ inline std::shared_ptr<spdlog::logger> init_json_stdout_logger(const std::string
                                                                const std::string& log_level_env = "LOG_LEVEL",
                                                                const std::string& environment_env = "ENVIRONMENT") {
     auto sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    auto logger = std::make_shared<spdlog::logger>("sonet", sink);
+    auto logger = std::make_shared<spdlog::logger>("time", sink);
     spdlog::set_default_logger(logger);
 
     auto level = parse_level_from_env(log_level_env.c_str(), spdlog::level::info);
@@ -76,4 +76,4 @@ inline void log_json(spdlog::level::level_enum level,
     }
 }
 
-} // namespace sonet::logging
+} // namespace time::logging

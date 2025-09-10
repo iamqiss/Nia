@@ -12,7 +12,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace sonet::follow::models {
+namespace time::follow::models {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -604,4 +604,4 @@ void Relationship::unmark_as_verified() {
     spdlog::debug("❌ Relationship unmarked as verified: {} <-> {}", user1_id, user2_id);
 }
 
-} // namespace sonet::follow::models
+} // namespace time::follow::models

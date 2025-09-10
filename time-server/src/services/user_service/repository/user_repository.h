@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace sonet {
+namespace time {
 namespace user {
 
 // Forward declarations
@@ -167,4 +167,4 @@ private:
 };
 
 } // namespace user
-} // namespace sonet
+} // namespace time

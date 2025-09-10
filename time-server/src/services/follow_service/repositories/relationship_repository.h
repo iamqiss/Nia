@@ -24,11 +24,11 @@
 #include <atomic>
 #include <chrono>
 
-namespace sonet::follow::repositories {
+namespace time::follow::repositories {
 
 using json = nlohmann::json;
-using DatabaseConnection = sonet::core::database::DatabaseConnection;
-using RedisClient = sonet::core::cache::RedisClient;
+using DatabaseConnection = time::core::database::DatabaseConnection;
+using RedisClient = time::core::cache::RedisClient;
 
 /**
  * @brief High-performance repository for managing user relationships
@@ -362,4 +362,4 @@ private:
                                   const std::string& interaction_type);
 };
 
-} // namespace sonet::follow::repositories
+} // namespace time::follow::repositories

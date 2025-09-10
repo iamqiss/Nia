@@ -74,7 +74,7 @@ endif()
 # Debug-specific flags
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-g -O0 -DDEBUG)
-    add_compile_definitions(SONET_DEBUG=1)
+    add_compile_definitions(time_DEBUG=1)
 endif()
 
 # ========== EXTERNAL DEPENDENCIES ==========
@@ -277,8 +277,8 @@ target_link_libraries(note_service_lib
 # Compiler definitions
 target_compile_definitions(note_service_lib
     PUBLIC
-        SONET_NOTE_SERVICE_VERSION="${PROJECT_VERSION}"
-        SONET_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
+        time_NOTE_SERVICE_VERSION="${PROJECT_VERSION}"
+        time_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
     PRIVATE
         SPDLOG_FMT_EXTERNAL
         SPDLOG_COMPILED_LIB
@@ -387,7 +387,7 @@ install(TARGETS note_service note_service_lib
 
 # Install headers
 install(DIRECTORY .
-    DESTINATION include/sonet/note_service
+    DESTINATION include/time/note_service
     FILES_MATCHING PATTERN "*.h"
     PATTERN "tests" EXCLUDE
     PATTERN "benchmarks" EXCLUDE
@@ -395,7 +395,7 @@ install(DIRECTORY .
 
 # Install proto generated headers
 install(DIRECTORY ${PROTO_GENERATED_DIR}/
-    DESTINATION include/sonet/note_service/proto
+    DESTINATION include/time/note_service/proto
     FILES_MATCHING PATTERN "*.h"
 )
 
@@ -424,7 +424,7 @@ endif()
 # ========== PACKAGING ==========
 
 # CPack configuration
-set(CPACK_PACKAGE_NAME "sonet-note-service")
+set(CPACK_PACKAGE_NAME "time-note-service")
 set(CPACK_PACKAGE_VENDOR "Neo Qiss")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Twitter-Scale Note Service")
@@ -445,9 +445,9 @@ include(CPack)
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_compile_definitions(note_service_lib
         PRIVATE
-            SONET_ENABLE_METRICS=1
-            SONET_ENABLE_TRACING=1
-            SONET_ENABLE_PROFILING=1
+            time_ENABLE_METRICS=1
+            time_ENABLE_TRACING=1
+            time_ENABLE_PROFILING=1
     )
 endif()
 
@@ -500,7 +500,7 @@ endif()
 # ========== STATUS REPORT ==========
 
 message(STATUS "")
-message(STATUS "========== Sonet Note Service Configuration ==========")
+message(STATUS "========== time Note Service Configuration ==========")
 message(STATUS "Version: ${PROJECT_VERSION}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")

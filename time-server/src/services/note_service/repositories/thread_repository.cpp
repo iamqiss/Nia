@@ -13,7 +13,7 @@
 #include <sstream>
 #include <algorithm>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
 // Constructor
 CassandraThreadRepository::CassandraThreadRepository(CassCluster* cluster, CassSession* session, const std::string& keyspace)
@@ -1068,4 +1068,4 @@ bool ThreadRepositoryFactory::test_thread_schema(CassSession* session, const std
     }
 }
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

@@ -3,7 +3,7 @@
 #include "../../../proto/grpc_stub.h"
 #include "../../../proto/services/stub_protos.h"
 
-namespace sonet {
+namespace time {
 namespace search {
     struct SearchUserRequest {
         std::string query_;

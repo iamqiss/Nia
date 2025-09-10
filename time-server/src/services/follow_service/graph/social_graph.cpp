@@ -16,7 +16,7 @@
 #include <unordered_set>
 #include <cmath>
 
-namespace sonet::follow::graph {
+namespace time::follow::graph {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -684,4 +684,4 @@ json SocialGraph::get_graph_metrics() const {
     return metrics;
 }
 
-} // namespace sonet::follow::graph
+} // namespace time::follow::graph

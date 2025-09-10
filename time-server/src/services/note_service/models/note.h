@@ -17,7 +17,7 @@
 #include <nlohmann/json.hpp>
 #include "attachment.h"
 
-namespace sonet::note::models {
+namespace time::note::models {
 
 // Note visibility settings
 enum class NoteVisibility {
@@ -466,4 +466,4 @@ void from_json(const nlohmann::json& j, NoteUrl& url);
 void to_json(nlohmann::json& j, const NoteMetrics& metrics);
 void from_json(const nlohmann::json& j, NoteMetrics& metrics);
 
-} // namespace sonet::note::models
+} // namespace time::note::models

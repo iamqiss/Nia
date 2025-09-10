@@ -16,7 +16,7 @@
 #include <memory>
 #include <optional>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Authentication Manager - The central hub for all authentication
@@ -113,4 +113,4 @@ private:
     bool check_password_reset_rate_limit(const std::string& ip_address);
 };
 
-} // namespace sonet::user
+} // namespace time::user

@@ -15,7 +15,7 @@
 struct pg_conn;
 struct pg_result;
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Connection pool configuration
@@ -193,4 +193,4 @@ namespace utils {
 }
 
 } // namespace database
-} // namespace sonet
+} // namespace time

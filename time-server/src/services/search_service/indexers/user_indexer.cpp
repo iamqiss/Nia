@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Implementation of the real-time user indexer for Twitter-scale search operations.
  * This processes user profiles with intelligent analysis, reputation scoring,
@@ -21,7 +21,7 @@
 #include <condition_variable>
 #include <iomanip>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace indexers {
 
@@ -1372,4 +1372,4 @@ std::vector<std::string> extract_searchable_terms(const UserDocument& user) {
 
 } // namespace indexers
 } // namespace search_service
-} // namespace sonet
+} // namespace time

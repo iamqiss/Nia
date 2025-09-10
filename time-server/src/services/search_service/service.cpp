@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Implementation of the main search service orchestrator for Twitter-scale operations.
  * This coordinates all search components with lifecycle management, health monitoring,
@@ -21,17 +21,17 @@
 #include <grpcpp/grpcpp.h>
 #include "search.grpc.pb.h"
 
-class SearchGrpcService final : public sonet::search::SearchService::Service {
+class SearchGrpcService final : public time::search::SearchService::Service {
 public:
-    explicit SearchGrpcService(std::shared_ptr<sonet::search_service::controllers::SearchController> controller)
+    explicit SearchGrpcService(std::shared_ptr<time::search_service::controllers::SearchController> controller)
         : controller_(std::move(controller)) {}
 
     grpc::Status SearchUsers(grpc::ServerContext* context,
-                             const sonet::search::SearchUserRequest* request,
-                             sonet::search::SearchUserResponse* response) override {
-        sonet::search_service::controllers::SearchRequestContext ctx;
+                             const time::search::SearchUserRequest* request,
+                             time::search::SearchUserResponse* response) override {
+        time::search_service::controllers::SearchRequestContext ctx;
         ctx.user_id = ""; // TODO: extract from metadata
-        auto q = sonet::search_service::models::SearchQuery{request->query()};
+        auto q = time::search_service::models::SearchQuery{request->query()};
         auto result = controller_->search_users(q, ctx);
         if (!result.success) {
             return grpc::Status(grpc::StatusCode::INTERNAL, result.message);
@@ -49,11 +49,11 @@ public:
     }
 
     grpc::Status SearchNotes(grpc::ServerContext* context,
-                             const sonet::search::SearchNoteRequest* request,
-                             sonet::search::SearchNoteResponse* response) override {
-        sonet::search_service::controllers::SearchRequestContext ctx;
+                             const time::search::SearchNoteRequest* request,
+                             time::search::SearchNoteResponse* response) override {
+        time::search_service::controllers::SearchRequestContext ctx;
         ctx.user_id = ""; // TODO: extract from metadata
-        auto q = sonet::search_service::models::SearchQuery{request->query()};
+        auto q = time::search_service::models::SearchQuery{request->query()};
         auto result = controller_->search_notes(q, ctx);
         if (!result.success) {
             return grpc::Status(grpc::StatusCode::INTERNAL, result.message);
@@ -68,11 +68,11 @@ public:
     }
 
 private:
-    std::shared_ptr<sonet::search_service::controllers::SearchController> controller_;
+    std::shared_ptr<time::search_service::controllers::SearchController> controller_;
 };
 #endif
 
-namespace sonet {
+namespace time {
 namespace search_service {
 
 /**
@@ -96,7 +96,7 @@ SearchServiceConfig SearchServiceConfig::from_json(const nlohmann::json& json) {
     SearchServiceConfig config;
     
     // Service configuration
-    config.service_name = json.value("service_name", "sonet-search-service");
+    config.service_name = json.value("service_name", "time-search-service");
     config.service_version = json.value("service_version", "1.0.0");
     config.environment = json.value("environment", "development");
     config.log_level = json.value("log_level", "INFO");
@@ -201,7 +201,7 @@ SearchServiceConfig SearchServiceConfig::production_config() {
     SearchServiceConfig config;
     
     // Production defaults
-    config.service_name = "sonet-search-service";
+    config.service_name = "time-search-service";
     config.service_version = "1.0.0";
     config.environment = "production";
     config.log_level = "INFO";
@@ -275,7 +275,7 @@ SearchServiceConfig SearchServiceConfig::development_config() {
     SearchServiceConfig config;
     
     // Development defaults
-    config.service_name = "sonet-search-service-dev";
+    config.service_name = "time-search-service-dev";
     config.service_version = "1.0.0-dev";
     config.environment = "development";
     config.log_level = "DEBUG";
@@ -1376,4 +1376,4 @@ void SearchService::notify_status_change(ServiceStatus old_status, ServiceStatus
 }
 
 } // namespace search_service
-} // namespace sonet
+} // namespace time

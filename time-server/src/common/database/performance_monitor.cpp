@@ -14,7 +14,7 @@
 #include <functional>
 #include <cstring>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // QueryStats implementation
@@ -553,4 +553,4 @@ QueryMonitorScope& QueryMonitorScope::operator=(QueryMonitorScope&& other) noexc
 }
 
 } // namespace database
-} // namespace sonet
+} // namespace time

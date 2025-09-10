@@ -2,7 +2,7 @@
 #include "../include/encryption_manager.hpp"
 #include "../include/crypto_engine.hpp"
 
-using namespace sonet::messaging;
+using namespace time::messaging;
 
 TEST(CryptoRoundTrip, EncryptionManagerChaCha) {
     encryption::EncryptionManager mgr;

@@ -17,7 +17,7 @@
 
 namespace {
     std::unique_ptr<grpc::Server> server;
-    std::shared_ptr<sonet::timeline::TimelineServiceImpl> timeline_service;
+    std::shared_ptr<time::timeline::TimelineServiceImpl> timeline_service;
 
     void SignalHandler(int signal) {
         std::cout << "\nReceived signal " << signal << ", shutting down gracefully..." << std::endl;
@@ -29,14 +29,14 @@ namespace {
 
 int main(int argc, char** argv) {
     // Initialize JSON logger for ELK ingestion
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"startup","message":"Starting Sonet Timeline Service"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"startup","message":"Starting time Timeline Service"})");
     // Set up signal handlers
     std::signal(SIGINT, SignalHandler);
     std::signal(SIGTERM, SignalHandler);
 
     // std::cout banners replaced with structured logs for ELK
-    spdlog::info(R"({"event":"banner","service":"timeline","message":"Sonet Timeline Service starting"})");
+    spdlog::info(R"({"event":"banner","service":"timeline","message":"time Timeline Service starting"})");
     spdlog::info(R"({"event":"info","service":"timeline","message":"Starting advanced timeline service with Twitter-scale engineering"})");
 
     // Parse command line arguments
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 
     try {
         // Create timeline service with all components
-        timeline_service = sonet::timeline::CreateTimelineService(
+        timeline_service = time::timeline::CreateTimelineService(
             redis_host, redis_port, websocket_port, nullptr);
 
         // Build gRPC server
@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
         std::cout << "=== Running Test Scenario ===" << std::endl;
         
         // Simulate some user engagement for ML training
-        std::vector<sonet::timeline::EngagementEvent> sample_events = {
+        std::vector<time::timeline::EngagementEvent> sample_events = {
             {"user123", "alice_dev", "note_1", "like", 1.0, std::chrono::system_clock::now()},
             {"user123", "bob_designer", "note_2", "renote", 2.5, std::chrono::system_clock::now()},
             {"user123", "alice_dev", "note_3", "reply", 10.0, std::chrono::system_clock::now()},
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
         };
 
         // Train the ranking engine
-        auto ranking_engine = std::dynamic_pointer_cast<sonet::timeline::MLRankingEngine>(
+        auto ranking_engine = std::dynamic_pointer_cast<time::timeline::MLRankingEngine>(
             timeline_service->ranking_engine_);
         if (ranking_engine) {
             ranking_engine->TrainOnEngagementData(sample_events);

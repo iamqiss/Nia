@@ -11,16 +11,16 @@
 #include <sstream>
 #include <chrono>
 #include <algorithm>
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
 #include <sw/redis++/redis++.h>
 #endif
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Helper to convert system_clock::time_point to protobuf timestamp
-    ::sonet::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
-        ::sonet::common::Timestamp result;
+    ::time::common::Timestamp ToProtoTimestamp(std::chrono::system_clock::time_point tp) {
+        ::time::common::Timestamp result;
         auto duration = tp.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
         auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - seconds);
@@ -31,7 +31,7 @@ namespace {
     }
 
     // Helper to convert protobuf timestamp to system_clock::time_point
-    std::chrono::system_clock::time_point FromProtoTimestamp(const ::sonet::common::Timestamp& ts) {
+    std::chrono::system_clock::time_point FromProtoTimestamp(const ::time::common::Timestamp& ts) {
         auto duration = std::chrono::seconds(ts.seconds()) + std::chrono::nanoseconds(ts.nanos());
         return std::chrono::system_clock::time_point(duration);
     }
@@ -80,7 +80,7 @@ namespace {
 
 RedisTimelineCache::RedisTimelineCache(const std::string& redis_host, int redis_port)
     : redis_host_(redis_host), redis_port_(redis_port) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     try {
         auto uri = std::string("tcp://") + redis_host_ + ":" + std::to_string(redis_port_);
         redis_ = std::make_unique<sw::redis::Redis>(uri);
@@ -89,7 +89,7 @@ RedisTimelineCache::RedisTimelineCache(const std::string& redis_host, int redis_
         redis_available_ = false;
     }
 #else
-    const char* use_redis = std::getenv("SONET_USE_REDIS");
+    const char* use_redis = std::getenv("time_USE_REDIS");
     if (use_redis && std::string(use_redis) == "1") {
         std::cout << "Attempting Redis connection at " << redis_host_ << ":" << redis_port_ << std::endl;
         redis_available_ = false;
@@ -107,7 +107,7 @@ bool RedisTimelineCache::GetTimeline(
     const std::string& user_id,
     std::vector<RankedTimelineItem>& items
 ) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try {
             auto key = TimelineKey(user_id);
@@ -140,7 +140,7 @@ void RedisTimelineCache::SetTimeline(
     const std::vector<RankedTimelineItem>& items,
     std::chrono::seconds ttl
 ) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try {
             auto key = TimelineKey(user_id);
@@ -156,7 +156,7 @@ void RedisTimelineCache::SetTimeline(
 }
 
 void RedisTimelineCache::InvalidateTimeline(const std::string& user_id) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try { redis_->del(TimelineKey(user_id)); } catch (...) {}
     }
@@ -167,7 +167,7 @@ void RedisTimelineCache::InvalidateTimeline(const std::string& user_id) {
 }
 
 void RedisTimelineCache::InvalidateAuthorTimelines(const std::string& author_id) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     // For production, we'd use author->followers mapping keys; skip here
 #endif
     std::lock_guard<std::mutex> lock(memory_cache_mutex_);
@@ -187,7 +187,7 @@ bool RedisTimelineCache::GetUserProfile(
     const std::string& user_id,
     UserEngagementProfile& profile
 ) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try {
             auto val = redis_->get(ProfileKey(user_id));
@@ -205,7 +205,7 @@ void RedisTimelineCache::SetUserProfile(
     const std::string& user_id,
     const UserEngagementProfile& profile
 ) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try { redis_->set(ProfileKey(user_id), SerializeUserProfile(profile)); return; } catch (...) {}
     }
@@ -215,7 +215,7 @@ void RedisTimelineCache::SetUserProfile(
 }
 
 std::chrono::system_clock::time_point RedisTimelineCache::GetLastRead(const std::string& user_id) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try {
             auto val = redis_->get(LastReadKey(user_id));
@@ -233,7 +233,7 @@ std::chrono::system_clock::time_point RedisTimelineCache::GetLastRead(const std:
 }
 
 void RedisTimelineCache::SetLastRead(const std::string& user_id, std::chrono::system_clock::time_point timestamp) {
-#ifdef SONET_USE_REDIS_PLUS_PLUS
+#ifdef time_USE_REDIS_PLUS_PLUS
     if (redis_available_ && redis_) {
         try {
             auto secs = std::chrono::duration_cast<std::chrono::seconds>(timestamp.time_since_epoch()).count();
@@ -321,4 +321,4 @@ std::string RedisTimelineCache::AuthorFollowersKey(const std::string& author_id)
     return "followers:" + author_id;
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

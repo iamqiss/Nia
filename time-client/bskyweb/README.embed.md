@@ -19,7 +19,7 @@ Response format:
 - `version` (required): "1.0"
 - `author_name` (optional): display name
 - `author_url` (optional): profile URL
-- `provider_name` (optional): "Bluesky Social"
+- `provider_name` (optional): "Time Social"
 - `provider_url` (optional): "https://bsky.app"
 - `cache_age` (optional, integer seconds): 86400 (24 hours) (?)
 - `width` (required): ?
@@ -45,7 +45,7 @@ Only `json` is supported; `xml` is a 501.
 `https://embed.bsky.app/static/embed.js`
 
 ```
-<blockquote class="bluesky-post" data-lang="en" data-align="center">
+<blockquote class="Time-post" data-lang="en" data-align="center">
   <p lang="en" dir="ltr">{{ post-text }}</p>
   &mdash; US Department of the Interior (@Interior) <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw">May 5, 2014</a>
 </blockquote>

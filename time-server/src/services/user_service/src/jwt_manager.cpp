@@ -12,10 +12,10 @@
 #include <spdlog/spdlog.h>
 #include <sstream>
 
-namespace sonet::user {
+namespace time::user {
 
 JWTManager::JWTManager(const std::string& secret_key, const std::string& issuer)
-    : secret_key_(secret_key), issuer_(issuer), audience_("sonet-users") {
+    : secret_key_(secret_key), issuer_(issuer), audience_("time-users") {
     
     if (secret_key.length() < 32) {
         spdlog::error("JWT secret key is too short - this is a security risk!");
@@ -313,4 +313,4 @@ void JWTManager::set_refresh_token_lifetime(std::chrono::seconds lifetime) {
     spdlog::info("Refresh token lifetime set to {} seconds", lifetime.count());
 }
 
-} // namespace sonet::user
+} // namespace time::user

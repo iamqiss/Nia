@@ -22,7 +22,7 @@
 #include <queue>
 #include <json/json.h>
 
-namespace sonet::messaging::typing {
+namespace time::messaging::typing {
 
 /**
  * @brief Enhanced typing activity types
@@ -444,4 +444,4 @@ public:
     static std::vector<std::string> group_similar_typers(const std::vector<EnhancedTypingIndicator>& indicators);
 };
 
-} // namespace sonet::messaging::typing
+} // namespace time::messaging::typing

@@ -6,7 +6,7 @@
 #include <mutex>
 #include <chrono>
 
-namespace sonet::gateway::rate_limiting {
+namespace time::gateway::rate_limiting {
 
 struct LimitConfig { 
     int capacity; 
@@ -33,4 +33,4 @@ private:
     std::mutex mu_;
 };
 
-} // namespace sonet::gateway::rate_limiting
+} // namespace time::gateway::rate_limiting

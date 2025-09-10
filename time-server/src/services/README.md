@@ -1,6 +1,6 @@
-# Sonet Services
+# time Services
 
-This directory contains the microservices for the Sonet social platform.
+This directory contains the microservices for the time social platform.
 
 ## New Services
 
@@ -88,11 +88,11 @@ service/
 
 ```bash
 # Build Lists service
-cd sonet/src/services/list_service
+cd time/src/services/list_service
 go build -o list-service .
 
 # Build Starterpacks service
-cd sonet/src/services/starterpack_service
+cd time/src/services/starterpack_service
 go build -o starterpack-service .
 ```
 
@@ -102,9 +102,9 @@ go build -o starterpack-service .
 # Set environment variables
 export DB_HOST=localhost
 export DB_PORT=5432
-export DB_USER=sonet
-export DB_PASSWORD=sonet
-export DB_NAME=sonet
+export DB_USER=time
+export DB_PASSWORD=time
+export DB_NAME=time
 
 # Run Lists service
 ./list-service
@@ -117,12 +117,12 @@ export DB_NAME=sonet
 
 ```bash
 # Build and run Lists service
-docker build -t sonet-list-service sonet/src/services/list_service/
-docker run -p 9098:9098 sonet-list-service
+docker build -t time-list-service time/src/services/list_service/
+docker run -p 9098:9098 time-list-service
 
 # Build and run Starterpacks service
-docker build -t sonet-starterpack-service sonet/src/services/starterpack_service/
-docker run -p 9099:9099 sonet-starterpack-service
+docker build -t time-starterpack-service time/src/services/starterpack_service/
+docker run -p 9099:9099 time-starterpack-service
 ```
 
 ## Database Setup
@@ -131,10 +131,10 @@ Run the schema files to create the required tables:
 
 ```sql
 -- For Lists service
-\i sonet/database/schemas/follow_schema.sql
+\i time/database/schemas/follow_schema.sql
 
 -- For Starterpacks service
-\i sonet/database/schemas/starterpack_schema.sql
+\i time/database/schemas/starterpack_schema.sql
 ```
 
 ## Integration with Gateway
@@ -148,17 +148,17 @@ The gateway acts as a gRPC client and exposes REST endpoints that map to the gRP
 
 ## Migration from AT Protocol
 
-These services provide the server-side implementation for Lists and Starterpacks functionality that was previously handled by the AT Protocol. The client-side code in `sonet-client` can be gradually migrated to use these new endpoints instead of the AT Protocol APIs.
+These services provide the server-side implementation for Lists and Starterpacks functionality that was previously handled by the AT Protocol. The client-side code in `time-client` can be gradually migrated to use these new endpoints instead of the AT Protocol APIs.
 
 ## Testing
 
 ```bash
 # Test Lists service
-cd sonet/src/services/list_service
+cd time/src/services/list_service
 go test ./...
 
 # Test Starterpacks service
-cd sonet/src/services/starterpack_service
+cd time/src/services/starterpack_service
 go test ./...
 ```
 

@@ -7,7 +7,7 @@
 #
 
 cmake_minimum_required(VERSION 3.20)
-project(Sonet VERSION 1.0.0 LANGUAGES CXX)
+project(time VERSION 1.0.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -96,20 +96,20 @@ if(BUILD_GLOBAL_PROTO)
         compile_proto_file(${proto_file})
     endforeach()
 
-    add_library(sonet_proto ${PROTO_SRCS})
-    target_link_libraries(sonet_proto 
+    add_library(time_proto ${PROTO_SRCS})
+    target_link_libraries(time_proto 
         gRPC::grpc++ 
         gRPC::grpc++_reflection
         protobuf::libprotobuf
     )
     if(OpenSSL_FOUND)
-        target_link_libraries(sonet_proto OpenSSL::Crypto OpenSSL::SSL)
+        target_link_libraries(time_proto OpenSSL::Crypto OpenSSL::SSL)
     endif()
-    target_include_directories(sonet_proto PUBLIC ${PROTO_OUTPUT_DIR})
+    target_include_directories(time_proto PUBLIC ${PROTO_OUTPUT_DIR})
 else()
     # Do NOT globally add proto include dir; each target should opt-in to avoid stub collisions
-    add_library(sonet_proto INTERFACE)
-    target_link_libraries(sonet_proto INTERFACE 
+    add_library(time_proto INTERFACE)
+    target_link_libraries(time_proto INTERFACE 
         gRPC::grpc++ 
         gRPC::grpc++_reflection
         protobuf::libprotobuf
@@ -140,7 +140,7 @@ if(BUILD_TESTS)
 endif()
 
 # Install configuration
-install(TARGETS sonet_proto
+install(TARGETS time_proto
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin

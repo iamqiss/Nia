@@ -30,7 +30,7 @@
 #endif
 
 namespace fs = std::filesystem;
-namespace sonet::media_service {
+namespace time::media_service {
 
 // Abstract base that chooses implementation at runtime only by compile flags.
 class S3StorageBase : public StorageBackend { };
@@ -228,4 +228,4 @@ std::unique_ptr<StorageBackend> CreateS3Storage(const std::string& bucket,
 #endif
 }
 
-} // namespace sonet::media_service
+} // namespace time::media_service

@@ -8,14 +8,14 @@
 // Stubs
 #include "../../../proto/services/stub_protos.h"
 
-namespace sonet {
+namespace time {
 namespace timeline {
 namespace clients {
 
 class NoteClient {
 public:
     virtual ~NoteClient() = default;
-    virtual std::vector<::sonet::note::Note> ListRecentNotesByAuthors(
+    virtual std::vector<::time::note::Note> ListRecentNotesByAuthors(
         const std::vector<std::string>& author_ids,
         std::chrono::system_clock::time_point since,
         int32_t limit) = 0;
@@ -30,13 +30,13 @@ public:
 
 class StubBackedNoteClient : public NoteClient {
 public:
-    explicit StubBackedNoteClient(std::shared_ptr<::sonet::note::NoteService::Stub> stub)
+    explicit StubBackedNoteClient(std::shared_ptr<::time::note::NoteService::Stub> stub)
         : stub_(std::move(stub)) {}
-    std::vector<::sonet::note::Note> ListRecentNotesByAuthors(
+    std::vector<::time::note::Note> ListRecentNotesByAuthors(
         const std::vector<std::string>& author_ids,
         std::chrono::system_clock::time_point since,
         int32_t limit) override {
-        ::sonet::note::NoteService::Stub::ListRecentNotesByAuthorsRequest req;
+        ::time::note::NoteService::Stub::ListRecentNotesByAuthorsRequest req;
         req.author_ids = author_ids;
         auto secs = std::chrono::duration_cast<std::chrono::seconds>(since.time_since_epoch()).count();
         req.since.set_seconds(secs);
@@ -45,30 +45,30 @@ public:
         return resp.notes;
     }
 private:
-    std::shared_ptr<::sonet::note::NoteService::Stub> stub_;
+    std::shared_ptr<::time::note::NoteService::Stub> stub_;
 };
 
 class StubBackedFollowClient : public FollowClient {
 public:
-    StubBackedFollowClient() : stub_(std::make_shared<::sonet::follow::FollowService::Stub>()) {}
+    StubBackedFollowClient() : stub_(std::make_shared<::time::follow::FollowService::Stub>()) {}
     std::vector<std::string> GetFollowing(const std::string& user_id) override {
-        ::sonet::follow::GetFollowingRequest req; req.user_id_ = user_id;
+        ::time::follow::GetFollowingRequest req; req.user_id_ = user_id;
         return stub_->GetFollowing(req).user_ids();
     }
     std::vector<std::string> GetFollowers(const std::string& user_id) override {
-        ::sonet::follow::GetFollowersRequest req; req.user_id_ = user_id;
+        ::time::follow::GetFollowersRequest req; req.user_id_ = user_id;
         return stub_->GetFollowers(req).user_ids();
     }
 private:
-    std::shared_ptr<::sonet::follow::FollowService::Stub> stub_;
+    std::shared_ptr<::time::follow::FollowService::Stub> stub_;
 };
 
-#ifdef SONET_USE_GRPC_CLIENTS
+#ifdef time_USE_GRPC_CLIENTS
 // Placeholders for real gRPC clients
 class GrpcNoteClient : public NoteClient {
 public:
     explicit GrpcNoteClient(const std::string& endpoint) { (void)endpoint; }
-    std::vector<::sonet::note::Note> ListRecentNotesByAuthors(
+    std::vector<::time::note::Note> ListRecentNotesByAuthors(
         const std::vector<std::string>& /*author_ids*/, std::chrono::system_clock::time_point /*since*/, int32_t /*limit*/) override {
         return {};
     }
@@ -84,4 +84,4 @@ public:
 
 } // namespace clients
 } // namespace timeline
-} // namespace sonet
+} // namespace time

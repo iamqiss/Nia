@@ -1,4 +1,4 @@
-# Sonet Moderation Service - Production Configuration
+# time Moderation Service - Production Configuration
 # This file contains production-optimized configuration values
 # Override default.toml settings for production deployment
 
@@ -8,7 +8,7 @@ grpc_port = 9090
 host = "0.0.0.0"
 
 [database]
-url = "postgresql://moderation_user:secure_password@prod-db-cluster/sonet_moderation"
+url = "postgresql://moderation_user:secure_password@prod-db-cluster/time_moderation"
 max_connections = 500
 connection_timeout_seconds = 60
 
@@ -48,7 +48,7 @@ health_check_interval_seconds = 15
 rate_limit_requests = 5000
 rate_limit_window_seconds = 60
 jwt_secret = "${JWT_SECRET}"
-cors_origins = ["https://app.sonet.com", "https://admin.sonet.com"]
+cors_origins = ["https://app.time.com", "https://admin.time.com"]
 
 [abuse_specialists]
 queue_size = 10000

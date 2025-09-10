@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Sonet Quick Production Deployment Script
+# time Quick Production Deployment Script
 # This script provides a rapid deployment option for production
 
 set -euo pipefail
 
 # Configuration
-PRODUCTION_DIR="/opt/sonet"
-CONFIG_DIR="/opt/sonet/config"
-LOGS_DIR="/opt/sonet/logs"
+PRODUCTION_DIR="/opt/time"
+CONFIG_DIR="/opt/time/config"
+LOGS_DIR="/opt/time/logs"
 
 # Colors
 GREEN='\033[0;32m'
@@ -41,7 +41,7 @@ check_setup() {
 
 # Deploy services
 deploy_services() {
-    log "Deploying Sonet services..."
+    log "Deploying time services..."
     
     cd "$PRODUCTION_DIR"
     
@@ -100,7 +100,7 @@ run_health_checks() {
     fi
     
     # Check database connectivity
-    if docker exec sonet_notegres_prod pg_isready -U sonet_app > /dev/null 2>&1; then
+    if docker exec time_notegres_prod pg_isready -U time_app > /dev/null 2>&1; then
         log "Database: OK"
     else
         warning "Database: Failed"
@@ -121,7 +121,7 @@ show_status() {
     echo ""
     echo "Access URLs:"
     echo "============"
-    echo "Main Application: https://sonet.com"
+    echo "Main Application: https://time.com"
     echo "API Gateway: http://localhost:8080"
     echo "Prometheus: http://localhost:9090"
     echo "Grafana: http://localhost:3000 (admin/admin)"
@@ -130,15 +130,15 @@ show_status() {
     echo ""
     echo "Useful Commands:"
     echo "================"
-    echo "View logs: journalctl -u sonet.service -f"
-    echo "Service status: systemctl status sonet.service"
-    echo "Restart services: systemctl restart sonet.service"
-    echo "Stop services: systemctl stop sonet.service"
+    echo "View logs: journalctl -u time.service -f"
+    echo "Service status: systemctl status time.service"
+    echo "Restart services: systemctl restart time.service"
+    echo "Stop services: systemctl stop time.service"
 }
 
 # Main deployment function
 main() {
-    log "Starting Sonet quick deployment..."
+    log "Starting time quick deployment..."
     
     # Pre-deployment checks
     check_root

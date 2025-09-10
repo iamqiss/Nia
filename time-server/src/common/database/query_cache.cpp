@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <spdlog/spdlog.h>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // QueryCache implementation
@@ -609,4 +609,4 @@ std::vector<std::string> CacheWarmer::get_user_queries(const std::string& user_i
 }
 
 } // namespace database
-} // namespace sonet
+} // namespace time

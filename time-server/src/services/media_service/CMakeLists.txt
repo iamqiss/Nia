@@ -89,7 +89,7 @@ else()
 endif()
 
 # Link against proto aggregator and common libs
-target_link_libraries(media_service_core PUBLIC sonet_proto)
+target_link_libraries(media_service_core PUBLIC time_proto)
 # gRPC depends on absl and gpr; ensure link for executable
 find_package(absl QUIET)
 if(absl_FOUND)
@@ -100,7 +100,7 @@ else()
 endif()
 # Link gRPC core libs explicitly if available
 target_link_libraries(media_service PRIVATE grpc gpr grpc++)
-target_link_libraries(media_service PRIVATE media_service_core sonet_proto)
+target_link_libraries(media_service PRIVATE media_service_core time_proto)
 
 # libpqxx (optional)
 find_package(PkgConfig)

@@ -4,7 +4,7 @@ import { AuthProvider } from '@/lib/auth'
 import { Header } from '@/app/components/Header'
 
 export const metadata = {
-  title: 'Sonet Police',
+  title: 'time Police',
   description: 'Moderation Dashboard',
 }
 

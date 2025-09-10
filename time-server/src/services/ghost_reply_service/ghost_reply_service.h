@@ -15,7 +15,7 @@
 #include <optional>
 #include <functional>
 
-namespace sonet::ghost_reply {
+namespace time::ghost_reply {
 
 using json = nlohmann::json;
 
@@ -211,4 +211,4 @@ private:
     void record_abuse_attempt(const std::string& content, const std::string& ghost_id, const std::string& reason);
 };
 
-} // namespace sonet::ghost_reply
+} // namespace time::ghost_reply

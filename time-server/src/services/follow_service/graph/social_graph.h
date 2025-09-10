@@ -18,7 +18,7 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
-namespace sonet::follow::graph {
+namespace time::follow::graph {
 
 using json = nlohmann::json;
 using Clock = std::chrono::steady_clock;
@@ -98,4 +98,4 @@ private:
     double simulate_engagement_score(const std::string& user_id);
 };
 
-} // namespace sonet::follow::graph
+} // namespace time::follow::graph

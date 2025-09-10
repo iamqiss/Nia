@@ -1,6 +1,6 @@
 # Logger
 
-Simple logger for Bluesky.
+Simple logger for Time.
 
 ## At a Glance
 

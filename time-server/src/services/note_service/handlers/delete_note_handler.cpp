@@ -10,7 +10,7 @@
 #include "../repositories/note_repository.h"
 #include <nlohmann/json.hpp>
 
-namespace sonet::note::handlers {
+namespace time::note::handlers {
 
 // Placeholder implementation for delete note handler
 class DeleteNoteHandler {
@@ -20,4 +20,4 @@ public:
     }
 };
 
-} // namespace sonet::note::handlers
+} // namespace time::note::handlers

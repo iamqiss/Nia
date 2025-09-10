@@ -17,9 +17,9 @@
 #include <memory>
 #include <chrono>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
-using namespace sonet::note::models;
+using namespace time::note::models;
 
 /**
  * Cassandra implementation of NoteRepository
@@ -234,4 +234,4 @@ private:
     static void setup_ssl_if_needed(CassCluster* cluster);
 };
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

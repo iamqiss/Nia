@@ -15,7 +15,7 @@
 #include <optional>
 #include <functional>
 
-namespace sonet::ghost_reply::repositories {
+namespace time::ghost_reply::repositories {
 
 using json = nlohmann::json;
 
@@ -142,4 +142,4 @@ public:
     virtual bool has_error() const = 0;
 };
 
-} // namespace sonet::ghost_reply::repositories
+} // namespace time::ghost_reply::repositories

@@ -1,8 +1,8 @@
-# 🚀 **Sonet Live Deployment - Complete Guide**
+# 🚀 **time Live Deployment - Complete Guide**
 
 ## 🎯 **Overview**
 
-This guide provides the complete roadmap for deploying the Sonet founder moderation system to live production. The system is designed to rival Twitter with enterprise-grade security, complete founder anonymity, and professional moderation capabilities.
+This guide provides the complete roadmap for deploying the time founder moderation system to live production. The system is designed to rival Twitter with enterprise-grade security, complete founder anonymity, and professional moderation capabilities.
 
 ## 🏗️ **System Architecture**
 
@@ -44,9 +44,9 @@ sudo systemctl restart ssh
 
 #### **Step 2: Run Production Setup**
 ```bash
-# Clone Sonet repository
-git clone https://github.com/sonet/sonet.git
-cd sonet
+# Clone time repository
+git clone https://github.com/time/time.git
+cd time
 
 # Make setup script executable
 chmod +x scripts/setup-production.sh
@@ -65,14 +65,14 @@ sudo ./scripts/setup-production.sh
 
 #### **Step 3: Deploy Services**
 ```bash
-# Start Sonet services
-sudo systemctl start sonet.service
+# Start time services
+sudo systemctl start time.service
 
 # Check service status
-sudo systemctl status sonet.service
+sudo systemctl status time.service
 
 # View logs
-sudo journalctl -u sonet.service -f
+sudo journalctl -u time.service -f
 ```
 
 ### **Phase 2: Live Deployment Configuration**
@@ -95,7 +95,7 @@ sudo ./scripts/configure-live-deployment.sh
 - ✅ Sets up production monitoring and alerting
 
 #### **Step 2: Update DNS Records**
-Follow the DNS configuration guide created at `/opt/sonet/docs/dns-configuration.md`:
+Follow the DNS configuration guide created at `/opt/time/docs/dns-configuration.md`:
 
 **Required DNS Records:**
 - **A Record**: `your-domain.com` → Your server IP
@@ -133,7 +133,7 @@ sudo ./scripts/go-live.sh
 - ✅ Founder functionality tested
 
 #### **Step 2: Review Go-Live Report**
-The script creates a comprehensive report at `/opt/sonet/docs/go-live-report-*.md` with:
+The script creates a comprehensive report at `/opt/time/docs/go-live-report-*.md` with:
 - System status and health metrics
 - Security verification results
 - Performance benchmarks
@@ -199,19 +199,19 @@ The system includes pre-configured alerts for:
 ### **Automated Backups**
 ```bash
 # Backup runs daily at 2 AM
-sudo systemctl status sonet-backup.timer
+sudo systemctl status time-backup.timer
 
 # Manual backup
-sudo systemctl start sonet-backup.service
+sudo systemctl start time-backup.service
 
 # Verify backup integrity
-/opt/sonet/scripts/verify-backup.sh
+/opt/time/scripts/verify-backup.sh
 ```
 
 ### **Disaster Recovery**
 ```bash
 # Run disaster recovery script
-/opt/sonet/scripts/disaster-recovery.sh
+/opt/time/scripts/disaster-recovery.sh
 
 # This will:
 # 1. List available backups
@@ -226,7 +226,7 @@ sudo systemctl start sonet-backup.service
 - **Account Management**: Flag, shadowban, suspend, ban users
 - **Content Moderation**: Delete notes, review flagged content
 - **System Access**: Monitoring dashboards, audit logs
-- **Complete Anonymity**: All actions appear from "Sonet Moderation"
+- **Complete Anonymity**: All actions appear from "time Moderation"
 
 ### **Testing Founder Actions**
 ```bash
@@ -240,7 +240,7 @@ sudo systemctl start sonet-backup.service
 ```
 
 ### **Founder Anonymity Features**
-- ✅ All moderation actions appear from "Sonet Moderation"
+- ✅ All moderation actions appear from "time Moderation"
 - ✅ No founder identity revealed in user-facing messages
 - ✅ Professional appearance maintained
 - ✅ Audit logs track founder actions internally
@@ -296,14 +296,14 @@ sudo systemctl start sonet-backup.service
 #### **Service Won't Start**
 ```bash
 # Check service status
-sudo systemctl status sonet.service
+sudo systemctl status time.service
 
 # View logs
-sudo journalctl -u sonet.service -f
+sudo journalctl -u time.service -f
 
 # Check Docker containers
 sudo docker ps -a
-sudo docker logs sonet_moderation_service_prod
+sudo docker logs time_moderation_service_prod
 ```
 
 #### **SSL Certificate Issues**
@@ -315,19 +315,19 @@ sudo certbot certificates
 sudo certbot renew --dry-run
 
 # Manual renewal
-sudo /opt/sonet/scripts/renew-ssl.sh
+sudo /opt/time/scripts/renew-ssl.sh
 ```
 
 #### **Database Connection Issues**
 ```bash
 # Check database status
-sudo docker exec sonet_notegres_prod pg_isready -U sonet_app
+sudo docker exec time_notegres_prod pg_isready -U time_app
 
 # Check logs
-sudo docker logs sonet_notegres_prod
+sudo docker logs time_notegres_prod
 
 # Test connection
-sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production
+sudo docker exec -it time_notegres_prod psql -U time_app -d time_production
 ```
 
 #### **Performance Issues**
@@ -338,7 +338,7 @@ df -h
 free -h
 
 # Test API performance
-/opt/sonet/scripts/performance-test.sh
+/opt/time/scripts/performance-test.sh
 
 # Check monitoring dashboards
 # Prometheus: http://localhost:9090
@@ -348,10 +348,10 @@ free -h
 ### **Emergency Procedures**
 
 #### **Service Outage**
-1. Check service status: `systemctl status sonet.service`
-2. Review logs: `journalctl -u sonet.service -f`
+1. Check service status: `systemctl status time.service`
+2. Review logs: `journalctl -u time.service -f`
 3. Check monitoring dashboards
-4. Restart services if needed: `systemctl restart sonet.service`
+4. Restart services if needed: `systemctl restart time.service`
 5. Escalate if unresolved
 
 #### **Security Incident**
@@ -373,13 +373,13 @@ free -h
 ### **Performance Tuning**
 ```bash
 # Database optimization
-sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production -c "ANALYZE;"
+sudo docker exec -it time_notegres_prod psql -U time_app -d time_production -c "ANALYZE;"
 
 # Check slow queries
-sudo docker exec -it sonet_notegres_prod psql -U sonet_app -d sonet_production -c "SELECT query, calls, total_time, mean_time FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
+sudo docker exec -it time_notegres_prod psql -U time_app -d time_production -c "SELECT query, calls, total_time, mean_time FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
 
 # Redis optimization
-sudo docker exec sonet_redis_prod redis-cli CONFIG SET maxmemory-policy allkeys-lru
+sudo docker exec time_redis_prod redis-cli CONFIG SET maxmemory-policy allkeys-lru
 ```
 
 ### **Scaling Considerations**
@@ -420,7 +420,7 @@ sudo ./scripts/setup-production.sh
 sudo ./scripts/configure-live-deployment.sh
 
 # 4. Update DNS records at your registrar
-# (Follow the guide at /opt/sonet/docs/dns-configuration.md)
+# (Follow the guide at /opt/time/docs/dns-configuration.md)
 
 # 5. Wait for DNS propagation (24-48 hours)
 
@@ -432,7 +432,7 @@ sudo ./scripts/go-live.sh
 
 ## 🌟 **Welcome to Production!**
 
-Congratulations! You've successfully deployed the Sonet founder moderation system to production. The system is now:
+Congratulations! You've successfully deployed the time founder moderation system to production. The system is now:
 
 - **🚀 Live and operational** with enterprise-grade infrastructure
 - **🔒 Secure and hardened** with comprehensive security measures
@@ -449,4 +449,4 @@ The future of social media moderation is here! 🚀
 
 *Last updated: 2024-01-01*
 *Version: 1.0.0*
-*Author: Sonet Engineering Team*
+*Author: time Engineering Team*

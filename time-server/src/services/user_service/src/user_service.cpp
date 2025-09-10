@@ -11,7 +11,7 @@
 #include <grpcpp/grpcpp.h>
 #include <cstdlib>
 
-namespace sonet::user {
+namespace time::user {
 
 static std::string getenv_or(const char* key, const std::string& def) {
     const char* v = std::getenv(key);
@@ -21,7 +21,7 @@ static std::string getenv_or(const char* key, const std::string& def) {
 UserServiceImpl::UserServiceImpl() {
     password_manager_ = std::make_shared<PasswordManager>();
     const std::string jwt_secret = getenv_or("JWT_SECRET", "dev-insecure-secret-change");
-    const std::string jwt_issuer = getenv_or("JWT_ISSUER", "sonet");
+    const std::string jwt_issuer = getenv_or("JWT_ISSUER", "time");
     jwt_manager_ = std::make_shared<JWTManager>(jwt_secret, jwt_issuer);
     session_manager_ = std::make_shared<SessionManager>();
     rate_limiter_ = std::make_shared<RateLimiter>();
@@ -31,8 +31,8 @@ UserServiceImpl::UserServiceImpl() {
 
 grpc::Status UserServiceImpl::RegisterUser(
     grpc::ServerContext* context,
-    const sonet::user::RegisterUserRequest* request,
-    sonet::user::RegisterUserResponse* response) {
+    const time::user::RegisterUserRequest* request,
+    time::user::RegisterUserResponse* response) {
     if (request->email().empty() || request->password().empty() || request->username().empty()) {
         auto status = response->mutable_status();
         status->set_success(false);
@@ -73,8 +73,8 @@ grpc::Status UserServiceImpl::RegisterUser(
 
 grpc::Status UserServiceImpl::LoginUser(
     grpc::ServerContext* context,
-    const sonet::user::LoginUserRequest* request,
-    sonet::user::LoginUserResponse* response) {
+    const time::user::LoginUserRequest* request,
+    time::user::LoginUserResponse* response) {
     const auto& creds = request->credentials();
     if (creds.email().empty() || creds.password().empty()) {
         auto status = response->mutable_status();
@@ -117,8 +117,8 @@ grpc::Status UserServiceImpl::LoginUser(
 
 grpc::Status UserServiceImpl::VerifyToken(
     grpc::ServerContext* context,
-    const sonet::user::VerifyTokenRequest* request,
-    sonet::user::VerifyTokenResponse* response) {
+    const time::user::VerifyTokenRequest* request,
+    time::user::VerifyTokenResponse* response) {
     
     // This is called frequently, so I keep logging minimal
     std::optional<User> user = auth_manager_->authenticate_token(request->token());
@@ -145,8 +145,8 @@ grpc::Status UserServiceImpl::VerifyToken(
 
 grpc::Status UserServiceImpl::RefreshToken(
     grpc::ServerContext* context,
-    const sonet::user::RefreshTokenRequest* request,
-    sonet::user::RefreshTokenResponse* response) {
+    const time::user::RefreshTokenRequest* request,
+    time::user::RefreshTokenResponse* response) {
     
     std::string new_access_token;
     bool success = auth_manager_->refresh_authentication(request->refresh_token(), new_access_token);
@@ -167,8 +167,8 @@ grpc::Status UserServiceImpl::RefreshToken(
 
 grpc::Status UserServiceImpl::LogoutUser(
     grpc::ServerContext* context,
-    const sonet::user::LogoutRequest* request,
-    sonet::user::LogoutResponse* response) {
+    const time::user::LogoutRequest* request,
+    time::user::LogoutResponse* response) {
     
     bool success = auth_manager_->terminate_session(request->session_id());
     
@@ -185,8 +185,8 @@ grpc::Status UserServiceImpl::LogoutUser(
 
 grpc::Status UserServiceImpl::ChangePassword(
     grpc::ServerContext* context,
-    const sonet::user::ChangePasswordRequest* request,
-    sonet::user::ChangePasswordResponse* response) {
+    const time::user::ChangePasswordRequest* request,
+    time::user::ChangePasswordResponse* response) {
     
     // Extract user ID from token (this would be done by middleware in production)
     std::string user_id = extract_user_id_from_context(context);
@@ -281,4 +281,4 @@ User UserServiceImpl::get_user_by_email(const std::string& email) {
     return user;
 }
 
-} // namespace sonet::user
+} // namespace time::user

@@ -9,6 +9,6 @@
   "read_timeout": 3,
   "write_timeout": 3,
   "keep_alive": true,
-  "key_prefix": "sonet:dev:",
+  "key_prefix": "time:dev:",
   "cache_ttl": 3600
 }

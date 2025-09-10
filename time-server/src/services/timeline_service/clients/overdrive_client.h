@@ -5,9 +5,9 @@
 #include <memory>
 #include <unordered_map>
 
-namespace sonet { namespace note { class Note; } }
+namespace time { namespace note { class Note; } }
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 struct OverdriveRankedItem {
 	std::string note_id;
@@ -26,4 +26,4 @@ public:
 	) = 0;
 };
 
-} // namespace sonet::timeline
+} // namespace time::timeline

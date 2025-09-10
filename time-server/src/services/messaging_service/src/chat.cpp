@@ -13,7 +13,7 @@
 #include <regex>
 #include <openssl/sha.h>
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 // ChatParticipant implementation
 Json::Value ChatParticipant::to_json() const {
@@ -629,7 +629,7 @@ std::string ChatUtils::generate_invitation_link(const std::string& chat_id) {
         token += chars[dis(gen)];
     }
     
-    return "https://sonet.app/invite/" + token;
+    return "https://time.app/invite/" + token;
 }
 
 bool ChatUtils::is_valid_chat_name(const std::string& name) {
@@ -681,4 +681,4 @@ std::string ChatUtils::sanitize_chat_name(const std::string& name) {
     return sanitized;
 }
 
-} // namespace sonet::messaging
+} // namespace time::messaging

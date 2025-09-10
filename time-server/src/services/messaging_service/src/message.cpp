@@ -14,7 +14,7 @@
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 // MessageReaction implementation
 Json::Value MessageReaction::to_json() const {
@@ -618,4 +618,4 @@ double MessageUtils::calculate_message_priority_score(const Message& message) {
     return score;
 }
 
-} // namespace sonet::messaging
+} // namespace time::messaging

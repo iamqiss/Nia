@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
 /**
  * Authentication controller handling REST API endpoints for user authentication.
@@ -25,7 +25,7 @@ namespace sonet::user::controllers {
  */
 class AuthController {
 public:
-    explicit AuthController(std::shared_ptr<sonet::user::UserServiceImpl> user_service,
+    explicit AuthController(std::shared_ptr<time::user::UserServiceImpl> user_service,
                            std::shared_ptr<email::EmailService> email_service = nullptr,
                            const std::string& connection_string = "");
     ~AuthController() = default;
@@ -91,23 +91,23 @@ public:
     std::vector<std::string> generate_username_suggestions(const std::string& base_username);
 
 private:
-    std::shared_ptr<sonet::user::UserServiceImpl> user_service_;
+    std::shared_ptr<time::user::UserServiceImpl> user_service_;
     std::shared_ptr<email::EmailService> email_service_;
     std::string connection_string_;
 
 private:
     // Converters to proto
-    sonet::user::RegisterUserRequest to_grpc_register_request(const RegisterRequest& request);
-    sonet::user::LoginUserRequest to_grpc_login_request(const LoginRequest& request);
-    sonet::user::RefreshTokenRequest to_grpc_refresh_request(const RefreshTokenRequest& request);
-    sonet::user::LogoutRequest to_grpc_logout_request(const LogoutRequest& request);
+    time::user::RegisterUserRequest to_grpc_register_request(const RegisterRequest& request);
+    time::user::LoginUserRequest to_grpc_login_request(const LoginRequest& request);
+    time::user::RefreshTokenRequest to_grpc_refresh_request(const RefreshTokenRequest& request);
+    time::user::LogoutRequest to_grpc_logout_request(const LogoutRequest& request);
 
     // Response mappers
-    nlohmann::json grpc_response_to_json(const sonet::user::RegisterUserResponse& response);
-    nlohmann::json grpc_response_to_json(const sonet::user::LoginUserResponse& response);
-    nlohmann::json grpc_response_to_json(const sonet::user::RefreshTokenResponse& response);
+    nlohmann::json grpc_response_to_json(const time::user::RegisterUserResponse& response);
+    nlohmann::json grpc_response_to_json(const time::user::LoginUserResponse& response);
+    nlohmann::json grpc_response_to_json(const time::user::RefreshTokenResponse& response);
     nlohmann::json create_error_response(const std::string& message);
     nlohmann::json create_success_response(const std::string& message, const nlohmann::json& data = nlohmann::json{});
 };
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

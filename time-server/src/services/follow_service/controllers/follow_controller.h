@@ -15,11 +15,11 @@
 #include <string>
 #include <memory>
 
-namespace sonet::follow::controllers {
+namespace time::follow::controllers {
 
 using json = nlohmann::json;
-using namespace sonet::follow;
-using namespace sonet::follow::models;
+using namespace time::follow;
+using namespace time::follow::models;
 
 /**
  * @brief Twitter-Scale Follow Controller
@@ -477,4 +477,4 @@ private:
     static constexpr int ANALYTICS_CACHE_TTL = 1800;       // 30 minutes
 };
 
-} // namespace sonet::follow::controllers
+} // namespace time::follow::controllers

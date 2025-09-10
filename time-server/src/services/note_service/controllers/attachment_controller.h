@@ -21,10 +21,10 @@
 #include <functional>
 #include <optional>
 
-namespace sonet::note::controllers {
+namespace time::note::controllers {
 
 using json = nlohmann::json;
-using namespace sonet::note::models;
+using namespace time::note::models;
 
 /**
  * @brief HTTP status codes for attachment operations
@@ -549,4 +549,4 @@ private:
     double simulate_content_moderation(const Attachment& attachment);
 };
 
-} // namespace sonet::note::controllers
+} // namespace time::note::controllers

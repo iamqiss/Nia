@@ -18,7 +18,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace sonet::user::email {
+namespace time::user::email {
 
 // SMTP implementation using libcurl
 class SMTPSender {
@@ -411,13 +411,13 @@ private:
     void load_default_templates() {
         // Email verification template
         EmailTemplate verification_template;
-        verification_template.subject = "Verify your Sonet account";
+        verification_template.subject = "Verify your time account";
         verification_template.html_body = R"(
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                        <h2 style="color: #1DA1F2;">Welcome to Sonet, {{username}}!</h2>
-                        <p>Thank you for joining Sonet. To complete your registration, please verify your email address by clicking the button below:</p>
+                        <h2 style="color: #1DA1F2;">Welcome to time, {{username}}!</h2>
+                        <p>Thank you for joining time. To complete your registration, please verify your email address by clicking the button below:</p>
                         <div style="text-align: center; margin: 30px 0;">
                             <a href="{{verification_url}}" style="background-color: #1DA1F2; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Verify Email Address</a>
                         </div>
@@ -426,15 +426,15 @@ private:
                         <p>This verification link will expire in 24 hours for security reasons.</p>
                         <p>If you didn't create this account, please ignore this email.</p>
                         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-                        <p style="color: #666; font-size: 12px;">© 2025 Sonet. All rights reserved.</p>
+                        <p style="color: #666; font-size: 12px;">© 2025 time. All rights reserved.</p>
                     </div>
                 </body>
             </html>
         )";
         verification_template.text_body = R"(
-            Welcome to Sonet, {{username}}!
+            Welcome to time, {{username}}!
             
-            Thank you for joining Sonet. To complete your registration, please verify your email address by visiting:
+            Thank you for joining time. To complete your registration, please verify your email address by visiting:
             
             {{verification_url}}
             
@@ -442,20 +442,20 @@ private:
             
             If you didn't create this account, please ignore this email.
             
-            © 2025 Sonet. All rights reserved.
+            © 2025 time. All rights reserved.
         )";
         register_template("email_verification", verification_template);
         
         // Password reset template
         EmailTemplate reset_template;
-        reset_template.subject = "Reset your Sonet password";
+        reset_template.subject = "Reset your time password";
         reset_template.html_body = R"(
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                         <h2 style="color: #1DA1F2;">Password Reset Request</h2>
                         <p>Hi {{username}},</p>
-                        <p>We received a request to reset your password for your Sonet account. Click the button below to reset it:</p>
+                        <p>We received a request to reset your password for your time account. Click the button below to reset it:</p>
                         <div style="text-align: center; margin: 30px 0;">
                             <a href="{{reset_url}}" style="background-color: #E1306C; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a>
                         </div>
@@ -464,7 +464,7 @@ private:
                         <p>This password reset link will expire in 1 hour for security reasons.</p>
                         <p>If you didn't request this password reset, please ignore this email. Your password will remain unchanged.</p>
                         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-                        <p style="color: #666; font-size: 12px;">© 2025 Sonet. All rights reserved.</p>
+                        <p style="color: #666; font-size: 12px;">© 2025 time. All rights reserved.</p>
                     </div>
                 </body>
             </html>
@@ -473,13 +473,13 @@ private:
         
         // Welcome email template  
         EmailTemplate welcome_template;
-        welcome_template.subject = "Welcome to Sonet!";
+        welcome_template.subject = "Welcome to time!";
         welcome_template.html_body = R"(
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                        <h2 style="color: #1DA1F2;">Welcome to Sonet, {{username}}! 🎉</h2>
-                        <p>Your account has been successfully verified and you're now part of the Sonet community!</p>
+                        <h2 style="color: #1DA1F2;">Welcome to time, {{username}}! 🎉</h2>
+                        <p>Your account has been successfully verified and you're now part of the time community!</p>
                         <p>Here are some things you can do to get started:</p>
                         <ul>
                             <li>Complete your profile with a photo and bio</li>
@@ -488,11 +488,11 @@ private:
                             <li>Discover trending topics and conversations</li>
                         </ul>
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="https://sonet.com/dashboard" style="background-color: #1DA1F2; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Get Started</a>
+                            <a href="https://time.com/dashboard" style="background-color: #1DA1F2; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Get Started</a>
                         </div>
                         <p>We're excited to see what you'll share!</p>
                         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-                        <p style="color: #666; font-size: 12px;">© 2025 Sonet. All rights reserved.</p>
+                        <p style="color: #666; font-size: 12px;">© 2025 time. All rights reserved.</p>
                     </div>
                 </body>
             </html>
@@ -508,7 +508,7 @@ private:
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                         <h2 style="color: #E1306C;">Security Alert</h2>
                         <p>Hi {{username}},</p>
-                        <p>We detected a new login to your Sonet account:</p>
+                        <p>We detected a new login to your time account:</p>
                         <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
                             <strong>Alert Type:</strong> {{alert_type}}<br>
                             <strong>Device:</strong> {{device_info}}<br>
@@ -522,10 +522,10 @@ private:
                             <li>Enable two-factor authentication</li>
                         </ul>
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="https://sonet.com/security" style="background-color: #E1306C; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Secure My Account</a>
+                            <a href="https://time.com/security" style="background-color: #E1306C; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Secure My Account</a>
                         </div>
                         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-                        <p style="color: #666; font-size: 12px;">© 2025 Sonet. All rights reserved.</p>
+                        <p style="color: #666; font-size: 12px;">© 2025 time. All rights reserved.</p>
                     </div>
                 </body>
             </html>
@@ -610,4 +610,4 @@ std::string generate_reset_url(const std::string& base_url, const std::string& t
     return base_url + "/reset-password?token=" + token;
 }
 
-} // namespace sonet::user::email
+} // namespace time::user::email

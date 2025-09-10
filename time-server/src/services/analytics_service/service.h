@@ -15,7 +15,7 @@
 
 #include "controllers/analytics_controller.h"
 
-namespace sonet::analytics_service {
+namespace time::analytics_service {
 
 struct Config {
 	std::string bind_address = "0.0.0.0:6007";
@@ -41,5 +41,5 @@ private:
 	std::unique_ptr<processors::StreamProcessor> processor_;
 };
 
-} // namespace sonet::analytics_service
+} // namespace time::analytics_service
 

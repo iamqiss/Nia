@@ -16,7 +16,7 @@
 #include <optional>
 #include <mutex>
 
-namespace sonet::ghost_reply::repositories {
+namespace time::ghost_reply::repositories {
 
 using json = nlohmann::json;
 
@@ -214,4 +214,4 @@ private:
     void invalidate_cache_for_ghost_reply(const std::string& ghost_reply_id);
 };
 
-} // namespace sonet::ghost_reply::repositories
+} // namespace time::ghost_reply::repositories

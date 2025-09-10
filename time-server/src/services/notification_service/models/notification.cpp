@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Implementation of the notification model. I spent a lot of time thinking about
  * how to make notifications feel natural and not spammy. Every method here serves
@@ -15,7 +15,7 @@
 #include <random>
 #include <regex>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace models {
 
@@ -1027,4 +1027,4 @@ std::shared_ptr<Notification> create_system_notification(
 
 } // namespace models
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

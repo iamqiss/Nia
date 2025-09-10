@@ -17,10 +17,10 @@
 #include "../../core/network/http_response.h"
 #include "../services/follow_service.h"
 
-namespace sonet::follow::controllers {
+namespace time::follow::controllers {
 
 using json = nlohmann::json;
-using namespace sonet::core::network;
+using namespace time::core::network;
 
 /**
  * @brief Twitter-Scale Block Controller
@@ -407,4 +407,4 @@ private:
                           const std::string& operation_type) const;
 };
 
-} // namespace sonet::follow::controllers
+} // namespace time::follow::controllers

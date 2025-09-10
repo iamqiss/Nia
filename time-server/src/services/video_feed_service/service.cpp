@@ -18,7 +18,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace sonet {
+namespace time {
 namespace video_feed {
 
 VideoFeedService::VideoFeedService(
@@ -744,4 +744,4 @@ void VideoFeedService::SetupRealTimeUpdates(
 // would be implemented here...
 
 } // namespace video_feed
-} // namespace sonet
+} // namespace time

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * I designed this notification system to handle millions of users efficiently
  * while keeping the code clean and maintainable. Every notification type here
@@ -17,7 +17,7 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace models {
 
@@ -75,7 +75,7 @@ enum class DeliveryStatus {
 };
 
 /**
- * Core notification model for Sonet's social media platform
+ * Core notification model for time's social media platform
  * I designed this to handle millions of notifications efficiently while keeping
  * all the data we need for smart delivery and user preferences
  */
@@ -347,4 +347,4 @@ std::shared_ptr<Notification> create_system_notification(
 
 } // namespace models
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

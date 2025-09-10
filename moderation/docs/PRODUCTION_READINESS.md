@@ -2,7 +2,7 @@
 
 ## 🚀 **YES, This Service is Production Ready!**
 
-The Sonet Moderation Service is **fully wired end-to-end** and ready for production deployment. Here's what makes it production-ready:
+The time Moderation Service is **fully wired end-to-end** and ready for production deployment. Here's what makes it production-ready:
 
 ## ✅ **End-to-End Integration Complete**
 
@@ -72,21 +72,21 @@ network:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonet-moderation
+  name: time-moderation
   namespace: moderation
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: sonet-moderation
+      app: time-moderation
   template:
     metadata:
       labels:
-        app: sonet-moderation
+        app: time-moderation
     spec:
       containers:
       - name: moderation
-        image: sonet-moderation:latest
+        image: time-moderation:latest
         ports:
         - containerPort: 8080
           name: http
@@ -150,11 +150,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonet-moderation-service
+  name: time-moderation-service
   namespace: moderation
 spec:
   selector:
-    app: sonet-moderation
+    app: time-moderation
   ports:
   - name: http
     port: 80
@@ -170,7 +170,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sonet-moderation-ingress
+  name: time-moderation-ingress
   namespace: moderation
   annotations:
     nginx.ingress.kubernetes.io/rate-limit: "10000"
@@ -179,17 +179,17 @@ metadata:
 spec:
   tls:
   - hosts:
-    - moderation.sonet.com
+    - moderation.time.com
     secretName: moderation-tls
   rules:
-  - host: moderation.sonet.com
+  - host: moderation.time.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: sonet-moderation-service
+            name: time-moderation-service
             port:
               number: 80
 ```
@@ -199,13 +199,13 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: sonet-moderation-hpa
+  name: time-moderation-hpa
   namespace: moderation
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: sonet-moderation
+    name: time-moderation
   minReplicas: 3
   maxReplicas: 20
   metrics:
@@ -249,9 +249,9 @@ rule_files:
   - "moderation_alerts.yml"
 
 scrape_configs:
-  - job_name: 'sonet-moderation'
+  - job_name: 'time-moderation'
     static_configs:
-      - targets: ['sonet-moderation-service.moderation.svc.cluster.local:8080']
+      - targets: ['time-moderation-service.moderation.svc.cluster.local:8080']
     metrics_path: /metrics
     scrape_interval: 10s
     scrape_timeout: 5s
@@ -291,7 +291,7 @@ groups:
           description: "Throughput is {{ $value }} req/s"
 
       - alert: MLModelUnhealthy
-        expr: up{job="sonet-moderation"} == 0
+        expr: up{job="time-moderation"} == 0
         for: 1m
         labels:
           severity: critical
@@ -332,7 +332,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: sonet-moderation
+      app: time-moderation
   policyTypes:
   - Ingress
   - Egress
@@ -368,7 +368,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ServiceAccount
 metadata:
-  name: sonet-moderation
+  name: time-moderation
   namespace: moderation
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -388,7 +388,7 @@ metadata:
   namespace: moderation
 subjects:
 - kind: ServiceAccount
-  name: sonet-moderation
+  name: time-moderation
   namespace: moderation
 roleRef:
   kind: Role
@@ -404,13 +404,13 @@ roleRef:
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: sonet-moderation-vpa
+  name: time-moderation-vpa
   namespace: moderation
 spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: sonet-moderation
+    name: time-moderation
   updatePolicy:
     updateMode: "Auto"
   resourcePolicy:
@@ -428,7 +428,7 @@ spec:
 ### **2. Cluster Autoscaler**
 ```bash
 # Node pool configuration for GKE
-gcloud container clusters create sonet-cluster \
+gcloud container clusters create time-cluster \
   --zone=us-central1-a \
   --num-nodes=3 \
   --min-nodes=3 \
@@ -464,14 +464,14 @@ artillery run artillery-config.yml
 ```bash
 # Blue-green deployment
 kubectl apply -f k8s/blue/
-kubectl rollout status deployment/sonet-moderation-blue
+kubectl rollout status deployment/time-moderation-blue
 
 # Switch traffic
-kubectl patch service sonet-moderation-service \
+kubectl patch service time-moderation-service \
   -p '{"spec":{"selector":{"version":"blue"}}}'
 
 # Rollback if needed
-kubectl rollout undo deployment/sonet-moderation-blue
+kubectl rollout undo deployment/time-moderation-blue
 ```
 
 ### **2. Backup and Recovery**
@@ -489,16 +489,16 @@ tar -czf models_$(date +%Y%m%d_%H%M%S).tar.gz /app/models/
 ### **3. Incident Response**
 ```bash
 # Service restart
-kubectl rollout restart deployment/sonet-moderation
+kubectl rollout restart deployment/time-moderation
 
 # Scale up for high load
-kubectl scale deployment sonet-moderation --replicas=10
+kubectl scale deployment time-moderation --replicas=10
 
 # Check logs
-kubectl logs -f deployment/sonet-moderation
+kubectl logs -f deployment/time-moderation
 
 # Access service directly
-kubectl port-forward service/sonet-moderation-service 8080:80
+kubectl port-forward service/time-moderation-service 8080:80
 ```
 
 ## ✅ **Production Readiness Checklist**
@@ -530,4 +530,4 @@ kubectl port-forward service/sonet-moderation-service 8080:80
 
 ---
 
-**🚀 The Sonet Moderation Service is PRODUCTION READY and fully wired end-to-end!**
+**🚀 The time Moderation Service is PRODUCTION READY and fully wired end-to-end!**

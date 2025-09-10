@@ -1,4 +1,4 @@
-# Sonet Moderation Service
+# time Moderation Service
 
 A production-grade, high-throughput content moderation service built in Rust with support for multilingual content, ML inference, real-time signals processing, and comprehensive observability.
 
@@ -122,7 +122,7 @@ cargo run
 
 1. **Build Production Image**
 ```bash
-docker build -t sonet-moderation:latest .
+docker build -t time-moderation:latest .
 ```
 
 2. **Deploy with Kubernetes**
@@ -329,10 +329,10 @@ Apache 2.0 License - see [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-- **Issues**: [GitHub Issues](https://github.com/sonet/moderation/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/sonet/moderation/discussions)
-- **Documentation**: [Wiki](https://github.com/sonet/moderation/wiki)
+- **Issues**: [GitHub Issues](https://github.com/time/moderation/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/time/moderation/discussions)
+- **Documentation**: [Wiki](https://github.com/time/moderation/wiki)
 
 ---
 
-**Built with ❤️ by the Sonet Team**
+**Built with ❤️ by the time Team**

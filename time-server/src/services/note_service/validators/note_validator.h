@@ -15,7 +15,7 @@
 #include <nlohmann/json.hpp>
 #include "../models/note.h"
 
-namespace sonet::note::validators {
+namespace time::note::validators {
 
 using json = nlohmann::json;
 
@@ -115,4 +115,4 @@ private:
     static constexpr double MIN_EDIT_SIMILARITY = 0.65;
 };
 
-} // namespace sonet::note::validators
+} // namespace time::note::validators

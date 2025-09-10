@@ -2,7 +2,7 @@
 #include <sodium.h>
 #include <unordered_map>
 
-namespace sonet::messaging::crypto {
+namespace time::messaging::crypto {
 
 E2EEncryptionManager::E2EEncryptionManager() {
     crypto_engine_ = std::make_unique<CryptoEngine>();
@@ -92,7 +92,7 @@ std::string E2EEncryptionManager::initiate_session(
     KeyDerivationParams kdf_params;
     kdf_params.algorithm = "HKDF";
     kdf_params.salt = crypto_engine_->generate_salt(32);
-    kdf_params.info = std::string("sonet:x3dh:root");
+    kdf_params.info = std::string("time:x3dh:root");
 
     auto root = crypto_engine_->derive_key(ikm_key, kdf_params);
 
@@ -148,7 +148,7 @@ bool E2EEncryptionManager::accept_session(
     KeyDerivationParams kdf_params;
     kdf_params.algorithm = "HKDF";
     kdf_params.salt = crypto_engine_->generate_salt(32);
-    kdf_params.info = std::string("sonet:x3dh:root");
+    kdf_params.info = std::string("time:x3dh:root");
 
     auto root = crypto_engine_->derive_key(ikm_key, kdf_params);
 
@@ -299,4 +299,4 @@ void E2EEncryptionManager::cleanup_old_sessions(std::chrono::hours max_age) {
 
 void E2EEncryptionManager::optimize_memory_usage() {}
 
-} // namespace sonet::messaging::crypto
+} // namespace time::messaging::crypto

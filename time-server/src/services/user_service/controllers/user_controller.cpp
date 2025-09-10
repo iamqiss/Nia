@@ -12,9 +12,9 @@
 #include <filesystem>
 #include <regex>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
-UserController::UserController(std::shared_ptr<sonet::user::UserServiceImpl> user_service,
+UserController::UserController(std::shared_ptr<time::user::UserServiceImpl> user_service,
                                std::shared_ptr<storage::FileUploadService> file_service,
                                const std::string& connection_string)
     : user_service_(std::move(user_service))
@@ -26,9 +26,9 @@ UserController::UserController(std::shared_ptr<sonet::user::UserServiceImpl> use
 nlohmann::json UserController::handle_get_profile(const GetProfileRequest& request) {
     try {
         if (request.access_token.empty()) { return create_error_response("Access token is required"); }
-        sonet::user::GetUserProfileRequest grpc_request;
+        time::user::GetUserProfileRequest grpc_request;
         grpc_request.set_user_id(request.user_id);
-        sonet::user::GetUserProfileResponse grpc_response;
+        time::user::GetUserProfileResponse grpc_response;
         grpc::ServerContext context;
         auto status = user_service_->GetUserProfile(&context, &grpc_request, &grpc_response);
         if (!status.ok()) { return create_error_response("Profile service unavailable"); }
@@ -206,7 +206,7 @@ nlohmann::json UserController::handle_search_users(const SearchUsersRequest& req
         user["user_id"] = "user-123";
         user["username"] = "johndoe";
         user["full_name"] = "John Doe";
-        user["avatar_url"] = "https://cdn.sonet.com/avatars/user-123.jpg";
+        user["avatar_url"] = "https://cdn.time.com/avatars/user-123.jpg";
         user["bio"] = "Software engineer passionate about C++";
         user["is_verified"] = true;
         user["is_private"] = false;
@@ -273,7 +273,7 @@ nlohmann::json UserController::handle_upload_avatar(const std::string& access_to
         // 3. Upload to CDN/storage
         // 4. Update user's avatar_url
         
-        std::string avatar_url = "https://cdn.sonet.com/avatars/user-123-" + 
+        std::string avatar_url = "https://cdn.time.com/avatars/user-123-" + 
                                 std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
                                     std::chrono::system_clock::now().time_since_epoch()).count()) + ".jpg";
         
@@ -303,7 +303,7 @@ nlohmann::json UserController::handle_upload_banner(const std::string& access_to
         }
         
         // Similar to avatar upload but for banner images
-        std::string banner_url = "https://cdn.sonet.com/banners/user-123-" + 
+        std::string banner_url = "https://cdn.time.com/banners/user-123-" + 
                                 std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
                                     std::chrono::system_clock::now().time_since_epoch()).count()) + ".jpg";
         
@@ -382,7 +382,7 @@ nlohmann::json UserController::create_success_response(const std::string& messag
     nlohmann::json response; response["success"] = true; response["message"] = message; if (!data.empty()) response["data"] = data; return response;
 }
 
-nlohmann::json UserController::user_data_to_json(const sonet::user::UserProfile& user) {
+nlohmann::json UserController::user_data_to_json(const time::user::UserProfile& user) {
     nlohmann::json json_user;
     json_user["user_id"] = user.user_id();
     json_user["username"] = user.username();
@@ -397,7 +397,7 @@ nlohmann::json UserController::user_data_to_json(const sonet::user::UserProfile&
     return json_user;
 }
 
-nlohmann::json UserController::session_data_to_json(const sonet::user::Session& session) {
+nlohmann::json UserController::session_data_to_json(const time::user::Session& session) {
     nlohmann::json json_session;
     json_session["session_id"] = session.session_id();
     json_session["ip_address"] = session.ip_address();
@@ -569,4 +569,4 @@ nlohmann::json UserController::handle_upload_banner(const std::string& access_to
     }
 }
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

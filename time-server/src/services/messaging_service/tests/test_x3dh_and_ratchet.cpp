@@ -5,8 +5,8 @@
 #include <memory>
 #include <chrono>
 
-using namespace sonet::messaging::crypto;
-using namespace sonet::messaging::encryption;
+using namespace time::messaging::crypto;
+using namespace time::messaging::encryption;
 
 class X3DHRatchetTest : public ::testing::Test {
 protected:

@@ -11,7 +11,7 @@
 #include <pqxx/pqxx>
 #include <optional>
 
-namespace sonet::media_service {
+namespace time::media_service {
 
 class NotegresRepo final : public MediaRepository {
 public:
@@ -75,7 +75,7 @@ public:
             auto r = tx.exec_params1("SELECT id, owner_user_id, type, mime_type, size_bytes, width, height, duration_seconds, original_url, thumbnail_url, hls_url, webp_url, mp4_url, to_char(created_at,'YYYY-MM-DD""T""HH24:MI:SSZ') FROM media WHERE id=$1", id);
             out.id = r[0].c_str();
             out.owner_user_id = r[1].c_str();
-            out.type = static_cast<::sonet::media::MediaType>(r[2].as<int>());
+            out.type = static_cast<::time::media::MediaType>(r[2].as<int>());
             out.mime_type = r[3].c_str();
             out.size_bytes = r[4].as<long long>();
             out.width = r[5].as<int>();
@@ -118,7 +118,7 @@ public:
                 MediaRecord m{};
                 m.id = row[0].c_str();
                 m.owner_user_id = row[1].c_str();
-                m.type = static_cast<::sonet::media::MediaType>(row[2].as<int>());
+                m.type = static_cast<::time::media::MediaType>(row[2].as<int>());
                 m.mime_type = row[3].c_str();
                 m.size_bytes = row[4].as<long long>();
                 m.width = row[5].as<int>();
@@ -144,4 +144,4 @@ std::unique_ptr<MediaRepository> CreateNotegresRepo(const std::string& conn_str)
     try { return std::make_unique<NotegresRepo>(conn_str); } catch (...) { return nullptr; }
 }
 
-} // namespace sonet::media_service
+} // namespace time::media_service

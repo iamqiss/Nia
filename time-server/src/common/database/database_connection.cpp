@@ -8,7 +8,7 @@
 #include <chrono>
 #include <unordered_map>
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // DatabaseConnection implementation
@@ -602,4 +602,4 @@ std::chrono::system_clock::time_point string_to_timestamp(const std::string& str
 } // namespace utils
 
 } // namespace database
-} // namespace sonet
+} // namespace time

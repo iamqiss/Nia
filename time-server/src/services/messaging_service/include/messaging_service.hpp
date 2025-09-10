@@ -21,7 +21,7 @@
 #include "../../core/database/connection_pool.hpp"
 #include "../../core/cache/redis_client.hpp"
 
-namespace sonet::messaging {
+namespace time::messaging {
 
 struct ServiceConfiguration {
     // Network configuration
@@ -47,7 +47,7 @@ struct ServiceConfiguration {
     
     // Storage configuration
     std::string storage_type = "filesystem"; // filesystem, s3, gcs
-    std::string storage_base_path = "/var/lib/sonet/messaging/attachments";
+    std::string storage_base_path = "/var/lib/time/messaging/attachments";
     uint64_t max_attachment_size = 104857600; // 100MB
     uint64_t max_message_size = 10485760;     // 10MB
     
@@ -308,4 +308,4 @@ public:
     EncryptionException(const std::string& message);
 };
 
-} // namespace sonet::messaging
+} // namespace time::messaging

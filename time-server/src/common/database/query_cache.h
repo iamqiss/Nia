@@ -20,7 +20,7 @@
 // Forward declarations
 struct pg_result;
 
-namespace sonet {
+namespace time {
 namespace database {
 
 // Cache entry configuration
@@ -208,4 +208,4 @@ private:
 };
 
 } // namespace database
-} // namespace sonet
+} // namespace time

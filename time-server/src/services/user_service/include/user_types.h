@@ -14,7 +14,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace sonet::user {
+namespace time::user {
 
 // I'm keeping this simple but extensible - learned this from years of over-engineering
 enum class UserStatus {
@@ -193,4 +193,4 @@ struct SecurityEvent {
     std::chrono::system_clock::time_point timestamp;
 };
 
-} // namespace sonet::user
+} // namespace time::user

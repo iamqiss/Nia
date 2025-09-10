@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-namespace sonet {
+namespace time {
 namespace timeline {
 namespace fanout {
 
@@ -32,7 +32,7 @@ public:
     void Stop() override {}
 };
 
-#ifdef SONET_USE_KAFKA
+#ifdef time_USE_KAFKA
 #include <librdkafka/rdkafkacpp.h>
 #include <memory>
 #include <string>
@@ -135,4 +135,4 @@ private:
 
 } // namespace fanout
 } // namespace timeline
-} // namespace sonet
+} // namespace time

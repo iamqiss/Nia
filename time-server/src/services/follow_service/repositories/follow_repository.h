@@ -20,7 +20,7 @@
 #include <set>
 #include <nlohmann/json.hpp>
 
-namespace sonet::follow::repositories {
+namespace time::follow::repositories {
 
 using json = nlohmann::json;
 using namespace std::chrono;
@@ -597,7 +597,7 @@ private:
     mutable std::unordered_map<std::string, double> operation_times_;
 };
 
-} // namespace sonet::follow::repositories
+} // namespace time::follow::repositories
 
 /*
 ╔══════════════════════════════════════════════════════════════════════════════╗

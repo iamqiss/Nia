@@ -18,7 +18,7 @@
 #include <spdlog/spdlog.h>
 #include <sstream>
 
-namespace sonet::user {
+namespace time::user {
 
 // I hate weak passwords more than anything else in security
 const std::vector<std::string> PasswordPolicy::FORBIDDEN_PASSWORDS = {
@@ -363,4 +363,4 @@ std::string PasswordManager::generate_secure_token(size_t length) const {
     return std::string(random_bytes.begin(), random_bytes.end());
 }
 
-} // namespace sonet::user
+} // namespace time::user

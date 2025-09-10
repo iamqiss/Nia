@@ -112,9 +112,9 @@ def should_process_file(file_path):
     return file_path.suffix.lower() in get_file_extensions()
 
 def rename_bluesky_to_time():
-    """Main function to rename Bluesky to Time across the entire project"""
+    """Main function to rename Time to Time across the entire project"""
     
-    print("🚀 Starting Bluesky → Time renaming process...")
+    print("🚀 Starting Time → Time renaming process...")
     print("=" * 60)
     
     # Get current directory or ask user
@@ -130,7 +130,7 @@ def rename_bluesky_to_time():
     
     # Define all replacements
     replacements = {
-        # Bluesky replacements (case-insensitive)
+        # Time replacements (case-insensitive)
         r'\bbluesky\b': 'Time',
         r'\bBluesky\b': 'Time',
         r'\bBLUESKY\b': 'TIME',
@@ -138,23 +138,23 @@ def rename_bluesky_to_time():
         r'\bBlue-Sky\b': 'Time',
         
         # Package/Bundle identifiers
-        r'com\.bluesky\b': 'com.time',
-        r'app\.bluesky\b': 'app.time',
+        r'com\.Time\b': 'com.time',
+        r'app\.Time\b': 'app.time',
         
-        # Sonet replacements (for C++ namespaces)
+        # time replacements (for C++ namespaces)
         r'\bsonet\b': 'time',
         r'\bSonet\b': 'Time', 
         r'\bSONET\b': 'TIME',
         
         # Namespace declarations
-        r'namespace\s+sonet': 'namespace time',
-        r'namespace\s+Sonet': 'namespace Time',
-        r'namespace\s+SONET': 'namespace TIME',
+        r'namespace\s+time': 'namespace time',
+        r'namespace\s+time': 'namespace Time',
+        r'namespace\s+time': 'namespace TIME',
         
         # Using statements
-        r'using\s+namespace\s+sonet': 'using namespace time',
-        r'using\s+namespace\s+Sonet': 'using namespace Time',
-        r'using\s+namespace\s+SONET': 'using namespace TIME',
+        r'using\s+namespace\s+time': 'using namespace time',
+        r'using\s+namespace\s+time': 'using namespace Time',
+        r'using\s+namespace\s+time': 'using namespace TIME',
         
         # Scope resolution
         r'\bsonet::': 'time::',
@@ -162,9 +162,9 @@ def rename_bluesky_to_time():
         r'\bSONET::': 'TIME::',
         
         # Common variations
-        r'sonet_': 'time_',
-        r'Sonet_': 'Time_',
-        r'SONET_': 'TIME_',
+        r'time_': 'time_',
+        r'time_': 'Time_',
+        r'time_': 'TIME_',
     }
     
     print(f"📁 Processing directory: {project_root}")
@@ -226,7 +226,7 @@ def rename_bluesky_to_time():
     print("   3. Update documentation and README files")
     print("   4. Test compilation for both React Native and C++ projects")
     print("   5. Update app store listings and metadata")
-    print("\n💡 Pro tip: Search for any remaining 'bluesky' or 'sonet' references manually!")
+    print("\n💡 Pro tip: Search for any remaining 'Time' or 'time' references manually!")
 
 def main():
     try:

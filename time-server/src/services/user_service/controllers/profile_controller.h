@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-namespace sonet::user::controllers {
+namespace time::user::controllers {
 
 /**
  * Profile controller for advanced profile management features.
@@ -22,7 +22,7 @@ namespace sonet::user::controllers {
  */
 class ProfileController {
 public:
-    explicit ProfileController(std::shared_ptr<sonet::user::UserServiceImpl> user_service);
+    explicit ProfileController(std::shared_ptr<time::user::UserServiceImpl> user_service);
     ~ProfileController() = default;
 
     // Request structures for profile operations
@@ -112,7 +112,7 @@ public:
     nlohmann::json handle_get_profile_analytics(const std::string& access_token, const std::string& time_range);
 
 private:
-    std::shared_ptr<sonet::user::UserServiceImpl> user_service_;
+    std::shared_ptr<time::user::UserServiceImpl> user_service_;
     
     // Helper methods
     nlohmann::json create_error_response(const std::string& message);
@@ -131,4 +131,4 @@ private:
     nlohmann::json format_activity_log_entry(const std::string& activity_type, const nlohmann::json& details, int64_t timestamp);
 };
 
-} // namespace sonet::user::controllers
+} // namespace time::user::controllers

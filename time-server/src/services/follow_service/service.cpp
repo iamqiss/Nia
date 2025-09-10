@@ -14,7 +14,7 @@
 #include <set>
 #include <unordered_set>
 
-namespace sonet::follow {
+namespace time::follow {
 
 using namespace std::chrono;
 using json = nlohmann::json;
@@ -792,4 +792,4 @@ json FollowService::get_service_metrics() const {
     return metrics;
 }
 
-} // namespace sonet::follow
+} // namespace time::follow

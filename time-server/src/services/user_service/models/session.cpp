@@ -15,7 +15,7 @@
 #include <chrono>
 #include <cmath>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 // DeviceInfo implementation
 DeviceInfo::DeviceInfo(const std::string& device_id, const std::string& device_name, DeviceType type)
@@ -1149,4 +1149,4 @@ DeviceType string_to_device_type(const std::string& type) {
     return DeviceType::DESKTOP;
 }
 
-} // namespace sonet::user::models
+} // namespace time::user::models

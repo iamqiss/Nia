@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * Real-time note indexer for Twitter-scale search operations.
  * This handles indexing millions of notes per second with intelligent
@@ -25,7 +25,7 @@
 #include <condition_variable>
 #include <functional>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace indexers {
 
@@ -730,4 +730,4 @@ namespace indexing_utils {
 
 } // namespace indexers
 } // namespace search_service
-} // namespace sonet
+} // namespace time

@@ -30,11 +30,11 @@ target_include_directories(video_feed_service PUBLIC
 find_package(Threads REQUIRED)
 target_link_libraries(video_feed_service PUBLIC
     Threads::Threads
-    sonet_proto  # gRPC and protobuf support
-    ${CMAKE_SOURCE_DIR}/src/common/libsonet_common.a
-    ${CMAKE_SOURCE_DIR}/src/utils/libsonet_utils.a
-    ${CMAKE_SOURCE_DIR}/src/cache/libsonet_cache.a
-    ${CMAKE_SOURCE_DIR}/src/database/libsonet_database.a
+    time_proto  # gRPC and protobuf support
+    ${CMAKE_SOURCE_DIR}/src/common/libtime_common.a
+    ${CMAKE_SOURCE_DIR}/src/utils/libtime_utils.a
+    ${CMAKE_SOURCE_DIR}/src/cache/libtime_cache.a
+    ${CMAKE_SOURCE_DIR}/src/database/libtime_database.a
 )
 
 # Set C++ standard
@@ -59,7 +59,7 @@ add_executable(video_feed_service_main
 target_link_libraries(video_feed_service_main
     video_feed_service
     Threads::Threads
-    sonet_proto
+    time_proto
 )
 
 # Set properties for the executable
@@ -98,7 +98,7 @@ install(FILES
     cache_impl.h
     database_impl.h
     logger_impl.h
-    DESTINATION include/sonet/video_feed
+    DESTINATION include/time/video_feed
 )
 
 # Add to parent CMakeLists.txt

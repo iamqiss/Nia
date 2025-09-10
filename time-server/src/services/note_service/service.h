@@ -17,12 +17,12 @@
 #include <vector>
 #include <optional>
 
-namespace sonet::note {
+namespace time::note {
 
 using json = nlohmann::json;
-using namespace sonet::note::models;
-using namespace sonet::note::validators;
-using namespace sonet::note::repositories;
+using namespace time::note::models;
+using namespace time::note::validators;
+using namespace time::note::repositories;
 
 /**
  * Core Note Service Implementation
@@ -76,4 +76,4 @@ private:
     void invalidate_timeline_cache(const std::string& user_id);
 };
 
-} // namespace sonet::note
+} // namespace time::note

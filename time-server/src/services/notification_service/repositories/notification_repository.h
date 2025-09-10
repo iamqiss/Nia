@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the repository interface for notifications. I designed this to be
  * database-agnostic so we can switch from postgresql to something else if needed.
@@ -19,7 +19,7 @@
 #include <unordered_map>
 #include <future>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace repositories {
 
@@ -228,7 +228,7 @@ public:
 
 /**
  * postgresql implementation of NotificationRepository
- * I optimized this for Sonet-scale notification handling with multi-layer caching
+ * I optimized this for time-scale notification handling with multi-layer caching
  */
 class NotegreSQLNotificationRepository : public NotificationRepository {
 public:
@@ -443,4 +443,4 @@ public:
 
 } // namespace repositories
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

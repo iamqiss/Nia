@@ -12,7 +12,7 @@
 #include <regex>
 #include <sstream>
 
-namespace sonet::user::handlers {
+namespace time::user::handlers {
 
 HttpHandler::HttpHandler(
     std::shared_ptr<controllers::AuthController> auth_controller,
@@ -434,4 +434,4 @@ void HttpHandler::log_request(const HttpRequest& request, const HttpResponse& re
     );
 }
 
-} // namespace sonet::user::handlers
+} // namespace time::user::handlers

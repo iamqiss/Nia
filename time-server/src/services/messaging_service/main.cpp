@@ -15,7 +15,7 @@
 #include "../../core/logging/logger.h"
 #include "include/messaging_service.hpp"
 
-using namespace sonet::messaging;
+using namespace time::messaging;
 
 namespace {
     std::unique_ptr<MessagingService> g_service;
@@ -69,7 +69,7 @@ namespace {
     }
     
     void print_help() {
-        std::cout << "Sonet Messaging Service - Military-Grade E2EE Communication Platform\n\n";
+        std::cout << "time Messaging Service - Military-Grade E2EE Communication Platform\n\n";
         std::cout << "USAGE:\n";
         std::cout << "    messaging_service [OPTIONS]\n\n";
         std::cout << "OPTIONS:\n";
@@ -92,7 +92,7 @@ namespace {
         std::cout << "    # Start with default configuration\n";
         std::cout << "    ./messaging_service\n\n";
         std::cout << "    # Start with custom configuration\n";
-        std::cout << "    ./messaging_service --config /etc/sonet/messaging.json\n\n";
+        std::cout << "    ./messaging_service --config /etc/time/messaging.json\n\n";
         std::cout << "    # Create default configuration file\n";
         std::cout << "    ./messaging_service --create-config ./messaging.json\n\n";
         std::cout << "    # Run health check\n";
@@ -110,11 +110,11 @@ namespace {
         std::cout << "    MESSAGING_REDIS_PORT    Redis port\n";
         std::cout << "    MESSAGING_LOG_LEVEL     Log level (DEBUG, INFO, WARN, ERROR)\n";
         std::cout << "    MESSAGING_ENCRYPTION_KEY Base encryption key\n\n";
-        std::cout << "For more information, visit: https://docs.sonet.dev/messaging\n";
+        std::cout << "For more information, visit: https://docs.time.dev/messaging\n";
     }
     
     void print_version() {
-        std::cout << "Sonet Messaging Service" << std::endl;
+        std::cout << "time Messaging Service" << std::endl;
         std::cout << "Version: " << ServiceUtils::get_service_version() << std::endl;
         std::cout << "Build Info: " << ServiceUtils::get_build_info() << std::endl;
         std::cout << "Encryption: AES-256-GCM, ChaCha20-Poly1305, X25519 ECDH" << std::endl;
@@ -312,8 +312,8 @@ namespace {
 
 int main(int argc, char* argv[]) {
     // Initialize JSON logger for ELK ingestion
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"startup","message":"Starting Sonet Messaging Service"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"startup","message":"Starting time Messaging Service"})");
     try {
         // Parse command line arguments
         ServiceConfiguration config;

@@ -6,8 +6,8 @@
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
 
-#ifndef SONET_NOTE_SERVICE_ORCHESTRATOR_H
-#define SONET_NOTE_SERVICE_ORCHESTRATOR_H
+#ifndef time_NOTE_SERVICE_ORCHESTRATOR_H
+#define time_NOTE_SERVICE_ORCHESTRATOR_H
 
 #include <memory>
 #include <string>
@@ -42,7 +42,7 @@
 
 using json = nlohmann::json;
 
-namespace sonet::note {
+namespace time::note {
 
 /**
  * @brief Twitter-Scale Note Service Orchestrator
@@ -405,6 +405,6 @@ private:
     static std::unique_ptr<NoteServiceOrchestrator> service_instance_;
 };
 
-} // namespace sonet::note
+} // namespace time::note
 
-#endif // SONET_NOTE_SERVICE_ORCHESTRATOR_H
+#endif // time_NOTE_SERVICE_ORCHESTRATOR_H

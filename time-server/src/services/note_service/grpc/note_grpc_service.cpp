@@ -9,7 +9,7 @@
 #include "note_grpc_service.h"
 #include <spdlog/spdlog.h>
 
-namespace sonet::note::grpc {
+namespace time::note::grpc {
 
 NoteGrpcService::NoteGrpcService(
     std::shared_ptr<services::NoteService> note_service,
@@ -25,8 +25,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::CreateNote(
     ::grpc::ServerContext* context,
-    const ::sonet::note::grpc::CreateNoteRequest* request,
-    ::sonet::note::grpc::CreateNoteResponse* response) {
+    const ::time::note::grpc::CreateNoteRequest* request,
+    ::time::note::grpc::CreateNoteResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -84,8 +84,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::GetNote(
     ::grpc::ServerContext* context,
-    const ::sonet::note::grpc::GetNoteRequest* request,
-    ::sonet::note::grpc::GetNoteResponse* response) {
+    const ::time::note::grpc::GetNoteRequest* request,
+    ::time::note::grpc::GetNoteResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -130,8 +130,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::LikeNote(
     ::grpc::ServerContext* context,
-    const ::sonet::note::grpc::LikeNoteRequest* request,
-    ::sonet::note::grpc::LikeNoteResponse* response) {
+    const ::time::note::grpc::LikeNoteRequest* request,
+    ::time::note::grpc::LikeNoteResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -171,8 +171,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::GetTimeline(
     ::grpc::ServerContext* context,
-    const ::sonet::note::GetTimelineRequest* request,
-    ::sonet::note::GetTimelineResponse* response) {
+    const ::time::note::GetTimelineRequest* request,
+    ::time::note::GetTimelineResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -228,8 +228,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::SearchNotes(
     ::grpc::ServerContext* context,
-    const ::sonet::note::SearchNotesRequest* request,
-    ::sonet::note::SearchNotesResponse* response) {
+    const ::time::note::SearchNotesRequest* request,
+    ::time::note::SearchNotesResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -287,8 +287,8 @@ NoteGrpcService::NoteGrpcService(
 // Streaming implementation for real-time timeline updates
 ::grpc::Status NoteGrpcService::StreamTimeline(
     ::grpc::ServerContext* context,
-    const ::sonet::note::StreamTimelineRequest* request,
-    ::grpc::ServerWriter<::sonet::note::TimelineUpdate>* writer) {
+    const ::time::note::StreamTimelineRequest* request,
+    ::grpc::ServerWriter<::time::note::TimelineUpdate>* writer) {
     
     try {
         spdlog::info("Starting timeline stream for user: {}", request->user_id());
@@ -305,7 +305,7 @@ NoteGrpcService::NoteGrpcService(
             
             if (result.contains("updates") && !result["updates"].empty()) {
                 for (const auto& update : result["updates"]) {
-                    ::sonet::note::TimelineUpdate timeline_update;
+                    ::time::note::TimelineUpdate timeline_update;
                     timeline_update.set_type(update["type"]);
                     timeline_update.set_note_id(update["note_id"]);
                     timeline_update.set_timestamp(update["timestamp"]);
@@ -347,8 +347,8 @@ NoteGrpcService::NoteGrpcService(
 // Batch operations for high throughput
 ::grpc::Status NoteGrpcService::BatchCreateNotes(
     ::grpc::ServerContext* context,
-    const ::sonet::note::grpc::BatchCreateNotesRequest* request,
-    ::sonet::note::grpc::BatchCreateNotesResponse* response) {
+    const ::time::note::grpc::BatchCreateNotesRequest* request,
+    ::time::note::grpc::BatchCreateNotesResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -399,8 +399,8 @@ NoteGrpcService::NoteGrpcService(
 
 ::grpc::Status NoteGrpcService::GetNoteAnalytics(
     ::grpc::ServerContext* context,
-    const ::sonet::note::GetNoteAnalyticsRequest* request,
-    ::sonet::note::GetNoteAnalyticsResponse* response) {
+    const ::time::note::GetNoteAnalyticsRequest* request,
+    ::time::note::GetNoteAnalyticsResponse* response) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
@@ -441,4 +441,4 @@ NoteGrpcService::NoteGrpcService(
     }
 }
 
-} // namespace sonet::note::grpc
+} // namespace time::note::grpc

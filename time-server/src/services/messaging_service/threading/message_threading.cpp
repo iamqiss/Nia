@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <regex>
 
-namespace sonet::messaging::threading {
+namespace time::messaging::threading {
 
 // ThreadMetadata implementation
 Json::Value ThreadMetadata::to_json() const {
@@ -955,4 +955,4 @@ bool ThreadUtils::validate_participation_level(ParticipationLevel level, Partici
     return static_cast<int>(level) >= static_cast<int>(required);
 }
 
-} // namespace sonet::messaging::threading
+} // namespace time::messaging::threading

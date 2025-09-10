@@ -33,10 +33,10 @@ module.exports = function (_config) {
   return {
     expo: {
       version: VERSION,
-      name: 'Bluesky',
-      slug: 'bluesky',
-      scheme: 'bluesky',
-      owner: 'blueskysocial',
+      name: 'Time',
+      slug: 'Time',
+      scheme: 'Time',
+      owner: 'neoqiss',
       runtimeVersion: {
         policy: 'appVersion',
       },
@@ -310,7 +310,7 @@ module.exports = function (_config) {
             },
 
             /**
-             * Bluesky+ core set
+             * Time+ core set
              */
             core_aurora: {
               ios: './assets/app-icons/3d-rainbow-ios-icon.jpg',
@@ -369,8 +369,8 @@ module.exports = function (_config) {
               ios: {
                 appExtensions: [
                   {
-                    targetName: 'Share-with-Bluesky',
-                    bundleIdentifier: 'xyz.blueskyweb.app.Share-with-Bluesky',
+                    targetName: 'Share-with-Time',
+                    bundleIdentifier: 'xyz.blueskyweb.app.Share-with-Time',
                     entitlements: {
                       'com.apple.security.application-groups': [
                         'group.app.bsky',

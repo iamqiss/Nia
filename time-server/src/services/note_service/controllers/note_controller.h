@@ -41,10 +41,10 @@
 #include <mutex>
 #include <atomic>
 
-namespace sonet::note::controllers {
+namespace time::note::controllers {
 
-using namespace sonet::note::models;
-using namespace sonet::note::repositories;
+using namespace time::note::models;
+using namespace time::note::repositories;
 using json = nlohmann::json;
 
 /**
@@ -66,12 +66,12 @@ public:
     // Constructor with comprehensive service injection
     explicit NoteController(
         std::shared_ptr<NoteRepository> repository,
-        std::shared_ptr<sonet::note::NoteService> note_service,
+        std::shared_ptr<time::note::NoteService> note_service,
         std::shared_ptr<services::TimelineService> timeline_service,
         std::shared_ptr<services::NotificationService> notification_service,
         std::shared_ptr<services::AnalyticsService> analytics_service,
-        std::shared_ptr<sonet::core::cache::RedisClient> redis_client,
-        std::shared_ptr<sonet::core::security::RateLimiter> rate_limiter
+        std::shared_ptr<time::core::cache::RedisClient> redis_client,
+        std::shared_ptr<time::core::security::RateLimiter> rate_limiter
     );
 
     // HTTP Route Registration for REST API
@@ -459,12 +459,12 @@ public:
 private:
     // ========== SERVICE DEPENDENCIES ==========
     std::shared_ptr<NoteRepository> note_repository_;
-    std::shared_ptr<sonet::note::NoteService> note_service_;
+    std::shared_ptr<time::note::NoteService> note_service_;
     std::shared_ptr<services::TimelineService> timeline_service_;
     std::shared_ptr<services::NotificationService> notification_service_;
     std::shared_ptr<services::AnalyticsService> analytics_service_;
-    std::shared_ptr<sonet::core::cache::RedisClient> redis_client_;
-    std::shared_ptr<sonet::core::security::RateLimiter> rate_limiter_;
+    std::shared_ptr<time::core::cache::RedisClient> redis_client_;
+    std::shared_ptr<time::core::security::RateLimiter> rate_limiter_;
 
     // ========== WEBSOCKET CONNECTION MANAGEMENT ==========
     std::unordered_map<std::string, std::vector<std::shared_ptr<core::network::WebSocketConnection>>> timeline_subscribers_;
@@ -599,4 +599,4 @@ private:
     static constexpr int ANALYTICS_CACHE_TTL = 1800;   // 30 minutes
 };
 
-} // namespace sonet::note::controllers
+} // namespace time::note::controllers

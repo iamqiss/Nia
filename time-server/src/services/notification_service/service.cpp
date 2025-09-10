@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the main notification service that orchestrates all components.
  * I built this as the central hub that brings together processors, channels,
@@ -21,7 +21,7 @@
 #include <grpcpp/grpcpp.h>
 #include "notification.grpc.pb.h"
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 
 // Internal implementation for NotificationService
@@ -43,7 +43,7 @@ struct NotificationService::Impl {
     std::unique_ptr<httplib::Server> http_server;
     std::thread grpc_server_thread;
     std::thread http_server_thread;
-    std::unique_ptr<::sonet::notification::NotificationService::Service> owned_grpc_service;
+    std::unique_ptr<::time::notification::NotificationService::Service> owned_grpc_service;
     
     // Service state
     std::atomic<bool> is_running{false};
@@ -466,14 +466,14 @@ struct NotificationService::Impl {
     }
 };
 
-class NotificationGrpcService final : public sonet::notification::NotificationService::Service {
+class NotificationGrpcService final : public time::notification::NotificationService::Service {
 public:
-    NotificationGrpcService(std::shared_ptr<sonet::notification_service::controllers::NotificationController> controller)
+    NotificationGrpcService(std::shared_ptr<time::notification_service::controllers::NotificationController> controller)
         : controller_(std::move(controller)) {}
 
     grpc::Status ListNotifications(grpc::ServerContext* context,
-                                   const sonet::notification::ListNotificationsRequest* request,
-                                   sonet::notification::ListNotificationsResponse* response) override {
+                                   const time::notification::ListNotificationsRequest* request,
+                                   time::notification::ListNotificationsResponse* response) override {
         try {
             auto json = controller_->get_user_notifications(request->user_id(), /*limit*/ request->pagination().limit(), /*offset*/ 0);
             if (!json.value("success", true)) {
@@ -483,7 +483,7 @@ public:
                 auto* out = response->add_notifications();
                 out->set_notification_id(n.value("id", ""));
                 out->set_user_id(n.value("user_id", ""));
-                out->set_type(sonet::notification::NOTIFICATION_TYPE_UNKNOWN);
+                out->set_type(time::notification::NOTIFICATION_TYPE_UNKNOWN);
                 out->set_actor_user_id(n.value("actor_user_id", ""));
                 out->set_note_id(n.value("note_id", ""));
                 out->set_is_read(n.value("is_read", false));
@@ -495,8 +495,8 @@ public:
     }
 
     grpc::Status MarkNotificationRead(grpc::ServerContext* context,
-                                      const sonet::notification::MarkNotificationReadRequest* request,
-                                      sonet::notification::MarkNotificationReadResponse* response) override {
+                                      const time::notification::MarkNotificationReadRequest* request,
+                                      time::notification::MarkNotificationReadResponse* response) override {
         try {
             auto json = controller_->mark_as_read(request->notification_id(), request->user_id());
             response->set_success(json.value("marked_as_read", false));
@@ -507,7 +507,7 @@ public:
     }
 
 private:
-    std::shared_ptr<sonet::notification_service::controllers::NotificationController> controller_;
+    std::shared_ptr<time::notification_service::controllers::NotificationController> controller_;
 };
 
 NotificationService::NotificationService(const Config& config)
@@ -644,4 +644,4 @@ void NotificationService::cleanup_resources() {
 }
 
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

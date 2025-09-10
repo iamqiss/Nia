@@ -12,7 +12,7 @@
 #include <string>
 #include <optional>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Passphrase Manager - Modern security through memorable strength
@@ -84,4 +84,4 @@ private:
     std::unordered_map<std::string, std::pair<std::string, std::chrono::system_clock::time_point>> reset_tokens_;
 };
 
-} // namespace sonet::user
+} // namespace time::user

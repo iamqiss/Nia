@@ -1,18 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Window {
-  bluesky: {
+  Time: {
     scan: (element?: Pick<Element, 'querySelectorAll'>) => void
   }
 }
 
 const EMBED_URL = 'https://embed.bsky.app'
 
-window.bluesky = window.bluesky || {
+window.Time = window.Time || {
   scan,
 }
 
 /**
- * Listen for messages from the Bluesky embed iframe and adjust the height of
+ * Listen for messages from the Time embed iframe and adjust the height of
  * the iframe accordingly.
  */
 window.addEventListener('message', event => {
@@ -27,7 +27,7 @@ window.addEventListener('message', event => {
   }
 
   const embed = document.querySelector<HTMLIFrameElement>(
-    `[data-bluesky-id="${id}"]`,
+    `[data-Time-id="${id}"]`,
   )
 
   if (!embed) {
@@ -42,20 +42,20 @@ window.addEventListener('message', event => {
 })
 
 /**
- * Scan the document for all elements with the data-bluesky-aturi attribute,
- * and initialize them as Bluesky embeds.
+ * Scan the document for all elements with the data-Time-aturi attribute,
+ * and initialize them as Time embeds.
  *
  * @param element Only scan this specific element @default document @optional
  * @returns
  */
 function scan(node = document) {
-  const embeds = node.querySelectorAll<HTMLIFrameElement>('[data-bluesky-uri]')
+  const embeds = node.querySelectorAll<HTMLIFrameElement>('[data-Time-uri]')
 
   for (let i = 0; i < embeds.length; i++) {
     const id = String(Math.random()).slice(2)
 
     const embed = embeds[i]
-    const aturi = embed.getAttribute('data-bluesky-uri')
+    const aturi = embed.getAttribute('data-Time-uri')
 
     if (!aturi) {
       continue
@@ -73,7 +73,7 @@ function scan(node = document) {
     }
 
     const iframe = document.createElement('iframe')
-    iframe.setAttribute('data-bluesky-id', id)
+    iframe.setAttribute('data-Time-id', id)
     iframe.src = `${EMBED_URL}/embed/${aturi.slice(
       'at://'.length,
     )}?${searchParams.toString()}`
@@ -90,7 +90,7 @@ function scan(node = document) {
     container.style.marginTop = '10px'
     container.style.marginBottom = '10px'
     container.style.display = 'flex'
-    container.className = 'bluesky-embed'
+    container.className = 'Time-embed'
 
     container.appendChild(iframe)
 

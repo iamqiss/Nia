@@ -6,7 +6,7 @@
 #include <chrono>
 #include <thread>
 
-using namespace sonet::messaging::crypto;
+using namespace time::messaging::crypto;
 
 class AdvancedFeaturesTest : public ::testing::Test {
 protected:
@@ -239,7 +239,7 @@ TEST_F(AdvancedFeaturesTest, QRCodeGeneration) {
     
     // Verify format
     ASSERT_FALSE(qr_data.empty());
-    ASSERT_TRUE(qr_data.find("sonet://verify/") == 0);
+    ASSERT_TRUE(qr_data.find("time://verify/") == 0);
     ASSERT_TRUE(qr_data.find("user1") != std::string::npos);
     ASSERT_TRUE(qr_data.find("user2") != std::string::npos);
     

@@ -9,7 +9,7 @@
 namespace grpc { class Channel; }
 namespace overdrive { class OverdriveRanker; }
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 class OverdriveClientGrpc final : public OverdriveClient {
 public:
@@ -32,4 +32,4 @@ private:
 	std::unique_ptr<overdrive::OverdriveRanker::Stub> stub_;
 };
 
-} // namespace sonet::timeline
+} // namespace time::timeline

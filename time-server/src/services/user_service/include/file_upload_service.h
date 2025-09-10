@@ -14,7 +14,7 @@
 #include <vector>
 #include <map>
 
-namespace sonet::user::storage {
+namespace time::user::storage {
 
 struct UploadResult {
     bool success;
@@ -181,4 +181,4 @@ std::string generate_storage_path(const std::string& user_id, const std::string&
 std::string get_file_extension(const std::string& filename);
 std::string sanitize_filename(const std::string& filename);
 
-} // namespace sonet::user::storage
+} // namespace time::user::storage

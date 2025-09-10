@@ -15,7 +15,7 @@
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * Security Utils - My collection of essential security functions
@@ -102,4 +102,4 @@ private:
     static const std::string HEX_CHARSET;
 };
 
-} // namespace sonet::user
+} // namespace time::user

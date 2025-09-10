@@ -21,7 +21,7 @@
 #include <grpcpp/grpcpp.h>
 #include <memory>
 
-namespace sonet::user {
+namespace time::user {
 
 /**
  * User Service Implementation - The main gRPC service
@@ -30,7 +30,7 @@ namespace sonet::user {
  * I've designed this to be clean and focused - it handles the gRPC
  * protocol details and delegates the real work to specialized managers.
  */
-class UserServiceImpl final : public sonet::user::UserService::Service {
+class UserServiceImpl final : public time::user::UserService::Service {
 public:
     UserServiceImpl();
     ~UserServiceImpl() = default;
@@ -38,84 +38,84 @@ public:
     // Core authentication operations
     grpc::Status RegisterUser(
         grpc::ServerContext* context,
-        const sonet::user::RegisterUserRequest* request,
-        sonet::user::RegisterUserResponse* response) override;
+        const time::user::RegisterUserRequest* request,
+        time::user::RegisterUserResponse* response) override;
 
     grpc::Status LoginUser(
         grpc::ServerContext* context,
-        const sonet::user::LoginUserRequest* request,
-        sonet::user::LoginUserResponse* response) override;
+        const time::user::LoginUserRequest* request,
+        time::user::LoginUserResponse* response) override;
 
     grpc::Status LogoutUser(
         grpc::ServerContext* context,
-        const sonet::user::LogoutRequest* request,
-        sonet::user::LogoutResponse* response) override;
+        const time::user::LogoutRequest* request,
+        time::user::LogoutResponse* response) override;
 
     // Token operations
     grpc::Status VerifyToken(
         grpc::ServerContext* context,
-        const sonet::user::VerifyTokenRequest* request,
-        sonet::user::VerifyTokenResponse* response) override;
+        const time::user::VerifyTokenRequest* request,
+        time::user::VerifyTokenResponse* response) override;
 
     grpc::Status RefreshToken(
         grpc::ServerContext* context,
-        const sonet::user::RefreshTokenRequest* request,
-        sonet::user::RefreshTokenResponse* response) override;
+        const time::user::RefreshTokenRequest* request,
+        time::user::RefreshTokenResponse* response) override;
 
     // Password management
     grpc::Status ChangePassword(
         grpc::ServerContext* context,
-        const sonet::user::ChangePasswordRequest* request,
-        sonet::user::ChangePasswordResponse* response) override;
+        const time::user::ChangePasswordRequest* request,
+        time::user::ChangePasswordResponse* response) override;
 
     grpc::Status ResetPassword(
         grpc::ServerContext* context,
-        const sonet::user::ResetPasswordRequest* request,
-        sonet::user::ResetPasswordResponse* response) override;
+        const time::user::ResetPasswordRequest* request,
+        time::user::ResetPasswordResponse* response) override;
 
     // Account verification
     grpc::Status VerifyEmail(
         grpc::ServerContext* context,
-        const sonet::user::VerifyEmailRequest* request,
-        sonet::user::VerifyEmailResponse* response) override;
+        const time::user::VerifyEmailRequest* request,
+        time::user::VerifyEmailResponse* response) override;
 
     grpc::Status ResendVerification(
         grpc::ServerContext* context,
-        const sonet::user::ResendVerificationRequest* request,
-        sonet::user::ResendVerificationResponse* response) override;
+        const time::user::ResendVerificationRequest* request,
+        time::user::ResendVerificationResponse* response) override;
 
     // Two-factor authentication
     grpc::Status SetupTwoFactor(
         grpc::ServerContext* context,
-        const sonet::user::SetupTwoFactorRequest* request,
-        sonet::user::SetupTwoFactorResponse* response) override;
+        const time::user::SetupTwoFactorRequest* request,
+        time::user::SetupTwoFactorResponse* response) override;
 
     grpc::Status VerifyTwoFactor(
         grpc::ServerContext* context,
-        const sonet::user::VerifyTwoFactorRequest* request,
-        sonet::user::VerifyTwoFactorResponse* response) override;
+        const time::user::VerifyTwoFactorRequest* request,
+        time::user::VerifyTwoFactorResponse* response) override;
 
     // Session management
     grpc::Status GetActiveSessions(
         grpc::ServerContext* context,
-        const sonet::user::GetActiveSessionsRequest* request,
-        sonet::user::GetActiveSessionsResponse* response) override;
+        const time::user::GetActiveSessionsRequest* request,
+        time::user::GetActiveSessionsResponse* response) override;
 
     grpc::Status TerminateSession(
         grpc::ServerContext* context,
-        const sonet::user::TerminateSessionRequest* request,
-        sonet::user::TerminateSessionResponse* response) override;
+        const time::user::TerminateSessionRequest* request,
+        time::user::TerminateSessionResponse* response) override;
 
     // User profile operations
     grpc::Status GetUserProfile(
         grpc::ServerContext* context,
-        const sonet::user::GetUserProfileRequest* request,
-        sonet::user::GetUserProfileResponse* response) override;
+        const time::user::GetUserProfileRequest* request,
+        time::user::GetUserProfileResponse* response) override;
 
     grpc::Status UpdateUserProfile(
         grpc::ServerContext* context,
-        const sonet::user::UpdateUserProfileRequest* request,
-        sonet::user::UpdateUserProfileResponse* response) override;
+        const time::user::UpdateUserProfileRequest* request,
+        time::user::UpdateUserProfileResponse* response) override;
 
 private:
     // Core components - the heart of our authentication system
@@ -139,8 +139,8 @@ private:
     bool validate_username_format(const std::string& username);
     
     // Response builders
-    void build_user_response(const User& user, sonet::user::UserProfile* profile);
-    void build_session_response(const UserSession& session, sonet::user::Session* session_proto);
+    void build_user_response(const User& user, time::user::UserProfile* profile);
+    void build_session_response(const UserSession& session, time::user::Session* session_proto);
 };
 
-} // namespace sonet::user
+} // namespace time::user

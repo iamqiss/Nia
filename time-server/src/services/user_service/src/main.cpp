@@ -30,8 +30,8 @@ void signal_handler(int signal) {
 
 int main(int argc, char* argv[]) {
     // Initialize JSON logger for ELK ingestion
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"startup","message":"Starting Sonet User Service"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"startup","message":"Starting time User Service"})");
     
     // Set up signal handlers for graceful shutdown
     std::signal(SIGINT, signal_handler);
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         const std::string grpc_address = getenv_or("GRPC_ADDRESS", "0.0.0.0:9090");
         
         // Create the service implementation
-        sonet::user::UserServiceImpl service;
+        time::user::UserServiceImpl service;
         
         // Build the gRPC server
         grpc::ServerBuilder builder;

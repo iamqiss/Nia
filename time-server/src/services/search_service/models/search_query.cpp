@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This implements the search query model for our Twitter-scale search service.
  * I built this to handle complex search queries with intelligent parsing,
@@ -16,7 +16,7 @@
 #include <random>
 #include <uuid/uuid.h>
 
-namespace sonet {
+namespace time {
 namespace search_service {
 namespace models {
 
@@ -1121,4 +1121,4 @@ std::vector<std::string> generate_suggestions(const std::string& partial_query) 
 
 } // namespace models
 } // namespace search_service
-} // namespace sonet
+} // namespace time

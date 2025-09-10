@@ -13,7 +13,7 @@
 #include <random>
 #include <regex>
 
-namespace sonet::note::repositories {
+namespace time::note::repositories {
 
 // Constructor - setting up our Cassandra connection
 CassandraNoteRepository::CassandraNoteRepository(
@@ -1028,4 +1028,4 @@ std::vector<Note> CassandraNoteRepository::get_user_interactions(const std::stri
 // More implementation methods would continue here...
 // [Additional implementation methods follow the same pattern]
 
-} // namespace sonet::note::repositories
+} // namespace time::note::repositories

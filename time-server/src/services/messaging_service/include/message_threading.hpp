@@ -21,7 +21,7 @@
 #include <queue>
 #include <json/json.h>
 
-namespace sonet::messaging::threading {
+namespace time::messaging::threading {
 
 /**
  * @brief Thread visibility and access control
@@ -411,4 +411,4 @@ public:
     static bool validate_participation_level(ParticipationLevel level, ParticipationLevel required);
 };
 
-} // namespace sonet::messaging::threading
+} // namespace time::messaging::threading

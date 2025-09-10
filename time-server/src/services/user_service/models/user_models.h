@@ -6,7 +6,7 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 
-namespace sonet {
+namespace time {
 namespace user {
 
 // User status enumeration
@@ -480,4 +480,4 @@ struct UserSearchResult {
 };
 
 } // namespace user
-} // namespace sonet
+} // namespace time

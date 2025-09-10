@@ -19,17 +19,17 @@
 #include <future>
 #include <thread>
 
-namespace sonet::note::controllers {
+namespace time::note::controllers {
 
 // Constructor with comprehensive dependency injection
 NoteController::NoteController(
     std::shared_ptr<NoteRepository> repository,
-    std::shared_ptr<sonet::note::NoteService> note_service,
+    std::shared_ptr<time::note::NoteService> note_service,
     std::shared_ptr<services::TimelineService> timeline_service,
     std::shared_ptr<services::NotificationService> notification_service,
     std::shared_ptr<services::AnalyticsService> analytics_service,
-    std::shared_ptr<sonet::core::cache::RedisClient> redis_client,
-    std::shared_ptr<sonet::core::security::RateLimiter> rate_limiter
+    std::shared_ptr<time::core::cache::RedisClient> redis_client,
+    std::shared_ptr<time::core::security::RateLimiter> rate_limiter
 ) : note_repository_(repository),
     note_service_(note_service),
     timeline_service_(timeline_service),
@@ -1585,4 +1585,4 @@ nlohmann::json NoteController::get_demographic_metrics(const std::string& note_i
     return nlohmann::json::object();
 }
 
-} // namespace sonet::note::controllers
+} // namespace time::note::controllers

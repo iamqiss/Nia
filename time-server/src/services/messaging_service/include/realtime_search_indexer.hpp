@@ -26,7 +26,7 @@
 #include <json/json.h>
 #include <regex>
 
-namespace sonet::messaging::search {
+namespace time::messaging::search {
 
 /**
  * @brief Search scope for targeted queries
@@ -611,4 +611,4 @@ public:
     static std::vector<std::string> suggest_query_improvements(const std::string& query);
 };
 
-} // namespace sonet::messaging::search
+} // namespace time::messaging::search

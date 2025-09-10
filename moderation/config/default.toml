@@ -1,4 +1,4 @@
-# Sonet Moderation Service - Default Configuration
+# time Moderation Service - Default Configuration
 # This file contains the default configuration values
 # Environment-specific overrides can be provided in local.toml or production.toml
 
@@ -8,7 +8,7 @@ grpc_port = 9090
 host = "0.0.0.0"
 
 [database]
-url = "postgresql://localhost/sonet_moderation"
+url = "postgresql://localhost/time_moderation"
 max_connections = 100
 connection_timeout_seconds = 30
 

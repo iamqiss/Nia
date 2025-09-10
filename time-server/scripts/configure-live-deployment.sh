@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Sonet Live Deployment Configuration Script
+# time Live Deployment Configuration Script
 # This script configures the system for live production deployment
 
 set -euo pipefail
 
 # Configuration
-PRODUCTION_DIR="/opt/sonet"
-CONFIG_DIR="/opt/sonet/config"
-CERTS_DIR="/opt/sonet/certs"
-NGINX_DIR="/opt/sonet/nginx"
-LOGS_DIR="/opt/sonet/logs"
+PRODUCTION_DIR="/opt/time"
+CONFIG_DIR="/opt/time/config"
+CERTS_DIR="/opt/time/certs"
+NGINX_DIR="/opt/time/nginx"
+LOGS_DIR="/opt/time/logs"
 
 # Colors
 GREEN='\033[0;32m'
@@ -42,8 +42,8 @@ check_prerequisites() {
     fi
     
     # Check if services are running
-    if ! systemctl is-active --quiet sonet.service; then
-        error "Sonet services are not running. Start them first with: systemctl start sonet.service"
+    if ! systemctl is-active --quiet time.service; then
+        error "time services are not running. Start them first with: systemctl start time.service"
     fi
     
     # Check if domain is provided
@@ -78,8 +78,8 @@ configure_domain() {
     sed -i "s|CORS_ORIGIN=.*|CORS_ORIGIN=https://$DOMAIN|g" "$env_file"
     
     # Update Nginx configuration
-    sed -i "s/sonet.com/$DOMAIN/g" "$NGINX_DIR/nginx.conf"
-    sed -i "s/www.sonet.com/www.$DOMAIN/g" "$NGINX_DIR/nginx.conf"
+    sed -i "s/time.com/$DOMAIN/g" "$NGINX_DIR/nginx.conf"
+    sed -i "s/www.time.com/www.$DOMAIN/g" "$NGINX_DIR/nginx.conf"
     
     success "Domain configuration updated"
 }
@@ -107,8 +107,8 @@ generate_ssl_certificate() {
     # Set proper permissions
     chmod 644 "$CERTS_DIR/ssl/server.crt"
     chmod 600 "$CERTS_DIR/ssl/server.key"
-    chown sonet:sonet "$CERTS_DIR/ssl/server.crt"
-    chown sonet:sonet "$CERTS_DIR/ssl/server.key"
+    chown time:time "$CERTS_DIR/ssl/server.crt"
+    chown time:time "$CERTS_DIR/ssl/server.key"
     
     # Restart Nginx
     docker-compose -f "$PRODUCTION_DIR/docker-compose.production.yml" start nginx
@@ -124,12 +124,12 @@ configure_ssl_renewal() {
     cat > "$PRODUCTION_DIR/scripts/renew-ssl.sh" << 'EOF'
 #!/bin/bash
 
-# Sonet SSL Certificate Renewal Script
+# time SSL Certificate Renewal Script
 set -euo pipefail
 
-DOMAIN="${DOMAIN:-sonet.com}"
-CERTS_DIR="/opt/sonet/certs"
-PRODUCTION_DIR="/opt/sonet"
+DOMAIN="${DOMAIN:-time.com}"
+CERTS_DIR="/opt/time/certs"
+PRODUCTION_DIR="/opt/time"
 
 # Renew certificate
 certbot renew --quiet
@@ -141,8 +141,8 @@ cp /etc/letsencrypt/live/$DOMAIN/privkey.pem "$CERTS_DIR/ssl/server.key"
 # Set permissions
 chmod 644 "$CERTS_DIR/ssl/server.crt"
 chmod 600 "$CERTS_DIR/ssl/server.key"
-chown sonet:sonet "$CERTS_DIR/ssl/server.crt"
-chown sonet:sonet "$CERTS_DIR/ssl/server.key"
+chown time:time "$CERTS_DIR/ssl/server.crt"
+chown time:time "$CERTS_DIR/ssl/server.key"
 
 # Reload Nginx
 cd "$PRODUCTION_DIR"
@@ -152,10 +152,10 @@ echo "SSL certificate renewed successfully"
 EOF
     
     chmod +x "$PRODUCTION_DIR/scripts/renew-ssl.sh"
-    chown sonet:sonet "$PRODUCTION_DIR/scripts/renew-ssl.sh"
+    chown time:time "$PRODUCTION_DIR/scripts/renew-ssl.sh"
     
     # Add to crontab for auto-renewal
-    (crontab -l 2>/dev/null; echo "0 12 * * * /opt/sonet/scripts/renew-ssl.sh") | crontab -
+    (crontab -l 2>/dev/null; echo "0 12 * * * /opt/time/scripts/renew-ssl.sh") | crontab -
     
     success "SSL auto-renewal configured"
 }
@@ -238,7 +238,7 @@ configure_monitoring() {
     cat > "$CONFIG_DIR/monitoring/alertmanager.yml" << 'EOF'
 global:
   smtp_smarthost: 'localhost:25'
-  smtp_from: 'alertmanager@sonet.com'
+  smtp_from: 'alertmanager@time.com'
 
 route:
   group_by: ['alertname']
@@ -254,12 +254,12 @@ receivers:
 EOF
     
     # Create Grafana dashboard configuration
-    cat > "$CONFIG_DIR/monitoring/grafana/dashboards/sonet-overview.json" << 'EOF'
+    cat > "$CONFIG_DIR/monitoring/grafana/dashboards/time-overview.json" << 'EOF'
 {
   "dashboard": {
     "id": null,
-    "title": "Sonet Production Overview",
-    "tags": ["sonet", "production"],
+    "title": "time Production Overview",
+    "tags": ["time", "production"],
     "timezone": "browser",
     "panels": [
       {
@@ -268,7 +268,7 @@ EOF
         "type": "stat",
         "targets": [
           {
-            "expr": "up{job=\"sonet-moderation-service\"}",
+            "expr": "up{job=\"time-moderation-service\"}",
             "legendFormat": "Moderation Service"
           }
         ]
@@ -279,7 +279,7 @@ EOF
         "type": "graph",
         "targets": [
           {
-            "expr": "histogram_quantile(0.95, rate(sonet_api_request_duration_seconds_bucket[5m]))",
+            "expr": "histogram_quantile(0.95, rate(time_api_request_duration_seconds_bucket[5m]))",
             "legendFormat": "95th Percentile"
           }
         ]
@@ -290,7 +290,7 @@ EOF
         "type": "graph",
         "targets": [
           {
-            "expr": "rate(sonet_moderation_errors_total[5m])",
+            "expr": "rate(time_moderation_errors_total[5m])",
             "legendFormat": "Errors/sec"
           }
         ]
@@ -303,10 +303,10 @@ EOF
     # Create monitoring alerts
     cat > "$CONFIG_DIR/monitoring/rules/production-alerts.yml" << 'EOF'
 groups:
-  - name: sonet-production
+  - name: time-production
     rules:
       - alert: HighErrorRate
-        expr: rate(sonet_moderation_errors_total[5m]) > 0.05
+        expr: rate(time_moderation_errors_total[5m]) > 0.05
         for: 2m
         labels:
           severity: warning
@@ -316,17 +316,17 @@ groups:
           description: "Error rate is {{ $value }} errors per second"
 
       - alert: ServiceDown
-        expr: up{job="sonet-moderation-service"} == 0
+        expr: up{job="time-moderation-service"} == 0
         for: 1m
         labels:
           severity: critical
           environment: production
         annotations:
-          summary: "Sonet moderation service is down"
+          summary: "time moderation service is down"
           description: "Service has been down for more than 1 minute"
 
       - alert: HighResponseTime
-        expr: histogram_quantile(0.95, rate(sonet_api_request_duration_seconds_bucket[5m])) > 0.5
+        expr: histogram_quantile(0.95, rate(time_api_request_duration_seconds_bucket[5m])) > 0.5
         for: 5m
         labels:
           severity: warning
@@ -397,11 +397,11 @@ configure_backup_recovery() {
     cat > "$PRODUCTION_DIR/scripts/verify-backup.sh" << 'EOF'
 #!/bin/bash
 
-# Sonet Backup Verification Script
+# time Backup Verification Script
 set -euo pipefail
 
-BACKUP_DIR="/opt/sonet/backups"
-LATEST_BACKUP=$(ls -t "$BACKUP_DIR"/sonet_backup_* | head -1)
+BACKUP_DIR="/opt/time/backups"
+LATEST_BACKUP=$(ls -t "$BACKUP_DIR"/time_backup_* | head -1)
 
 if [[ -z "$LATEST_BACKUP" ]]; then
     echo "No backups found"
@@ -450,19 +450,19 @@ echo "Backup verification completed"
 EOF
     
     chmod +x "$PRODUCTION_DIR/scripts/verify-backup.sh"
-    chown sonet:sonet "$PRODUCTION_DIR/scripts/verify-backup.sh"
+    chown time:time "$PRODUCTION_DIR/scripts/verify-backup.sh"
     
     # Create disaster recovery script
     cat > "$PRODUCTION_DIR/scripts/disaster-recovery.sh" << 'EOF'
 #!/bin/bash
 
-# Sonet Disaster Recovery Script
+# time Disaster Recovery Script
 set -euo pipefail
 
-BACKUP_DIR="/opt/sonet/backups"
-PRODUCTION_DIR="/opt/sonet"
+BACKUP_DIR="/opt/time/backups"
+PRODUCTION_DIR="/opt/time"
 
-echo "=== SONET DISASTER RECOVERY ==="
+echo "=== time DISASTER RECOVERY ==="
 echo "This script will restore the system from backup"
 echo "WARNING: This will overwrite current data!"
 echo ""
@@ -476,7 +476,7 @@ fi
 
 # List available backups
 echo "Available backups:"
-ls -la "$BACKUP_DIR"/sonet_backup_*
+ls -la "$BACKUP_DIR"/time_backup_*
 
 # Select backup
 read -p "Enter backup name to restore from: " backup_name
@@ -490,13 +490,13 @@ echo "Starting recovery from: $backup_name"
 
 # Stop services
 echo "Stopping services..."
-systemctl stop sonet.service
+systemctl stop time.service
 
 # Restore database
 if [[ -f "$BACKUP_DIR/$backup_name/database.sql.gz" ]]; then
     echo "Restoring database..."
     gunzip -c "$BACKUP_DIR/$backup_name/database.sql.gz" | \
-        docker exec -i sonet_notegres_prod psql -U sonet_app sonet_production
+        docker exec -i time_notegres_prod psql -U time_app time_production
 fi
 
 # Restore configuration
@@ -513,14 +513,14 @@ fi
 
 # Start services
 echo "Starting services..."
-systemctl start sonet.service
+systemctl start time.service
 
 echo "Recovery completed successfully"
 echo "Please verify system functionality"
 EOF
     
     chmod +x "$PRODUCTION_DIR/scripts/disaster-recovery.sh"
-    chown sonet:sonet "$PRODUCTION_DIR/scripts/disaster-recovery.sh"
+    chown time:time "$PRODUCTION_DIR/scripts/disaster-recovery.sh"
     
     success "Backup and recovery configured"
 }
@@ -533,13 +533,13 @@ configure_performance_monitoring() {
     cat > "$PRODUCTION_DIR/scripts/performance-test.sh" << 'EOF'
 #!/bin/bash
 
-# Sonet Performance Test Script
+# time Performance Test Script
 set -euo pipefail
 
-DOMAIN="${DOMAIN:-sonet.com}"
+DOMAIN="${DOMAIN:-time.com}"
 API_BASE="https://$DOMAIN/api/v1"
 
-echo "=== SONET PERFORMANCE TEST ==="
+echo "=== time PERFORMANCE TEST ==="
 echo "Testing API endpoints and performance"
 echo ""
 
@@ -566,7 +566,7 @@ echo "Performance test completed"
 EOF
     
     chmod +x "$PRODUCTION_DIR/scripts/performance-test.sh"
-    chown sonet:sonet "$PRODUCTION_DIR/scripts/performance-test.sh"
+    chown time:time "$PRODUCTION_DIR/scripts/performance-test.sh"
     
     success "Performance monitoring configured"
 }
@@ -576,7 +576,7 @@ create_go_live_checklist() {
     log "Creating go-live checklist..."
     
     cat > "$PRODUCTION_DIR/docs/go-live-checklist.md" << 'EOF'
-# 🚀 Sonet Go-Live Checklist
+# 🚀 time Go-Live Checklist
 
 ## Pre-Go-Live Verification
 
@@ -615,7 +615,7 @@ create_go_live_checklist() {
 ### 1. Final Verification
 ```bash
 # Check all services
-systemctl status sonet.service
+systemctl status time.service
 
 # Verify SSL certificate
 openssl s_client -connect $DOMAIN:443 -servername $DOMAIN
@@ -646,10 +646,10 @@ curl -f http://localhost:9090/-/healthy
 ### 5. Backup Verification
 ```bash
 # Test backup system
-/opt/sonet/scripts/backup.sh
+/opt/time/scripts/backup.sh
 
 # Verify backup integrity
-/opt/sonet/scripts/verify-backup.sh
+/opt/time/scripts/verify-backup.sh
 ```
 
 ## Note-Go-Live Monitoring
@@ -675,8 +675,8 @@ curl -f http://localhost:9090/-/healthy
 ## Emergency Procedures
 
 ### Service Outage
-1. Check service status: `systemctl status sonet.service`
-2. Review logs: `journalctl -u sonet.service -f`
+1. Check service status: `systemctl status time.service`
+2. Review logs: `journalctl -u time.service -f`
 3. Check monitoring dashboards
 4. Restart services if needed
 5. Escalate if unresolved
@@ -700,7 +700,7 @@ curl -f http://localhost:9090/-/healthy
 ### Engineering Team
 - **Primary**: engineering@$DOMAIN
 - **Emergency**: +1-XXX-XXX-XXXX
-- **Slack**: #sonet-production
+- **Slack**: #time-production
 
 ### Escalation Path
 1. On-call engineer (24/7)
@@ -733,7 +733,7 @@ EOF
 
 # Main configuration function
 main() {
-    log "Starting Sonet live deployment configuration..."
+    log "Starting time live deployment configuration..."
     
     # Pre-configuration checks
     check_root
@@ -756,7 +756,7 @@ main() {
     
     # Restart services with new configuration
     log "Restarting services with new configuration..."
-    systemctl restart sonet.service
+    systemctl restart time.service
     
     success "Live deployment configuration completed successfully!"
     log "Configuration log: $LOGS_DIR/live-deployment.log"

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Neo Qiss
  * 
- * This file is part of Sonet - a social media platform built for real connections.
+ * This file is part of time - a social media platform built for real connections.
  * 
  * This is the notification processor that handles the business logic for creating,
  * routing, and batching notifications. I designed this to be the central hub
@@ -28,7 +28,7 @@
 #include <unordered_set>
 #include <future>
 
-namespace sonet {
+namespace time {
 namespace notification_service {
 namespace processors {
 
@@ -295,4 +295,4 @@ public:
 
 } // namespace processors
 } // namespace notification_service
-} // namespace sonet
+} // namespace time

@@ -14,7 +14,7 @@
 #include <ctime>
 #include <memory>
 
-namespace sonet::user::models {
+namespace time::user::models {
 
 enum class ProfileVisibility {
     PUBLIC,      // Visible to everyone
@@ -280,4 +280,4 @@ ProfileVisibility string_to_profile_visibility(const std::string& visibility);
 std::string profile_field_type_to_string(ProfileFieldType type);
 ProfileFieldType string_to_profile_field_type(const std::string& type);
 
-} // namespace sonet::user::models
+} // namespace time::user::models

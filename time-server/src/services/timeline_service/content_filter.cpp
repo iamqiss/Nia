@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cctype>
 
-namespace sonet::timeline {
+namespace time::timeline {
 
 namespace {
     // Extract hashtags from text content
@@ -81,7 +81,7 @@ namespace {
     }
 
     // Check for content warnings
-    bool RequiresContentWarning(const ::sonet::note::Note& note) {
+    bool RequiresContentWarning(const ::time::note::Note& note) {
         // For stub implementation, assume no content warnings
         return false;
     }
@@ -105,12 +105,12 @@ AdvancedContentFilter::AdvancedContentFilter() {
     });
 }
 
-std::vector<::sonet::note::Note> AdvancedContentFilter::FilterNotes(
-    const std::vector<::sonet::note::Note>& notes,
+std::vector<::time::note::Note> AdvancedContentFilter::FilterNotes(
+    const std::vector<::time::note::Note>& notes,
     const std::string& user_id,
     const UserEngagementProfile& profile
 ) {
-    std::vector<::sonet::note::Note> filtered_notes;
+    std::vector<::time::note::Note> filtered_notes;
     filtered_notes.reserve(notes.size());
     
     int blocked_muted = 0, blocked_keywords = 0, blocked_policy = 0, blocked_spam = 0;
@@ -182,7 +182,7 @@ bool AdvancedContentFilter::IsUserMuted(const std::string& user_id, const std::s
     return false;
 }
 
-bool AdvancedContentFilter::ContainsMutedKeywords(const std::string& user_id, const ::sonet::note::Note& note) {
+bool AdvancedContentFilter::ContainsMutedKeywords(const std::string& user_id, const ::time::note::Note& note) {
     std::lock_guard<std::mutex> lock(filter_mutex_);
     
     auto it = muted_keywords_.find(user_id);
@@ -216,7 +216,7 @@ bool AdvancedContentFilter::ContainsMutedKeywords(const std::string& user_id, co
     return false;
 }
 
-bool AdvancedContentFilter::ViolatesContentPolicy(const ::sonet::note::Note& note) {
+bool AdvancedContentFilter::ViolatesContentPolicy(const ::time::note::Note& note) {
     std::string lower_content = note.content();
     std::transform(lower_content.begin(), lower_content.end(), lower_content.begin(), ::tolower);
     
@@ -232,7 +232,7 @@ bool AdvancedContentFilter::ViolatesContentPolicy(const ::sonet::note::Note& not
     return false;
 }
 
-bool AdvancedContentFilter::PassesSpamDetection(const ::sonet::note::Note& note) {
+bool AdvancedContentFilter::PassesSpamDetection(const ::time::note::Note& note) {
     // Check for spam patterns in content
     if (MatchesSpamPattern(note.content())) {
         return false;
@@ -252,7 +252,7 @@ bool AdvancedContentFilter::PassesSpamDetection(const ::sonet::note::Note& note)
 }
 
 bool AdvancedContentFilter::MeetsEngagementThreshold(
-    const ::sonet::note::Note& note, 
+    const ::time::note::Note& note, 
     const UserEngagementProfile& profile
 ) {
     // For new users or high-engagement users, show more content
@@ -273,7 +273,7 @@ bool AdvancedContentFilter::MeetsEngagementThreshold(
 }
 
 bool AdvancedContentFilter::IsAppropriateForUserAge(
-    const ::sonet::note::Note& note, 
+    const ::time::note::Note& note, 
     const UserEngagementProfile& profile
 ) {
     // For this implementation, assume all content is appropriate
@@ -348,4 +348,4 @@ void AdvancedContentFilter::RemoveMutedKeyword(const std::string& user_id, const
     }
 }
 
-} // namespace sonet::timeline
+} // namespace time::timeline

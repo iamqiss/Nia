@@ -5,7 +5,7 @@
 
 #include "moderation.grpc.pb.h"
 
-namespace sonet::note::clients {
+namespace time::note::clients {
 
 class ModerationClient {
 public:
@@ -50,4 +50,4 @@ private:
 	std::unique_ptr<moderation::v1::ModerationService::Stub> stub_;
 };
 
-} // namespace sonet::note::clients
+} // namespace time::note::clients

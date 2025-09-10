@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <chrono>
 
-namespace sonet {
+namespace time {
 namespace common {
     struct Timestamp {
         int64_t seconds_ = 0;
@@ -86,8 +86,8 @@ namespace note {
         std::string content_;
         Visibility visibility_ = VISIBILITY_PUBLIC;
         std::string content_warning_;
-        sonet::common::Timestamp created_at_;
-        sonet::common::Timestamp updated_at_;
+        time::common::Timestamp created_at_;
+        time::common::Timestamp updated_at_;
         NoteMetrics metrics_;
         MediaItem media_;
         
@@ -96,16 +96,16 @@ namespace note {
         std::string content() const { return content_; }
         Visibility visibility() const { return visibility_; }
         std::string content_warning() const { return content_warning_; }
-        sonet::common::Timestamp created_at() const { return created_at_; }
-        sonet::common::Timestamp updated_at() const { return updated_at_; }
+        time::common::Timestamp created_at() const { return created_at_; }
+        time::common::Timestamp updated_at() const { return updated_at_; }
         
         void set_id(const std::string& i) { id_ = i; }
         void set_author_id(const std::string& a) { author_id_ = a; }
         void set_content(const std::string& c) { content_ = c; }
         void set_visibility(Visibility v) { visibility_ = v; }
         
-        sonet::common::Timestamp* mutable_created_at() { return &created_at_; }
-        sonet::common::Timestamp* mutable_updated_at() { return &updated_at_; }
+        time::common::Timestamp* mutable_created_at() { return &created_at_; }
+        time::common::Timestamp* mutable_updated_at() { return &updated_at_; }
         NoteMetrics* mutable_metrics() { return &metrics_; }
         
         bool has_metrics() const { return true; }
@@ -122,7 +122,7 @@ namespace note {
             // List recent notes by authors since a timestamp
             struct ListRecentNotesByAuthorsRequest {
                 std::vector<std::string> author_ids;
-                sonet::common::Timestamp since;
+                time::common::Timestamp since;
                 int32_t limit = 50;
             };
             struct ListRecentNotesByAuthorsResponse {
@@ -221,8 +221,8 @@ namespace timeline {
         int32_t total_items = 0;
         TimelineAlgorithm algorithm_used = TIMELINE_ALGORITHM_HYBRID;
         std::string timeline_version;
-        sonet::common::Timestamp last_updated;
-        sonet::common::Timestamp last_user_read;
+        time::common::Timestamp last_updated;
+        time::common::Timestamp last_user_read;
         int32_t new_items_since_last_fetch = 0;
         std::map<std::string, double> algorithm_params_;
         
@@ -231,8 +231,8 @@ namespace timeline {
         void set_timeline_version(const std::string& v) { timeline_version = v; }
         void set_new_items_since_last_fetch(int32_t n) { new_items_since_last_fetch = n; }
         
-        sonet::common::Timestamp* mutable_last_updated() { return &last_updated; }
-        sonet::common::Timestamp* mutable_last_user_read() { return &last_user_read; }
+        time::common::Timestamp* mutable_last_updated() { return &last_updated; }
+        time::common::Timestamp* mutable_last_user_read() { return &last_user_read; }
         std::map<std::string, double>* mutable_algorithm_params() { return &algorithm_params_; }
     };
 
@@ -266,41 +266,41 @@ namespace timeline {
     struct GetTimelineRequest {
         std::string user_id_;
         TimelineAlgorithm algorithm_ = TIMELINE_ALGORITHM_UNKNOWN;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool include_ranking_signals_ = false;
         
         std::string user_id() const { return user_id_; }
         TimelineAlgorithm algorithm() const { return algorithm_; }
-        const sonet::common::Pagination& pagination() const { return pagination_; }
+        const time::common::Pagination& pagination() const { return pagination_; }
         bool include_ranking_signals() const { return include_ranking_signals_; }
     };
     
     struct TimelineItem {
-        sonet::note::Note note_;
+        time::note::Note note_;
         ContentSource source_ = CONTENT_SOURCE_FOLLOWING;
         double final_score_ = 0.0;
-        sonet::common::Timestamp injected_at_;
+        time::common::Timestamp injected_at_;
         std::string injection_reason_;
         RankingSignals ranking_signals_;
         
-        sonet::note::Note* mutable_note() { return &note_; }
+        time::note::Note* mutable_note() { return &note_; }
         void set_source(ContentSource s) { source_ = s; }
         void set_final_score(double s) { final_score_ = s; }
         void set_injection_reason(const std::string& r) { injection_reason_ = r; }
-        sonet::common::Timestamp* mutable_injected_at() { return &injected_at_; }
+        time::common::Timestamp* mutable_injected_at() { return &injected_at_; }
         RankingSignals* mutable_ranking_signals() { return &ranking_signals_; }
     };
     
     struct GetTimelineResponse {
         std::vector<TimelineItem> items_;
         TimelineMetadata metadata_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool success_ = false;
         std::string error_message_;
         
         TimelineItem* add_items() { items_.emplace_back(); return &items_.back(); }
         TimelineMetadata* mutable_metadata() { return &metadata_; }
-        sonet::common::Pagination* mutable_pagination() { return &pagination_; }
+        time::common::Pagination* mutable_pagination() { return &pagination_; }
         void set_success(bool s) { success_ = s; }
         void set_error_message(const std::string& e) { error_message_ = e; }
     };
@@ -308,11 +308,11 @@ namespace timeline {
     // Other stub requests/responses
     struct RefreshTimelineRequest {
         std::string user_id_;
-        sonet::common::Timestamp since_;
+        time::common::Timestamp since_;
         int32_t max_items_ = 0;
         
         std::string user_id() const { return user_id_; }
-        sonet::common::Timestamp since() const { return since_; }
+        time::common::Timestamp since() const { return since_; }
         int32_t max_items() const { return max_items_; }
     };
     
@@ -332,10 +332,10 @@ namespace timeline {
     
     struct MarkTimelineReadRequest {
         std::string user_id_;
-        sonet::common::Timestamp read_until_;
+        time::common::Timestamp read_until_;
         
         std::string user_id() const { return user_id_; }
-        sonet::common::Timestamp read_until() const { return read_until_; }
+        time::common::Timestamp read_until() const { return read_until_; }
     };
     
     struct MarkTimelineReadResponse {
@@ -360,13 +360,13 @@ namespace timeline {
     struct GetUserTimelineRequest {
         std::string target_user_id_;
         std::string requesting_user_id_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool include_replies_ = false;
         bool include_renotes_ = true; // formerly include_renotes_
         
         std::string target_user_id() const { return target_user_id_; }
         std::string requesting_user_id() const { return requesting_user_id_; }
-        const sonet::common::Pagination& pagination() const { return pagination_; }
+        const time::common::Pagination& pagination() const { return pagination_; }
         bool include_replies() const { return include_replies_; }
         bool include_renotes() const { return include_renotes_; }
         [[deprecated("Use include_renotes() instead")]] bool include_renotes() const { return include_renotes_; }
@@ -374,12 +374,12 @@ namespace timeline {
     
     struct GetUserTimelineResponse {
         std::vector<TimelineItem> items_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool success_ = false;
         std::string error_message_;
         
         TimelineItem* add_items() { items_.emplace_back(); return &items_.back(); }
-        sonet::common::Pagination* mutable_pagination() { return &pagination_; }
+        time::common::Pagination* mutable_pagination() { return &pagination_; }
         void set_success(bool s) { success_ = s; }
         void set_error_message(const std::string& e) { error_message_ = e; }
     };
@@ -420,44 +420,44 @@ namespace timeline {
     
     struct GetForYouTimelineRequest {
         std::string user_id_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool include_ranking_signals_ = false;
         std::string user_id() const { return user_id_; }
-        const sonet::common::Pagination& pagination() const { return pagination_; }
+        const time::common::Pagination& pagination() const { return pagination_; }
         bool include_ranking_signals() const { return include_ranking_signals_; }
     };
 
     struct GetForYouTimelineResponse {
         std::vector<TimelineItem> items_;
         TimelineMetadata metadata_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool success_ = false;
         std::string error_message_;
         TimelineItem* add_items() { items_.emplace_back(); return &items_.back(); }
         TimelineMetadata* mutable_metadata() { return &metadata_; }
-        sonet::common::Pagination* mutable_pagination() { return &pagination_; }
+        time::common::Pagination* mutable_pagination() { return &pagination_; }
         void set_success(bool s) { success_ = s; }
         void set_error_message(const std::string& e) { error_message_ = e; }
     };
 
     struct GetFollowingTimelineRequest {
         std::string user_id_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool include_ranking_signals_ = false;
         std::string user_id() const { return user_id_; }
-        const sonet::common::Pagination& pagination() const { return pagination_; }
+        const time::common::Pagination& pagination() const { return pagination_; }
         bool include_ranking_signals() const { return include_ranking_signals_; }
     };
 
     struct GetFollowingTimelineResponse {
         std::vector<TimelineItem> items_;
         TimelineMetadata metadata_;
-        sonet::common::Pagination pagination_;
+        time::common::Pagination pagination_;
         bool success_ = false;
         std::string error_message_;
         TimelineItem* add_items() { items_.emplace_back(); return &items_.back(); }
         TimelineMetadata* mutable_metadata() { return &metadata_; }
-        sonet::common::Pagination* mutable_pagination() { return &pagination_; }
+        time::common::Pagination* mutable_pagination() { return &pagination_; }
         void set_success(bool s) { success_ = s; }
         void set_error_message(const std::string& e) { error_message_ = e; }
     };
@@ -558,4 +558,4 @@ namespace follow {
         };
     };
 }
-} // namespace sonet
+} // namespace time

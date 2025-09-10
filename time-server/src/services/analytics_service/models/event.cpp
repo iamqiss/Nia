@@ -4,7 +4,7 @@
 #include <chrono>
 #include <regex>
 
-namespace sonet::analytics_service::model {
+namespace time::analytics_service::model {
 
 bool Event::IsUuidLike(std::string_view text) {
 	static const std::regex kUuidRegex(
@@ -36,5 +36,5 @@ bool Event::IsValid(std::string& reason) const {
 	return true;
 }
 
-} // namespace sonet::analytics_service::model
+} // namespace time::analytics_service::model
 

@@ -1,7 +1,7 @@
 #
 # Copyright (c) 2025 Neo Qiss
 # 
-# This file is part of Sonet - a social media platform built for real connections.
+# This file is part of time - a social media platform built for real connections.
 # 
 # CMake configuration for the notification service.
 # I designed this build system to handle all the dependencies and create
@@ -9,7 +9,7 @@
 #
 
 cmake_minimum_required(VERSION 3.20)
-project(sonet_notification_service VERSION 1.0.0 LANGUAGES CXX)
+project(time_notification_service VERSION 1.0.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -208,17 +208,17 @@ set(ALL_SOURCES
 )
 
 # Create the notification service executable
-add_executable(sonet_notification_service ${ALL_SOURCES})
+add_executable(time_notification_service ${ALL_SOURCES})
 
 # Set target properties
-set_target_properties(sonet_notification_service PROPERTIES
-    OUTPUT_NAME "sonet-notification-service"
+set_target_properties(time_notification_service PROPERTIES
+    OUTPUT_NAME "time-notification-service"
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 # Link libraries
 # Core
-target_link_libraries(sonet_notification_service PRIVATE
+target_link_libraries(time_notification_service PRIVATE
     Threads::Threads
     gRPC::grpc++
     gRPC::grpc++_reflection
@@ -228,44 +228,44 @@ target_link_libraries(sonet_notification_service PRIVATE
 
 # Optional libs
 if(ENABLE_HTTP)
-    target_link_libraries(sonet_notification_service PRIVATE CURL::libcurl)
+    target_link_libraries(time_notification_service PRIVATE CURL::libcurl)
 endif()
 if(ENABLE_TLS)
-    target_link_libraries(sonet_notification_service PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+    target_link_libraries(time_notification_service PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
 if(ENABLE_DB)
-    target_link_libraries(sonet_notification_service PRIVATE ${PostgreSQL_LIBRARIES})
+    target_link_libraries(time_notification_service PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 if(ENABLE_REDIS)
-    target_link_libraries(sonet_notification_service PRIVATE ${HIREDIS_LIBRARIES})
+    target_link_libraries(time_notification_service PRIVATE ${HIREDIS_LIBRARIES})
 endif()
 if(ENABLE_UUID)
-    target_link_libraries(sonet_notification_service PRIVATE ${UUID_LIBRARIES})
+    target_link_libraries(time_notification_service PRIVATE ${UUID_LIBRARIES})
 endif()
 if(ENABLE_JWT)
-    target_link_libraries(sonet_notification_service PRIVATE jwt-cpp::jwt-cpp)
+    target_link_libraries(time_notification_service PRIVATE jwt-cpp::jwt-cpp)
 endif()
 
 # Compiler definitions
-target_compile_definitions(sonet_notification_service PRIVATE
-    SONET_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
-    SONET_VERSION_MINOR=${PROJECT_VERSION_MINOR}
-    SONET_VERSION_PATCH=${PROJECT_VERSION_PATCH}
-    SONET_VERSION_STRING="${PROJECT_VERSION}"
+target_compile_definitions(time_notification_service PRIVATE
+    time_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
+    time_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+    time_VERSION_PATCH=${PROJECT_VERSION_PATCH}
+    time_VERSION_STRING="${PROJECT_VERSION}"
 )
 
 # Include proto headers
-target_include_directories(sonet_notification_service PRIVATE ${PROTO_SRC_DIR})
+target_include_directories(time_notification_service PRIVATE ${PROTO_SRC_DIR})
 
 # Platform-specific libraries
 if(WIN32)
-    target_link_libraries(sonet_notification_service PRIVATE ws2_32 wsock32)
+    target_link_libraries(time_notification_service PRIVATE ws2_32 wsock32)
 elseif(UNIX AND NOT APPLE)
-    target_link_libraries(sonet_notification_service PRIVATE dl rt)
+    target_link_libraries(time_notification_service PRIVATE dl rt)
 endif()
 
 # Installation rules
-install(TARGETS sonet_notification_service
+install(TARGETS time_notification_service
     RUNTIME DESTINATION bin
     COMPONENT notification_service
 )
@@ -274,14 +274,14 @@ install(TARGETS sonet_notification_service
 install(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../config/development/services.json
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../config/production/services.json
-    DESTINATION etc/sonet
+    DESTINATION etc/time
     COMPONENT notification_service
 )
 
 # Install systemd service file (Linux only)
 if(UNIX AND NOT APPLE)
     install(FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/deployment/sonet-notification-service.service
+        ${CMAKE_CURRENT_SOURCE_DIR}/deployment/time-notification-service.service
         DESTINATION lib/systemd/system
         COMPONENT notification_service
         OPTIONAL
@@ -291,16 +291,16 @@ endif()
 # Development and testing targets
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     # Add debug symbols
-    target_compile_options(sonet_notification_service PRIVATE -g)
+    target_compile_options(time_notification_service PRIVATE -g)
     
     # Enable sanitizers for debugging
     option(ENABLE_SANITIZERS "Enable AddressSanitizer and UBSan" OFF)
     if(ENABLE_SANITIZERS)
-        target_compile_options(sonet_notification_service PRIVATE
+        target_compile_options(time_notification_service PRIVATE
             -fsanitize=address,undefined
             -fno-omit-frame-pointer
         )
-        target_link_options(sonet_notification_service PRIVATE
+        target_link_options(time_notification_service PRIVATE
             -fsanitize=address,undefined
         )
     endif()
@@ -309,8 +309,8 @@ endif()
 # Performance profiling support
 option(ENABLE_PROFILING "Enable performance profiling" OFF)
 if(ENABLE_PROFILING)
-    target_compile_options(sonet_notification_service PRIVATE -pg)
-    target_link_options(sonet_notification_service PRIVATE -pg)
+    target_compile_options(time_notification_service PRIVATE -pg)
+    target_link_options(time_notification_service PRIVATE -pg)
 endif()
 
 # Static analysis support
@@ -318,7 +318,7 @@ option(ENABLE_STATIC_ANALYSIS "Enable static analysis with clang-tidy" OFF)
 if(ENABLE_STATIC_ANALYSIS)
     find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
     if(CLANG_TIDY_EXE)
-        set_target_properties(sonet_notification_service PROPERTIES
+        set_target_properties(time_notification_service PROPERTIES
             CXX_CLANG_TIDY "${CLANG_TIDY_EXE};-checks=*,-readability-*"
         )
     endif()
@@ -327,12 +327,12 @@ endif()
 # Docker targets omitted in minimal build
 
 # Package configuration
-set(CPACK_PACKAGE_NAME "sonet-notification-service")
+set(CPACK_PACKAGE_NAME "time-notification-service")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Sonet Notification Service")
-set(CPACK_PACKAGE_DESCRIPTION "Real-time notification delivery service for Sonet social media platform")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "time Notification Service")
+set(CPACK_PACKAGE_DESCRIPTION "Real-time notification delivery service for time social media platform")
 set(CPACK_PACKAGE_VENDOR "Neo Qiss")
-set(CPACK_PACKAGE_CONTACT "notifications@sonet.app")
+set(CPACK_PACKAGE_CONTACT "notifications@time.app")
 
 # Debian package configuration
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libcurl4, libpq5, libhiredis0.14, libuuid1, libssl3")
@@ -347,7 +347,7 @@ include(CPack)
 
 # Print build information
 message(STATUS "")
-message(STATUS "Sonet Notification Service Build Configuration:")
+message(STATUS "time Notification Service Build Configuration:")
 message(STATUS "  Version: ${PROJECT_VERSION}")
 message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")

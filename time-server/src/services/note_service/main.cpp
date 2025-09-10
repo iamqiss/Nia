@@ -55,7 +55,7 @@
  * Usage: ./note_service [config_file]
  */
 
-using namespace sonet::note;
+using namespace time::note;
 
 // Global service instance for signal handling
 static std::unique_ptr<NoteServiceOrchestrator> g_service_instance;
@@ -135,8 +135,8 @@ void print_service_info() {
 }
 
 int main(int argc, char* argv[]) {
-    (void)sonet::logging::init_json_stdout_logger();
-    spdlog::info(R"({"event":"banner","service":"note","message":"Sonet Note Service starting"})");
+    (void)time::logging::init_json_stdout_logger();
+    spdlog::info(R"({"event":"banner","service":"note","message":"time Note Service starting"})");
     try {
         // Print startup banner
         print_startup_banner();
@@ -224,11 +224,11 @@ int main(int argc, char* argv[]) {
  * DEPLOYMENT NOTES:
  * 
  * 🐳 Docker Deployment:
- * docker build -t sonet-note-service .
+ * docker build -t time-note-service .
  * docker run -d -p 8080:8080 -p 9090:9090 -p 8081:8081 \
  *   -e DATABASE_URL=postgresql://... \
  *   -e REDIS_URL=redis://... \
- *   sonet-note-service
+ *   time-note-service
  * 
  * ☸️ Kubernetes Deployment:
  * kubectl apply -f deployment/kubernetes/
