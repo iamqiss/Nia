@@ -1,0 +1,94 @@
+import {} from '@atproto/api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { DM_SERVICE_HEADERS } from '#/lib/constants';
+import { logger } from '#/logger';
+import { useAgent } from '#/state/session';
+import { RQKEY as CONVO_LIST_KEY, RQKEY_ROOT as CONVO_LIST_ROOT_KEY, } from './list-conversations';
+export function useAcceptConversation(convoId, { onSuccess, onMutate, onError, }) {
+    const queryClient = useQueryClient();
+    const agent = useAgent();
+    return useMutation({
+        mutationFn: async () => {
+            const { data } = await agent.chat.bsky.convo.acceptConvo({ convoId }, { headers: DM_SERVICE_HEADERS });
+            return data;
+        },
+        onMutate: () => {
+            let prevAcceptedPages = [];
+            let prevInboxPages = [];
+            let convoBeingAccepted;
+            queryClient.setQueryData(CONVO_LIST_KEY('request'), (old) => {
+                if (!old)
+                    return old;
+                prevInboxPages = old.pages;
+                return {
+                    ...old,
+                    pages: old.pages.map(page => {
+                        const found = page.convos.find(convo => convo.id === convoId);
+                        if (found) {
+                            convoBeingAccepted = found;
+                            return {
+                                ...page,
+                                convos: page.convos.filter(convo => convo.id !== convoId),
+                            };
+                        }
+                        return page;
+                    }),
+                };
+            });
+            queryClient.setQueryData(CONVO_LIST_KEY('accepted'), (old) => {
+                if (!old)
+                    return old;
+                prevAcceptedPages = old.pages;
+                if (convoBeingAccepted) {
+                    return {
+                        ...old,
+                        pages: [
+                            {
+                                ...old.pages[0],
+                                convos: [
+                                    {
+                                        ...convoBeingAccepted,
+                                        status: 'accepted',
+                                    },
+                                    ...old.pages[0].convos,
+                                ],
+                            },
+                            ...old.pages.slice(1),
+                        ],
+                    };
+                }
+                else {
+                    return old;
+                }
+            });
+            onMutate?.();
+            return { prevAcceptedPages, prevInboxPages };
+        },
+        onSuccess: data => {
+            queryClient.invalidateQueries({ queryKey: [CONVO_LIST_KEY] });
+            onSuccess?.(data);
+        },
+        onError: (error, _, context) => {
+            logger.error(error);
+            queryClient.setQueryData(CONVO_LIST_KEY('accepted'), (old) => {
+                if (!old)
+                    return old;
+                return {
+                    ...old,
+                    pages: context?.prevAcceptedPages || old.pages,
+                };
+            });
+            queryClient.setQueryData(CONVO_LIST_KEY('request'), (old) => {
+                if (!old)
+                    return old;
+                return {
+                    ...old,
+                    pages: context?.prevInboxPages || old.pages,
+                };
+            });
+            queryClient.invalidateQueries({ queryKey: [CONVO_LIST_ROOT_KEY] });
+            onError?.(error);
+        },
+    });
+}
+//# sourceMappingURL=accept-conversation.js.map

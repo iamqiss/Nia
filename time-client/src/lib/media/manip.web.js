@@ -1,0 +1,120 @@
+/// <reference lib="dom" />
+import {} from './picker.shared';
+import {} from './types';
+import { blobToDataUri, getDataUriSize } from './util';
+export async function compressIfNeeded(img, maxSize) {
+    if (img.size < maxSize) {
+        return img;
+    }
+    return await doResize(img.path, {
+        width: img.width,
+        height: img.height,
+        mode: 'stretch',
+        maxSize,
+    });
+}
+export async function downloadAndResize(opts) {
+    const controller = new AbortController();
+    const to = setTimeout(() => controller.abort(), opts.timeout || 5e3);
+    const res = await fetch(opts.uri);
+    const resBody = await res.blob();
+    clearTimeout(to);
+    const dataUri = await blobToDataUri(resBody);
+    return await doResize(dataUri, opts);
+}
+export async function shareImageModal(_opts) {
+    // TODO
+    throw new Error('TODO');
+}
+export async function saveImageToMediaLibrary(_opts) {
+    // TODO
+    throw new Error('TODO');
+}
+export async function getImageDim(path) {
+    var img = document.createElement('img');
+    const promise = new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+    });
+    img.src = path;
+    await promise;
+    return { width: img.width, height: img.height };
+}
+async function doResize(dataUri, opts) {
+    let newDataUri;
+    let minQualityPercentage = 0;
+    let maxQualityPercentage = 101; //exclusive
+    while (maxQualityPercentage - minQualityPercentage > 1) {
+        const qualityPercentage = Math.round((maxQualityPercentage + minQualityPercentage) / 2);
+        const tempDataUri = await createResizedImage(dataUri, {
+            width: opts.width,
+            height: opts.height,
+            quality: qualityPercentage / 100,
+            mode: opts.mode,
+        });
+        if (getDataUriSize(tempDataUri) < opts.maxSize) {
+            minQualityPercentage = qualityPercentage;
+            newDataUri = tempDataUri;
+        }
+        else {
+            maxQualityPercentage = qualityPercentage;
+        }
+    }
+    if (!newDataUri) {
+        throw new Error('Failed to compress image');
+    }
+    return {
+        path: newDataUri,
+        mime: 'image/jpeg',
+        size: getDataUriSize(newDataUri),
+        width: opts.width,
+        height: opts.height,
+    };
+}
+function createResizedImage(dataUri, { width, height, quality, mode, }) {
+    return new Promise((resolve, reject) => {
+        const img = document.createElement('img');
+        img.addEventListener('load', () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                return reject(new Error('Failed to resize image'));
+            }
+            let scale = 1;
+            if (mode === 'cover') {
+                scale = img.width < img.height ? width / img.width : height / img.height;
+            }
+            else if (mode === 'contain') {
+                scale = img.width > img.height ? width / img.width : height / img.height;
+            }
+            let w = img.width * scale;
+            let h = img.height * scale;
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+        });
+        img.addEventListener('error', ev => {
+            reject(ev.error);
+        });
+        img.src = dataUri;
+    });
+}
+export async function saveBytesToDisk(filename, bytes, type) {
+    const blob = new Blob([bytes], { type });
+    const url = URL.createObjectURL(blob);
+    await downloadUrl(url, filename);
+    // Firefox requires a small delay
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    return true;
+}
+async function downloadUrl(href, filename) {
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = filename;
+    a.click();
+}
+export async function safeDeleteAsync() {
+    // no-op
+}
+//# sourceMappingURL=manip.web.js.map

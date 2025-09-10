@@ -1,0 +1,26 @@
+export * from '#/state/queries/preferences/const';
+export * from '#/state/queries/preferences/moderation';
+export * from '#/state/queries/preferences/types';
+export declare const preferencesQueryKey: string[];
+export declare function usePreferencesQuery(): any;
+export declare function useClearPreferencesMutation(): any;
+export declare function usePreferencesSetContentLabelMutation(): any;
+export declare function useSetContentLabelMutation(): any;
+export declare function usePreferencesSetAdultContentMutation(): any;
+export declare function usePreferencesSetBirthDateMutation(): any;
+export declare function useSetFeedViewPreferencesMutation(): any;
+export declare function useSetThreadViewPreferencesMutation(): any;
+export declare function useOverwriteSavedFeedsMutation(): any;
+export declare function useAddSavedFeedsMutation(): any;
+export declare function useRemoveFeedMutation(): any;
+export declare function useReplaceForYouWithDiscoverFeedMutation(): any;
+export declare function useUpdateSavedFeedsMutation(): any;
+export declare function useUpsertMutedWordsMutation(): any;
+export declare function useUpdateMutedWordMutation(): any;
+export declare function useRemoveMutedWordMutation(): any;
+export declare function useRemoveMutedWordsMutation(): any;
+export declare function useQueueNudgesMutation(): any;
+export declare function useDismissNudgesMutation(): any;
+export declare function useSetActiveProgressGuideMutation(): any;
+export declare function useSetVerificationPrefsMutation(): any;
+//# sourceMappingURL=index.d.ts.map

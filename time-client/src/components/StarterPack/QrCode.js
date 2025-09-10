@@ -1,0 +1,71 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { lazy } from 'react';
+import { View } from 'react-native';
+// @ts-expect-error missing types
+import QRCode from 'react-native-qrcode-styled';
+import { AppBskyGraphStarterpack } from '@atproto/api';
+import { Trans } from '@lingui/macro';
+import { isWeb } from '#/platform/detection';
+import { Logo } from '#/view/icons/Logo';
+import { Logotype } from '#/view/icons/Logotype';
+import { useTheme } from '#/alf';
+import { atoms as a } from '#/alf';
+import { LinearGradientBackground } from '#/components/LinearGradientBackground';
+import { Text } from '#/components/Typography';
+import * as bsky from '#/types/bsky';
+const LazyViewShot = lazy(
+// @ts-expect-error dynamic import
+() => import('react-native-view-shot/src/index'));
+export function QrCode({ starterPack, link, ref, }) {
+    const { record } = starterPack;
+    if (!bsky.dangerousIsType(record, AppBskyGraphStarterpack.isRecord)) {
+        return null;
+    }
+    return (_jsx(LazyViewShot, { ref: ref, children: _jsxs(LinearGradientBackground, { style: [
+                { width: 300, minHeight: 390 },
+                a.align_center,
+                a.px_sm,
+                a.py_xl,
+                a.rounded_sm,
+                a.justify_between,
+                a.gap_md,
+            ], children: [_jsx(View, { style: [a.gap_sm], children: _jsx(Text, { style: [a.font_bold, a.text_3xl, a.text_center, { color: 'white' }], children: record.name }) }), _jsxs(View, { style: [a.gap_xl, a.align_center], children: [_jsx(Text, { style: [
+                                a.font_bold,
+                                a.text_center,
+                                { color: 'white', fontSize: 18 },
+                            ], children: _jsx(Trans, { children: "Join the conversation" }) }), _jsx(View, { style: [a.rounded_sm, a.overflow_hidden], children: _jsx(QrCodeInner, { link: link }) }), _jsx(Text, { style: [
+                                a.flex,
+                                a.flex_row,
+                                a.align_center,
+                                a.font_bold,
+                                { color: 'white', fontSize: 18, gap: 6 },
+                            ], children: _jsxs(Trans, { children: ["on", _jsxs(View, { style: [a.flex_row, a.align_center, { gap: 6 }], children: [_jsx(Logo, { width: 25, fill: "white" }), _jsx(View, { style: [{ marginTop: 3.5 }], children: _jsx(Logotype, { width: 72, fill: "white" }) })] })] }) })] })] }) }));
+}
+export function QrCodeInner({ link }) {
+    const t = useTheme();
+    return (_jsx(QRCode, { data: link, style: [
+            a.rounded_sm,
+            { height: 225, width: 225, backgroundColor: '#f3f3f3' },
+        ], pieceSize: isWeb ? 8 : 6, padding: 20, 
+        // pieceLiquidRadius={2}
+        pieceBorderRadius: isWeb ? 4.5 : 3.5, outerEyesOptions: {
+            topLeft: {
+                borderRadius: [12, 12, 0, 12],
+                color: t.palette.primary_500,
+            },
+            topRight: {
+                borderRadius: [12, 12, 12, 0],
+                color: t.palette.primary_500,
+            },
+            bottomLeft: {
+                borderRadius: [12, 0, 12, 12],
+                color: t.palette.primary_500,
+            },
+        }, innerEyesOptions: { borderRadius: 3 }, logo: {
+            href: require('../../../assets/logo.png'),
+            scale: 0.95,
+            padding: 2,
+            hidePieces: true,
+        } }));
+}
+//# sourceMappingURL=QrCode.js.map

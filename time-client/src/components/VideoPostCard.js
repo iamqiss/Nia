@@ -1,0 +1,258 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useMemo } from 'react';
+import { View } from 'react-native';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import { AppBskyEmbedVideo, AppBskyFeedPost, } from '@atproto/api';
+import { msg } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
+import { sanitizeHandle } from '#/lib/strings/handles';
+import { formatCount } from '#/view/com/util/numeric/format';
+import { UserAvatar } from '#/view/com/util/UserAvatar';
+import {} from '#/screens/VideoFeed/types';
+import { atoms as a, useTheme } from '#/alf';
+import { BLUE_HUE } from '#/alf/util/colorGeneration';
+import { select } from '#/alf/util/themeSelector';
+import { useInteractionState } from '#/components/hooks/useInteractionState';
+import { EyeSlash_Stroke2_Corner0_Rounded as Eye } from '#/components/icons/EyeSlash';
+import { Heart2_Stroke2_Corner0_Rounded as Heart } from '#/components/icons/Heart2';
+import { Repost_Stroke2_Corner2_Rounded as Repost } from '#/components/icons/Repost';
+import { Link } from '#/components/Link';
+import { MediaInsetBorder } from '#/components/MediaInsetBorder';
+import * as Hider from '#/components/moderation/Hider';
+import { Text } from '#/components/Typography';
+import * as bsky from '#/types/bsky';
+function getBlackColor(t) {
+    return select(t.name, {
+        light: t.palette.black,
+        dark: t.atoms.bg_contrast_25.backgroundColor,
+        dim: `hsl(${BLUE_HUE}, 28%, 6%)`,
+    });
+}
+export function VideoPostCard({ post, sourceContext, moderation, onInteract, }) {
+    const t = useTheme();
+    const { _, i18n } = useLingui();
+    const embed = post.embed;
+    const { state: pressed, onIn: onPressIn, onOut: onPressOut, } = useInteractionState();
+    const listModUi = moderation.ui('contentList');
+    const mergedModui = useMemo(() => {
+        const modui = moderation.ui('contentList');
+        const mediaModui = moderation.ui('contentMedia');
+        modui.alerts = [...modui.alerts, ...mediaModui.alerts];
+        modui.blurs = [...modui.blurs, ...mediaModui.blurs];
+        modui.filters = [...modui.filters, ...mediaModui.filters];
+        modui.informs = [...modui.informs, ...mediaModui.informs];
+        return modui;
+    }, [moderation]);
+    /**
+     * Filtering should be done at a higher level, such as `PostFeed` or
+     * `PostFeedVideoGridRow`, but we need to protect here as well.
+     */
+    if (!AppBskyEmbedVideo.isView(embed))
+        return null;
+    const author = post.author;
+    const text = bsky.dangerousIsType(post.record, AppBskyFeedPost.isRecord)
+        ? post.record?.text
+        : '';
+    const likeCount = post?.likeCount ?? 0;
+    const repostCount = post?.repostCount ?? 0;
+    const { thumbnail } = embed;
+    const black = getBlackColor(t);
+    const textAndAuthor = (_jsxs(View, { style: [a.pr_xs, { paddingTop: 6, gap: 4 }], children: [text && (_jsx(Text, { style: [a.text_md, a.leading_snug], numberOfLines: 2, emoji: true, children: text })), _jsxs(View, { style: [a.flex_row, a.gap_xs, a.align_center], children: [_jsxs(View, { style: [a.relative, a.rounded_full, { width: 20, height: 20 }], children: [_jsx(UserAvatar, { type: "user", size: 20, avatar: post.author.avatar }), _jsx(MediaInsetBorder, {})] }), _jsx(Text, { style: [
+                            a.flex_1,
+                            a.text_sm,
+                            a.leading_tight,
+                            t.atoms.text_contrast_medium,
+                        ], numberOfLines: 1, children: sanitizeHandle(post.author.handle, '@') })] })] }));
+    return (_jsx(Link, { accessibilityHint: _(msg `Views video in immersive mode`), label: _(msg `Video from ${author.handle}: ${text}`), to: {
+            screen: 'VideoFeed',
+            params: {
+                ...sourceContext,
+                initialPostUri: post.uri,
+            },
+        }, onPress: () => {
+            onInteract?.();
+        }, onPressIn: onPressIn, onPressOut: onPressOut, style: [
+            a.flex_col,
+            {
+                alignItems: undefined,
+                justifyContent: undefined,
+            },
+        ], children: _jsxs(Hider.Outer, { modui: mergedModui, children: [_jsxs(Hider.Mask, { children: [_jsxs(View, { style: [
+                                a.justify_center,
+                                a.rounded_md,
+                                a.overflow_hidden,
+                                {
+                                    backgroundColor: black,
+                                    aspectRatio: 9 / 16,
+                                },
+                            ], children: [_jsx(Image, { source: { uri: thumbnail }, style: [a.w_full, a.h_full, { opacity: pressed ? 0.8 : 1 }], accessibilityIgnoresInvertColors: true, blurRadius: 100 }), _jsx(MediaInsetBorder, {}), _jsxs(View, { style: [a.absolute, a.inset_0, a.justify_center, a.align_center], children: [_jsx(View, { style: [
+                                                a.absolute,
+                                                a.inset_0,
+                                                a.justify_center,
+                                                a.align_center,
+                                                {
+                                                    backgroundColor: 'black',
+                                                    opacity: 0.2,
+                                                },
+                                            ] }), _jsxs(View, { style: [a.align_center, a.gap_xs], children: [_jsx(Eye, { size: "lg", fill: "white" }), _jsx(Text, { style: [a.text_sm, { color: 'white' }], children: _(msg `Hidden`) })] })] })] }), listModUi.blur ? (_jsx(VideoPostCardTextPlaceholder, { author: post.author })) : (textAndAuthor)] }), _jsxs(Hider.Content, { children: [_jsxs(View, { style: [
+                                a.justify_center,
+                                a.rounded_md,
+                                a.overflow_hidden,
+                                {
+                                    backgroundColor: black,
+                                    aspectRatio: 9 / 16,
+                                },
+                            ], children: [_jsx(Image, { source: { uri: thumbnail }, style: [a.w_full, a.h_full, { opacity: pressed ? 0.8 : 1 }], accessibilityIgnoresInvertColors: true }), _jsx(MediaInsetBorder, {}), _jsx(View, { style: [a.absolute, a.inset_0], children: _jsxs(View, { style: [
+                                            a.absolute,
+                                            a.inset_0,
+                                            a.pt_2xl,
+                                            {
+                                                top: 'auto',
+                                            },
+                                        ], children: [_jsx(LinearGradient, { colors: [black, 'rgba(0, 0, 0, 0)'], locations: [0.02, 1], start: { x: 0, y: 1 }, end: { x: 0, y: 0 }, style: [a.absolute, a.inset_0, { opacity: 0.9 }] }), _jsxs(View, { style: [a.relative, a.z_10, a.p_md, a.flex_row, a.gap_md], children: [likeCount > 0 && (_jsxs(View, { style: [a.flex_row, a.align_center, a.gap_xs], children: [_jsx(Heart, { size: "sm", fill: "white" }), _jsx(Text, { style: [a.text_sm, a.font_bold, { color: 'white' }], children: formatCount(i18n, likeCount) })] })), repostCount > 0 && (_jsxs(View, { style: [a.flex_row, a.align_center, a.gap_xs], children: [_jsx(Repost, { size: "sm", fill: "white" }), _jsx(Text, { style: [a.text_sm, a.font_bold, { color: 'white' }], children: formatCount(i18n, repostCount) })] }))] })] }) })] }), textAndAuthor] })] }) }));
+}
+export function VideoPostCardPlaceholder() {
+    const t = useTheme();
+    const black = getBlackColor(t);
+    return (_jsxs(View, { style: [a.flex_1], children: [_jsx(View, { style: [
+                    a.rounded_md,
+                    a.overflow_hidden,
+                    {
+                        backgroundColor: black,
+                        aspectRatio: 9 / 16,
+                    },
+                ], children: _jsx(MediaInsetBorder, {}) }), _jsx(VideoPostCardTextPlaceholder, {})] }));
+}
+export function VideoPostCardTextPlaceholder({ author, }) {
+    const t = useTheme();
+    return (_jsx(View, { style: [a.flex_1], children: _jsxs(View, { style: [a.pr_xs, { paddingTop: 8, gap: 6 }], children: [_jsx(View, { style: [
+                        a.w_full,
+                        a.rounded_xs,
+                        t.atoms.bg_contrast_50,
+                        {
+                            height: 14,
+                        },
+                    ] }), _jsx(View, { style: [
+                        a.w_full,
+                        a.rounded_xs,
+                        t.atoms.bg_contrast_50,
+                        {
+                            height: 14,
+                            width: '70%',
+                        },
+                    ] }), author ? (_jsxs(View, { style: [a.flex_row, a.gap_xs, a.align_center], children: [_jsxs(View, { style: [a.relative, a.rounded_full, { width: 20, height: 20 }], children: [_jsx(UserAvatar, { type: "user", size: 20, avatar: author.avatar }), _jsx(MediaInsetBorder, {})] }), _jsx(Text, { style: [
+                                a.flex_1,
+                                a.text_sm,
+                                a.leading_tight,
+                                t.atoms.text_contrast_medium,
+                            ], numberOfLines: 1, children: sanitizeHandle(author.handle, '@') })] })) : (_jsxs(View, { style: [a.flex_row, a.gap_xs, a.align_center], children: [_jsx(View, { style: [
+                                a.rounded_full,
+                                t.atoms.bg_contrast_50,
+                                {
+                                    width: 20,
+                                    height: 20,
+                                },
+                            ] }), _jsx(View, { style: [
+                                a.rounded_xs,
+                                t.atoms.bg_contrast_25,
+                                {
+                                    height: 12,
+                                    width: '75%',
+                                },
+                            ] })] }))] }) }));
+}
+export function CompactVideoPostCard({ post, sourceContext, moderation, onInteract, }) {
+    const t = useTheme();
+    const { _, i18n } = useLingui();
+    const embed = post.embed;
+    const { state: pressed, onIn: onPressIn, onOut: onPressOut, } = useInteractionState();
+    const mergedModui = useMemo(() => {
+        const modui = moderation.ui('contentList');
+        const mediaModui = moderation.ui('contentMedia');
+        modui.alerts = [...modui.alerts, ...mediaModui.alerts];
+        modui.blurs = [...modui.blurs, ...mediaModui.blurs];
+        modui.filters = [...modui.filters, ...mediaModui.filters];
+        modui.informs = [...modui.informs, ...mediaModui.informs];
+        return modui;
+    }, [moderation]);
+    /**
+     * Filtering should be done at a higher level, such as `PostFeed` or
+     * `PostFeedVideoGridRow`, but we need to protect here as well.
+     */
+    if (!AppBskyEmbedVideo.isView(embed))
+        return null;
+    const likeCount = post?.likeCount ?? 0;
+    const showLikeCount = false;
+    const { thumbnail } = embed;
+    const black = getBlackColor(t);
+    return (_jsx(Link, { label: _(msg `View video`), to: {
+            screen: 'VideoFeed',
+            params: {
+                ...sourceContext,
+                initialPostUri: post.uri,
+            },
+        }, onPress: () => {
+            onInteract?.();
+        }, onPressIn: onPressIn, onPressOut: onPressOut, style: [
+            a.flex_col,
+            t.atoms.shadow_sm,
+            {
+                alignItems: undefined,
+                justifyContent: undefined,
+            },
+        ], children: _jsxs(Hider.Outer, { modui: mergedModui, children: [_jsx(Hider.Mask, { children: _jsxs(View, { style: [
+                            a.justify_center,
+                            a.rounded_lg,
+                            a.overflow_hidden,
+                            a.border,
+                            t.atoms.border_contrast_low,
+                            {
+                                backgroundColor: black,
+                                aspectRatio: 9 / 16,
+                            },
+                        ], children: [_jsx(Image, { source: { uri: thumbnail }, style: [a.w_full, a.h_full, { opacity: pressed ? 0.8 : 1 }], accessibilityIgnoresInvertColors: true, blurRadius: 100 }), _jsx(MediaInsetBorder, {}), _jsxs(View, { style: [a.absolute, a.inset_0, a.justify_center, a.align_center], children: [_jsx(View, { style: [
+                                            a.absolute,
+                                            a.inset_0,
+                                            a.justify_center,
+                                            a.align_center,
+                                            a.border,
+                                            t.atoms.border_contrast_low,
+                                            {
+                                                backgroundColor: 'black',
+                                                opacity: 0.2,
+                                            },
+                                        ] }), _jsxs(View, { style: [a.align_center, a.gap_xs], children: [_jsx(Eye, { size: "lg", fill: "white" }), _jsx(Text, { style: [a.text_sm, { color: 'white' }], children: _(msg `Hidden`) })] })] })] }) }), _jsx(Hider.Content, { children: _jsxs(View, { style: [
+                            a.justify_center,
+                            a.rounded_lg,
+                            a.overflow_hidden,
+                            a.border,
+                            t.atoms.border_contrast_low,
+                            {
+                                backgroundColor: black,
+                                aspectRatio: 9 / 16,
+                            },
+                        ], children: [_jsx(Image, { source: { uri: thumbnail }, style: [a.w_full, a.h_full, { opacity: pressed ? 0.8 : 1 }], accessibilityIgnoresInvertColors: true }), _jsx(MediaInsetBorder, {}), _jsxs(View, { style: [a.absolute, a.inset_0, t.atoms.shadow_sm], children: [_jsx(View, { style: [a.absolute, a.inset_0, a.p_sm, { bottom: 'auto' }], children: _jsxs(View, { style: [a.relative, a.rounded_full, { width: 24, height: 24 }], children: [_jsx(UserAvatar, { type: "user", size: 24, avatar: post.author.avatar }), _jsx(MediaInsetBorder, {})] }) }), showLikeCount && (_jsxs(View, { style: [
+                                            a.absolute,
+                                            a.inset_0,
+                                            a.pt_2xl,
+                                            {
+                                                top: 'auto',
+                                            },
+                                        ], children: [_jsx(LinearGradient, { colors: [black, 'rgba(0, 0, 0, 0)'], locations: [0.02, 1], start: { x: 0, y: 1 }, end: { x: 0, y: 0 }, style: [a.absolute, a.inset_0, { opacity: 0.9 }] }), _jsx(View, { style: [a.relative, a.z_10, a.p_sm, a.flex_row, a.gap_md], children: likeCount > 0 && (_jsxs(View, { style: [a.flex_row, a.align_center, a.gap_xs], children: [_jsx(Heart, { size: "sm", fill: "white" }), _jsx(Text, { style: [a.text_sm, a.font_bold, { color: 'white' }], children: formatCount(i18n, likeCount) })] })) })] }))] })] }) })] }) }));
+}
+export function CompactVideoPostCardPlaceholder() {
+    const t = useTheme();
+    const black = getBlackColor(t);
+    return (_jsx(View, { style: [a.flex_1, t.atoms.shadow_sm], children: _jsx(View, { style: [
+                a.rounded_lg,
+                a.overflow_hidden,
+                a.border,
+                t.atoms.border_contrast_low,
+                {
+                    backgroundColor: black,
+                    aspectRatio: 9 / 16,
+                },
+            ], children: _jsx(MediaInsetBorder, {}) }) }));
+}
+//# sourceMappingURL=VideoPostCard.js.map

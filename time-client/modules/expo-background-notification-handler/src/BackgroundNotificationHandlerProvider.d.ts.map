@@ -1,0 +1,1 @@
+{"version":3,"file":"BackgroundNotificationHandlerProvider.d.ts","sourceRoot":"","sources":["BackgroundNotificationHandlerProvider.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAA;AAgBzB,eAAO,MAAM,oCAAoC,WACtB,CAAA;AAE3B,wBAAgB,yCAAyC,CAAC,EACxD,QAAQ,GACT,EAAE;IACD,QAAQ,EAAE,KAAK,CAAC,SAAS,CAAA;CAC1B,OA8CA"}

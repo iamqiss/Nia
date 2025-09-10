@@ -1,0 +1,1 @@
+{"version":3,"file":"getUserDisplayName.js","sourceRoot":"","sources":["getUserDisplayName.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,mBAAmB,EAAC,MAAM,6BAA6B,CAAA;AAC/D,OAAO,EAAC,cAAc,EAAC,MAAM,uBAAuB,CAAA;AAEpD,MAAM,UAAU,kBAAkB,CAEhC,KAAQ;IACR,OAAO,mBAAmB,CACxB,KAAK,CAAC,WAAW,IAAI,cAAc,CAAC,KAAK,CAAC,MAAM,EAAE,GAAG,CAAC,CACvD,CAAA;AACH,CAAC"}

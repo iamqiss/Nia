@@ -1,0 +1,1 @@
+{"version":3,"file":"AgeRestrictedScreen.d.ts","sourceRoot":"","sources":["AgeRestrictedScreen.tsx"],"names":[],"mappings":"AAgBA,wBAAgB,mBAAmB,CAAC,EAClC,QAAQ,EACR,WAAW,EACX,QAAQ,EACR,eAAe,GAChB,EAAE;IACD,QAAQ,EAAE,KAAK,CAAC,SAAS,CAAA;IACzB,WAAW,CAAC,EAAE,MAAM,CAAA;IACpB,QAAQ,CAAC,EAAE,MAAM,CAAA;IACjB,eAAe,CAAC,EAAE,KAAK,CAAC,SAAS,CAAA;CAClC,OAsEA"}

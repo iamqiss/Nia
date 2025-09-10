@@ -1,0 +1,1 @@
+{"version":3,"file":"SearchProfileCard.d.ts","sourceRoot":"","sources":["SearchProfileCard.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAC,KAAK,gBAAgB,EAAE,KAAK,cAAc,EAAC,MAAM,cAAc,CAAA;AAWvE,wBAAgB,iBAAiB,CAAC,EAChC,OAAO,EACP,cAAc,EACd,OAAO,EAAE,YAAY,GACtB,EAAE;IACD,OAAO,EAAE,gBAAgB,CAAC,gBAAgB,CAAA;IAC1C,cAAc,EAAE,cAAc,CAAA;IAC9B,OAAO,CAAC,EAAE,MAAM,IAAI,CAAA;CACrB,OAwCA"}

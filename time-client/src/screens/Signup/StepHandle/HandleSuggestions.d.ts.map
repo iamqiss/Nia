@@ -1,0 +1,1 @@
+{"version":3,"file":"HandleSuggestions.d.ts","sourceRoot":"","sources":["HandleSuggestions.tsx"],"names":[],"mappings":"AACA,OAAO,EAAC,KAAK,qCAAqC,EAAC,MAAM,cAAc,CAAA;AASvE,wBAAgB,iBAAiB,CAAC,EAChC,WAAW,EACX,QAAQ,GACT,EAAE;IACD,WAAW,EAAE,qCAAqC,CAAC,UAAU,EAAE,CAAA;IAC/D,QAAQ,EAAE,CACR,WAAW,EAAE,qCAAqC,CAAC,UAAU,KAC1D,IAAI,CAAA;CACV,OA6DA"}

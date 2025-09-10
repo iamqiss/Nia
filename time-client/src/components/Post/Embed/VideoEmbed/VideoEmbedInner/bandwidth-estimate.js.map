@@ -1,0 +1,1 @@
+{"version":3,"file":"bandwidth-estimate.js","sourceRoot":"","sources":["bandwidth-estimate.ts"],"names":[],"mappings":"AAAA,IAAI,uBAA2C,CAAA;AAE/C,MAAM,UAAU,GAAG;IACjB,OAAO,uBAAuB,CAAA;AAChC,CAAC;AAED,MAAM,UAAU,GAAG,CAAC,QAAgB;IAClC,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,EAAE,CAAC;QACrB,uBAAuB,GAAG,QAAQ,CAAA;IACpC,CAAC;AACH,CAAC"}

@@ -1,0 +1,148 @@
+// Prisma schema for user service (Twitter/Threads-like core)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Authentication
+  email              String    @unique
+  emailVerifiedAt    DateTime?
+  handle             String    @unique // username/handle
+  displayName        String
+  bio                String    @default("")
+  websiteUrl         String?
+  location           String?
+  avatarUrl          String?
+  bannerUrl          String?
+
+  // Security
+  passwordHash       String
+  isProtected        Boolean   @default(false)
+  isSuspended        Boolean   @default(false)
+  isDeleted          Boolean   @default(false)
+
+  // Preferences
+  isDiscoverable     Boolean   @default(true)
+  allowDMsFrom       String    @default("everyone") // everyone, following, nobody
+
+  // Counters (denormalized for speed)
+  followersCount     Int       @default(0)
+  followingCount     Int       @default(0)
+
+  sessions           Session[]
+  emailVerifications EmailVerification[]
+  passwordResets     PasswordResetToken[]
+  devices            Device[]
+  auditLogs          AuditLog[]
+
+  following          Follow[]  @relation("following")
+  followers          Follow[]  @relation("followers")
+
+  blocksInitiated    Block[]   @relation("blocksInitiated")
+  blocksReceived     Block[]   @relation("blocksReceived")
+
+  mutesInitiated     Mute[]    @relation("mutesInitiated")
+  mutesReceived      Mute[]    @relation("mutesReceived")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+
+  // Session tokens
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  revokedAt    DateTime?
+}
+
+model EmailVerification {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  token        String   @unique
+  expiresAt    DateTime
+  usedAt       DateTime?
+}
+
+model PasswordResetToken {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  token        String   @unique
+  expiresAt    DateTime
+  usedAt       DateTime?
+}
+
+model Follow {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  followerId   String
+  followingId  String
+  follower     User     @relation("following", fields: [followerId], references: [id])
+  following    User     @relation("followers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+}
+
+model Block {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  blockerId    String
+  blockedId    String
+  blocker      User     @relation("blocksInitiated", fields: [blockerId], references: [id])
+  blocked      User     @relation("blocksReceived", fields: [blockedId], references: [id])
+
+  @@unique([blockerId, blockedId])
+}
+
+model Mute {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  muterId      String
+  mutedId      String
+  muter        User     @relation("mutesInitiated", fields: [muterId], references: [id])
+  muted        User     @relation("mutesReceived", fields: [mutedId], references: [id])
+
+  @@unique([muterId, mutedId])
+}
+
+model Device {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  deviceId     String
+  platform     String
+  lastActiveAt DateTime @default(now())
+
+  @@unique([userId, deviceId])
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  action       String
+  ipAddress    String?
+  userAgent    String?
+  metadata     Json?
+}
+

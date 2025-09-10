@@ -1,0 +1,143 @@
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
+import React from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, useWindowDimensions, View, } from 'react-native';
+import Animated, { measure, runOnJS, useAnimatedRef, useFrameCallback, } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { WebView } from 'react-native-webview';
+import { Image } from 'expo-image';
+import {} from '@atproto/api';
+import { msg } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
+import { useNavigation } from '@react-navigation/native';
+import {} from '#/lib/routes/types';
+import { getPlayerAspect, } from '#/lib/strings/embed-player';
+import { isNative } from '#/platform/detection';
+import { useExternalEmbedsPrefs } from '#/state/preferences';
+import { EventStopper } from '#/view/com/util/EventStopper';
+import { atoms as a, useTheme } from '#/alf';
+import { useDialogControl } from '#/components/Dialog';
+import { EmbedConsentDialog } from '#/components/dialogs/EmbedConsent';
+import { Fill } from '#/components/Fill';
+import { PlayButtonIcon } from '#/components/video/PlayButtonIcon';
+// This renders the overlay when the player is either inactive or loading as a separate layer
+function PlaceholderOverlay({ isLoading, isPlayerActive, onPress, }) {
+    const { _ } = useLingui();
+    // If the player is active and not loading, we don't want to show the overlay.
+    if (isPlayerActive && !isLoading)
+        return null;
+    return (_jsx(View, { style: [a.absolute, a.inset_0, styles.overlayLayer], children: _jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: _(msg `Play Video`), accessibilityHint: _(msg `Plays the video`), onPress: onPress, style: [styles.overlayContainer], children: !isPlayerActive ? (_jsx(PlayButtonIcon, {})) : (_jsx(ActivityIndicator, { size: "large", color: "white" })) }) }));
+}
+// This renders the webview/youtube player as a separate layer
+function Player({ params, onLoad, isPlayerActive, }) {
+    // ensures we only load what's requested
+    // when it's a youtube video, we need to allow both bsky.app and youtube.com
+    const onShouldStartLoadWithRequest = React.useCallback((event) => event.url === params.playerUri ||
+        (params.source.startsWith('youtube') &&
+            event.url.includes('www.youtube.com')), [params.playerUri, params.source]);
+    // Don't show the player until it is active
+    if (!isPlayerActive)
+        return null;
+    return (_jsx(EventStopper, { style: [a.absolute, a.inset_0, styles.playerLayer], children: _jsx(WebView, { javaScriptEnabled: true, onShouldStartLoadWithRequest: onShouldStartLoadWithRequest, mediaPlaybackRequiresUserAction: false, allowsInlineMediaPlayback: true, bounces: false, allowsFullscreenVideo: true, nestedScrollEnabled: true, source: { uri: params.playerUri }, onLoad: onLoad, style: styles.webview, setSupportMultipleWindows: false }) }));
+}
+// This renders the player area and handles the logic for when to show the player and when to show the overlay
+export function ExternalPlayer({ link, params, }) {
+    const t = useTheme();
+    const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
+    const windowDims = useWindowDimensions();
+    const externalEmbedsPrefs = useExternalEmbedsPrefs();
+    const consentDialogControl = useDialogControl();
+    const [isPlayerActive, setPlayerActive] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const aspect = React.useMemo(() => {
+        return getPlayerAspect({
+            type: params.type,
+            width: windowDims.width,
+            hasThumb: !!link.thumb,
+        });
+    }, [params.type, windowDims.width, link.thumb]);
+    const viewRef = useAnimatedRef();
+    const frameCallback = useFrameCallback(() => {
+        const measurement = measure(viewRef);
+        if (!measurement)
+            return;
+        const { height: winHeight, width: winWidth } = windowDims;
+        // Get the proper screen height depending on what is going on
+        const realWinHeight = isNative // If it is native, we always want the larger number
+            ? winHeight > winWidth
+                ? winHeight
+                : winWidth
+            : winHeight; // On web, we always want the actual screen height
+        const top = measurement.pageY;
+        const bot = measurement.pageY + measurement.height;
+        // We can use the same logic on all platforms against the screenHeight that we get above
+        const isVisible = top <= realWinHeight - insets.bottom && bot >= insets.top;
+        if (!isVisible) {
+            runOnJS(setPlayerActive)(false);
+        }
+    }, false); // False here disables autostarting the callback
+    // watch for leaving the viewport due to scrolling
+    React.useEffect(() => {
+        // We don't want to do anything if the player isn't active
+        if (!isPlayerActive)
+            return;
+        // Interval for scrolling works in most cases, However, for twitch embeds, if we navigate away from the screen the webview will
+        // continue playing. We need to watch for the blur event
+        const unsubscribe = navigation.addListener('blur', () => {
+            setPlayerActive(false);
+        });
+        // Start watching for changes
+        frameCallback.setActive(true);
+        return () => {
+            unsubscribe();
+            frameCallback.setActive(false);
+        };
+    }, [navigation, isPlayerActive, frameCallback]);
+    const onLoad = React.useCallback(() => {
+        setIsLoading(false);
+    }, []);
+    const onPlayPress = React.useCallback((event) => {
+        // Prevent this from propagating upward on web
+        event.preventDefault();
+        if (externalEmbedsPrefs?.[params.source] === undefined) {
+            consentDialogControl.open();
+            return;
+        }
+        setPlayerActive(true);
+    }, [externalEmbedsPrefs, consentDialogControl, params.source]);
+    const onAcceptConsent = React.useCallback(() => {
+        setPlayerActive(true);
+    }, []);
+    return (_jsxs(_Fragment, { children: [_jsx(EmbedConsentDialog, { control: consentDialogControl, source: params.source, onAccept: onAcceptConsent }), _jsxs(Animated.View, { ref: viewRef, collapsable: false, style: [aspect, a.overflow_hidden], children: [link.thumb && (!isPlayerActive || isLoading) ? (_jsxs(_Fragment, { children: [_jsx(Image, { style: [a.flex_1], source: { uri: link.thumb }, accessibilityIgnoresInvertColors: true }), _jsx(Fill, { style: [
+                                    t.name === 'light' ? t.atoms.bg_contrast_975 : t.atoms.bg,
+                                    {
+                                        opacity: 0.3,
+                                    },
+                                ] })] })) : (_jsx(Fill, { style: [
+                            {
+                                backgroundColor: t.name === 'light' ? t.palette.contrast_975 : 'black',
+                                opacity: 0.3,
+                            },
+                        ] })), _jsx(PlaceholderOverlay, { isLoading: isLoading, isPlayerActive: isPlayerActive, onPress: onPlayPress }), _jsx(Player, { isPlayerActive: isPlayerActive, params: params, onLoad: onLoad })] })] }));
+}
+const styles = StyleSheet.create({
+    overlayContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    overlayLayer: {
+        zIndex: 2,
+    },
+    playerLayer: {
+        zIndex: 3,
+    },
+    webview: {
+        backgroundColor: 'transparent',
+    },
+    gifContainer: {
+        width: '100%',
+        overflow: 'hidden',
+    },
+});
+//# sourceMappingURL=ExternalPlayer.js.map

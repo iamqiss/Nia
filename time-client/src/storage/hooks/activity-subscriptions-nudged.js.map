@@ -1,0 +1,1 @@
+{"version":3,"file":"activity-subscriptions-nudged.js","sourceRoot":"","sources":["activity-subscriptions-nudged.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,MAAM,EAAE,UAAU,EAAC,MAAM,WAAW,CAAA;AAE5C,MAAM,UAAU,8BAA8B;IAC5C,MAAM,CAAC,2BAA2B,GAAG,KAAK,EAAE,8BAA8B,CAAC,GACzE,UAAU,CAAC,MAAM,EAAE,CAAC,6BAA6B,CAAC,CAAC,CAAA;IAErD,OAAO,CAAC,2BAA2B,EAAE,8BAA8B,CAAU,CAAA;AAC/E,CAAC"}

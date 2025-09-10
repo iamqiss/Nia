@@ -1,0 +1,18 @@
+import { AppBskyFeedDefs } from '@atproto/api';
+export const CONTENT_LABELS = ['porn', 'sexual', 'nudity', 'graphic-media'];
+export function labelsToInfo(labels) {
+    const label = labels?.find(label => CONTENT_LABELS.includes(label.val));
+    switch (label?.val) {
+        case 'porn':
+        case 'sexual':
+            return 'Adult Content';
+        case 'nudity':
+            return 'Non-sexual Nudity';
+        case 'gore':
+        case 'graphic-media':
+            return 'Graphic Media';
+        default:
+            return undefined;
+    }
+}
+//# sourceMappingURL=labels.js.map

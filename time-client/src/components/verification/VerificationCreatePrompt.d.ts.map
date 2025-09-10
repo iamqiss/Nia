@@ -1,0 +1,1 @@
+{"version":3,"file":"VerificationCreatePrompt.d.ts","sourceRoot":"","sources":["VerificationCreatePrompt.tsx"],"names":[],"mappings":"AAYA,OAAO,EAAC,KAAK,kBAAkB,EAAC,MAAM,qBAAqB,CAAA;AAM3D,OAAO,KAAK,KAAK,IAAI,MAAM,cAAc,CAAA;AAEzC,wBAAgB,wBAAwB,CAAC,EACvC,OAAO,EACP,OAAO,GACR,EAAE;IACD,OAAO,EAAE,kBAAkB,CAAA;IAC3B,OAAO,EAAE,IAAI,CAAC,OAAO,CAAC,cAAc,CAAA;CACrC,OA6EA"}

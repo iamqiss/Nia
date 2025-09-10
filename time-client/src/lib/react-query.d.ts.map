@@ -1,0 +1,1 @@
+{"version":3,"file":"react-query.d.ts","sourceRoot":"","sources":["react-query.tsx"],"names":[],"mappings":"AASA,OAAO,KAAK,KAAK,MAAM,OAAO,CAAA;AAM9B,eAAO,MAAM,gCAAgC,2BAA2B,CAAA;AA2HxE,wBAAgB,aAAa,CAAC,EAC5B,QAAQ,EACR,UAAU,GACX,EAAE;IACD,QAAQ,EAAE,KAAK,CAAC,SAAS,CAAA;IACzB,UAAU,EAAE,MAAM,GAAG,SAAS,CAAA;CAC/B,OAUA"}

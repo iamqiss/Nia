@@ -1,0 +1,1 @@
+{"version":3,"file":"ItemTextWithSubtitle.d.ts","sourceRoot":"","sources":["ItemTextWithSubtitle.tsx"],"names":[],"mappings":"AAOA,wBAAgB,oBAAoB,CAAC,EACnC,SAAS,EACT,YAAY,EACZ,IAAY,EACZ,YAAoB,GACrB,EAAE;IACD,SAAS,EAAE,KAAK,CAAC,SAAS,CAAA;IAC1B,YAAY,EAAE,KAAK,CAAC,SAAS,CAAA;IAC7B,IAAI,CAAC,EAAE,OAAO,CAAA;IACd,YAAY,CAAC,EAAE,OAAO,CAAA;CACvB,OAgBA"}

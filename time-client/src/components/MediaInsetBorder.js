@@ -1,0 +1,28 @@
+import { jsx as _jsx } from "react/jsx-runtime";
+import { atoms as a, useTheme } from '#/alf';
+import { Fill } from '#/components/Fill';
+/**
+ * Applies and thin border within a bounding box. Used to contrast media from
+ * bg of the container.
+ */
+export function MediaInsetBorder({ children, style, opaque, }) {
+    const t = useTheme();
+    const isLight = t.name === 'light';
+    return (_jsx(Fill, { style: [
+            a.rounded_md,
+            a.border,
+            opaque
+                ? [t.atoms.border_contrast_low]
+                : [
+                    isLight
+                        ? t.atoms.border_contrast_low
+                        : t.atoms.border_contrast_high,
+                    { opacity: 0.6 },
+                ],
+            {
+                pointerEvents: 'none',
+            },
+            style,
+        ], children: children }));
+}
+//# sourceMappingURL=MediaInsetBorder.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"ExternalPlayer.d.ts","sourceRoot":"","sources":["ExternalPlayer.tsx"],"names":[],"mappings":"AAkBA,OAAO,EAAC,KAAK,oBAAoB,EAAC,MAAM,cAAc,CAAA;AAMtD,OAAO,EACL,KAAK,iBAAiB,EAEvB,MAAM,4BAA4B,CAAA;AA0FnC,wBAAgB,cAAc,CAAC,EAC7B,IAAI,EACJ,MAAM,GACP,EAAE;IACD,IAAI,EAAE,oBAAoB,CAAC,YAAY,CAAA;IACvC,MAAM,EAAE,iBAAiB,CAAA;CAC1B,OA2IA"}
