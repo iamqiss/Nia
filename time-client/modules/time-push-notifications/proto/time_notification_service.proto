@@ -1,0 +1,210 @@
+//
+// Copyright (c) 2025 Neo Qiss
+// All rights reserved.
+//
+// Proprietary and confidential.
+//
+
+syntax = "proto3";
+
+package time.notification;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// Device registration for push notifications
+message DeviceRegistrationRequest {
+  string user_id = 1;
+  string device_token = 2;
+  string platform = 3; // "ios", "android", "web"
+  string app_version = 4;
+  string os_version = 5;
+  string device_model = 6;
+  string timezone = 7;
+  string language = 8;
+  map<string, string> device_capabilities = 9;
+  google.protobuf.Timestamp registered_at = 10;
+}
+
+message DeviceRegistrationResponse {
+  bool success = 1;
+  string device_id = 2;
+  string message = 3;
+}
+
+// Device update request
+message DeviceUpdateRequest {
+  string user_id = 1;
+  string device_token = 2;
+  string platform = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message DeviceUpdateResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Device unregistration
+message DeviceUnregistrationRequest {
+  string user_id = 1;
+  string device_id = 2;
+}
+
+message DeviceUnregistrationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Notification acknowledgment
+message NotificationAcknowledgmentRequest {
+  string notification_id = 1;
+  string user_id = 2;
+  string action = 3; // "opened", "dismissed", "liked", "replied", etc.
+  double timestamp = 4;
+  map<string, string> metadata = 5;
+}
+
+message NotificationAcknowledgmentResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Notification preferences sync
+message NotificationPreferencesRequest {
+  string user_id = 1;
+  map<string, NotificationPreference> preferences = 2;
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+message NotificationPreference {
+  bool enabled = 1;
+  bool push_enabled = 2;
+  bool in_app_enabled = 3;
+  string frequency = 4; // "immediate", "daily", "weekly", "never"
+  map<string, string> custom_settings = 5;
+}
+
+message NotificationPreferencesResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Push notification sending
+message SendPushNotificationRequest {
+  string user_id = 1;
+  string title = 2;
+  string body = 3;
+  string category = 4;
+  map<string, string> data = 5;
+  string image_url = 6;
+  string sound = 7;
+  int32 badge_count = 8;
+  google.protobuf.Timestamp scheduled_at = 9;
+  map<string, string> custom_data = 10;
+}
+
+message SendPushNotificationResponse {
+  bool success = 1;
+  string message_id = 2;
+  string message = 3;
+}
+
+// Batch notification sending
+message SendBatchPushNotificationRequest {
+  repeated SendPushNotificationRequest notifications = 1;
+  bool use_batching = 2;
+  int32 batch_size = 3;
+}
+
+message SendBatchPushNotificationResponse {
+  bool success = 1;
+  repeated string message_ids = 2;
+  int32 success_count = 3;
+  int32 failure_count = 4;
+  string message = 5;
+}
+
+// Notification statistics
+message NotificationStatsRequest {
+  string user_id = 1;
+  google.protobuf.Timestamp start_date = 2;
+  google.protobuf.Timestamp end_date = 3;
+  string event_type = 4; // "sent", "delivered", "opened", "dismissed"
+}
+
+message NotificationStatsResponse {
+  bool success = 1;
+  map<string, int32> stats = 2;
+  double delivery_rate = 3;
+  double open_rate = 4;
+  double dismissal_rate = 5;
+  google.protobuf.Timestamp last_updated = 6;
+}
+
+// Device information
+message DeviceInfoRequest {
+  string user_id = 1;
+}
+
+message DeviceInfoResponse {
+  bool success = 1;
+  repeated DeviceInfo devices = 2;
+}
+
+message DeviceInfo {
+  string device_id = 1;
+  string platform = 2;
+  string app_version = 3;
+  string os_version = 4;
+  string device_model = 5;
+  bool is_active = 6;
+  google.protobuf.Timestamp last_seen = 7;
+  google.protobuf.Timestamp registered_at = 8;
+}
+
+// Health check
+message HealthCheckRequest {
+  string service = 1;
+}
+
+message HealthCheckResponse {
+  bool healthy = 1;
+  string status = 2;
+  map<string, string> details = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+// Time Push Notification Service
+service TimeNotificationService {
+  // Device management
+  rpc RegisterDevice(DeviceRegistrationRequest) returns (DeviceRegistrationResponse);
+  rpc UpdateDevice(DeviceUpdateRequest) returns (DeviceUpdateResponse);
+  rpc UnregisterDevice(DeviceUnregistrationRequest) returns (DeviceUnregistrationResponse);
+  rpc GetDeviceInfo(DeviceInfoRequest) returns (DeviceInfoResponse);
+  
+  // Notification sending
+  rpc SendPushNotification(SendPushNotificationRequest) returns (SendPushNotificationResponse);
+  rpc SendBatchPushNotification(SendBatchPushNotificationRequest) returns (SendBatchPushNotificationResponse);
+  
+  // Notification acknowledgment
+  rpc AcknowledgeNotification(NotificationAcknowledgmentRequest) returns (NotificationAcknowledgmentResponse);
+  
+  // Preferences management
+  rpc SyncNotificationPreferences(NotificationPreferencesRequest) returns (NotificationPreferencesResponse);
+  
+  // Statistics and monitoring
+  rpc GetNotificationStats(NotificationStatsRequest) returns (NotificationStatsResponse);
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+  
+  // Real-time updates (streaming)
+  rpc StreamNotificationUpdates(google.protobuf.Empty) returns (stream NotificationUpdate);
+}
+
+// Real-time notification updates
+message NotificationUpdate {
+  string type = 1; // "device_registered", "device_updated", "notification_sent", "notification_acknowledged"
+  string user_id = 2;
+  map<string, string> data = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
