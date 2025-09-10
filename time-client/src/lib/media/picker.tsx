@@ -1,4 +1,19 @@
+import { Platform } from 'react-native'
 import ExpoImageCropTool, {type OpenCropperOptions} from 'expo-image-crop-tool'
+
+// Use native implementation on mobile platforms, fallback to Expo on web
+const isNative = Platform.OS !== 'web'
+
+let nativePicker: any = null
+if (isNative) {
+  try {
+    nativePicker = require('./picker.native')
+  } catch (error) {
+    console.warn('Native camera module not available, falling back to Expo image picker')
+  }
+}
+
+// Fallback to Expo implementation
 import {type ImagePickerOptions, launchCameraAsync} from 'expo-image-picker'
 
 export {
@@ -8,6 +23,23 @@ export {
 } from './picker.shared'
 
 export async function openCamera(customOpts: ImagePickerOptions) {
+  // Use native implementation if available
+  if (isNative && nativePicker) {
+    try {
+      const asset = await nativePicker.openCamera(customOpts)
+      return {
+        path: asset.uri,
+        mime: asset.mimeType ?? 'image/jpeg',
+        size: asset.size ?? 0,
+        width: asset.width,
+        height: asset.height,
+      }
+    } catch (error) {
+      console.warn('Native camera failed, falling back to Expo:', error)
+    }
+  }
+
+  // Fallback to Expo implementation
   const opts: ImagePickerOptions = {
     mediaTypes: 'images',
     ...customOpts,

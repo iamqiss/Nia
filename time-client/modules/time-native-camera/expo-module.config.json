@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["TimeNativeCameraModule"]
+  },
+  "android": {
+    "modules": ["com.time.nativecamera.TimeNativeCameraModule"]
+  }
+}
