@@ -160,7 +160,6 @@
     "expo-task-manager": "~13.1.5",
     "expo-updates": "~0.28.14",
     "expo-video": "~2.2.1",
-    "expo-web-browser": "~14.1.6",
     "fast-text-encoding": "^1.0.6",
     "history": "^5.3.0",
     "hls.js": "^1.6.2",

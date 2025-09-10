@@ -1,6 +1,5 @@
 import {useCallback} from 'react'
 import {Linking} from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
 
 import {logEvent} from '#/lib/statsig/statsig'
 import {
@@ -18,9 +17,11 @@ import {useTheme} from '#/alf'
 import {useDialogContext} from '#/components/Dialog'
 import {useSheetWrapper} from '#/components/Dialog/sheet-wrapper'
 import {useGlobalDialogsControlContext} from '#/components/dialogs/Context'
+import {useInAppBrowser as useCustomInAppBrowser} from '#/components/InAppBrowser'
 
 export function useOpenLink() {
   const enabled = useInAppBrowser()
+  const customInAppBrowser = useCustomInAppBrowser()
   const t = useTheme()
   const sheetWrapper = useSheetWrapper()
   const dialogContext = useDialogContext()
@@ -58,25 +59,19 @@ export function useOpenLink() {
           }
           return
         } else if (override ?? enabled) {
-          await sheetWrapper(
-            WebBrowser.openBrowserAsync(url, {
-              presentationStyle:
-                WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
-              toolbarColor: t.atoms.bg.backgroundColor,
-              controlsColor: t.palette.primary_500,
-              createTask: false,
-            }).catch(err => {
-              if (__DEV__)
-                logger.error('Could not open web browser', {message: err})
-              Linking.openURL(url)
-            }),
-          )
+          try {
+            await customInAppBrowser.openBrowser(url)
+          } catch (err) {
+            if (__DEV__)
+              logger.error('Could not open custom in-app browser', {message: err})
+            Linking.openURL(url)
+          }
           return
         }
       }
       Linking.openURL(url)
     },
-    [enabled, inAppBrowserConsentControl, t, sheetWrapper, dialogContext],
+    [enabled, customInAppBrowser, inAppBrowserConsentControl, t, sheetWrapper, dialogContext],
   )
 
   return openLink
