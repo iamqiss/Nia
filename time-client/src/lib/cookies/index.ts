@@ -1,0 +1,1 @@
+export {CookieManager, cookieManager, type CookieData} from './cookieManager'
