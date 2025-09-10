@@ -295,6 +295,21 @@ class EnhancedOverdriveRankingService:
                     'user_interests': interest_score,
                     'freshness': freshness_score
                 })
+
+                # External link penalty (downrank posts with external URLs)
+                link_penalty = 0.0
+                try:
+                    content_text = (item.get("text") or item.get("content") or "").lower()
+                    urls = item.get("urls") or item.get("links") or []
+                    contains_link = (
+                        ("http://" in content_text) or ("https://" in content_text) or ("www." in content_text)
+                        or (isinstance(urls, list) and any(isinstance(u, str) and (u.startswith("http://") or u.startswith("https://")) for u in urls))
+                    )
+                    if contains_link:
+                        link_penalty = 0.12
+                        final_score = max(0.0, final_score - link_penalty)
+                except Exception:
+                    pass
                 
                 # Create ranking result
                 result = EnhancedRankingResult(
@@ -302,13 +317,14 @@ class EnhancedOverdriveRankingService:
                     final_score=final_score,
                     ranking_method="multi_approach",
                     confidence=self._calculate_confidence(content_score, cf_score, real_time_boost),
-                    explanation=self._generate_explanation(content_score, cf_score, real_time_boost),
+                    explanation=(self._generate_explanation(content_score, cf_score, real_time_boost) + ("; external link downrank applied" if link_penalty > 0 else "")),
                     feature_scores={
                         'content_based': content_score,
                         'collaborative': cf_score,
                         'real_time': real_time_boost,
                         'user_interests': interest_score,
-                        'freshness': freshness_score
+                        'freshness': freshness_score,
+                        'external_link_penalty': link_penalty
                     },
                     collaborative_scores=self._get_cf_scores(content_id, cf_recommendations),
                     real_time_boost=real_time_boost,
