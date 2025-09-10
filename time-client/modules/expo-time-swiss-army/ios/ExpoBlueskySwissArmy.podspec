@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
-  s.name           = 'ExpoBlueskySwissArmy'
+  s.name           = 'ExpoTimeSwissArmy'
   s.version        = '1.0.0'
-  s.summary        = 'A collection of native tools for Bluesky'
-  s.description    = 'A collection of native tools for Bluesky'
+  s.summary        = 'A collection of native tools for Time'
+  s.description    = 'A collection of native tools for Time'
   s.author         = ''
-  s.homepage       = 'https://github.com/bluesky-social/social-app'
+  s.homepage       = 'https://github.com/iamqiss/Nia'
   s.platforms      = { :ios => '13.4', :tvos => '13.4' }
   s.source         = { git: '' }
   s.static_framework = true
