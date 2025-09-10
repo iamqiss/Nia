@@ -333,8 +333,8 @@ module.exports = function (_config) {
               prerendered: true,
             },
             core_midnight: {
-              ios: './assets/app-icons/default-black-ios-icon.png',
-              android: './assets/app-icons/default-black-android-icon.png',
+              ios: './assets/app-icons/3d-slime-ios-icon.png',
+              android: './assets/app-icons/3d-slime-android-icon.png',
               prerendered: true,
             },
             core_flat_blue: {
@@ -353,8 +353,56 @@ module.exports = function (_config) {
               prerendered: true,
             },
             core_classic: {
-              ios: './assets/app-icons/3d-classic-ios-icon.jpg',
-              android: './assets/app-icons/3d-classic-android-icon.jpg',
+              ios: './assets/app-icons/3d-balloons-ios-icon.jpg',
+              android: './assets/app-icons/3d-balloons-android-icon.jpg',
+              prerendered: true,
+            },
+
+            /**
+             * Additional 3D icons
+             */
+            bananas: {
+              ios: './assets/app-icons/3d-bananas-ios-icon.jpg',
+              android: './assets/app-icons/3d-bananas-android-icon.jpg',
+              prerendered: true,
+            },
+            fruits: {
+              ios: './assets/app-icons/3d-fruits-ios-icon.jpg',
+              android: './assets/app-icons/3d-fruits-android-icon.jpg',
+              prerendered: true,
+            },
+            knit: {
+              ios: './assets/app-icons/3d-knit-ios-icon.png',
+              android: './assets/app-icons/3d-knit-android-icon.png',
+              prerendered: true,
+            },
+            lego: {
+              ios: './assets/app-icons/3d-lego-ios-icon.png',
+              android: './assets/app-icons/3d-lego-android-icon.png',
+              prerendered: true,
+            },
+            pizza: {
+              ios: './assets/app-icons/3d-pizza-ios-icon.png',
+              android: './assets/app-icons/3d-pizza-android-icon.png',
+              prerendered: true,
+            },
+            romans: {
+              ios: './assets/app-icons/3d-romans-ios-icon.jpg',
+              android: './assets/app-icons/3d-romans-android-icon.jpg',
+              prerendered: true,
+            },
+
+            /**
+             * Additional flat icons
+             */
+            flat_lime_pink: {
+              ios: './assets/app-icons/flat-lime-pink-ios-icon.png',
+              android: './assets/app-icons/flat-lime-pink-android-icon.png',
+              prerendered: true,
+            },
+            flat_purple_mint: {
+              ios: './assets/app-icons/flat-purple-mint-ios-icon.png',
+              android: './assets/app-icons/flat-purple-mint-android-icon.png',
               prerendered: true,
             },
           },
