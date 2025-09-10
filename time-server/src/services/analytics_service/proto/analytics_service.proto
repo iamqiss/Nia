@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package sonet.analytics;
+
+option csharp_namespace = "Sonet.Analytics";
+option java_multiple_files = true;
+option java_package = "com.sonet.analytics";
+option go_package = "sonet/analytics;analytics";
+
+// Core event model
+message Event {
+  string id = 1;                 // UUID
+  string type = 2;               // e.g., request.start, db.query, cache.hit
+  string source_service = 3;     // emitting service name
+  string user_id = 4;            // optional user id
+  string trace_id = 5;           // tracing id
+  string span_id = 6;            // span id
+  int64 timestamp_ms = 7;        // epoch millis
+  map<string, string> attributes = 8; // arbitrary attributes
+  double value = 9;              // optional numeric value (latency, size)
+}
+
+message IngestResponse { bool accepted = 1; uint32 queued = 2; }
+
+// Query range
+message TimeRange { int64 start_ms = 1; int64 end_ms = 2; }
+
+// Metric query
+message QueryRequest {
+  string metric = 1;                 // metric name, e.g., http.requests
+  string operation = 2;              // count,sum,avg,p50,p90,p99,unique
+  TimeRange range = 3;
+  uint32 step_seconds = 4;           // for timeseries; 0 for point-in-time
+  map<string, string> filters = 5;   // attribute filters (exact match)
+  repeated string group_by = 6;      // attributes to group by
+}
+
+message Point { int64 ts_ms = 1; double value = 2; }
+
+message Series { string key = 1; repeated Point points = 2; }
+
+message QueryResponse {
+  repeated Series series = 1;  // grouped time series
+  double total = 2;            // aggregate over range
+}
+
+message HealthCheckRequest {}
+message HealthCheckResponse { string status = 1; }
+
+service AnalyticsService {
+  // Stream ingest for high-throughput event intake
+  rpc Ingest(stream Event) returns (IngestResponse);
+  // Query aggregated analytics
+  rpc Query(QueryRequest) returns (QueryResponse);
+  // Simple health check
+  rpc Health(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
