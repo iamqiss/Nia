@@ -163,6 +163,24 @@ class OverdriveRankingService:
 				# Add interest matching bonus
 				interest_bonus = self._calculate_interest_bonus(item, user_interests)
 				final_score = boosted_score + interest_bonus
+
+				# External link penalty (downrank posts containing external URLs)
+				link_penalty = 0.0
+				try:
+					content_text = (item.get('content') or item.get('text') or '').lower()
+					urls = item.get('urls') or item.get('links') or []
+					# Heuristic: detect external links in content or explicit url fields
+					contains_link = (
+						('http://' in content_text) or ('https://' in content_text) or ('www.' in content_text)
+						or (isinstance(urls, list) and any(isinstance(u, str) and (u.startswith('http://') or u.startswith('https://')) for u in urls))
+					)
+					if contains_link:
+						# Apply a modest penalty, capped
+						link_penalty = 0.12
+						final_score -= link_penalty
+				except Exception:
+					# Be robust: ignore link parsing issues
+					pass
 				
 				final_scores.append({
 					'note_id': item.get('id', ''),
@@ -171,12 +189,13 @@ class OverdriveRankingService:
 						'ml_score': ml_score,
 						'cold_start_boost': cold_start_boost,
 						'interest_bonus': interest_bonus,
-						'content_quality': item_features_list[i].get('quality_score', 0.5)
+						'content_quality': item_features_list[i].get('quality_score', 0.5),
+						'external_link_penalty': link_penalty
 					},
 					'reasons': [
 						f"ML ranking score: {ml_score:.3f}",
 						f"Cold start boost: {cold_start_boost:.3f}",
-						f"Interest bonus: {interest_bonus:.3f}"
+						f"Interest bonus: {interest_bonus:.3f}" + ("; external link downrank applied" if link_penalty > 0 else "")
 					]
 				})
 			
