@@ -2,14 +2,114 @@ syntax = "proto3";
 
 package user_service;
 
-service UserserviceService {
+// Core User and Social Graph API for the Time app (Twitter-like)
+service UserService {
+    // Health
     rpc Ping(PingRequest) returns (PingResponse);
+
+    // Users
+    rpc CreateUser(CreateUserRequest) returns (UserResponse);
+    rpc GetUser(GetUserRequest) returns (UserResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+
+    // Profiles and search
+    rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse);
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+
+    // Social graph
+    rpc FollowUser(FollowUserRequest) returns (FollowUserResponse);
+    rpc UnfollowUser(UnfollowUserRequest) returns (UnfollowUserResponse);
+    rpc ListFollowers(ListFollowersRequest) returns (ListFollowersResponse);
+    rpc ListFollowing(ListFollowingRequest) returns (ListFollowingResponse);
 }
 
-message PingRequest {
-    string message = 1;
+// Common types
+message Pagination {
+    string cursor = 1; // opaque cursor
+    uint32 limit = 2;  // max items to return
 }
 
-message PingResponse {
-    string message = 1;
+message PageInfo {
+    string next_cursor = 1; // opaque cursor for next page
+    bool has_more = 2;
 }
+
+// User model
+message User {
+    string id = 1; // UUIDv4
+    string username = 2; // unique, lowercase
+    string email = 3; // unique
+    string display_name = 4;
+    string bio = 5;
+    string avatar_url = 6;
+    int64 created_at = 7; // epoch millis
+    int64 updated_at = 8; // epoch millis
+    uint64 followers_count = 9;
+    uint64 following_count = 10;
+}
+
+// Health
+message PingRequest { string message = 1; }
+message PingResponse { string message = 1; }
+
+// Create
+message CreateUserRequest {
+    string username = 1;
+    string email = 2;
+    string display_name = 3;
+    string bio = 4;
+    string avatar_url = 5;
+}
+
+// Get
+message GetUserRequest {
+    oneof by {
+        string id = 1;
+        string username = 2;
+        string email = 3;
+    }
+}
+
+message UserResponse { User user = 1; }
+
+// Update
+message UpdateUserRequest {
+    string id = 1;
+    optional string display_name = 2;
+    optional string bio = 3;
+    optional string avatar_url = 4;
+}
+
+// Delete
+message DeleteUserRequest { string id = 1; }
+message DeleteUserResponse { bool success = 1; }
+
+// Search and list
+message SearchUsersRequest {
+    string query = 1; // search over username/display_name/bio
+    Pagination page = 2;
+}
+message SearchUsersResponse {
+    repeated User users = 1;
+    PageInfo page = 2;
+}
+
+message ListUsersRequest { Pagination page = 1; }
+message ListUsersResponse {
+    repeated User users = 1;
+    PageInfo page = 2;
+}
+
+// Social graph
+message FollowUserRequest { string follower_id = 1; string followee_id = 2; }
+message FollowUserResponse { bool success = 1; }
+
+message UnfollowUserRequest { string follower_id = 1; string followee_id = 2; }
+message UnfollowUserResponse { bool success = 1; }
+
+message ListFollowersRequest { string user_id = 1; Pagination page = 2; }
+message ListFollowersResponse { repeated User users = 1; PageInfo page = 2; }
+
+message ListFollowingRequest { string user_id = 1; Pagination page = 2; }
+message ListFollowingResponse { repeated User users = 1; PageInfo page = 2; }
