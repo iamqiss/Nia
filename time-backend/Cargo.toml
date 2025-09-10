@@ -1,14 +1,6 @@
 [workspace]
 members = [
-    "services/auth-service",
-    "services/user-service", 
-    "services/post-service",
-    "services/timeline-service",
-    "services/notification-service",
-    "services/media-service",
-    "services/moderation-service",
-    "services/dm-service",
-    "gateway",
+    "services/user-service",
     "shared"
 ]
 
