@@ -19,9 +19,10 @@ bool FanoutController::load_from_dir(const std::string& dir_path) {
             if (!ifs) continue;
             json j; ifs >> j;
             EndpointDescriptor ep{};
-            ep.service_name = j.value("service_name", "");
+            // Support both legacy "service_name" and required "service"
+            ep.service_name = j.value("service", j.value("service_name", ""));
             ep.address = j.value("address", "");
-            ep.method = j.value("method", "IngestEvents");
+            ep.method = "DeliverEvents"; // fixed RPC for typed Fanout
             ep.max_batch_size = j.value("max_batch_size", 256);
             ep.request_timeout = std::chrono::milliseconds(j.value("request_timeout_ms", 200));
             ep.max_retry_backoff = std::chrono::milliseconds(j.value("max_retry_backoff_ms", 5000));
