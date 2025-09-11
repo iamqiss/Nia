@@ -67,7 +67,9 @@ std::string MetricsRegistry::render_prometheus() const {
     return oss.str();
 }
 
-// -------- GrpcTransport --------
+// -------- GrpcTransport (typed, async with CompletionQueue) --------
+
+#include "services/events.grpc.pb.h"
 
 std::shared_ptr<grpc::Channel> GrpcTransport::get_or_create_channel(const std::string& address) {
     std::lock_guard<std::mutex> lock(channel_mu_);
@@ -79,30 +81,37 @@ std::shared_ptr<grpc::Channel> GrpcTransport::get_or_create_channel(const std::s
 }
 
 std::future<bool> GrpcTransport::send_batch(const EndpointDescriptor& endpoint, const EventBatch& batch) {
-    // Use generic stub to call a method expecting a list of events serialized as JSON lines.
-    // This keeps cross-service dependency minimal.
-    return std::async(std::launch::async, [this, endpoint, batch](){
+    return std::async(std::launch::async, [this, endpoint, batch]() {
         auto channel = get_or_create_channel(endpoint.address);
+        auto stub = time::events::Fanout::NewStub(channel);
+
+        grpc::CompletionQueue cq;
         grpc::ClientContext ctx;
         ctx.set_deadline(std::chrono::system_clock::now() + endpoint.request_timeout);
 
-        // Prepare generic RPC: /{service}/{method}
-        std::string method_full = "/" + endpoint.service_name + "/" + endpoint.method;
-        auto stub = std::make_unique<grpc::GenericStub>(channel);
-
-        grpc::ByteBuffer request_buffer;
-        // Serialize batch as JSON lines for transport-agnostic ingestion
-        nlohmann::json arr = nlohmann::json::array();
+        time::events::EventBatch req;
         for (const auto& e : batch.events) {
-            arr.push_back({{"id", e.id}, {"type", e.type}, {"payload", e.payload}});
+            auto* be = req.add_events();
+            be->set_id(e.id);
+            be->set_type(e.type);
+            be->set_payload_json(e.payload.dump());
         }
-        auto s = arr.dump();
-        grpc::Slice slice(s.data(), s.size());
-        request_buffer = grpc::ByteBuffer(&slice, 1);
 
-        grpc::ByteBuffer response_buffer;
-        auto status = stub->UnaryCall(&ctx, method_full, request_buffer, &response_buffer);
-        return status.ok();
+        time::events::Ack resp;
+        grpc::Status status;
+        auto rpc = stub->AsyncDeliverEvents(&ctx, req, &cq);
+
+        void* tag = reinterpret_cast<void*>(1);
+        bool ok = false;
+        rpc->Finish(&resp, &status, tag);
+        auto deadline = std::chrono::system_clock::now() + endpoint.request_timeout;
+        auto ns = cq.AsyncNext(&tag, &ok, deadline);
+        bool result_ok = false;
+        if (ns == grpc::CompletionQueue::GOT_EVENT && ok && status.ok()) {
+            result_ok = resp.ok();
+        }
+        cq.Shutdown();
+        return result_ok;
     });
 }
 
