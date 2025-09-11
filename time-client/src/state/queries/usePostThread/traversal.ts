@@ -1,5 +1,5 @@
 /* eslint-disable no-labels */
-import {AppBskyUnspeccedDefs, type ModerationOpts} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {
   type ApiThreadItem,

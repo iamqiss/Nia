@@ -1,4 +1,4 @@
-import {type AppBskyGraphDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {isInvalidHandle} from '#/lib/strings/handles'
 
@@ -52,7 +52,7 @@ export function makeStarterPackLink(
   if (typeof starterPackOrName === 'string') {
     return `https://bsky.app/start/${starterPackOrName}/${rkey}`
   } else {
-    const uriRkey = new AtUri(starterPackOrName.uri).rkey
+    const uriRkey = new GrpcUri(starterPackOrName.uri).rkey
     return `https://bsky.app/start/${starterPackOrName.creator.handle}/${uriRkey}`
   }
 }

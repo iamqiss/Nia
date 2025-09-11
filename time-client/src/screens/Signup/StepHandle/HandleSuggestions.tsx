@@ -1,5 +1,5 @@
 import Animated, {Easing, FadeInDown, FadeOut} from 'react-native-reanimated'
-import {type ComAtprotoTempCheckHandleAvailability} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

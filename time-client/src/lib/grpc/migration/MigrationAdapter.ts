@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
+// Migrated to gRPC;
 import { GrpcFeatureFlagManager } from './FeatureFlags';
 import TimeGrpcService, { 
   CreateNoteRequest, 
@@ -76,7 +76,7 @@ export class MigrationAdapter {
    */
   async createNote(
     request: CreateNoteRequest,
-    restAgent: BskyAgent,
+    restAgent: TimeGrpcClient,
     restQueryClient: any
   ): Promise<CreateNoteResponse> {
     if (this.shouldUseGrpc('createNote')) {
@@ -97,7 +97,7 @@ export class MigrationAdapter {
    */
   async getNote(
     request: GetNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<GetNoteResponse> {
     if (this.shouldUseGrpc('getNote')) {
       try {
@@ -116,7 +116,7 @@ export class MigrationAdapter {
    */
   async likeNote(
     request: LikeNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<LikeNoteResponse> {
     if (this.shouldUseGrpc('likeNote')) {
       try {
@@ -135,7 +135,7 @@ export class MigrationAdapter {
    */
   async renoteNote(
     request: RenoteNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<RenoteNoteResponse> {
     if (this.shouldUseGrpc('renoteNote')) {
       try {
@@ -154,7 +154,7 @@ export class MigrationAdapter {
    */
   async deleteNote(
     request: DeleteNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<DeleteNoteResponse> {
     if (this.shouldUseGrpc('deleteNote')) {
       try {
@@ -173,7 +173,7 @@ export class MigrationAdapter {
    */
   async loginUser(
     request: LoginUserRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<LoginUserResponse> {
     if (this.shouldUseGrpc('loginUser')) {
       try {
@@ -192,7 +192,7 @@ export class MigrationAdapter {
    */
   async registerUser(
     request: RegisterUserRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<RegisterUserResponse> {
     if (this.shouldUseGrpc('registerUser')) {
       try {
@@ -211,7 +211,7 @@ export class MigrationAdapter {
    */
   async getUserProfile(
     request: GetUserProfileRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<GetUserProfileResponse> {
     if (this.shouldUseGrpc('getUserProfile')) {
       try {
@@ -232,7 +232,7 @@ export class MigrationAdapter {
    */
   private async createNoteRest(
     request: CreateNoteRequest,
-    restAgent: BskyAgent,
+    restAgent: TimeGrpcClient,
     restQueryClient: any
   ): Promise<CreateNoteResponse> {
     try {
@@ -265,7 +265,7 @@ export class MigrationAdapter {
    */
   private async getNoteRest(
     request: GetNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<GetNoteResponse> {
     try {
       // Use existing REST API
@@ -306,7 +306,7 @@ export class MigrationAdapter {
    */
   private async likeNoteRest(
     request: LikeNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<LikeNoteResponse> {
     try {
       if (request.like) {
@@ -334,7 +334,7 @@ export class MigrationAdapter {
    */
   private async renoteNoteRest(
     request: RenoteNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<RenoteNoteResponse> {
     try {
       const response = await restAgent.repost(request.noteId, '');
@@ -358,7 +358,7 @@ export class MigrationAdapter {
    */
   private async deleteNoteRest(
     request: DeleteNoteRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<DeleteNoteResponse> {
     try {
       await restAgent.deletePost(request.noteId);
@@ -380,7 +380,7 @@ export class MigrationAdapter {
    */
   private async loginUserRest(
     request: LoginUserRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<LoginUserResponse> {
     try {
       const response = await restAgent.login({
@@ -435,7 +435,7 @@ export class MigrationAdapter {
    */
   private async registerUserRest(
     request: RegisterUserRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<RegisterUserResponse> {
     try {
       const response = await restAgent.createAccount({
@@ -492,7 +492,7 @@ export class MigrationAdapter {
    */
   private async getUserProfileRest(
     request: GetUserProfileRequest,
-    restAgent: BskyAgent
+    restAgent: TimeGrpcClient
   ): Promise<GetUserProfileResponse> {
     try {
       const response = await restAgent.getProfile({

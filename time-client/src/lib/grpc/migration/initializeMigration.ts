@@ -26,7 +26,7 @@ export async function initializeGrpcMigration(): Promise<void> {
     await migrationScript.initialize(grpcConfig);
     
     // Initialize API migration service
-    const apiMigrationService = ApiMigrationService.getInstance();
+    const apiMigrationService = ;
     await apiMigrationService.initialize(grpcConfig);
     
     // Check if we should start migration

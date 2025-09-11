@@ -1,4 +1,4 @@
-import {type ValidationResult} from '@atproto/lexicon'
+import {type ValidationResult} from '#/lib/grpc/TimeGrpcClient'
 
 export * as post from '#/types/bsky/post'
 export * as profile from '#/types/bsky/profile'

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {type AppBskyUnspeccedGetPostThreadV2} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 /**
  * See the `below` param on {@link AppBskyUnspeccedGetPostThreadV2.QueryParams}

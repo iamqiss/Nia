@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type Data = Record<string, unknown> | undefined
 

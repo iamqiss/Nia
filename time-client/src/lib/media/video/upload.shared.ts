@@ -1,4 +1,4 @@
-import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type I18n} from '@lingui/core'
 import {msg} from '@lingui/macro'
 
@@ -13,7 +13,7 @@ export async function getServiceAuthToken({
   lxm,
   exp,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   aud?: string
   lxm: string
   exp?: number
@@ -30,7 +30,7 @@ export async function getServiceAuthToken({
   return serviceAuth.token
 }
 
-export async function getVideoUploadLimits(agent: BskyAgent, _: I18n['_']) {
+export async function getVideoUploadLimits(agent: TimeGrpcClient, _: I18n['_']) {
   const token = await getServiceAuthToken({
     agent,
     lxm: 'app.bsky.video.getUploadLimits',

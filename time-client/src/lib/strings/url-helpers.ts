@@ -1,4 +1,4 @@
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import psl from 'psl'
 import TLDs from 'tlds'
 
@@ -41,7 +41,7 @@ export function makeRecordUri(
   collection: string,
   rkey: string,
 ) {
-  const urip = new AtUri('at://host/')
+  const urip = new GrpcUri('at://host/')
   urip.host = didOrName
   urip.collection = collection
   urip.rkey = rkey
@@ -211,7 +211,7 @@ export function convertBskyAppUrlIfNeeded(url: string): string {
 
 export function listUriToHref(url: string): string {
   try {
-    const {hostname, rkey} = new AtUri(url)
+    const {hostname, rkey} = new GrpcUri(url)
     return `/profile/${hostname}/lists/${rkey}`
   } catch {
     return ''
@@ -220,7 +220,7 @@ export function listUriToHref(url: string): string {
 
 export function feedUriToHref(url: string): string {
   try {
-    const {hostname, rkey} = new AtUri(url)
+    const {hostname, rkey} = new GrpcUri(url)
     return `/profile/${hostname}/feed/${rkey}`
   } catch {
     return ''
@@ -232,7 +232,7 @@ export function postUriToRelativePath(
   options?: {handle?: string},
 ): string | undefined {
   try {
-    const {hostname, rkey} = new AtUri(uri)
+    const {hostname, rkey} = new GrpcUri(uri)
     const handleOrDid =
       options?.handle && !isInvalidHandle(options.handle)
         ? options.handle

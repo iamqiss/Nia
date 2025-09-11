@@ -1,5 +1,3 @@
-import {type AppBskyLabelerDefs, ComAtprotoModerationDefs} from '@atproto/api'
-
 import {type ReportOption} from './utils/useReportOptions'
 
 export type ReportState = {

@@ -1,14 +1,4 @@
-import {
-  type $Typed,
-  AppBskyEmbedExternal,
-  AppBskyEmbedImages,
-  AppBskyEmbedRecord,
-  AppBskyEmbedRecordWithMedia,
-  AppBskyEmbedVideo,
-  AppBskyFeedDefs,
-  AppBskyGraphDefs,
-  AppBskyLabelerDefs,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type Embed =
   | {

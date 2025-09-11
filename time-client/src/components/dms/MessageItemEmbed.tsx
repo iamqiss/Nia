@@ -1,6 +1,6 @@
 import React from 'react'
 import {useWindowDimensions, View} from 'react-native'
-import {type $Typed, type AppBskyEmbedRecord} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {atoms as a, native, tokens, useTheme, web} from '#/alf'
 import {PostEmbedViewContext} from '#/components/Post/Embed'

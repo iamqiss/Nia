@@ -1,20 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyEmbedExternal,
-  type AppBskyEmbedImages,
-  type AppBskyEmbedRecord,
-  type AppBskyEmbedRecordWithMedia,
-  type AppBskyEmbedVideo,
-  type AppBskyFeedPost,
-  AtUri,
-  BlobRef,
-  type BskyAgent,
-  type ComAtprotoLabelDefs,
-  type ComAtprotoRepoApplyWrites,
-  type ComAtprotoRepoStrongRef,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
-import {TID} from '@atproto/common-web'
+// Migrated to gRPC
 import * as dcbor from '@ipld/dag-cbor'
 import {t} from '@lingui/macro'
 import {type QueryClient} from '@tanstack/react-query'
@@ -52,7 +36,7 @@ interface PostOpts {
 }
 
 export async function post(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   opts: PostOpts,
 ) {
@@ -79,7 +63,7 @@ export async function post(
   const uris: string[] = []
 
   let now = new Date()
-  let tid: TID | undefined
+  let tid: GrpcTID | undefined
 
   for (let i = 0; i < thread.posts.length; i++) {
     const draft = thread.posts[i]
@@ -103,7 +87,7 @@ export async function post(
     // The sorting behavior for multiple posts sharing the same createdAt time is
     // undefined, so what we'll do here is increment the time by 1 for every post
     now.setMilliseconds(now.getMilliseconds() + 1)
-    tid = TID.next(tid)
+    tid = GrpcTID.next(tid)
     const rkey = tid.toString()
     const uri = `at://${did}/app.bsky.feed.post/${rkey}`
     uris.push(uri)
@@ -172,7 +156,7 @@ export async function post(
   }
 
   try {
-    await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+    await 
       repo: agent.assertDid,
       writes: writes,
       validate: true,
@@ -193,13 +177,13 @@ export async function post(
   return {uris}
 }
 
-async function resolveRT(agent: BskyAgent, richtext: RichText) {
+async function resolveRT(agent: TimeGrpcClient, richtext: GrpcRichText) {
   const trimmedText = richtext.text
     // Trim leading whitespace-only lines (but don't break ASCII art).
     .replace(/^(\s*\n)+/, '')
     // Trim any trailing whitespace.
     .trimEnd()
-  let rt = new RichText({text: trimmedText}, {cleanNewlines: true})
+  let rt = new GrpcRichText({text: trimmedText}, {cleanNewlines: true})
   await rt.detectFacets(agent)
 
   rt = shortenLinks(rt)
@@ -207,8 +191,8 @@ async function resolveRT(agent: BskyAgent, richtext: RichText) {
   return rt
 }
 
-async function resolveReply(agent: BskyAgent, replyTo: string) {
-  const replyToUrip = new AtUri(replyTo)
+async function resolveReply(agent: TimeGrpcClient, replyTo: string) {
+  const replyToUrip = new GrpcUri(replyTo)
   const parentPost = await // agent.getPost - replaced with gRPC({
     repo: replyToUrip.host,
     rkey: replyToUrip.rkey,
@@ -226,7 +210,7 @@ async function resolveReply(agent: BskyAgent, replyTo: string) {
 }
 
 async function resolveEmbed(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   draft: PostDraft,
   onStateChange: ((state: string) => void) | undefined,
@@ -284,7 +268,7 @@ async function resolveEmbed(
 }
 
 async function resolveMedia(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   embedDraft: EmbedDraft,
   onStateChange: ((state: string) => void) | undefined,
@@ -363,7 +347,7 @@ async function resolveMedia(
       agent,
       gifDraft.gif,
     )
-    let blob: BlobRef | undefined
+    let blob: GrpcBlobRef | undefined
     if (resolvedGif.thumb) {
       onStateChange?.(t`Uploading link thumbnail...`)
       const {path, mime} = resolvedGif.thumb.source
@@ -387,7 +371,7 @@ async function resolveMedia(
       embedDraft.link.uri,
     )
     if (resolvedLink.type === 'external') {
-      let blob: BlobRef | undefined
+      let blob: GrpcBlobRef | undefined
       if (resolvedLink.thumb) {
         onStateChange?.(t`Uploading link thumbnail...`)
         const {path, mime} = resolvedLink.thumb.source
@@ -409,7 +393,7 @@ async function resolveMedia(
 }
 
 async function resolveRecord(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string,
 ): Promise<ComAtprotoRepoStrongRef.Main> {
@@ -433,7 +417,7 @@ const mf_sha256 = Hasher.from({
 
 async function computeCid(record: AppBskyFeedPost.Record): Promise<string> {
   // IMPORTANT: `prepareObject` prepares the record to be hashed by removing
-  // fields with undefined value, and converting BlobRef instances to the
+  // fields with undefined value, and converting GrpcBlobRef instances to the
   // right IPLD representation.
   const prepared = prepareForHashing(record)
   // 1. Encode the record into DAG-CBOR format
@@ -448,10 +432,10 @@ async function computeCid(record: AppBskyFeedPost.Record): Promise<string> {
 
 // Returns a transformed version of the object for use in DAG-CBOR.
 function prepareForHashing(v: any): any {
-  // IMPORTANT: BlobRef#ipld() returns the correct object we need for hashing,
+  // IMPORTANT: GrpcBlobRef#ipld() returns the correct object we need for hashing,
   // the API client will convert this for you but we're hashing in the client,
   // so we need it *now*.
-  if (v instanceof BlobRef) {
+  if (v instanceof GrpcBlobRef) {
     return v.ipld()
   }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AtpSessionEvent, type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {isWeb} from '#/platform/detection'
 import * as persisted from '#/state/persisted'
@@ -32,7 +32,7 @@ const StateContext = React.createContext<SessionStateContext>({
 })
 StateContext.displayName = 'SessionStateContext'
 
-const AgentContext = React.createContext<BskyAgent | null>(null)
+const AgentContext = React.createContext<TimeGrpcClient | null>(null)
 AgentContext.displayName = 'SessionAgentContext'
 
 const ApiContext = React.createContext<SessionApiContext>({
@@ -55,7 +55,7 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
   })
 
   const onAgentSessionChange = React.useCallback(
-    (agent: BskyAgent, accountDid: string, sessionEvent: AtpSessionEvent) => {
+    (agent: TimeGrpcClient, accountDid: string, sessionEvent: AtpSessionEvent) => {
       const refreshedAccount = agentToSessionAccount(agent) // Mutable, so snapshot it right away.
       if (sessionEvent === 'expired' || sessionEvent === 'create-failed') {
         emitSessionDropped()
@@ -250,7 +250,7 @@ export function Provider({children}: React.PropsWithChildren<{}>) {
         if (syncedAccount.did !== state.currentAgentState.did) {
           resumeSession(syncedAccount)
         } else {
-          const agent = state.currentAgentState.agent as BskyAgent
+          const agent = state.currentAgentState.agent as TimeGrpcClient
           const prevSession = agent.session
           agent.sessionManager.session = sessionAccountToSession(syncedAccount)
           addSessionDebugLog({
@@ -360,7 +360,7 @@ export function useRequireAuth() {
   )
 }
 
-export function useAgent(): BskyAgent {
+export function useAgent(): TimeGrpcClient {
   const agent = React.useContext(AgentContext)
   if (!agent) {
     throw Error('useAgent() must be below <SessionProvider>.')

@@ -6,12 +6,7 @@ import {
   View,
   type ViewStyle,
 } from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  type AppBskyGraphDefs,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -314,7 +309,7 @@ function Rule({
   if (rule.type === 'list') {
     const list = lists?.find(l => l.uri === rule.list)
     if (list) {
-      const listUrip = new AtUri(list.uri)
+      const listUrip = new GrpcUri(list.uri)
       return (
         <Trans>
           <InlineLinkText

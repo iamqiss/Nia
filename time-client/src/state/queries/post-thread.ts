@@ -1,14 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  type AppBskyEmbedRecord,
-  AppBskyFeedDefs,
-  type AppBskyFeedGetPostThread,
-  AppBskyFeedPost,
-  AtUri,
-  moderatePost,
-  type ModerationDecision,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type QueryClient, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {
@@ -459,7 +449,7 @@ export function* findAllPostsInQueryData(
   queryClient: QueryClient,
   uri: string,
 ): Generator<ThreadNode, void> {
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
 
   const queryDatas = queryClient.getQueriesData<PostThreadQueryData>({
     queryKey: [RQKEY_ROOT],

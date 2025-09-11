@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyUnspeccedGetTrends, hasMutedWord} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useQuery} from '@tanstack/react-query'
 
 import {

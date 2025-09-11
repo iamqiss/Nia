@@ -1,4 +1,4 @@
-import {type ChatBskyConvoDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {EMOJI_REACTION_LIMIT} from '#/lib/constants'
 import type * as bsky from '#/types/bsky'

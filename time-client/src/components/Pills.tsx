@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {BSKY_LABELER_DID, type ModerationCause} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 
 import {useModerationCauseDescription} from '#/lib/moderation/useModerationCauseDescription'

@@ -1,11 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyGraphDefs,
-  AtUri,
-  moderateUserList,
-  type ModerationUI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -161,7 +156,7 @@ export function createProfileListHref({
 }: {
   list: AppBskyGraphDefs.ListView
 }) {
-  const urip = new AtUri(list.uri)
+  const urip = new GrpcUri(list.uri)
   const handleOrDid = list.creator.handle || list.creator.did
   return `/profile/${handleOrDid}/lists/${urip.rkey}`
 }

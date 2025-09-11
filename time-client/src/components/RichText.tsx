@@ -1,20 +1,20 @@
 import React from 'react'
 import {type TextStyle} from 'react-native'
-import {AppBskyRichtextFacet, RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {toShortUrl} from '#/lib/strings/url-helpers'
 import {atoms as a, flatten, type TextStyleProp} from '#/alf'
 import {isOnlyEmoji} from '#/alf/typography'
 import {InlineLinkText, type LinkProps} from '#/components/Link'
 import {ProfileHoverCard} from '#/components/ProfileHoverCard'
-import {RichTextTag} from '#/components/RichTextTag'
+import {GrpcRichTextTag} from '#/components/GrpcRichTextTag'
 import {Text, type TextProps} from '#/components/Typography'
 
 const WORD_WRAP = {wordWrap: 1}
 
-export type RichTextProps = TextStyleProp &
+export type GrpcRichTextProps = TextStyleProp &
   Pick<TextProps, 'selectable' | 'onLayout' | 'onTextLayout'> & {
-    value: RichTextAPI | string
+    value: GrpcRichTextAPI | string
     testID?: string
     numberOfLines?: number
     disableLinks?: boolean
@@ -26,7 +26,7 @@ export type RichTextProps = TextStyleProp &
     shouldProxyLinks?: boolean
   }
 
-export function RichText({
+export function GrpcRichText({
   testID,
   value,
   style,
@@ -41,10 +41,10 @@ export function RichText({
   onLayout,
   onTextLayout,
   shouldProxyLinks,
-}: RichTextProps) {
+}: GrpcRichTextProps) {
   const richText = React.useMemo(
     () =>
-      value instanceof RichTextAPI ? value : new RichTextAPI({text: value}),
+      value instanceof GrpcRichTextAPI ? value : new GrpcRichTextAPI({text: value}),
     [value],
   )
 
@@ -145,7 +145,7 @@ export function RichText({
       AppBskyRichtextFacet.validateTag(tag).success
     ) {
       els.push(
-        <RichTextTag
+        <GrpcRichTextTag
           key={key}
           display={segment.text}
           tag={tag.tag}

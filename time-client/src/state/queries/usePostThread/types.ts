@@ -1,12 +1,4 @@
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  type AppBskyUnspeccedDefs,
-  type AppBskyUnspeccedGetPostThreadOtherV2,
-  type AppBskyUnspeccedGetPostThreadV2,
-  type ModerationDecision,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type ApiThreadItem =
   | AppBskyUnspeccedGetPostThreadV2.ThreadItem

@@ -1,7 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  type AppBskyActorSearchActors,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   keepPreviousData,

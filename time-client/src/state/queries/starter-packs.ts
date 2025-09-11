@@ -1,13 +1,4 @@
-import {
-  type AppBskyFeedDefs,
-  AppBskyGraphDefs,
-  type AppBskyGraphGetStarterPack,
-  AppBskyGraphStarterpack,
-  type AppBskyRichtextFacet,
-  AtUri,
-  type BskyAgent,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type QueryClient,
   useMutation,
@@ -20,7 +11,7 @@ import {until} from '#/lib/async/until'
 import {createStarterPackList} from '#/lib/generate-starterpack'
 import {
   createStarterPackUri,
-  httpStarterPackUriToAtUri,
+  httpStarterPackUriToGrpcUri,
   parseStarterPackUri,
 } from '#/lib/strings/starter-pack'
 import {invalidateActorStarterPacksQuery} from '#/state/queries/actor-starter-packs'
@@ -64,7 +55,7 @@ export function useStarterPackQuery({
       if (!uri) {
         uri = `at://${did}/app.bsky.graph.starterpack/${rkey}`
       } else if (uri && !uri.startsWith('at://')) {
-        uri = httpStarterPackUriToAtUri(uri) as string
+        uri = httpStarterPackUriToGrpcUri(uri) as string
       }
 
       const res = await agent.app.bsky.graph.getStarterPack({
@@ -114,7 +105,7 @@ export function useCreateStarterPackMutation({
     mutationFn: async ({name, description, feeds, profiles}) => {
       let descriptionFacets: AppBskyRichtextFacet.Main[] | undefined
       if (description) {
-        const rt = new RichText({text: description})
+        const rt = new GrpcRichText({text: description})
         await rt.detectFacets(agent)
         descriptionFacets = rt.facets
       }
@@ -186,7 +177,7 @@ export function useEditStarterPackMutation({
     }) => {
       let descriptionFacets: AppBskyRichtextFacet.Main[] | undefined
       if (description) {
-        const rt = new RichText({text: description})
+        const rt = new GrpcRichText({text: description})
         await rt.detectFacets(agent)
         descriptionFacets = rt.facets
       }
@@ -203,12 +194,12 @@ export function useEditStarterPackMutation({
       if (removedItems.length !== 0) {
         const chunks = chunk(removedItems, 50)
         for (const chunk of chunks) {
-          await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+          await 
             repo: agent.session!.did,
             writes: chunk.map(i => ({
               $type: 'com.atproto.repo.applyWrites#delete',
               collection: 'app.bsky.graph.listitem',
-              rkey: new AtUri(i.uri).rkey,
+              rkey: new GrpcUri(i.uri).rkey,
             })),
           })
         }
@@ -220,7 +211,7 @@ export function useEditStarterPackMutation({
       if (addedProfiles.length > 0) {
         const chunks = chunk(addedProfiles, 50)
         for (const chunk of chunks) {
-          await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+          await 
             repo: agent.session!.did,
             writes: chunk.map(p => ({
               $type: 'com.atproto.repo.applyWrites#create',
@@ -299,7 +290,7 @@ export function useDeleteStarterPackMutation({
       if (listUri) {
         await agent.app.bsky.graph.list.delete({
           repo: agent.session.did,
-          rkey: new AtUri(listUri).rkey,
+          rkey: new GrpcUri(listUri).rkey,
         })
       }
       await agent.app.bsky.graph.starterpack.delete({
@@ -340,7 +331,7 @@ export function useDeleteStarterPackMutation({
 }
 
 async function whenAppViewReady(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
   fn: (res?: AppBskyGraphGetStarterPack.Response) => boolean,
 ) {

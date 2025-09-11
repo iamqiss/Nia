@@ -1,11 +1,5 @@
-import {
-  type AtpAgent,
-  type ChatBskyActorDefs,
-  ChatBskyConvoDefs,
-  type ChatBskyConvoGetLog,
-  type ChatBskyConvoSendMessage,
-} from '@atproto/api' // Legacy - will be removed
-import {XRPCError} from '@atproto/xrpc'
+// Migrated to gRPC
+import {GrpcError} from '#/lib/grpc/TimeGrpcClient'
 import EventEmitter from 'eventemitter3'
 import {nanoid} from 'nanoid/non-secure'
 
@@ -51,7 +45,7 @@ export function isConvoItemMessage(
 export class Convo {
   private id: string
 
-  private agent: AtpAgent
+  private agent: TimeGrpcClient
   private events: MessagesEventBus
   private senderUserDid: string
 

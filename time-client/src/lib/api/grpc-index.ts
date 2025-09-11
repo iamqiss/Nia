@@ -11,7 +11,7 @@
  * This file completely replaces all AT Protocol functionality with gRPC
  */
 
-import { BskyAgent } from '@atproto/api' // Legacy - will be removed // Legacy - will be removed;
+// Migrated to gRPC // Migrated to gRPC;
 import { QueryClient } from '@tanstack/react-query';
 import { 
   getMigrationService, 
@@ -25,7 +25,7 @@ import {
 export * from './grpc-api';
 
 // Legacy compatibility - these will be removed in future versions
-export { BskyAgent, QueryClient };
+export { TimeGrpcClient, QueryClient };
 
 /**
  * Main API class that provides a unified interface for all operations
@@ -34,10 +34,10 @@ export { BskyAgent, QueryClient };
 export class TimeApi {
   private migrationService: ReturnType<typeof getMigrationService>;
   private apiMigrationService: ReturnType<typeof getApiMigrationService>;
-  private agent: BskyAgent;
+  private agent: TimeGrpcClient;
   private queryClient: QueryClient;
 
-  constructor(agent: BskyAgent, queryClient: QueryClient) {
+  constructor(agent: TimeGrpcClient, queryClient: QueryClient) {
     this.agent = agent;
     this.queryClient = queryClient;
     this.migrationService = getMigrationService();
@@ -143,7 +143,7 @@ export class TimeApi {
 /**
  * Create a new TimeApi instance
  */
-export function createTimeApi(agent: BskyAgent, queryClient: QueryClient): TimeApi {
+export function createTimeApi(agent: TimeGrpcClient, queryClient: QueryClient): TimeApi {
   return new TimeApi(agent, queryClient);
 }
 
@@ -154,7 +154,7 @@ export function createTimeApi(agent: BskyAgent, queryClient: QueryClient): TimeA
 
 // Post operations
 export async function post(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   postData: {
     text: string;
@@ -171,7 +171,7 @@ export async function post(
 }
 
 export async function getPost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -180,7 +180,7 @@ export async function getPost(
 }
 
 export async function likePost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -189,7 +189,7 @@ export async function likePost(
 }
 
 export async function unlikePost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -198,7 +198,7 @@ export async function unlikePost(
 }
 
 export async function repostPost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -207,7 +207,7 @@ export async function repostPost(
 }
 
 export async function unrepostPost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -216,7 +216,7 @@ export async function unrepostPost(
 }
 
 export async function deletePost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   uri: string
 ) {
@@ -226,7 +226,7 @@ export async function deletePost(
 
 // User operations
 export async function loginUser(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   identifier: string,
   password: string
@@ -236,7 +236,7 @@ export async function loginUser(
 }
 
 export async function registerUser(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   userData: {
     email: string;
@@ -250,7 +250,7 @@ export async function registerUser(
 }
 
 export async function getUserProfile(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   did: string
 ) {
@@ -260,7 +260,7 @@ export async function getUserProfile(
 
 // Timeline operations
 export async function getTimeline(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   algorithm?: string,
   limit?: number,
@@ -271,7 +271,7 @@ export async function getTimeline(
 }
 
 export async function getUserTimeline(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   did: string,
   limit?: number,
@@ -283,7 +283,7 @@ export async function getUserTimeline(
 
 // Media operations
 export async function uploadBlob(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   data: Uint8Array,
   type: string
@@ -294,7 +294,7 @@ export async function uploadBlob(
 
 // Notification operations
 export async function registerDevice(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   deviceToken: string,
   platform: 'ios' | 'android'
@@ -304,7 +304,7 @@ export async function registerDevice(
 }
 
 export async function updateDevicePreferences(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   preferences: any
 ) {
@@ -313,7 +313,7 @@ export async function updateDevicePreferences(
 }
 
 export async function unregisterDevice(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   deviceToken: string
 ) {

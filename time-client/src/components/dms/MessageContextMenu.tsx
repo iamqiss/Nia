@@ -1,7 +1,7 @@
 import {memo, useCallback} from 'react'
 import {LayoutAnimation} from 'react-native'
 import * as Clipboard from 'expo-clipboard'
-import {type ChatBskyConvoDefs, RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -44,7 +44,7 @@ export let MessageContextMenu = ({
 
   const onCopyMessage = useCallback(() => {
     const str = richTextToString(
-      new RichText({
+      new GrpcRichText({
         text: message.text,
         facets: message.facets,
       }),

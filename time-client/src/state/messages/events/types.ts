@@ -1,7 +1,7 @@
-import {type BskyAgent, type ChatBskyConvoGetLog} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type MessagesEventBusParams = {
-  agent: BskyAgent
+  agent: TimeGrpcClient
 }
 
 export enum MessagesEventBusStatus {

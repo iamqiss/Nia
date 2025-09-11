@@ -1,10 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  AppBskyFeedGetAuthorFeed,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg as msgLingui, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -223,7 +219,7 @@ function FeedgenErrorMessage({
 
 function safeParseFeedgenUri(uri: string): [string, string] {
   try {
-    const urip = new AtUri(uri)
+    const urip = new GrpcUri(uri)
     return [urip.hostname, urip.rkey]
   } catch {
     return ['', '']

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  type AppBskyFeedSearchPosts,
-  AtUri,
-  moderatePost,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,
@@ -150,7 +144,7 @@ export function* findAllPostsInQueryData(
   >({
     queryKey: [searchPostsQueryKeyRoot],
   })
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
 
   for (const [_queryKey, queryData] of queryDatas) {
     if (!queryData?.pages) {

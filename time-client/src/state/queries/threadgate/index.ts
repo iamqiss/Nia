@@ -1,10 +1,4 @@
-import {
-  AppBskyFeedDefs,
-  type AppBskyFeedGetPostThread,
-  AppBskyFeedThreadgate,
-  AtUri,
-  type BskyAgent,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {networkRetry, retry} from '#/lib/async/retry'
@@ -86,7 +80,7 @@ export async function getThreadgateView({
   agent,
   postUri,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
 }) {
   const {data} = await agent.app.bsky.feed.getPostThread({
@@ -105,10 +99,10 @@ export async function getThreadgateRecord({
   agent,
   postUri,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
 }): Promise<AppBskyFeedThreadgate.Record | null> {
-  const urip = new AtUri(postUri)
+  const urip = new GrpcUri(postUri)
 
   if (!urip.host.startsWith('did:')) {
     const res = await agent.resolveHandle({
@@ -166,11 +160,11 @@ export async function writeThreadgateRecord({
   postUri,
   threadgate,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
   threadgate: AppBskyFeedThreadgate.Record
 }) {
-  const postUrip = new AtUri(postUri)
+  const postUrip = new GrpcUri(postUri)
   const record = createThreadgateRecord({
     post: postUri,
     allow: threadgate.allow, // can/should be undefined!
@@ -192,7 +186,7 @@ export async function upsertThreadgate(
     agent,
     postUri,
   }: {
-    agent: BskyAgent
+    agent: TimeGrpcClient
     postUri: string
   },
   callback: (
@@ -220,7 +214,7 @@ export async function updateThreadgateAllow({
   postUri,
   allow,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
   allow: ThreadgateAllowUISetting[]
 }) {

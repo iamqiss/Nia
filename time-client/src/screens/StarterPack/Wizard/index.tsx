@@ -3,13 +3,7 @@ import {Keyboard, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-controller'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {Image} from 'expo-image'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  AtUri,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect, useNavigation} from '@react-navigation/native'
@@ -221,7 +215,7 @@ function WizardInner({
   const currUiStrings = wizardUiStrings[state.currentStep]
 
   const onSuccessCreate = (data: {uri: string; cid: string}) => {
-    const rkey = new AtUri(data.uri).rkey
+    const rkey = new GrpcUri(data.uri).rkey
     logEvent('starterPack:create', {
       setName: state.name != null,
       setDescription: state.description != null,

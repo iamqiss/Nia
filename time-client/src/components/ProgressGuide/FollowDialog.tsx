@@ -1,6 +1,5 @@
 import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {TextInput, useWindowDimensions, View} from 'react-native'
-import {type ModerationOpts} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

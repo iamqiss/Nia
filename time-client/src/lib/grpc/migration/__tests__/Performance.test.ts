@@ -295,7 +295,7 @@ describe('Migration Performance Tests', () => {
       // Mock gRPC failure
       mockGrpcService.createNote.mockRejectedValue(new Error('gRPC service unavailable'));
       
-      // Mock REST fallback
+      // Mock legacy fallback
       mockAgent.post.mockImplementation(async () => {
         await new Promise(resolve => setTimeout(resolve, 50)); // 50ms fallback
         return {
@@ -340,7 +340,7 @@ describe('Migration Performance Tests', () => {
         };
       });
 
-      // Mock REST fallback
+      // Mock legacy fallback
       mockAgent.getPost.mockImplementation(async () => {
         await new Promise(resolve => setTimeout(resolve, 60));
         return {

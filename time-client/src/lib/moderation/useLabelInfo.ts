@@ -1,10 +1,4 @@
-import {
-  type AppBskyLabelerDefs,
-  type ComAtprotoLabelDefs,
-  type InterpretedLabelValueDefinition,
-  interpretLabelValueDefinition,
-  LABELS,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useLingui} from '@lingui/react'
 import * as bcp47Match from 'bcp-47-match'
 

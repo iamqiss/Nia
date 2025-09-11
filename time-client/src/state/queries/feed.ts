@@ -1,13 +1,5 @@
 import {useCallback, useEffect, useMemo, useRef} from 'react'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  type AppBskyUnspeccedGetPopularFeedGenerators,
-  AtUri,
-  moderateFeedGenerator,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   keepPreviousData,
@@ -44,7 +36,7 @@ export type FeedSourceFeedInfo = {
   cid: string
   avatar: string | undefined
   displayName: string
-  description: RichText
+  description: GrpcRichText
   creatorDid: string
   creatorHandle: string
   likeCount: number | undefined
@@ -66,7 +58,7 @@ export type FeedSourceListInfo = {
   cid: string
   avatar: string | undefined
   displayName: string
-  description: RichText
+  description: GrpcRichText
   creatorDid: string
   creatorHandle: string
   contentMode: undefined
@@ -94,7 +86,7 @@ const feedSourceNSIDs = {
 export function hydrateFeedGenerator(
   view: AppBskyFeedDefs.GeneratorView,
 ): FeedSourceInfo {
-  const urip = new AtUri(view.uri)
+  const urip = new GrpcUri(view.uri)
   const collection =
     urip.collection === 'app.bsky.feed.generator' ? 'feed' : 'lists'
   const href = `/profile/${urip.hostname}/${collection}/${urip.rkey}`
@@ -115,7 +107,7 @@ export function hydrateFeedGenerator(
     displayName: view.displayName
       ? sanitizeDisplayName(view.displayName)
       : `Feed by ${sanitizeHandle(view.creator.handle, '@')}`,
-    description: new RichText({
+    description: new GrpcRichText({
       text: view.description || '',
       facets: (view.descriptionFacets || [])?.slice(),
     }),
@@ -129,7 +121,7 @@ export function hydrateFeedGenerator(
 }
 
 export function hydrateList(view: AppBskyGraphDefs.ListView): FeedSourceInfo {
-  const urip = new AtUri(view.uri)
+  const urip = new GrpcUri(view.uri)
   const collection =
     urip.collection === 'app.bsky.feed.generator' ? 'feed' : 'lists'
   const href = `/profile/${urip.hostname}/${collection}/${urip.rkey}`
@@ -147,7 +139,7 @@ export function hydrateList(view: AppBskyGraphDefs.ListView): FeedSourceInfo {
     },
     cid: view.cid,
     avatar: view.avatar,
-    description: new RichText({
+    description: new GrpcRichText({
       text: view.description || '',
       facets: (view.descriptionFacets || [])?.slice(),
     }),
@@ -161,7 +153,7 @@ export function hydrateList(view: AppBskyGraphDefs.ListView): FeedSourceInfo {
 }
 
 export function getFeedTypeFromUri(uri: string) {
-  const {pathname} = new AtUri(uri)
+  const {pathname} = new GrpcUri(uri)
   return pathname.includes(feedSourceNSIDs.feed) ? 'feed' : 'list'
 }
 
@@ -405,7 +397,7 @@ const PWI_DISCOVER_FEED_STUB: SavedFeedSourceInfo = {
   },
   cid: '',
   avatar: '',
-  description: new RichText({text: ''}),
+  description: new GrpcRichText({text: ''}),
   creatorDid: '',
   creatorHandle: '',
   likeCount: 0,
@@ -496,7 +488,7 @@ export function usePinnedFeedsInfos() {
             },
             cid: '',
             avatar: '',
-            description: new RichText({text: ''}),
+            description: new GrpcRichText({text: ''}),
             creatorDid: '',
             creatorHandle: '',
             likeCount: 0,

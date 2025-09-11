@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import * as Notifications from 'expo-notifications'
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {CommonActions, useNavigation} from '@react-navigation/native'
@@ -401,7 +401,7 @@ export function notificationToURL(payload: NotificationPayload): string | null {
     case 'repost':
     case 'like-via-repost':
     case 'repost-via-repost': {
-      const urip = new AtUri(payload.subject)
+      const urip = new GrpcUri(payload.subject)
       if (urip.collection === 'app.bsky.feed.post') {
         return `/profile/${urip.host}/post/${urip.rkey}`
       } else {
@@ -412,7 +412,7 @@ export function notificationToURL(payload: NotificationPayload): string | null {
     case 'quote':
     case 'mention':
     case 'subscribed-post': {
-      const urip = new AtUri(payload.uri)
+      const urip = new GrpcUri(payload.uri)
       if (urip.collection === 'app.bsky.feed.post') {
         return `/profile/${urip.host}/post/${urip.rkey}`
       } else {
@@ -421,7 +421,7 @@ export function notificationToURL(payload: NotificationPayload): string | null {
     }
     case 'follow':
     case 'starterpack-joined': {
-      const urip = new AtUri(payload.uri)
+      const urip = new GrpcUri(payload.uri)
       return `/profile/${urip.host}`
     }
     case 'chat-message':

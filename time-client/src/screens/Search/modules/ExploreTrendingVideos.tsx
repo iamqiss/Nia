@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {ScrollView, View} from 'react-native'
-import {AppBskyEmbedVideo, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
@@ -161,7 +161,7 @@ function VideoCards({
       .slice(0, 8)
   }, [data])
   const href = useMemo(() => {
-    const urip = new AtUri(VIDEO_FEED_URI)
+    const urip = new GrpcUri(VIDEO_FEED_URI)
     return makeCustomFeedLink(urip.host, urip.rkey, undefined, 'explore')
   }, [])
 

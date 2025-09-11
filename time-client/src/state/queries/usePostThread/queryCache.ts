@@ -1,12 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  AppBskyUnspeccedDefs,
-  type AppBskyUnspeccedGetPostThreadOtherV2,
-  type AppBskyUnspeccedGetPostThreadV2,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type QueryClient} from '@tanstack/react-query'
 
 import {
@@ -26,7 +18,7 @@ import {
   type PostThreadParams,
   postThreadQueryKeyRoot,
 } from '#/state/queries/usePostThread/types'
-import {getRootPostAtUri} from '#/state/queries/usePostThread/utils'
+import {getRootPostGrpcUri} from '#/state/queries/usePostThread/utils'
 import {postViewToThreadPlaceholder} from '#/state/queries/usePostThread/views'
 import {didOrHandleUriMatches, getEmbeddedPost} from '#/state/queries/util'
 import {embedViewRecordToPostView} from '#/state/queries/util'
@@ -111,7 +103,7 @@ export function createCacheMutator({
             optimisticReplyCount: currentReplyCount,
           })
 
-          const opDid = getRootPostAtUri(parent.value.post)?.host
+          const opDid = getRootPostGrpcUri(parent.value.post)?.host
           const nextPreexistingItem = thread.at(i + 1)
           const isEndOfReplyChain =
             !nextPreexistingItem || nextPreexistingItem.depth <= parent.depth
@@ -268,7 +260,7 @@ export function* findAllPostsInQueryData(
   queryClient: QueryClient,
   uri: string,
 ): Generator<AppBskyFeedDefs.PostView, void> {
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
   const queryDatas =
     queryClient.getQueriesData<AppBskyUnspeccedGetPostThreadV2.OutputSchema>({
       queryKey: [postThreadQueryKeyRoot],

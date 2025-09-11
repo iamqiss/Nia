@@ -1,4 +1,4 @@
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import type * as bsky from '#/types/bsky'
 
@@ -34,7 +34,7 @@ export function parseStarterPackUri(uri?: string): {
 
   try {
     if (uri.startsWith('at://')) {
-      const atUri = new AtUri(uri)
+      const atUri = new GrpcUri(uri)
       if (atUri.collection !== 'app.bsky.graph.starterpack') return null
       if (atUri.rkey) {
         return {
@@ -69,7 +69,7 @@ export function createStarterPackGooglePlayUri(
   return `https://play.google.com/store/apps/details?id=xyz.blueskyweb.app&referrer=utm_source%3Dbluesky%26utm_medium%3Dstarterpack%26utm_content%3Dstarterpack_${name}_${rkey}`
 }
 
-export function httpStarterPackUriToAtUri(httpUri?: string): string | null {
+export function httpStarterPackUriToGrpcUri(httpUri?: string): string | null {
   if (!httpUri) return null
 
   const parsed = parseStarterPackUri(httpUri)
@@ -87,7 +87,7 @@ export function getStarterPackOgCard(
   if (typeof didOrStarterPack === 'string') {
     return `https://ogcard.cdn.bsky.app/start/${didOrStarterPack}/${rkey}`
   } else {
-    const rkey = new AtUri(didOrStarterPack.uri).rkey
+    const rkey = new GrpcUri(didOrStarterPack.uri).rkey
     return `https://ogcard.cdn.bsky.app/start/${didOrStarterPack.creator.did}/${rkey}`
   }
 }
@@ -99,7 +99,7 @@ export function createStarterPackUri({
   did: string
   rkey: string
 }): string {
-  return new AtUri(`at://${did}/app.bsky.graph.starterpack/${rkey}`).toString()
+  return new GrpcUri(`at://${did}/app.bsky.graph.starterpack/${rkey}`).toString()
 }
 
 export function startUriToStarterPackUri(uri: string) {

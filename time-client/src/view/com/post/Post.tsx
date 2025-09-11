@@ -1,13 +1,6 @@
 import {useCallback, useMemo, useState} from 'react'
 import {type StyleProp, StyleSheet, View, type ViewStyle} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AtUri,
-  moderatePost,
-  type ModerationDecision,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useQueryClient} from '@tanstack/react-query'
 
 import {MAX_POST_LINES} from '#/lib/constants'
@@ -34,7 +27,7 @@ import {Embed, PostEmbedViewContext} from '#/components/Post/Embed'
 import {PostRepliedTo} from '#/components/Post/PostRepliedTo'
 import {ShowMoreTextButton} from '#/components/Post/ShowMoreTextButton'
 import {PostControls} from '#/components/PostControls'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {SubtleWebHover} from '#/components/SubtleWebHover'
 import * as bsky from '#/types/bsky'
 
@@ -63,7 +56,7 @@ export function Post({
   const richText = useMemo(
     () =>
       record
-        ? new RichTextAPI({
+        ? new GrpcRichTextAPI({
             text: record.text,
             facets: record.facets,
           })
@@ -106,7 +99,7 @@ function PostInner({
 }: {
   post: Shadow<AppBskyFeedDefs.PostView>
   record: AppBskyFeedPost.Record
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   moderation: ModerationDecision
   showReplyLine?: boolean
   hideTopBorder?: boolean
@@ -119,11 +112,11 @@ function PostInner({
   const [limitLines, setLimitLines] = useState(
     () => countLines(richText?.text) >= MAX_POST_LINES,
   )
-  const itemUrip = new AtUri(post.uri)
+  const itemUrip = new GrpcUri(post.uri)
   const itemHref = makeProfileLink(post.author, 'post', itemUrip.rkey)
   let replyAuthorDid = ''
   if (record.reply) {
-    const urip = new AtUri(record.reply.parent?.uri || record.reply.root.uri)
+    const urip = new GrpcUri(record.reply.parent?.uri || record.reply.root.uri)
     replyAuthorDid = urip.hostname
   }
 
@@ -199,7 +192,7 @@ function PostInner({
             />
             {richText.text ? (
               <View>
-                <RichText
+                <GrpcRichText
                   enableTags
                   testID="postText"
                   value={richText}

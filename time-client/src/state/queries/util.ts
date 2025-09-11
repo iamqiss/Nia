@@ -1,11 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  AppBskyEmbedRecord,
-  AppBskyEmbedRecordWithMedia,
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  type AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,
@@ -30,14 +23,14 @@ export async function truncateAndInvalidate<T = any>(
   return queryClient.invalidateQueries({queryKey})
 }
 
-// Given an AtUri, this function will check if the AtUri matches a
-// hit regardless of whether the AtUri uses a DID or handle as a host.
+// Given an GrpcUri, this function will check if the GrpcUri matches a
+// hit regardless of whether the GrpcUri uses a DID or handle as a host.
 //
-// AtUri should be the URI that is being searched for, while currentUri
+// GrpcUri should be the URI that is being searched for, while currentUri
 // is the URI that is being checked. currentAuthor is the author
 // of the currentUri that is being checked.
 export function didOrHandleUriMatches(
-  atUri: AtUri,
+  atUri: GrpcUri,
   record: {uri: string; author: AppBskyActorDefs.ProfileViewBasic},
 ) {
   if (atUri.host.startsWith('did:')) {

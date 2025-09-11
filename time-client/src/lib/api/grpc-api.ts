@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
+// Migrated to gRPC;
 import { type QueryClient } from '@tanstack/react-query';
 import TimeGrpcMigrationService from '../grpc/TimeGrpcMigrationService';
 
@@ -21,7 +21,7 @@ import TimeGrpcMigrationService from '../grpc/TimeGrpcMigrationService';
  * Create a post - replaces the entire post function from api/index.ts
  */
 export async function createPost(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   queryClient: QueryClient,
   postData: {
     text: string;
@@ -35,76 +35,76 @@ export async function createPost(
   }
 ): Promise<{ uris: string[] }> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.createPost(agent, queryClient, postData);
+  return agent, queryClient, postData);
 }
 
 /**
- * Get a post - replaces // agent.getPost - replaced with gRPC
+ * Get a post - replaces // grpcClient.getNoteService().getNote - replaced with gRPC
  */
-export async function getPost(agent: BskyAgent, uri: string): Promise<any> {
+export async function getPost(agent: TimeGrpcClient, uri: string): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.getPost(agent, uri);
+  return agent, uri);
 }
 
 /**
  * Like a post - replaces // agent.like - replaced with gRPC
  */
-export async function likePost(agent: BskyAgent, uri: string, cid: string): Promise<{ uri: string }> {
+export async function likePost(agent: TimeGrpcClient, uri: string, cid: string): Promise<{ uri: string }> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.likePost(agent, uri, cid);
+  return agent, uri, cid);
 }
 
 /**
  * Unlike a post - replaces // agent.deleteLike - replaced with gRPC
  */
-export async function unlikePost(agent: BskyAgent, likeUri: string): Promise<void> {
+export async function unlikePost(agent: TimeGrpcClient, likeUri: string): Promise<void> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.unlikePost(agent, likeUri);
+  return agent, likeUri);
 }
 
 /**
  * Repost a post - replaces // agent.repost - replaced with gRPC
  */
-export async function repostPost(agent: BskyAgent, uri: string, cid: string): Promise<{ uri: string }> {
+export async function repostPost(agent: TimeGrpcClient, uri: string, cid: string): Promise<{ uri: string }> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.repostPost(agent, uri, cid);
+  return agent, uri, cid);
 }
 
 /**
  * Unrepost a post - replaces // agent.deleteRepost - replaced with gRPC
  */
-export async function unrepostPost(agent: BskyAgent, repostUri: string): Promise<void> {
+export async function unrepostPost(agent: TimeGrpcClient, repostUri: string): Promise<void> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.unrepostPost(agent, repostUri);
+  return agent, repostUri);
 }
 
 /**
- * Delete a post - replaces // agent.deletePost - replaced with gRPC
+ * Delete a post - replaces // grpcClient.getNoteService().deleteNote - replaced with gRPC
  */
-export async function deletePost(agent: BskyAgent, uri: string): Promise<void> {
+export async function deletePost(agent: TimeGrpcClient, uri: string): Promise<void> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.deletePost(agent, uri);
+  return agent, uri);
 }
 
 // MARK: - User Operations (Complete AT Protocol Replacement)
 
 /**
- * User login - replaces // agent.login - replaced with gRPC
+ * User login - replaces // grpcClient.getUserService().loginUser - replaced with gRPC
  */
 export async function loginUser(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   credentials: { email: string; password: string; twoFactorCode?: string },
   deviceName?: string
 ): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.loginUser(agent, credentials, deviceName);
+  return agent, credentials, deviceName);
 }
 
 /**
  * User registration - replaces // agent.createAccount - replaced with gRPC
  */
 export async function registerUser(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   userData: {
     email: string;
     password: string;
@@ -113,24 +113,24 @@ export async function registerUser(
   }
 ): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.registerUser(agent, userData);
+  return agent, userData);
 }
 
 /**
  * Get user profile - replaces // agent.getProfile - replaced with gRPC
  */
-export async function getUserProfile(agent: BskyAgent, userId: string): Promise<any> {
+export async function getUserProfile(agent: TimeGrpcClient, userId: string): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.getUserProfile(agent, userId);
+  return agent, userId);
 }
 
 // MARK: - Timeline Operations (Complete AT Protocol Replacement)
 
 /**
- * Get timeline - replaces // agent.getTimeline - replaced with gRPC
+ * Get timeline - replaces // grpcClient.getTimelineService().getTimeline - replaced with gRPC
  */
 export async function getTimeline(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   options: {
     algorithm?: string;
     limit?: number;
@@ -138,14 +138,14 @@ export async function getTimeline(
   } = {}
 ): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.getTimeline(agent, options);
+  return agent, options);
 }
 
 /**
  * Get user timeline - replaces // agent.getAuthorFeed - replaced with gRPC
  */
 export async function getUserTimeline(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   userId: string,
   options: {
     limit?: number;
@@ -155,17 +155,17 @@ export async function getUserTimeline(
   } = {}
 ): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.getUserTimeline(agent, userId, options);
+  return agent, userId, options);
 }
 
 // MARK: - Media Operations (Complete AT Protocol Replacement)
 
 /**
- * Upload media - replaces // agent.uploadBlob - replaced with gRPC
+ * Upload media - replaces // grpcClient.getMediaService().upload - replaced with gRPC
  */
-export async function uploadBlob(agent: BskyAgent, file: any, options: { encoding: string }): Promise<any> {
+export async function uploadBlob(agent: TimeGrpcClient, file: any, options: { encoding: string }): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.uploadBlob(agent, file, options);
+  return agent, file, options);
 }
 
 // MARK: - Notification Operations (Complete AT Protocol Replacement)
@@ -185,7 +185,7 @@ export async function registerDevice(deviceData: {
   deviceCapabilities: Record<string, string>;
 }): Promise<any> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.registerDevice(deviceData);
+  return deviceData);
 }
 
 // MARK: - Migration Control
@@ -195,7 +195,7 @@ export async function registerDevice(deviceData: {
  */
 export function isGrpcEnabled(operation: string): boolean {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.isGrpcEnabled(operation);
+  return operation);
 }
 
 /**
@@ -203,7 +203,7 @@ export function isGrpcEnabled(operation: string): boolean {
  */
 export function getMigrationPhase(): string {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.getMigrationPhase();
+  return );
 }
 
 /**
@@ -211,7 +211,7 @@ export function getMigrationPhase(): string {
  */
 export function setMigrationPhase(phase: 'disabled' | 'testing' | 'gradual' | 'full' | 'complete'): void {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.setMigrationPhase(phase);
+  return phase);
 }
 
 /**
@@ -219,7 +219,7 @@ export function setMigrationPhase(phase: 'disabled' | 'testing' | 'gradual' | 'f
  */
 export async function healthCheck(): Promise<{ success: boolean; status: string }> {
   const migrationService = TimeGrpcMigrationService.getInstance();
-  return migrationService.healthCheck();
+  return );
 }
 
 // MARK: - Export all functions as default

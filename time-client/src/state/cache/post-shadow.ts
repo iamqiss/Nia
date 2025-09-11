@@ -1,9 +1,5 @@
 import {useEffect, useMemo, useState} from 'react'
-import {
-  AppBskyEmbedRecord,
-  AppBskyEmbedRecordWithMedia,
-  type AppBskyFeedDefs,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type QueryClient} from '@tanstack/react-query'
 import EventEmitter from 'eventemitter3'
 

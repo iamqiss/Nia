@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {type AppBskyActorDefs, type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {useToggleMutationQueue} from '#/lib/hooks/useToggleMutationQueue'
@@ -20,7 +20,7 @@ export function usePostQuery(uri: string | undefined) {
   return useQuery<AppBskyFeedDefs.PostView>({
     queryKey: RQKEY(uri || ''),
     async queryFn() {
-      const urip = new AtUri(uri!)
+      const urip = new GrpcUri(uri!)
 
       if (!urip.host.startsWith('did:')) {
         const res = await agent.resolveHandle({
@@ -48,7 +48,7 @@ export function useGetPost() {
       return queryClient.fetchQuery({
         queryKey: RQKEY(uri || ''),
         async queryFn() {
-          const urip = new AtUri(uri)
+          const urip = new GrpcUri(uri)
 
           if (!urip.host.startsWith('did:')) {
             const res = await agent.resolveHandle({

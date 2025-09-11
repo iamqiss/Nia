@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {type AppBskyUnspeccedDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 
 import {logger} from '#/logger'

@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, type ChatBskyActorDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 /**
  * Matches any profile view exported by our SDK

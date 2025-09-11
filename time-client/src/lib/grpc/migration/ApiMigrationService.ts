@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
+// Migrated to gRPC;
 import { type QueryClient } from '@tanstack/react-query';
 import MigrationAdapter from './MigrationAdapter';
 import { GrpcFeatureFlagManager } from './FeatureFlags';
@@ -55,7 +55,7 @@ export class ApiMigrationService {
    * Create a post using gRPC or REST
    */
   async createPost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     queryClient: QueryClient,
     postData: {
       text: string;
@@ -100,7 +100,7 @@ export class ApiMigrationService {
    * Get a post using gRPC or REST
    */
   async getPost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     uri: string
   ): Promise<any> {
     const noteId = uri.split('/').pop() || '';
@@ -125,7 +125,7 @@ export class ApiMigrationService {
    * Like a post using gRPC or REST
    */
   async likePost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     uri: string,
     cid: string
   ): Promise<{ uri: string }> {
@@ -151,7 +151,7 @@ export class ApiMigrationService {
    * Unlike a post using gRPC or REST
    */
   async unlikePost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     likeUri: string
   ): Promise<void> {
     // Extract note ID from like URI
@@ -176,7 +176,7 @@ export class ApiMigrationService {
    * Repost a post using gRPC or REST
    */
   async repostPost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     uri: string,
     cid: string
   ): Promise<{ uri: string }> {
@@ -203,7 +203,7 @@ export class ApiMigrationService {
    * Unrepost a post using gRPC or REST
    */
   async unrepostPost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     repostUri: string
   ): Promise<void> {
     // For unrepost, we need to find the original note ID
@@ -229,7 +229,7 @@ export class ApiMigrationService {
    * Delete a post using gRPC or REST
    */
   async deletePost(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     uri: string
   ): Promise<void> {
     const noteId = uri.split('/').pop() || '';
@@ -251,7 +251,7 @@ export class ApiMigrationService {
    * Login user using gRPC or REST
    */
   async loginUser(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     credentials: { email: string; password: string; twoFactorCode?: string },
     deviceName?: string
   ): Promise<any> {
@@ -289,7 +289,7 @@ export class ApiMigrationService {
    * Register user using gRPC or REST
    */
   async registerUser(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     userData: {
       email: string;
       password: string;
@@ -332,7 +332,7 @@ export class ApiMigrationService {
    * Get user profile using gRPC or REST
    */
   async getUserProfile(
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     userId: string
   ): Promise<any> {
     const request: GetUserProfileRequest = {

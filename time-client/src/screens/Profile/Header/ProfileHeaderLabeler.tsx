@@ -1,12 +1,6 @@
 import React, {memo, useMemo} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  type AppBskyLabelerDefs,
-  moderateProfile,
-  type ModerationOpts,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -33,7 +27,7 @@ import {
 } from '#/components/icons/Heart2'
 import {Link} from '#/components/Link'
 import * as Prompt from '#/components/Prompt'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {ProfileHeaderDisplayName} from './DisplayName'
 import {EditProfileDialog} from './EditProfileDialog'
@@ -44,7 +38,7 @@ import {ProfileHeaderShell} from './Shell'
 interface Props {
   profile: AppBskyActorDefs.ProfileViewDetailed
   labeler: AppBskyLabelerDefs.LabelerViewDetailed
-  descriptionRT: RichTextAPI | null
+  descriptionRT: GrpcRichTextAPI | null
   moderationOpts: ModerationOpts
   hideBackButton?: boolean
   isPlaceholderProfile?: boolean
@@ -251,7 +245,7 @@ let ProfileHeaderLabeler = ({
             {isSelf && <ProfileHeaderMetrics profile={profile} />}
             {descriptionRT && !moderation.ui('profileView').blur ? (
               <View pointerEvents="auto">
-                <RichText
+                <GrpcRichText
                   testID="profileHeaderDescription"
                   style={[a.text_md]}
                   numberOfLines={15}

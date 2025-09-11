@@ -1,5 +1,5 @@
 import {type StyleProp, type TextStyle} from 'react-native'
-import {type AppBskyActorGetProfile} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {makeProfileLink} from '#/lib/routes/links'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'

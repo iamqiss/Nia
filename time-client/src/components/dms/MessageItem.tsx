@@ -11,11 +11,7 @@ import Animated, {
   ZoomIn,
   ZoomOut,
 } from 'react-native-reanimated'
-import {
-  AppBskyEmbedRecord,
-  ChatBskyConvoDefs,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type I18n} from '@lingui/core'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -30,7 +26,7 @@ import {atoms as a, native, useTheme} from '#/alf'
 import {isOnlyEmoji} from '#/alf/typography'
 import {ActionsWrapper} from '#/components/dms/ActionsWrapper'
 import {InlineLinkText} from '#/components/Link'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {DateDivider} from './DateDivider'
 import {MessageItemEmbed} from './MessageItemEmbed'
@@ -101,7 +97,7 @@ let MessageItem = ({
   const pendingColor = t.palette.primary_200
 
   const rt = useMemo(() => {
-    return new RichTextAPI({text: message.text, facets: message.facets})
+    return new GrpcRichTextAPI({text: message.text, facets: message.facets})
   }, [message.text, message.facets])
 
   const appliedReactions = (
@@ -207,7 +203,7 @@ let MessageItem = ({
                     : {borderBottomLeftRadius: needsTail ? 2 : 17},
                 ]
               }>
-              <RichText
+              <GrpcRichText
                 value={rt}
                 style={[a.text_md, isFromSelf && {color: t.palette.white}]}
                 interactiveStyle={a.underline}

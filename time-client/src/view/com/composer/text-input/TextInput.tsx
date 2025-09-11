@@ -11,7 +11,7 @@ import {
   type TextInputSelectionChangeEventData,
   View,
 } from 'react-native'
-import {AppBskyRichtextFacet, RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import PasteInput, {
   type PastedFile,
   type PasteInputRef, // @ts-expect-error no types when installing from github
@@ -43,7 +43,7 @@ export function TextInput({
   richtext,
   placeholder,
   hasRightPadding,
-  setRichText,
+  setGrpcRichText,
   onPhotoPasted,
   onNewLink,
   onError,
@@ -71,9 +71,9 @@ export function TextInput({
     async (newText: string) => {
       const mayBePaste = newText.length > prevLength.current + 1
 
-      const newRt = new RichText({text: newText})
+      const newRt = new GrpcRichText({text: newText})
       newRt.detectFacetsWithoutResolution()
-      setRichText(newRt)
+      setGrpcRichText(newRt)
 
       // NOTE: BinaryFiddler
       // onChangeText happens before onSelectionChange, cursorPos is out of bound if the user deletes characters,
@@ -123,7 +123,7 @@ export function TextInput({
       }
       prevLength.current = newText.length
     },
-    [setRichText, autocompletePrefix, onPhotoPasted, onNewLink],
+    [setGrpcRichText, autocompletePrefix, onPhotoPasted, onNewLink],
   )
 
   const onPaste = useCallback(

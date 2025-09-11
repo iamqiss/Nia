@@ -1,7 +1,4 @@
-import {
-  type ChatBskyConvoAcceptConvo,
-  type ChatBskyConvoListConvos,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {DM_SERVICE_HEADERS} from '#/lib/constants'

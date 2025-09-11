@@ -1,10 +1,5 @@
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {
-  type $Typed,
-  AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -19,7 +14,7 @@ import {FeedLoadingPlaceholder} from '#/view/com/util/LoadingPlaceholder'
 import {UserAvatar} from '#/view/com/util/UserAvatar'
 import {atoms as a, useTheme} from '#/alf'
 import {Link} from '#/components/Link'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {MissingFeed} from './MissingFeed'
 
@@ -155,7 +150,7 @@ export function FeedSourceCardLoaded({
         </View>
       </View>
       {showDescription && feed.description ? (
-        <RichText
+        <GrpcRichText
           style={[t.atoms.text_contrast_high, a.flex_1, a.flex_wrap]}
           value={feed.description}
           numberOfLines={3}
@@ -189,7 +184,7 @@ export function FeedSourceCardLoaded({
         )}
         to={{
           screen: feed.type === 'feed' ? 'ProfileFeed' : 'ProfileList',
-          params: {name: feed.creatorDid, rkey: new AtUri(feed.uri).rkey},
+          params: {name: feed.creatorDid, rkey: new GrpcUri(feed.uri).rkey},
         }}
         style={[
           a.flex_1,

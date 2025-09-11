@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import {View} from 'react-native'
-import {XRPCError} from '@atproto/xrpc'
+import {GrpcError} from '#/lib/grpc/TimeGrpcClient'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {validate as validateEmail} from 'email-validator'

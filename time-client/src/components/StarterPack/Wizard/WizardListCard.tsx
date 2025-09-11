@@ -1,12 +1,5 @@
 import {Keyboard, View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  moderateFeedGenerator,
-  moderateProfile,
-  type ModerationOpts,
-  type ModerationUI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

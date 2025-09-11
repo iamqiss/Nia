@@ -1,5 +1,5 @@
 import {useEffect, useId, useState} from 'react'
-import {type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {Logger} from '#/logger'
 import {type FeedSourceInfo} from '#/state/queries/feed'
@@ -80,7 +80,7 @@ export function useUnstablePostSource(key: string) {
  * author's handle, not DID.
  */
 export function buildPostSourceKey(key: string, handle: string) {
-  const urip = new AtUri(key)
+  const urip = new GrpcUri(key)
   urip.host = handle
   return urip.toString()
 }
@@ -90,7 +90,7 @@ export function buildPostSourceKey(key: string, handle: string) {
  */
 function assertValidDevOnly(key: string, message: string, beChill = false) {
   if (__DEV__) {
-    const urip = new AtUri(key)
+    const urip = new GrpcUri(key)
     if (urip.host.startsWith('did:')) {
       if (beChill) {
         logger.warn(message)

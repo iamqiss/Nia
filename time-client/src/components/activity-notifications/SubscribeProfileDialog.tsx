@@ -1,11 +1,5 @@
 import {useMemo, useState} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyNotificationDefs,
-  type AppBskyNotificationListActivitySubscriptions,
-  type ModerationOpts,
-  type Un$Typed,
-} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {

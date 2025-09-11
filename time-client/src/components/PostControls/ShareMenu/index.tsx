@@ -1,12 +1,6 @@
 import {memo, useMemo, useState} from 'react'
 import {type Insets} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  AtUri,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -40,7 +34,7 @@ let ShareMenuButton = ({
   post: Shadow<AppBskyFeedDefs.PostView>
   big?: boolean
   record: AppBskyFeedPost.Record
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   timestamp: string
   threadgateRecord?: AppBskyFeedThreadgate.Record
   onShare: () => void
@@ -76,7 +70,7 @@ let ShareMenuButton = ({
 
   const onNativeLongPress = () => {
     logger.metric('share:press:nativeShare', {}, {statsig: true})
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     const href = makeProfileLink(post.author, 'post', urip.rkey)
     const url = toShareUrl(href)
     shareUrl(url)

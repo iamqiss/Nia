@@ -1,6 +1,6 @@
 import React from 'react'
 import {ScrollView, View} from 'react-native'
-import {type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -146,7 +146,7 @@ function useExperimentalSuggestedUsersQuery() {
   const dids = React.useMemo(() => {
     const {likes, follows, followSuggestions, seen} = userActionSnapshot
     const likeDids = likes
-      .map(l => new AtUri(l))
+      .map(l => new GrpcUri(l))
       .map(uri => uri.host)
       .filter(did => !follows.includes(did))
     let suggestedDids: string[] = []
@@ -161,7 +161,7 @@ function useExperimentalSuggestedUsersQuery() {
     }
     const seenDids = seen
       .sort(sortSeenPosts)
-      .map(l => new AtUri(l.uri))
+      .map(l => new GrpcUri(l.uri))
       .map(uri => uri.host)
     return [...new Set([...suggestedDids, ...likeDids, ...seenDids])].filter(
       did => did !== currentAccount?.did,

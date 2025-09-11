@@ -1,8 +1,4 @@
-import {
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  type AppBskyNotificationListNotifications,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type NotificationType =
   | StarterPackNotificationType

@@ -1,6 +1,5 @@
 import {memo, useEffect, useMemo, useState} from 'react'
 import {View} from 'react-native'
-import {type AppBskyActorDefs, type AppBskyFeedPost, AtUri} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -72,7 +71,7 @@ function EmbedDialogInner({
 
     const lang = record.langs && record.langs.length > 0 ? record.langs[0] : ''
     const profileHref = toEmbedUrl(['/profile', postAuthor.did].join('/'))
-    const urip = new AtUri(postUri)
+    const urip = new GrpcUri(postUri)
     const href = toEmbedUrl(
       ['/profile', postAuthor.did, 'post', urip.rkey].join('/'),
     )

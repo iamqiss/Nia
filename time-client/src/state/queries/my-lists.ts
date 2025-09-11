@@ -1,4 +1,4 @@
-import {type AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type QueryClient, useQuery} from '@tanstack/react-query'
 
 import {accumulate} from '#/lib/async/accumulate'

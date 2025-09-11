@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
 

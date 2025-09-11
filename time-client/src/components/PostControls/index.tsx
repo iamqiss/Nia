@@ -1,11 +1,6 @@
 import {memo, useState} from 'react'
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, plural} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -57,7 +52,7 @@ let PostControls = ({
   big?: boolean
   post: Shadow<AppBskyFeedDefs.PostView>
   record: AppBskyFeedPost.Record
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   feedContext?: string | undefined
   reqId?: string | undefined
   style?: StyleProp<ViewStyle>

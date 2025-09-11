@@ -1,8 +1,8 @@
-import {AppBskyRichtextFacet, type RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {linkRequiresWarning} from './url-helpers'
 
-export function richTextToString(rt: RichText, loose: boolean): string {
+export function richTextToString(rt: GrpcRichText, loose: boolean): string {
   const {text, facets} = rt
 
   if (!facets?.length) {

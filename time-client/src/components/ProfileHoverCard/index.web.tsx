@@ -1,10 +1,6 @@
 import React, {useCallback} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  moderateProfile,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {flip, offset, shift, size, useFloating} from '@floating-ui/react-dom'
 import {msg, plural} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -27,7 +23,7 @@ import {ProfileHeaderHandle} from '#/screens/Profile/Header/Handle'
 import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import {useFollowMethods} from '#/components/hooks/useFollowMethods'
-import {useRichText} from '#/components/hooks/useRichText'
+import {useGrpcRichText} from '#/components/hooks/useGrpcRichText'
 import {Check_Stroke2_Corner0_Rounded as Check} from '#/components/icons/Check'
 import {PlusLarge_Stroke2_Corner0_Rounded as Plus} from '#/components/icons/Plus'
 import {
@@ -39,7 +35,7 @@ import {LiveStatus} from '#/components/live/LiveStatusDialog'
 import {Loader} from '#/components/Loader'
 import * as Pills from '#/components/Pills'
 import {Portal} from '#/components/Portal'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {useSimpleVerificationState} from '#/components/verification'
 import {VerificationCheck} from '#/components/verification/VerificationCheck'
@@ -429,7 +425,7 @@ function Inner({
     () => moderateProfile(profile, moderationOpts),
     [profile, moderationOpts],
   )
-  const [descriptionRT] = useRichText(profile.description ?? '')
+  const [descriptionRT] = useGrpcRichText(profile.description ?? '')
   const profileShadow = useProfileShadow(profile)
   const {follow, unfollow} = useFollowMethods({
     profile: profileShadow,
@@ -581,7 +577,7 @@ function Inner({
 
           {profile.description?.trim() && !moderation.ui('profileView').blur ? (
             <View style={[a.pt_md]}>
-              <RichText
+              <GrpcRichText
                 numberOfLines={8}
                 value={descriptionRT}
                 onLinkPress={hide}

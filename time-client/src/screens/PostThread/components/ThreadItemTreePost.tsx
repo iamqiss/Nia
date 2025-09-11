@@ -1,11 +1,6 @@
 import {memo, useCallback, useMemo, useState} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedThreadgate,
-  AtUri,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 
 import {MAX_POST_LINES} from '#/lib/constants'
@@ -38,7 +33,7 @@ import {type AppModerationCause} from '#/components/Pills'
 import {Embed, PostEmbedViewContext} from '#/components/Post/Embed'
 import {ShowMoreTextButton} from '#/components/Post/ShowMoreTextButton'
 import {PostControls} from '#/components/PostControls'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import * as Skele from '#/components/Skeleton'
 import {SubtleWebHover} from '#/components/SubtleWebHover'
 import {Text} from '#/components/Typography'
@@ -257,7 +252,7 @@ const ThreadItemTreePostInner = memo(function ThreadItemTreePostInner({
   const moderation = item.moderation
   const richText = useMemo(
     () =>
-      new RichTextAPI({
+      new GrpcRichTextAPI({
         text: record.text,
         facets: record.facets,
       }),
@@ -268,7 +263,7 @@ const ThreadItemTreePostInner = memo(function ThreadItemTreePostInner({
   )
   const threadRootUri = record.reply?.root?.uri || post.uri
   const postHref = useMemo(() => {
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     return makeProfileLink(post.author, 'post', urip.rkey)
   }, [post.uri, post.author])
   const threadgateHiddenReplies = useMergedThreadgateHiddenReplies({
@@ -277,7 +272,7 @@ const ThreadItemTreePostInner = memo(function ThreadItemTreePostInner({
   const additionalPostAlerts: AppModerationCause[] = useMemo(() => {
     const isPostHiddenByThreadgate = threadgateHiddenReplies.has(post.uri)
     const isControlledByViewer =
-      new AtUri(threadRootUri).host === currentAccount?.did
+      new GrpcUri(threadRootUri).host === currentAccount?.did
     return isControlledByViewer && isPostHiddenByThreadgate
       ? [
           {
@@ -342,7 +337,7 @@ const ThreadItemTreePostInner = memo(function ThreadItemTreePostInner({
                   />
                   {richText?.text ? (
                     <>
-                      <RichText
+                      <GrpcRichText
                         enableTags
                         value={richText}
                         style={[a.flex_1, a.text_md]}

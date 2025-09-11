@@ -1,12 +1,5 @@
 import {memo, useMemo, useState} from 'react'
 import {View} from 'react-native'
-import {
-  type $Typed,
-  type AppBskyActorDefs,
-  type ChatBskyConvoDefs,
-  type ComAtprotoModerationCreateReport,
-  RichText as RichTextAPI,
-} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {StackActions, useNavigation} from '@react-navigation/native'
@@ -35,7 +28,7 @@ import {ChevronLeft_Stroke2_Corner0_Rounded as Chevron} from '#/components/icons
 import {PaperPlane_Stroke2_Corner0_Rounded as SendIcon} from '#/components/icons/PaperPlane'
 import {Loader} from '#/components/Loader'
 import {SelectReportOptionView} from '#/components/ReportDialog/SelectReportOptionView'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {MessageItemMetadata} from './MessageItem'
 
@@ -403,7 +396,7 @@ function DoneStep({
 function PreviewMessage({message}: {message: ChatBskyConvoDefs.MessageView}) {
   const t = useTheme()
   const rt = useMemo(() => {
-    return new RichTextAPI({text: message.text, facets: message.facets})
+    return new GrpcRichTextAPI({text: message.text, facets: message.facets})
   }, [message.text, message.facets])
 
   return (
@@ -421,7 +414,7 @@ function PreviewMessage({message}: {message: ChatBskyConvoDefs.MessageView}) {
           },
           {borderBottomLeftRadius: 2},
         ]}>
-        <RichText
+        <GrpcRichText
           value={rt}
           style={[a.text_md, a.leading_snug]}
           interactiveStyle={a.underline}

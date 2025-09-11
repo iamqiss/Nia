@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
+// Migrated to gRPC;
 import { type QueryClient } from '@tanstack/react-query';
 import TimeGrpcMigrationService from './TimeGrpcMigrationService';
 import { GrpcFeatureFlagManager } from './migration/FeatureFlags';
@@ -45,7 +45,7 @@ export class CompleteMigrationScript {
     if (this.isInitialized) return;
 
     try {
-      await this.migrationService.initialize(config);
+      await this.config);
       this.isInitialized = true;
       console.log('✅ Complete migration script initialized');
     } catch (error) {
@@ -134,7 +134,7 @@ export class CompleteMigrationScript {
 
   /**
    * Phase 4: Complete Migration
-   * Remove REST fallbacks and complete the migration
+   * Complete the migration to pure gRPC
    */
   async completeMigration(): Promise<void> {
     console.log('🚀 Completing Migration...');
@@ -234,7 +234,7 @@ export class CompleteMigrationScript {
     details: any;
   }> {
     try {
-      const health = await this.migrationService.healthCheck();
+      const health = await this.);
       return {
         success: health.success,
         status: health.status,

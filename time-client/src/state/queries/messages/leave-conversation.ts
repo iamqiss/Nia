@@ -1,8 +1,5 @@
 import {useMemo} from 'react'
-import {
-  type ChatBskyConvoLeaveConvo,
-  type ChatBskyConvoListConvos,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   useMutation,
   useMutationState,

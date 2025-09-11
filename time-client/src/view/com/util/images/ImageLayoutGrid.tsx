@@ -1,7 +1,7 @@
 import React from 'react'
 import {type StyleProp, StyleSheet, View, type ViewStyle} from 'react-native'
 import {type AnimatedRef, useAnimatedRef} from 'react-native-reanimated'
-import {type AppBskyEmbedImages} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {atoms as a, useBreakpoints} from '#/alf'
 import {PostEmbedViewContext} from '#/components/Post/Embed/types'

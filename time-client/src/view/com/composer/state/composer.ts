@@ -1,10 +1,5 @@
 import {type ImagePickerAsset} from 'expo-image-picker'
-import {
-  type AppBskyFeedPostgate,
-  AppBskyRichtextFacet,
-  type BskyPreferences,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {nanoid} from 'nanoid/non-secure'
 
 import {type SelfLabel} from '#/lib/moderation'
@@ -65,14 +60,14 @@ export type EmbedDraft = {
 
 export type PostDraft = {
   id: string
-  richtext: RichText
+  richtext: GrpcRichText
   labels: SelfLabel[]
   embed: EmbedDraft
   shortenedGraphemeLength: number
 }
 
 export type PostAction =
-  | {type: 'update_richtext'; richtext: RichText}
+  | {type: 'update_richtext'; richtext: GrpcRichText}
   | {type: 'update_labels'; labels: SelfLabel[]}
   | {type: 'embed_add_images'; images: ComposerImage[]}
   | {type: 'embed_update_image'; image: ComposerImage}
@@ -173,7 +168,7 @@ export function composerReducer(
       const nextPosts = [...state.thread.posts]
       nextPosts.splice(activePostIndex + 1, 0, {
         id: nanoid(),
-        richtext: new RichText({text: ''}),
+        richtext: new GrpcRichText({text: ''}),
         shortenedGraphemeLength: 0,
         labels: [],
         embed: {
@@ -515,7 +510,7 @@ export function createComposerState({
       }
     }
   }
-  const initRichText = new RichText({
+  const initGrpcRichText = new GrpcRichText({
     text: initText
       ? initText
       : initMention
@@ -539,17 +534,17 @@ export function createComposerState({
    * we suggest at most 1 of each.
    */
   if (initText) {
-    initRichText.detectFacetsWithoutResolution()
+    initGrpcRichText.detectFacetsWithoutResolution()
     const detectedExtUris = new Map<string, LinkFacetMatch>()
     const detectedPostUris = new Map<string, LinkFacetMatch>()
-    if (initRichText.facets) {
-      for (const facet of initRichText.facets) {
+    if (initGrpcRichText.facets) {
+      for (const facet of initGrpcRichText.facets) {
         for (const feature of facet.features) {
           if (AppBskyRichtextFacet.isLink(feature)) {
             if (isBskyPostUrl(feature.uri)) {
-              detectedPostUris.set(feature.uri, {facet, rt: initRichText})
+              detectedPostUris.set(feature.uri, {facet, rt: initGrpcRichText})
             } else {
-              detectedExtUris.set(feature.uri, {facet, rt: initRichText})
+              detectedExtUris.set(feature.uri, {facet, rt: initGrpcRichText})
             }
           }
         }
@@ -595,8 +590,8 @@ export function createComposerState({
       posts: [
         {
           id: nanoid(),
-          richtext: initRichText,
-          shortenedGraphemeLength: getShortenedLength(initRichText),
+          richtext: initGrpcRichText,
+          shortenedGraphemeLength: getShortenedLength(initGrpcRichText),
           labels: [],
           embed: {
             quote,
@@ -619,6 +614,6 @@ export function createComposerState({
   }
 }
 
-function getShortenedLength(rt: RichText) {
+function getShortenedLength(rt: GrpcRichText) {
   return shortenLinks(rt).graphemeLength
 }

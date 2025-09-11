@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs, AppBskyFeedPost} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import * as bcp47Match from 'bcp-47-match'
 import lande from 'lande'
 

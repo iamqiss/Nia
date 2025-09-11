@@ -1,4 +1,4 @@
-import {type ModerationUI} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 // \u2705 = ✅
 // \u2713 = ✓

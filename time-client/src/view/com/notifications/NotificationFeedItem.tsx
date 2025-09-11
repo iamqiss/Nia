@@ -14,17 +14,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AppBskyGraphFollow,
-  moderateProfile,
-  type ModerationDecision,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
-import {AtUri} from '@atproto/api' // Legacy - will be removed
-import {TID} from '@atproto/common-web'
+// Migrated to gRPC
+// Migrated to gRPC
 import {msg, Plural, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -105,7 +96,7 @@ let NotificationFeedItem = ({
       case 'like-via-repost':
       case 'repost-via-repost': {
         if (item.subjectUri) {
-          const urip = new AtUri(item.subjectUri)
+          const urip = new GrpcUri(item.subjectUri)
           return `/profile/${urip.host}/post/${urip.rkey}`
         }
         break
@@ -118,13 +109,13 @@ let NotificationFeedItem = ({
       case 'reply':
       case 'mention':
       case 'quote': {
-        const uripReply = new AtUri(item.notification.uri)
+        const uripReply = new GrpcUri(item.notification.uri)
         return `/profile/${uripReply.host}/post/${uripReply.rkey}`
       }
       case 'feedgen-like':
       case 'starterpack-joined': {
         if (item.subjectUri) {
-          const urip = new AtUri(item.subjectUri)
+          const urip = new GrpcUri(item.subjectUri)
           return `/profile/${urip.host}/feed/${urip.rkey}`
         }
         break
@@ -320,8 +311,8 @@ let NotificationFeedItem = ({
     ) {
       let followingTimestamp
       try {
-        const rkey = new AtUri(item.notification.author.viewer.following).rkey
-        followingTimestamp = TID.fromStr(rkey).timestamp()
+        const rkey = new GrpcUri(item.notification.author.viewer.following).rkey
+        followingTimestamp = GrpcTID.fromStr(rkey).timestamp()
       } catch (e) {
         // For some reason the following URI was invalid. Default to it not being a follow back.
         console.error('Invalid following URI')

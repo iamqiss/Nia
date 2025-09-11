@@ -1,7 +1,7 @@
 import {useMemo} from 'react'
 import {View} from 'react-native'
-import {type AppBskyNotificationDefs} from '@atproto/api' // Legacy - will be removed
-import {type FilterablePreference} from '@atproto/api/dist/client/types/app/bsky/notification/defs'
+// Migrated to gRPC
+import {type FilterablePreference} from '#/lib/grpc/TimeGrpcClient'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

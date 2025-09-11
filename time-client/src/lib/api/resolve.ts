@@ -1,10 +1,6 @@
-import {
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  type ComAtprotoRepoStrongRef,
-} from '@atproto/api' // Legacy - will be removed
-import {AtUri} from '@atproto/api' // Legacy - will be removed
-import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
+// Migrated to gRPC
+// Migrated to gRPC
 
 import {POST_IMG_MAX} from '#/lib/constants'
 import {getLinkMeta} from '#/lib/link-meta/link-meta'
@@ -78,7 +74,7 @@ export class EmbeddingDisabledError extends Error {
 }
 
 export async function resolveLink(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
 ): Promise<ResolvedLink> {
   if (isShortLink(uri)) {
@@ -158,7 +154,7 @@ export async function resolveLink(
 
   // Forked from useGetPost. TODO: move into RQ.
   async function getPost({uri}: {uri: string}) {
-    const urip = new AtUri(uri)
+    const urip = new GrpcUri(uri)
     if (!urip.host.startsWith('did:')) {
       const res = await agent.resolveHandle({
         handle: urip.host,
@@ -186,7 +182,7 @@ export async function resolveLink(
 }
 
 export async function resolveGif(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   gif: Gif,
 ): Promise<ResolvedExternalLink> {
   const uri = `${gif.media_formats.gif.url}?hh=${gif.media_formats.gif.dims[1]}&ww=${gif.media_formats.gif.dims[0]}`
@@ -200,7 +196,7 @@ export async function resolveGif(
 }
 
 async function resolveExternal(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
 ): Promise<ResolvedExternalLink> {
   const result = await getLinkMeta(agent, uri)

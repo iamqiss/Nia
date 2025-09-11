@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import {ScrollView, View} from 'react-native'
-import {AppBskyEmbedVideo, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -187,7 +187,7 @@ function ViewMoreCard() {
   const {_} = useLingui()
 
   const href = useMemo(() => {
-    const urip = new AtUri(VIDEO_FEED_URI)
+    const urip = new GrpcUri(VIDEO_FEED_URI)
     return makeCustomFeedLink(urip.host, urip.rkey, undefined, 'discover')
   }, [])
 

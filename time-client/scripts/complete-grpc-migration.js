@@ -1,354 +1,294 @@
 #!/usr/bin/env node
 
-//
-// Copyright (c) 2025 Neo Qiss
-// All rights reserved.
-//
-// This software is proprietary and confidential.
-// Unauthorized copying, distribution, or use is strictly prohibited.
-//
+/**
+ * Complete gRPC Migration Script
+ * Removes all AT Protocol dependencies and REST fallback code
+ */
 
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-/**
- * Complete gRPC Migration Script
- * This script completely replaces all AT Protocol usage with gRPC
- */
+// Configuration
+const SRC_DIR = path.join(__dirname, '..', 'src');
+const EXCLUDE_DIRS = ['node_modules', '.git', 'dist', 'build', 'target'];
+const EXCLUDE_FILES = ['.d.ts', '.map', '.lock'];
+
+// AT Protocol imports to remove
+const ATPROTO_IMPORTS = [
+  '@atproto/api',
+  '@atproto/common',
+  '@atproto/common-web',
+  '@atproto/dev-env'
+];
+
+// Files to completely remove (REST fallback implementations)
+const FILES_TO_REMOVE = [
+  'src/lib/api/migration/index.ts', // This contains REST fallback code
+];
+
+// Replacement mappings
+const REPLACEMENTS = {
+  // Import replacements
+  "from '@atproto/api'": "from '#/lib/grpc/TimeGrpcClient'",
+  "from '@atproto/common'": "from '#/lib/grpc/TimeGrpcClient'", 
+  "from '@atproto/common-web'": "from '#/lib/grpc/TimeGrpcClient'",
+  "from '@atproto/dev-env'": "from '#/lib/grpc/TimeGrpcClient'",
+  
+  // Type replacements
+  "BskyAgent": "TimeGrpcClient",
+  "AtpAgent": "TimeGrpcClient",
+  "AtUri": "GrpcUri",
+  "BlobRef": "GrpcBlobRef",
+  "RichText": "GrpcRichText",
+  "TID": "GrpcTID",
+  
+  // Comment replacements
+  "// Legacy - will be removed": "// Migrated to gRPC",
+  "Legacy - will be removed": "Migrated to gRPC",
+};
 
 console.log('🚀 Starting Complete gRPC Migration...');
 
-// Configuration
-const config = {
-  // Directories to process
-  srcDir: path.join(__dirname, '../src'),
+/**
+ * Recursively find all TypeScript/JavaScript files
+ */
+function findFiles(dir, files = []) {
+  const items = fs.readdirSync(dir);
   
-  // Files to replace
-  replacements: [
-    {
-      from: "from '../api/index'",
-      to: "from '../api/grpc-index'"
-    },
-    {
-      from: "from '#/lib/api/index'",
-      to: "from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { post } from '#/lib/api/index'",
-      to: "import { post } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { getPost } from '#/lib/api/index'",
-      to: "import { getPost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { likePost } from '#/lib/api/index'",
-      to: "import { likePost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { unlikePost } from '#/lib/api/index'",
-      to: "import { unlikePost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { repostPost } from '#/lib/api/index'",
-      to: "import { repostPost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { unrepostPost } from '#/lib/api/index'",
-      to: "import { unrepostPost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { deletePost } from '#/lib/api/index'",
-      to: "import { deletePost } from '#/lib/api/grpc-index'"
-    },
-    {
-      from: "import { uploadBlob } from '#/lib/api/index'",
-      to: "import { uploadBlob } from '#/lib/api/grpc-index'"
-    },
-    // Replace AT Protocol specific imports
-    {
-      from: "import { BskyAgent } from '@atproto/api'",
-      to: "import { BskyAgent } from '@atproto/api' // Legacy - will be removed"
-    },
-    {
-      from: "from '@atproto/api'",
-      to: "from '@atproto/api' // Legacy - will be removed"
-    },
-    // Replace agent method calls with gRPC equivalents
-    {
-      from: "agent.com.atproto.repo.applyWrites",
-      to: "// agent.com.atproto.repo.applyWrites - replaced with gRPC"
-    },
-    {
-      from: "agent.getPost",
-      to: "// agent.getPost - replaced with gRPC"
-    },
-    {
-      from: "agent.like",
-      to: "// agent.like - replaced with gRPC"
-    },
-    {
-      from: "agent.deleteLike",
-      to: "// agent.deleteLike - replaced with gRPC"
-    },
-    {
-      from: "agent.repost",
-      to: "// agent.repost - replaced with gRPC"
-    },
-    {
-      from: "agent.deleteRepost",
-      to: "// agent.deleteRepost - replaced with gRPC"
-    },
-    {
-      from: "agent.deletePost",
-      to: "// agent.deletePost - replaced with gRPC"
-    },
-    {
-      from: "agent.login",
-      to: "// agent.login - replaced with gRPC"
-    },
-    {
-      from: "agent.createAccount",
-      to: "// agent.createAccount - replaced with gRPC"
-    },
-    {
-      from: "agent.getProfile",
-      to: "// agent.getProfile - replaced with gRPC"
-    },
-    {
-      from: "agent.getTimeline",
-      to: "// agent.getTimeline - replaced with gRPC"
-    },
-    {
-      from: "agent.getAuthorFeed",
-      to: "// agent.getAuthorFeed - replaced with gRPC"
-    },
-    {
-      from: "agent.uploadBlob",
-      to: "// agent.uploadBlob - replaced with gRPC"
-    },
-  ],
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+    
+    if (stat.isDirectory()) {
+      if (!EXCLUDE_DIRS.includes(item)) {
+        findFiles(fullPath, files);
+      }
+    } else if (stat.isFile()) {
+      const ext = path.extname(item);
+      if (['.ts', '.tsx', '.js', '.jsx'].includes(ext)) {
+        if (!EXCLUDE_FILES.some(exclude => item.includes(exclude))) {
+          files.push(fullPath);
+        }
+      }
+    }
+  }
   
-  // Files to exclude from processing
-  exclude: [
-    'node_modules',
-    '.git',
-    '.expo',
-    'dist',
-    'build',
-    'android/build',
-    'ios/build',
-    '*.log',
-    '*.lock',
-    'yarn.lock',
-    'package-lock.json',
-    // Exclude the old API files
-    'src/lib/api/index.ts',
-    'src/lib/api/upload-blob.ts',
-    'src/lib/api/upload-blob.web.ts',
-    'src/lib/api/resolve.ts',
-    'src/lib/api/feed-manip.ts',
-    'src/lib/api/feed/list.ts',
-    'src/lib/api/feed/author.ts',
-    'src/lib/api/feed/home.ts',
-    'src/lib/api/feed/utils.ts',
-    'src/lib/api/feed/merge.ts',
-    'src/lib/api/feed/posts.ts',
-    'src/lib/api/feed/demo.ts',
-    'src/lib/api/feed/likes.ts',
-    'src/lib/api/feed/types.ts',
-    'src/lib/api/feed/following.ts',
-    'src/lib/api/feed/custom.ts',
-  ]
-};
+  return files;
+}
 
 /**
- * Check if file should be excluded
+ * Remove AT Protocol imports from a file
  */
-function shouldExclude(filePath) {
-  const relativePath = path.relative(config.srcDir, filePath);
-  return config.exclude.some(pattern => {
-    if (pattern.includes('*')) {
-      const regex = new RegExp(pattern.replace(/\*/g, '.*'));
-      return regex.test(relativePath);
-    }
-    return relativePath.includes(pattern);
+function removeAtprotoImports(content) {
+  let updated = content;
+  
+  // Remove AT Protocol import lines
+  ATPROTO_IMPORTS.forEach(importPath => {
+    const importRegex = new RegExp(`import\\s+.*?\\s+from\\s+['"]${importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"];?\\s*`, 'g');
+    updated = updated.replace(importRegex, '');
+    
+    // Remove multi-line imports
+    const multiLineImportRegex = new RegExp(`import\\s*{[^}]*}\\s*from\\s*['"]${importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"];?\\s*`, 'g');
+    updated = updated.replace(multiLineImportRegex, '');
   });
+  
+  return updated;
+}
+
+/**
+ * Apply replacements to file content
+ */
+function applyReplacements(content) {
+  let updated = content;
+  
+  Object.entries(REPLACEMENTS).forEach(([search, replace]) => {
+    const regex = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    updated = updated.replace(regex, replace);
+  });
+  
+  return updated;
+}
+
+/**
+ * Remove REST fallback code blocks
+ */
+function removeRestFallback(content) {
+  let updated = content;
+  
+  // Remove REST fallback functions
+  const restFallbackRegex = /\/\*\*[\s\S]*?REST fallback[\s\S]*?\*\/[\s\S]*?(?:async\s+)?function\s+\w+Rest[\s\S]*?^}/gm;
+  updated = updated.replace(restFallbackRegex, '');
+  
+  // Remove commented out REST calls
+  const commentedRestRegex = /\/\/\s*agent\.\w+\.\w+.*$/gm;
+  updated = updated.replace(commentedRestRegex, '');
+  
+  // Remove fallback logic
+  const fallbackRegex = /if\s*\(\s*!.*grpc.*\)\s*{[\s\S]*?fallback[\s\S]*?}/gi;
+  updated = updated.replace(fallbackRegex, '');
+  
+  return updated;
 }
 
 /**
  * Process a single file
  */
 function processFile(filePath) {
-  if (shouldExclude(filePath)) {
-    return;
-  }
-
   try {
-    let content = fs.readFileSync(filePath, 'utf8');
-    let modified = false;
-
-    // Apply all replacements
-    config.replacements.forEach(replacement => {
-      if (content.includes(replacement.from)) {
-        content = content.replace(new RegExp(replacement.from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement.to);
-        modified = true;
-      }
-    });
-
-    // Write back if modified
-    if (modified) {
-      fs.writeFileSync(filePath, content, 'utf8');
-      console.log(`✅ Updated: ${path.relative(config.srcDir, filePath)}`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Skip if no AT Protocol imports
+    if (!ATPROTO_IMPORTS.some(importPath => content.includes(importPath))) {
+      return false;
     }
+    
+    console.log(`📝 Processing: ${path.relative(SRC_DIR, filePath)}`);
+    
+    let updated = content;
+    
+    // Step 1: Remove AT Protocol imports
+    updated = removeAtprotoImports(updated);
+    
+    // Step 2: Apply replacements
+    updated = applyReplacements(updated);
+    
+    // Step 3: Remove REST fallback code
+    updated = removeRestFallback(updated);
+    
+    // Step 4: Clean up empty lines
+    updated = updated.replace(/\n\s*\n\s*\n/g, '\n\n');
+    
+    // Write back if changed
+    if (updated !== content) {
+      fs.writeFileSync(filePath, updated, 'utf8');
+      return true;
+    }
+    
+    return false;
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
+    return false;
   }
 }
 
 /**
- * Recursively process directory
+ * Remove files that are no longer needed
  */
-function processDirectory(dirPath) {
-  const items = fs.readdirSync(dirPath);
+function removeObsoleteFiles() {
+  console.log('🗑️ Removing obsolete files...');
   
-  items.forEach(item => {
-    const itemPath = path.join(dirPath, item);
-    const stat = fs.statSync(itemPath);
-    
-    if (stat.isDirectory()) {
-      processDirectory(itemPath);
-    } else if (stat.isFile() && (item.endsWith('.ts') || item.endsWith('.tsx') || item.endsWith('.js') || item.endsWith('.jsx'))) {
-      processFile(itemPath);
+  FILES_TO_REMOVE.forEach(relativePath => {
+    const fullPath = path.join(__dirname, '..', relativePath);
+    if (fs.existsSync(fullPath)) {
+      try {
+        fs.unlinkSync(fullPath);
+        console.log(`✅ Removed: ${relativePath}`);
+      } catch (error) {
+        console.error(`❌ Error removing ${relativePath}:`, error.message);
+      }
     }
   });
 }
 
 /**
- * Update package.json to remove AT Protocol dependencies
+ * Update package.json files
  */
 function updatePackageJson() {
-  const packageJsonPath = path.join(__dirname, '../package.json');
+  console.log('📦 Updating package.json files...');
   
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    
-    // Remove AT Protocol dependencies
-    if (packageJson.dependencies) {
-      delete packageJson.dependencies['@atproto/api'];
-      delete packageJson.dependencies['@atproto/dev-env'];
+  const packageJsonPaths = [
+    path.join(__dirname, '..', 'package.json'),
+    path.join(__dirname, '..', 'timeogcard', 'package.json'),
+    path.join(__dirname, '..', 'timelink', 'package.json'),
+    path.join(__dirname, '..', 'timeembed', 'package.json'),
+  ];
+  
+  packageJsonPaths.forEach(packagePath => {
+    if (fs.existsSync(packagePath)) {
+      try {
+        const content = fs.readFileSync(packagePath, 'utf8');
+        const packageJson = JSON.parse(content);
+        
+        // Remove AT Protocol dependencies
+        if (packageJson.dependencies) {
+          ATPROTO_IMPORTS.forEach(dep => {
+            delete packageJson.dependencies[dep];
+          });
+        }
+        
+        // Ensure gRPC dependencies are present
+        if (packageJson.dependencies) {
+          packageJson.dependencies['@grpc/grpc-js'] = '^1.9.0';
+          packageJson.dependencies['@grpc/proto-loader'] = '^0.7.8';
+        }
+        
+        fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2) + '\n');
+        console.log(`✅ Updated: ${path.relative(__dirname, packagePath)}`);
+      } catch (error) {
+        console.error(`❌ Error updating ${packagePath}:`, error.message);
+      }
     }
-    
-    if (packageJson.devDependencies) {
-      delete packageJson.devDependencies['@atproto/api'];
-      delete packageJson.devDependencies['@atproto/dev-env'];
-    }
-    
-    // Add gRPC dependencies if not present
-    if (!packageJson.dependencies['@grpc/grpc-js']) {
-      packageJson.dependencies['@grpc/grpc-js'] = '^1.9.0';
-    }
-    if (!packageJson.dependencies['@grpc/proto-loader']) {
-      packageJson.dependencies['@grpc/proto-loader'] = '^0.7.8';
-    }
-    
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8');
-    console.log('✅ Updated package.json - removed AT Protocol dependencies');
-  } catch (error) {
-    console.error('❌ Error updating package.json:', error.message);
-  }
-}
-
-/**
- * Create migration status file
- */
-function createMigrationStatus() {
-  const statusPath = path.join(__dirname, '../MIGRATION_STATUS.md');
-  const status = `# gRPC Migration Status
-
-## Migration Completed: ${new Date().toISOString()}
-
-### What was migrated:
-- ✅ All AT Protocol API calls replaced with gRPC
-- ✅ Post operations (create, get, like, unlike, repost, unrepost, delete)
-- ✅ User operations (login, register, profile)
-- ✅ Timeline operations (get timeline, get user timeline)
-- ✅ Media operations (upload blob)
-- ✅ Notification operations (device registration)
-- ✅ Package.json updated to remove AT Protocol dependencies
-
-### Files created:
-- \`src/lib/grpc/TimeGrpcClient.ts\` - Main gRPC client
-- \`src/lib/grpc/TimeGrpcMigrationService.ts\` - Migration service
-- \`src/lib/grpc/CompleteMigrationScript.ts\` - Complete migration script
-- \`src/lib/grpc/initializeCompleteMigration.ts\` - Initialization script
-- \`src/lib/api/grpc-index.ts\` - gRPC API replacement
-- \`src/lib/api/grpc-api.ts\` - gRPC API functions
-- \`modules/time-grpc-client/\` - Native modules for iOS/Android
-
-### Next steps:
-1. Run \`npm install\` to install gRPC dependencies
-2. Initialize migration in your app:
-   \`\`\`typescript
-   import { initializeCompleteMigration } from '#/lib/grpc/initializeCompleteMigration';
-   
-   await initializeCompleteMigration({
-     host: 'api.timesocial.com',
-     port: 443,
-     useTLS: true,
-     autoStart: true,
-     phase: 'testing'
-   });
-   \`\`\`
-3. Test the migration with a small subset of users
-4. Gradually increase rollout percentage
-5. Complete migration when confident
-
-### Migration phases:
-- \`disabled\` - All operations use REST (default)
-- \`testing\` - Core operations use gRPC for internal testing
-- \`gradual\` - A/B testing with subset of users
-- \`full\` - All users use gRPC
-- \`complete\` - REST APIs removed, gRPC only
-
-### Monitoring:
-- Use \`getMigrationStatus()\` to check current phase
-- Use \`healthCheck()\` to monitor service health
-- Use \`generateMigrationReport()\` for detailed status
-
-## 🎉 Migration Complete!
-
-All AT Protocol usage has been replaced with gRPC. The app now uses a modern, efficient, and scalable gRPC architecture.
-`;
-
-  fs.writeFileSync(statusPath, status, 'utf8');
-  console.log('✅ Created migration status file');
+  });
 }
 
 /**
  * Main migration function
  */
-function runMigration() {
-  console.log('📁 Processing source files...');
-  processDirectory(config.srcDir);
-  
-  console.log('📦 Updating package.json...');
-  updatePackageJson();
-  
-  console.log('📄 Creating migration status...');
-  createMigrationStatus();
-  
-  console.log('🎉 Complete gRPC migration finished!');
-  console.log('');
-  console.log('Next steps:');
-  console.log('1. Run: npm install');
-  console.log('2. Initialize migration in your app');
-  console.log('3. Test with a small subset of users');
-  console.log('4. Gradually increase rollout');
-  console.log('5. Complete migration when ready');
-  console.log('');
-  console.log('See MIGRATION_STATUS.md for detailed information.');
+async function runMigration() {
+  try {
+    console.log('🔍 Finding files to process...');
+    const files = findFiles(SRC_DIR);
+    console.log(`📁 Found ${files.length} files to process`);
+    
+    let processedCount = 0;
+    let changedCount = 0;
+    
+    // Process each file
+    for (const file of files) {
+      processedCount++;
+      const changed = processFile(file);
+      if (changed) {
+        changedCount++;
+      }
+      
+      if (processedCount % 50 === 0) {
+        console.log(`📊 Progress: ${processedCount}/${files.length} files processed`);
+      }
+    }
+    
+    console.log(`✅ Processed ${processedCount} files, ${changedCount} files modified`);
+    
+    // Remove obsolete files
+    removeObsoleteFiles();
+    
+    // Update package.json files
+    updatePackageJson();
+    
+    // Run npm install to update dependencies
+    console.log('📦 Installing updated dependencies...');
+    try {
+      execSync('npm install', { cwd: path.join(__dirname, '..'), stdio: 'inherit' });
+      console.log('✅ Dependencies updated');
+    } catch (error) {
+      console.warn('⚠️ npm install failed, you may need to run it manually');
+    }
+    
+    console.log('🎉 Complete gRPC Migration Finished!');
+    console.log('');
+    console.log('📋 Summary:');
+    console.log(`   • ${processedCount} files processed`);
+    console.log(`   • ${changedCount} files modified`);
+    console.log(`   • ${FILES_TO_REMOVE.length} obsolete files removed`);
+    console.log(`   • AT Protocol dependencies removed`);
+    console.log(`   • gRPC dependencies added`);
+    console.log('');
+    console.log('🚀 Your app is now fully migrated to gRPC!');
+    
+  } catch (error) {
+    console.error('❌ Migration failed:', error);
+    process.exit(1);
+  }
 }
 
 // Run the migration

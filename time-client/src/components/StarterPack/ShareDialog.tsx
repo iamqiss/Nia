@@ -1,6 +1,5 @@
 import {View} from 'react-native'
 import {Image} from 'expo-image'
-import {type AppBskyGraphDefs} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

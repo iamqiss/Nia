@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  type AppBskyLabelerDefs,
-  type InterpretedLabelValueDefinition,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {useLabelDefinitionsQuery} from '../queries/preferences'
 

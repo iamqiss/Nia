@@ -1,4 +1,4 @@
-import {AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export const isBasicView = AppBskyGraphDefs.isStarterPackViewBasic
 export const isView = AppBskyGraphDefs.isStarterPackView

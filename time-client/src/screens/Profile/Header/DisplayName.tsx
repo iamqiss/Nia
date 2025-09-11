@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {type AppBskyActorDefs, type ModerationDecision} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'

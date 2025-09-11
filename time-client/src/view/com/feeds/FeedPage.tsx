@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import {View} from 'react-native'
-import {type AppBskyActorDefs, AppBskyFeedDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {type NavigationProp, useNavigation} from '@react-navigation/native'

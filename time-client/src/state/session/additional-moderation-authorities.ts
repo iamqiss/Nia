@@ -1,4 +1,4 @@
-import {BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {logger} from '#/logger'
 import {device} from '#/storage'
@@ -86,7 +86,7 @@ export function configureAdditionalModerationAuthorities() {
   }
 
   const appLabelers = Array.from(
-    new Set([...BskyAgent.appLabelers, ...additionalLabelers]),
+    new Set([...TimeGrpcClient.appLabelers, ...additionalLabelers]),
   )
 
   logger.info(`applying mod authorities`, {
@@ -94,5 +94,5 @@ export function configureAdditionalModerationAuthorities() {
     appLabelers,
   })
 
-  BskyAgent.configure({appLabelers})
+  TimeGrpcClient.configure({appLabelers})
 }

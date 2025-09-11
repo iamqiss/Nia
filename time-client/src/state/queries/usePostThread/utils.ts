@@ -1,11 +1,4 @@
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AppBskyFeedThreadgate,
-  AppBskyUnspeccedDefs,
-  type AppBskyUnspeccedGetPostThreadV2,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {
   type ApiThreadItem,
@@ -26,7 +19,7 @@ export function getThreadgateRecord(
     : undefined
 }
 
-export function getRootPostAtUri(post: AppBskyFeedDefs.PostView) {
+export function getRootPostGrpcUri(post: AppBskyFeedDefs.PostView) {
   if (
     bsky.dangerousIsType<AppBskyFeedPost.Record>(
       post.record,
@@ -37,10 +30,10 @@ export function getRootPostAtUri(post: AppBskyFeedDefs.PostView) {
      * If the record has no `reply` field, it is a root post.
      */
     if (!post.record.reply) {
-      return new AtUri(post.uri)
+      return new GrpcUri(post.uri)
     }
     if (post.record.reply?.root?.uri) {
-      return new AtUri(post.record.reply.root.uri)
+      return new GrpcUri(post.record.reply.root.uri)
     }
   }
 }

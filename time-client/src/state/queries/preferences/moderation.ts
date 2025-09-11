@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  BskyAgent,
-  DEFAULT_LABEL_SETTINGS,
-  interpretLabelValueDefinitions,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {isNonConfigurableModerationAuthority} from '#/state/session/additional-moderation-authorities'
 import {useLabelersDetailedInfoQuery} from '../labeler'
@@ -25,7 +21,7 @@ export function useMyLabelersQuery({
   const prefs = usePreferencesQuery()
   let dids = Array.from(
     new Set(
-      BskyAgent.appLabelers.concat(
+      TimeGrpcClient.appLabelers.concat(
         prefs.data?.moderationPrefs.labelers.map(l => l.did) || [],
       ),
     ),

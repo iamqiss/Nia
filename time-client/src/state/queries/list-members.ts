@@ -1,9 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  type AppBskyGraphDefs,
-  type AppBskyGraphGetList,
-  type BskyAgent,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,
@@ -60,7 +55,7 @@ export function useAllListMembersQuery(uri?: string) {
   })
 }
 
-export async function getAllListMembers(agent: BskyAgent, uri: string) {
+export async function getAllListMembers(agent: TimeGrpcClient, uri: string) {
   let hasMore = true
   let cursor: string | undefined
   const listItems: AppBskyGraphDefs.ListItemView[] = []

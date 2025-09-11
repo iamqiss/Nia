@@ -1,4 +1,4 @@
-import {type ComAtprotoServerCreateAppPassword} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {STALE} from '#/state/queries'

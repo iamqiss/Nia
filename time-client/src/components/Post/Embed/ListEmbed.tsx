@@ -1,5 +1,5 @@
 import {useMemo} from 'react'
-import {moderateUserList} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {atoms as a, useTheme} from '#/alf'

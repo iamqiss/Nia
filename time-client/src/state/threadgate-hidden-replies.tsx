@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyFeedThreadgate} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 type StateContext = {
   uris: Set<string>
