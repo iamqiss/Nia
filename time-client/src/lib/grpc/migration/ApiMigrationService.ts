@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api';
+import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
 import { type QueryClient } from '@tanstack/react-query';
 import MigrationAdapter from './MigrationAdapter';
 import { GrpcFeatureFlagManager } from './FeatureFlags';

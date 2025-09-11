@@ -1,4 +1,4 @@
-import {type AppBskyNotificationDefs} from '@atproto/api'
+import {type AppBskyNotificationDefs} from '@atproto/api' // Legacy - will be removed
 import {t} from '@lingui/macro'
 import {
   type QueryClient,

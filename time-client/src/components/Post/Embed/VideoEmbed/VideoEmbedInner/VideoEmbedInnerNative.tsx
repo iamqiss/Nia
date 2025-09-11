@@ -1,6 +1,6 @@
 import {useImperativeHandle, useRef, useState} from 'react'
 import {Pressable, type StyleProp, View, type ViewStyle} from 'react-native'
-import {type AppBskyEmbedVideo} from '@atproto/api'
+import {type AppBskyEmbedVideo} from '@atproto/api' // Legacy - will be removed
 import {BlueskyVideoView} from '@haileyok/Time-video'
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

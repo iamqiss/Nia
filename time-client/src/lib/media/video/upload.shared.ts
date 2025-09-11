@@ -1,4 +1,4 @@
-import {type BskyAgent} from '@atproto/api'
+import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
 import {type I18n} from '@lingui/core'
 import {msg} from '@lingui/macro'
 

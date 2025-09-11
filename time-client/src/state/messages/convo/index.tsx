@@ -1,5 +1,5 @@
 import React, {useContext, useState, useSyncExternalStore} from 'react'
-import {type ChatBskyConvoDefs} from '@atproto/api'
+import {type ChatBskyConvoDefs} from '@atproto/api' // Legacy - will be removed
 import {useFocusEffect} from '@react-navigation/native'
 import {useQueryClient} from '@tanstack/react-query'
 

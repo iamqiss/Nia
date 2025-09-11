@@ -12,7 +12,7 @@ import {
   type AppBskyLabelerDefs,
   type ModerationOpts,
   type RichText as RichTextAPI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useIsFocused} from '@react-navigation/native'
 
 import {isNative} from '#/platform/detection'

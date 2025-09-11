@@ -3,7 +3,7 @@ import {
   type AppBskyActorDefs,
   type BskyFeedViewPreference,
   type LabelPreference,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {PROD_DEFAULT_FEED} from '#/lib/constants'

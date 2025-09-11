@@ -1,5 +1,5 @@
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {type AppBskyFeedDefs, type ComAtprotoLabelDefs} from '@atproto/api'
+import {type AppBskyFeedDefs, type ComAtprotoLabelDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

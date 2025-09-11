@@ -11,7 +11,7 @@ import {
   type TextInputSelectionChangeEventData,
   View,
 } from 'react-native'
-import {AppBskyRichtextFacet, RichText} from '@atproto/api'
+import {AppBskyRichtextFacet, RichText} from '@atproto/api' // Legacy - will be removed
 import PasteInput, {
   type PastedFile,
   type PasteInputRef, // @ts-expect-error no types when installing from github

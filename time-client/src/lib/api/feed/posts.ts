@@ -2,7 +2,7 @@ import {
   type Agent,
   type AppBskyFeedDefs,
   type AppBskyFeedGetPosts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {logger} from '#/logger'
 import {type FeedAPI, type FeedAPIResponse} from './types'

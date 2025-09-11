@@ -3,7 +3,7 @@ import {
   type ChatBskyActorDefs,
   type ChatBskyConvoDefs,
   type ChatBskyConvoSendMessage,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {type MessagesEventBus} from '#/state/messages/events/agent'
 

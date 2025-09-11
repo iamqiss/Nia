@@ -3,7 +3,7 @@ import {
   AppBskyEmbedRecord,
   AppBskyEmbedRecordWithMedia,
   type AppBskyFeedDefs,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient} from '@tanstack/react-query'
 import EventEmitter from 'eventemitter3'
 

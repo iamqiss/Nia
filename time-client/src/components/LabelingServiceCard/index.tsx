@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {type AppBskyLabelerDefs} from '@atproto/api'
+import {type AppBskyLabelerDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import type React from 'react'

@@ -4,7 +4,7 @@ import {
   ChatBskyConvoDefs,
   type ChatBskyConvoGetLog,
   type ChatBskyConvoSendMessage,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {XRPCError} from '@atproto/xrpc'
 import EventEmitter from 'eventemitter3'
 import {nanoid} from 'nanoid/non-secure'

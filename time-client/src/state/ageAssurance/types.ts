@@ -1,4 +1,4 @@
-import {type AppBskyUnspeccedDefs} from '@atproto/api'
+import {type AppBskyUnspeccedDefs} from '@atproto/api' // Legacy - will be removed
 import {type QueryObserverBaseResult} from '@tanstack/react-query'
 
 export type AgeAssuranceContextType = {

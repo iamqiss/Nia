@@ -6,7 +6,7 @@
 // Unauthorized copying, distribution, or use is strictly prohibited.
 //
 
-import { type BskyAgent } from '@atproto/api';
+import { type BskyAgent } from '@atproto/api' // Legacy - will be removed;
 import { GrpcFeatureFlagManager } from './FeatureFlags';
 import TimeGrpcService, { 
   CreateNoteRequest, 

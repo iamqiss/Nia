@@ -8,7 +8,7 @@ import {
   type ComAtprotoRepoApplyWrites,
   type Facet,
   type Un$Typed,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import chunk from 'lodash.chunk'
 
@@ -231,7 +231,7 @@ export function useListDeleteMutation() {
 
       // apply in chunks
       for (const writesChunk of chunk(writes, 10)) {
-        await agent.com.atproto.repo.applyWrites({
+        await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
           repo: currentAccount.did,
           writes: writesChunk,
         })

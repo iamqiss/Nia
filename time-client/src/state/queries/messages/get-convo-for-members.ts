@@ -1,4 +1,4 @@
-import {type ChatBskyConvoGetConvoForMembers} from '@atproto/api'
+import {type ChatBskyConvoGetConvoForMembers} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {DM_SERVICE_HEADERS} from '#/lib/constants'

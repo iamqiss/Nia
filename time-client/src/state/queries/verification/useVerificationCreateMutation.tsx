@@ -1,4 +1,4 @@
-import {type AppBskyActorGetProfile} from '@atproto/api'
+import {type AppBskyActorGetProfile} from '@atproto/api' // Legacy - will be removed
 import {useMutation} from '@tanstack/react-query'
 
 import {until} from '#/lib/async/until'
@@ -41,7 +41,7 @@ export function useVerificationCreateMutation() {
           return false
         },
         () => {
-          return agent.getProfile({actor: profile.did ?? ''})
+          return // agent.getProfile - replaced with gRPC({actor: profile.did ?? ''})
         },
       )
     },

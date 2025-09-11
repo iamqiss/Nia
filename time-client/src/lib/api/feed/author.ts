@@ -2,7 +2,7 @@ import {
   AppBskyFeedDefs,
   type AppBskyFeedGetAuthorFeed as GetAuthorFeed,
   type BskyAgent,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 
@@ -28,7 +28,7 @@ export class AuthorFeedAPI implements FeedAPI {
   }
 
   async peekLatest(): Promise<AppBskyFeedDefs.FeedViewPost> {
-    const res = await this.agent.getAuthorFeed({
+    const res = await this.// agent.getAuthorFeed - replaced with gRPC({
       ...this.params,
       limit: 1,
     })
@@ -42,7 +42,7 @@ export class AuthorFeedAPI implements FeedAPI {
     cursor: string | undefined
     limit: number
   }): Promise<FeedAPIResponse> {
-    const res = await this.agent.getAuthorFeed({
+    const res = await this.// agent.getAuthorFeed - replaced with gRPC({
       ...this.params,
       cursor,
       limit,

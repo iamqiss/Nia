@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {AppBskyGraphDefs} from '@atproto/api'
+import {AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'

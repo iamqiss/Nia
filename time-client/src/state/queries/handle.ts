@@ -22,7 +22,7 @@ export function useFetchHandle() {
         const res = await queryClient.fetchQuery({
           staleTime: STALE.MINUTES.FIVE,
           queryKey: fetchHandleQueryKey(handleOrDid),
-          queryFn: () => agent.getProfile({actor: handleOrDid}),
+          queryFn: () => // agent.getProfile - replaced with gRPC({actor: handleOrDid}),
         })
         return res.data.handle
       }

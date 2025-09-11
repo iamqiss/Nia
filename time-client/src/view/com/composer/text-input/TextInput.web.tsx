@@ -8,7 +8,7 @@ import {
 } from 'react'
 import {StyleSheet, View} from 'react-native'
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated'
-import {AppBskyRichtextFacet, RichText} from '@atproto/api'
+import {AppBskyRichtextFacet, RichText} from '@atproto/api' // Legacy - will be removed
 import {Trans} from '@lingui/macro'
 import {Document} from '@tiptap/extension-document'
 import Hardbreak from '@tiptap/extension-hard-break'

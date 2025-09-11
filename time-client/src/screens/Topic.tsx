@@ -1,6 +1,6 @@
 import React from 'react'
 import {type ListRenderItemInfo, View} from 'react-native'
-import {type AppBskyFeedDefs} from '@atproto/api'
+import {type AppBskyFeedDefs} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'

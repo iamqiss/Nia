@@ -1,6 +1,6 @@
 import {memo} from 'react'
 import {ActivityIndicator, View} from 'react-native'
-import {type AppBskyActorDefs} from '@atproto/api'
+import {type AppBskyActorDefs} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

@@ -49,14 +49,14 @@ import {
   AtUri,
   type BskyAgent,
   type RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
 import {useQueryClient} from '@tanstack/react-query'
 
-import * as apilib from '#/lib/api/index'
+import * as apilib from '#/lib/api/grpc-index'
 import {EmbeddingDisabledError} from '#/lib/api/resolve'
 import {retry} from '#/lib/async/retry'
 import {until} from '#/lib/async/until'

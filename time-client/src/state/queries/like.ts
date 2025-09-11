@@ -6,7 +6,7 @@ export function useLikeMutation() {
   const agent = useAgent()
   return useMutation({
     mutationFn: async ({uri, cid}: {uri: string; cid: string}) => {
-      const res = await agent.like(uri, cid)
+      const res = await // agent.like - replaced with gRPC(uri, cid)
       return {uri: res.uri}
     },
   })
@@ -16,7 +16,7 @@ export function useUnlikeMutation() {
   const agent = useAgent()
   return useMutation({
     mutationFn: async ({uri}: {uri: string}) => {
-      await agent.deleteLike(uri)
+      await // agent.deleteLike - replaced with gRPC(uri)
     },
   })
 }

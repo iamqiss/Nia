@@ -1,4 +1,4 @@
-import {type ChatBskyConvoDefs} from '@atproto/api'
+import {type ChatBskyConvoDefs} from '@atproto/api' // Legacy - will be removed
 
 import {EMOJI_REACTION_LIMIT} from '#/lib/constants'
 import type * as bsky from '#/types/bsky'

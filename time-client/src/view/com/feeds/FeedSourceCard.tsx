@@ -4,7 +4,7 @@ import {
   AppBskyFeedDefs,
   type AppBskyGraphDefs,
   AtUri,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

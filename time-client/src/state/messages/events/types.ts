@@ -1,4 +1,4 @@
-import {type BskyAgent, type ChatBskyConvoGetLog} from '@atproto/api'
+import {type BskyAgent, type ChatBskyConvoGetLog} from '@atproto/api' // Legacy - will be removed
 
 export type MessagesEventBusParams = {
   agent: BskyAgent

@@ -2,7 +2,7 @@ import {
   type AppBskyFeedDefs,
   type AppBskyGraphDefs,
   type AppBskyNotificationListNotifications,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 export type NotificationType =
   | StarterPackNotificationType

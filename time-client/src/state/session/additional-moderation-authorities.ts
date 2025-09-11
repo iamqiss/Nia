@@ -1,4 +1,4 @@
-import {BskyAgent} from '@atproto/api'
+import {BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {logger} from '#/logger'
 import {device} from '#/storage'

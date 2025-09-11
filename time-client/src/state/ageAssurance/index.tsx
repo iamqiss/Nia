@@ -1,5 +1,5 @@
 import {createContext, useContext, useMemo, useState} from 'react'
-import {type AppBskyUnspeccedDefs} from '@atproto/api'
+import {type AppBskyUnspeccedDefs} from '@atproto/api' // Legacy - will be removed
 import {useQuery} from '@tanstack/react-query'
 
 import {networkRetry} from '#/lib/async/retry'

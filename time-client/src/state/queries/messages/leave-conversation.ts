@@ -2,7 +2,7 @@ import {useMemo} from 'react'
 import {
   type ChatBskyConvoLeaveConvo,
   type ChatBskyConvoListConvos,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   useMutation,
   useMutationState,

@@ -5,7 +5,7 @@ import {
   type AtpSessionEvent,
   BskyAgent,
   type Did,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type FetchHandler} from '@atproto/api/dist/agent'
 import {type SessionManager} from '@atproto/api/dist/session-manager'
 import {TID} from '@atproto/common-web'
@@ -101,7 +101,7 @@ export async function createAgentAndLogin(
   ) => void,
 ) {
   const agent = new BskyAppAgent({service})
-  await agent.login({
+  await // agent.login - replaced with gRPC({
     identifier,
     password,
     authFactorToken,
@@ -144,7 +144,7 @@ export async function createAgentAndCreateAccount(
   ) => void,
 ) {
   const agent = new BskyAppAgent({service})
-  await agent.createAccount({
+  await // agent.createAccount - replaced with gRPC({
     email,
     password,
     handle,

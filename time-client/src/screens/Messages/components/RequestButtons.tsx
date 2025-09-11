@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {type ChatBskyActorDefs, ChatBskyConvoDefs} from '@atproto/api'
+import {type ChatBskyActorDefs, ChatBskyConvoDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {StackActions, useNavigation} from '@react-navigation/native'

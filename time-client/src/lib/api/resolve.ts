@@ -2,9 +2,9 @@ import {
   type AppBskyFeedDefs,
   type AppBskyGraphDefs,
   type ComAtprotoRepoStrongRef,
-} from '@atproto/api'
-import {AtUri} from '@atproto/api'
-import {type BskyAgent} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
+import {AtUri} from '@atproto/api' // Legacy - will be removed
+import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {POST_IMG_MAX} from '#/lib/constants'
 import {getLinkMeta} from '#/lib/link-meta/link-meta'
@@ -165,7 +165,7 @@ export async function resolveLink(
       })
       urip.host = res.data.did
     }
-    const res = await agent.getPosts({
+    const res = await // agent.getPost - replaced with gRPCs({
       uris: [urip.toString()],
     })
     if (res.success && res.data.posts[0]) {

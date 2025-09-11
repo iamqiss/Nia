@@ -1,5 +1,5 @@
 import {type StyleProp, type TextStyle} from 'react-native'
-import {type AppBskyActorGetProfile} from '@atproto/api'
+import {type AppBskyActorGetProfile} from '@atproto/api' // Legacy - will be removed
 
 import {makeProfileLink} from '#/lib/routes/links'
 import {sanitizeDisplayName} from '#/lib/strings/display-names'

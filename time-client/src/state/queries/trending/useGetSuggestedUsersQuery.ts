@@ -1,7 +1,7 @@
 import {
   type AppBskyActorDefs,
   type AppBskyUnspeccedGetSuggestedUsers,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient, useQuery} from '@tanstack/react-query'
 
 import {

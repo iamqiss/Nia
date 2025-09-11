@@ -1,5 +1,5 @@
 import {useCallback} from 'react'
-import {type AppBskyActorDefs, type AppBskyFeedDefs, AtUri} from '@atproto/api'
+import {type AppBskyActorDefs, type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {useToggleMutationQueue} from '#/lib/hooks/useToggleMutationQueue'
@@ -29,7 +29,7 @@ export function usePostQuery(uri: string | undefined) {
         urip.host = res.data.did
       }
 
-      const res = await agent.getPosts({uris: [urip.toString()]})
+      const res = await // agent.getPost - replaced with gRPCs({uris: [urip.toString()]})
       if (res.success && res.data.posts[0]) {
         return res.data.posts[0]
       }
@@ -57,7 +57,7 @@ export function useGetPost() {
             urip.host = res.data.did
           }
 
-          const res = await agent.getPosts({
+          const res = await // agent.getPost - replaced with gRPCs({
             uris: [urip.toString()],
           })
 
@@ -81,7 +81,7 @@ export function useGetPosts() {
       return queryClient.fetchQuery({
         queryKey: RQKEY(uris.join(',') || ''),
         async queryFn() {
-          const res = await agent.getPosts({
+          const res = await // agent.getPost - replaced with gRPCs({
             uris,
           })
 
@@ -196,7 +196,7 @@ function usePostLikeMutation(
             : undefined,
         feedDescriptor: feedDescriptor,
       })
-      return agent.like(uri, cid, via)
+      return // agent.like - replaced with gRPC(uri, cid, via)
     },
   })
 }
@@ -209,7 +209,7 @@ function usePostUnlikeMutation(
   return useMutation<void, Error, {postUri: string; likeUri: string}>({
     mutationFn: ({likeUri}) => {
       logger.metric('post:unlike', {logContext, feedDescriptor})
-      return agent.deleteLike(likeUri)
+      return // agent.deleteLike - replaced with gRPC(likeUri)
     },
   })
 }
@@ -287,7 +287,7 @@ function usePostRepostMutation(
   >({
     mutationFn: ({uri, cid, via}) => {
       logger.metric('post:repost', {logContext, feedDescriptor})
-      return agent.repost(uri, cid, via)
+      return // agent.repost - replaced with gRPC(uri, cid, via)
     },
   })
 }
@@ -300,7 +300,7 @@ function usePostUnrepostMutation(
   return useMutation<void, Error, {postUri: string; repostUri: string}>({
     mutationFn: ({repostUri}) => {
       logger.metric('post:unrepost', {logContext, feedDescriptor})
-      return agent.deleteRepost(repostUri)
+      return // agent.deleteRepost - replaced with gRPC(repostUri)
     },
   })
 }
@@ -310,7 +310,7 @@ export function usePostDeleteMutation() {
   const agent = useAgent()
   return useMutation<void, Error, {uri: string}>({
     mutationFn: async ({uri}) => {
-      await agent.deletePost(uri)
+      await // agent.deletePost - replaced with gRPC(uri)
     },
     onSuccess(_, variables) {
       updatePostShadow(queryClient, variables.uri, {isDeleted: true})

@@ -7,7 +7,7 @@ import {
   AtUri,
   moderateFeedGenerator,
   RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   type InfiniteData,
   keepPreviousData,

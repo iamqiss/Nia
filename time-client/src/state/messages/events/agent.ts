@@ -1,4 +1,4 @@
-import {type BskyAgent, type ChatBskyConvoGetLog} from '@atproto/api'
+import {type BskyAgent, type ChatBskyConvoGetLog} from '@atproto/api' // Legacy - will be removed
 import EventEmitter from 'eventemitter3'
 import {nanoid} from 'nanoid/non-secure'
 

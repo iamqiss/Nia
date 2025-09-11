@@ -3,7 +3,7 @@ import {LayoutAnimation} from 'react-native'
 import {
   ComAtprotoServerCreateAccount,
   type ComAtprotoServerDescribeServer,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import * as EmailValidator from 'email-validator'

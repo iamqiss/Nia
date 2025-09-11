@@ -18,7 +18,7 @@ export function useUpdateProfileVerificationCache() {
   return useCallback(
     async ({profile}: {profile: bsky.profile.AnyProfileView}) => {
       try {
-        const {data: updated} = await agent.getProfile({
+        const {data: updated} = await // agent.getProfile - replaced with gRPC({
           actor: profile.did ?? '',
         })
         updateProfileShadow(qc, profile.did, {

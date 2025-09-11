@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedRef,
 } from 'react-native-reanimated'
 import {Image} from 'expo-image'
-import {type AppBskyEmbedImages} from '@atproto/api'
+import {type AppBskyEmbedImages} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

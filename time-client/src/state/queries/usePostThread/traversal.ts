@@ -1,5 +1,5 @@
 /* eslint-disable no-labels */
-import {AppBskyUnspeccedDefs, type ModerationOpts} from '@atproto/api'
+import {AppBskyUnspeccedDefs, type ModerationOpts} from '@atproto/api' // Legacy - will be removed
 
 import {
   type ApiThreadItem,

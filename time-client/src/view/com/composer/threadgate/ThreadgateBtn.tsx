@@ -1,6 +1,6 @@
 import {Keyboard, type StyleProp, type ViewStyle} from 'react-native'
 import {type AnimatedStyle} from 'react-native-reanimated'
-import {type AppBskyFeedPostgate} from '@atproto/api'
+import {type AppBskyFeedPostgate} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

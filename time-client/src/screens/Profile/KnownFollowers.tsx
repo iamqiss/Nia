@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyActorDefs} from '@atproto/api'
+import {type AppBskyActorDefs} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'

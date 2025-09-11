@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import {Linking, View} from 'react-native'
 import * as Notification from 'expo-notifications'
-import {type AppBskyNotificationDefs} from '@atproto/api'
+import {type AppBskyNotificationDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQuery, useQueryClient} from '@tanstack/react-query'

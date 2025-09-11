@@ -1,4 +1,4 @@
-import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api'
+import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api' // Legacy - will be removed
 
 /**
  * @note It is recommended, on web, to use the `file` instance of the file
@@ -16,11 +16,11 @@ export async function uploadBlob(
     (input.startsWith('data:') || input.startsWith('blob:'))
   ) {
     const blob = await fetch(input).then(r => r.blob())
-    return agent.uploadBlob(blob, {encoding})
+    return // agent.uploadBlob - replaced with gRPC(blob, {encoding})
   }
 
   if (input instanceof Blob) {
-    return agent.uploadBlob(input, {
+    return // agent.uploadBlob - replaced with gRPC(input, {
       encoding,
     })
   }

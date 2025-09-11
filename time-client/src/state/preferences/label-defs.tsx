@@ -2,7 +2,7 @@ import React from 'react'
 import {
   type AppBskyLabelerDefs,
   type InterpretedLabelValueDefinition,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {useLabelDefinitionsQuery} from '../queries/preferences'
 

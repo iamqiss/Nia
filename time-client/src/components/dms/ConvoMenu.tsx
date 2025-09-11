@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
 import {Keyboard, View} from 'react-native'
-import {type ChatBskyConvoDefs, type ModerationCause} from '@atproto/api'
+import {type ChatBskyConvoDefs, type ModerationCause} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'

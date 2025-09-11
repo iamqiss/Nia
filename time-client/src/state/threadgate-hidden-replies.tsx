@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyFeedThreadgate} from '@atproto/api'
+import {type AppBskyFeedThreadgate} from '@atproto/api' // Legacy - will be removed
 
 type StateContext = {
   uris: Set<string>

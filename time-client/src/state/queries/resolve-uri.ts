@@ -1,4 +1,4 @@
-import {AtUri} from '@atproto/api'
+import {AtUri} from '@atproto/api' // Legacy - will be removed
 import {
   type QueryClient,
   useQuery,

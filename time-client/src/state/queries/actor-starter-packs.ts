@@ -1,7 +1,7 @@
 import {
   type AppBskyGraphGetActorStarterPacks,
   type AppBskyGraphGetStarterPacksWithMembership,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   type InfiniteData,
   type QueryClient,

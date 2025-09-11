@@ -1,5 +1,5 @@
 import React from 'react'
-import {RichText as RichTextAPI} from '@atproto/api'
+import {RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
 
 import {useAgent} from '#/state/session'
 

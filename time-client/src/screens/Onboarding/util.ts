@@ -4,7 +4,7 @@ import {
   type AppBskyGraphGetFollows,
   type BskyAgent,
   type ComAtprotoRepoApplyWrites,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {TID} from '@atproto/common-web'
 import chunk from 'lodash.chunk'
 
@@ -35,7 +35,7 @@ export async function bulkWriteFollows(agent: BskyAgent, dids: string[]) {
 
   const chunks = chunk(followWrites, 50)
   for (const chunk of chunks) {
-    await agent.com.atproto.repo.applyWrites({
+    await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
       repo: session.did,
       writes: chunk,
     })

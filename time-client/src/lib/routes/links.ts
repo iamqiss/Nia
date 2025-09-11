@@ -1,4 +1,4 @@
-import {type AppBskyGraphDefs, AtUri} from '@atproto/api'
+import {type AppBskyGraphDefs, AtUri} from '@atproto/api' // Legacy - will be removed
 
 import {isInvalidHandle} from '#/lib/strings/handles'
 

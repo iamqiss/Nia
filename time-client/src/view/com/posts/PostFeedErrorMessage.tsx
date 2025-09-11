@@ -4,7 +4,7 @@ import {
   type AppBskyActorDefs,
   AppBskyFeedGetAuthorFeed,
   AtUri,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg as msgLingui, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'

@@ -8,7 +8,7 @@ import {
   moderatePost,
   type ModerationDecision,
   type ModerationOpts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {
@@ -103,7 +103,7 @@ export function usePostThreadQuery(uri: string | undefined) {
     gcTime: 0,
     queryKey: RQKEY(uri || ''),
     async queryFn() {
-      const res = await agent.getPostThread({
+      const res = await // agent.getPost - replaced with gRPCThread({
         uri: uri!,
         depth: REPLY_TREE_DEPTH,
       })

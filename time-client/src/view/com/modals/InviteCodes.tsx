@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native'
 import {setStringAsync} from 'expo-clipboard'
-import {type ComAtprotoServerDefs} from '@atproto/api'
+import {type ComAtprotoServerDefs} from '@atproto/api' // Legacy - will be removed
 import {
   FontAwesomeIcon,
   type FontAwesomeIconStyle,

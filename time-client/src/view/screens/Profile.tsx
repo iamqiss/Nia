@@ -6,7 +6,7 @@ import {
   moderateProfile,
   type ModerationOpts,
   RichText as RichTextAPI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'

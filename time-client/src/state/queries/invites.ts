@@ -1,4 +1,4 @@
-import {type ComAtprotoServerDefs} from '@atproto/api'
+import {type ComAtprotoServerDefs} from '@atproto/api' // Legacy - will be removed
 import {useQuery} from '@tanstack/react-query'
 
 import {cleanError} from '#/lib/strings/errors'

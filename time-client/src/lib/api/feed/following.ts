@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs, type BskyAgent} from '@atproto/api'
+import {type AppBskyFeedDefs, type BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 
@@ -10,7 +10,7 @@ export class FollowingFeedAPI implements FeedAPI {
   }
 
   async peekLatest(): Promise<AppBskyFeedDefs.FeedViewPost> {
-    const res = await this.agent.getTimeline({
+    const res = await this.// agent.getTimeline - replaced with gRPC({
       limit: 1,
     })
     return res.data.feed[0]
@@ -23,7 +23,7 @@ export class FollowingFeedAPI implements FeedAPI {
     cursor: string | undefined
     limit: number
   }): Promise<FeedAPIResponse> {
-    const res = await this.agent.getTimeline({
+    const res = await this.// agent.getTimeline - replaced with gRPC({
       cursor,
       limit,
     })

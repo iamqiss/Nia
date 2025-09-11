@@ -1,4 +1,4 @@
-import {type BskyAgent} from '@atproto/api'
+import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {LINK_META_PROXY} from '#/lib/constants'
 import {getGiphyMetaUri} from '#/lib/strings/embed-player'

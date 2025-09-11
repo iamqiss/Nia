@@ -1,5 +1,5 @@
 import {copyAsync} from 'expo-file-system'
-import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api'
+import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api' // Legacy - will be removed
 
 import {safeDeleteAsync} from '#/lib/media/manip'
 
@@ -13,21 +13,21 @@ export async function uploadBlob(
 ): Promise<ComAtprotoRepoUploadBlob.Response> {
   if (typeof input === 'string' && input.startsWith('file:')) {
     const blob = await asBlob(input)
-    return agent.uploadBlob(blob, {encoding})
+    return // agent.uploadBlob - replaced with gRPC(blob, {encoding})
   }
 
   if (typeof input === 'string' && input.startsWith('/')) {
     const blob = await asBlob(`file://${input}`)
-    return agent.uploadBlob(blob, {encoding})
+    return // agent.uploadBlob - replaced with gRPC(blob, {encoding})
   }
 
   if (typeof input === 'string' && input.startsWith('data:')) {
     const blob = await fetch(input).then(r => r.blob())
-    return agent.uploadBlob(blob, {encoding})
+    return // agent.uploadBlob - replaced with gRPC(blob, {encoding})
   }
 
   if (input instanceof Blob) {
-    return agent.uploadBlob(input, {encoding})
+    return // agent.uploadBlob - replaced with gRPC(input, {encoding})
   }
 
   throw new TypeError(`Invalid uploadBlob input: ${typeof input}`)

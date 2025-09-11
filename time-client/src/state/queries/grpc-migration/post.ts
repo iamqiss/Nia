@@ -8,7 +8,7 @@
 
 import { useCallback } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { type AppBskyFeedDefs } from '@atproto/api';
+import { type AppBskyFeedDefs } from '@atproto/api' // Legacy - will be removed;
 
 import { useToggleMutationQueue } from '#/lib/hooks/useToggleMutationQueue';
 import { type LogEvents, toClout } from '#/lib/statsig/statsig';

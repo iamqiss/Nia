@@ -14,7 +14,7 @@
  * -prf
  */
 
-import {AtUri} from '@atproto/api'
+import {AtUri} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {STALE} from '#/state/queries'

@@ -1,6 +1,6 @@
 import React from 'react'
 import {type TextStyle} from 'react-native'
-import {AppBskyRichtextFacet, RichText as RichTextAPI} from '@atproto/api'
+import {AppBskyRichtextFacet, RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
 
 import {toShortUrl} from '#/lib/strings/url-helpers'
 import {atoms as a, flatten, type TextStyleProp} from '#/alf'

@@ -33,7 +33,7 @@ export function usePinnedPostMutation() {
 
         // get the currently pinned post so we can optimistically remove the pin from it
         if (!currentAccount) throw new Error('Not signed in')
-        const {data: profile} = await agent.getProfile({
+        const {data: profile} = await // agent.getProfile - replaced with gRPC({
           actor: currentAccount.did,
         })
         prevPinnedPost = profile.pinnedPost?.uri

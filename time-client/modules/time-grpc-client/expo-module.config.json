@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["TimeGrpcClient"]
+  },
+  "android": {
+    "modules": ["com.time.grpc.TimeGrpcClientModule"]
+  }
+}

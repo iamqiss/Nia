@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useState} from 'react'
-import {type AppBskyActorDefs as ActorDefs} from '@atproto/api'
+import {type AppBskyActorDefs as ActorDefs} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

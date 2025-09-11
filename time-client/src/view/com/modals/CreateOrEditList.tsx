@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient'
-import {type AppBskyGraphDefs, RichText as RichTextAPI} from '@atproto/api'
+import {type AppBskyGraphDefs, RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

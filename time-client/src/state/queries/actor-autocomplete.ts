@@ -3,7 +3,7 @@ import {
   type AppBskyActorDefs,
   moderateProfile,
   type ModerationOpts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {keepPreviousData, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {isJustAMute, moduiContainsHideableOffense} from '#/lib/moderation'

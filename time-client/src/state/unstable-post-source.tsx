@@ -1,5 +1,5 @@
 import {useEffect, useId, useState} from 'react'
-import {type AppBskyFeedDefs, AtUri} from '@atproto/api'
+import {type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
 
 import {Logger} from '#/logger'
 import {type FeedSourceInfo} from '#/state/queries/feed'

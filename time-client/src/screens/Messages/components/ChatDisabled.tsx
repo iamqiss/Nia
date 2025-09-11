@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react'
 import {View} from 'react-native'
-import {ComAtprotoModerationDefs} from '@atproto/api'
+import {ComAtprotoModerationDefs} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useMutation} from '@tanstack/react-query'

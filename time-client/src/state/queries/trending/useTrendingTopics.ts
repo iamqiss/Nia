@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyUnspeccedDefs, hasMutedWord} from '@atproto/api'
+import {type AppBskyUnspeccedDefs, hasMutedWord} from '@atproto/api' // Legacy - will be removed
 import {useQuery} from '@tanstack/react-query'
 
 import {STALE} from '#/state/queries'

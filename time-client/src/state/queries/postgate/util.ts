@@ -5,7 +5,7 @@ import {
   type AppBskyFeedDefs,
   type AppBskyFeedPostgate,
   AtUri,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 export const POSTGATE_COLLECTION = 'app.bsky.feed.postgate'
 

@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs, AppBskyFeedThreadgate} from '@atproto/api'
+import {type AppBskyFeedDefs, AppBskyFeedThreadgate} from '@atproto/api' // Legacy - will be removed
 
 import {type ThreadgateAllowUISetting} from '#/state/queries/threadgate/types'
 import * as bsky from '#/types/bsky'

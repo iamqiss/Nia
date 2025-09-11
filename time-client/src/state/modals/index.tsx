@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AppBskyGraphDefs} from '@atproto/api'
+import {type AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
 
 import {useNonReactiveCallback} from '#/lib/hooks/useNonReactiveCallback'
 
