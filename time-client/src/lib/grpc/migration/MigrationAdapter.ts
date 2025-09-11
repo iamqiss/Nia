@@ -8,6 +8,8 @@
 
 import { type BskyAgent } from '@atproto/api';
 import { GrpcFeatureFlagManager } from './FeatureFlags';
+import { CircuitBreakerManager, CircuitBreakerError } from './CircuitBreaker';
+import { CacheManager, IntelligentCache } from './IntelligentCache';
 import TimeGrpcService, { 
   CreateNoteRequest, 
   CreateNoteResponse,
@@ -34,6 +36,9 @@ export class MigrationAdapter {
   private static instance: MigrationAdapter;
   private grpcService: TimeGrpcService;
   private featureFlags: GrpcFeatureFlagManager;
+  private circuitBreakerManager: CircuitBreakerManager;
+  private cacheManager: CacheManager;
+  private responseCache: IntelligentCache<string, any>;
   private isInitialized = false;
   
   static getInstance(): MigrationAdapter {
@@ -46,6 +51,21 @@ export class MigrationAdapter {
   private constructor() {
     this.grpcService = TimeGrpcService.getInstance();
     this.featureFlags = GrpcFeatureFlagManager.getInstance();
+    this.circuitBreakerManager = CircuitBreakerManager.getInstance();
+    this.cacheManager = CacheManager.getInstance();
+    
+    // Initialize response cache
+    this.responseCache = this.cacheManager.getCache(
+      'migration_responses',
+      (key: string) => key,
+      {
+        ttlSeconds: 300, // 5 minutes
+        maxSize: 1000,
+        enableCompression: true,
+        enablePersistence: false,
+        maxMemoryUsageMB: 50,
+      }
+    );
   }
   
   /**
@@ -64,15 +84,37 @@ export class MigrationAdapter {
   }
   
   /**
-   * Check if gRPC should be used for a specific operation
+   * Check if gRPC should be used for a specific operation with circuit breaker
    */
   private shouldUseGrpc(operation: string): boolean {
     if (!this.isInitialized) return false;
-    return this.featureFlags.isGrpcEnabledForOperation(operation);
+    
+    // Check feature flags
+    if (!this.featureFlags.isGrpcEnabledForOperation(operation)) {
+      return false;
+    }
+    
+    // Check circuit breaker
+    const circuitBreaker = this.circuitBreakerManager.getBreaker(
+      `grpc_${operation}`,
+      this.featureFlags.getFlags().circuitBreakerConfig || {
+        failureThreshold: 5,
+        recoveryTimeoutMs: 30000,
+        halfOpenMaxCalls: 3,
+      }
+    );
+    
+    const health = circuitBreaker.getHealthStatus();
+    if (!health.healthy) {
+      console.warn(`Circuit breaker OPEN for ${operation}, falling back to REST`);
+      return false;
+    }
+    
+    return true;
   }
   
   /**
-   * Create a note using either gRPC or REST
+   * Create a note using either gRPC or REST with caching and circuit breaker
    */
   async createNote(
     request: CreateNoteRequest,
@@ -81,9 +123,26 @@ export class MigrationAdapter {
   ): Promise<CreateNoteResponse> {
     if (this.shouldUseGrpc('createNote')) {
       try {
-        return await this.grpcService.createNote(request);
+        const circuitBreaker = this.circuitBreakerManager.getBreaker(
+          'grpc_createNote',
+          this.featureFlags.getFlags().circuitBreakerConfig || {
+            failureThreshold: 5,
+            recoveryTimeoutMs: 30000,
+            halfOpenMaxCalls: 3,
+          }
+        );
+        
+        const response = await circuitBreaker.execute(async () => {
+          return await this.grpcService.createNote(request);
+        });
+        
+        return response;
       } catch (error) {
-        console.warn('gRPC createNote failed, falling back to REST:', error);
+        if (error instanceof CircuitBreakerError) {
+          console.warn('Circuit breaker OPEN for createNote, falling back to REST:', error);
+        } else {
+          console.warn('gRPC createNote failed, falling back to REST:', error);
+        }
         // Fall back to REST implementation
         return this.createNoteRest(request, restAgent, restQueryClient);
       }
@@ -93,17 +152,44 @@ export class MigrationAdapter {
   }
   
   /**
-   * Get a note using either gRPC or REST
+   * Get a note using either gRPC or REST with caching
    */
   async getNote(
     request: GetNoteRequest,
     restAgent: BskyAgent
   ): Promise<GetNoteResponse> {
+    // Check cache first for read operations
+    const cacheKey = `getNote_${request.noteId}_${request.requestingUserId}`;
+    const cachedResponse = this.responseCache.get(cacheKey);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
     if (this.shouldUseGrpc('getNote')) {
       try {
-        return await this.grpcService.getNote(request);
+        const circuitBreaker = this.circuitBreakerManager.getBreaker(
+          'grpc_getNote',
+          this.featureFlags.getFlags().circuitBreakerConfig || {
+            failureThreshold: 5,
+            recoveryTimeoutMs: 30000,
+            halfOpenMaxCalls: 3,
+          }
+        );
+        
+        const response = await circuitBreaker.execute(async () => {
+          return await this.grpcService.getNote(request);
+        });
+        
+        // Cache successful response
+        this.responseCache.set(cacheKey, response);
+        
+        return response;
       } catch (error) {
-        console.warn('gRPC getNote failed, falling back to REST:', error);
+        if (error instanceof CircuitBreakerError) {
+          console.warn('Circuit breaker OPEN for getNote, falling back to REST:', error);
+        } else {
+          console.warn('gRPC getNote failed, falling back to REST:', error);
+        }
         return this.getNoteRest(request, restAgent);
       }
     } else {
@@ -579,6 +665,44 @@ export class MigrationAdapter {
       isVerifiedContent: false,
       clientName: 'Time Social App',
     };
+  }
+  
+  /**
+   * Get health status of the migration adapter
+   */
+  getHealthStatus(): {
+    initialized: boolean;
+    circuitBreakers: any;
+    cacheStats: any;
+    featureFlags: any;
+  } {
+    return {
+      initialized: this.isInitialized,
+      circuitBreakers: this.circuitBreakerManager.getOverallHealth(),
+      cacheStats: this.cacheManager.getAllStats(),
+      featureFlags: this.featureFlags.getFlags(),
+    };
+  }
+  
+  /**
+   * Clear response cache
+   */
+  clearCache(): void {
+    this.responseCache.clear();
+  }
+  
+  /**
+   * Get cache statistics
+   */
+  getCacheStats(): any {
+    return this.responseCache.getStats();
+  }
+  
+  /**
+   * Reset circuit breakers
+   */
+  resetCircuitBreakers(): void {
+    this.circuitBreakerManager.resetAll();
   }
 }
 

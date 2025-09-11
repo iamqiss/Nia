@@ -8,7 +8,7 @@
 
 /**
  * Feature flags for gRPC migration
- * Controls gradual rollout of gRPC services
+ * Controls gradual rollout of gRPC services with advanced A/B testing and user segmentation
  */
 export interface GrpcFeatureFlags {
   // Core services
@@ -36,13 +36,52 @@ export interface GrpcFeatureFlags {
   enableRealTimeUpdates: boolean;
   enableConnectionPooling: boolean;
   enableCompression: boolean;
+  enableCircuitBreaker: boolean;
+  enableRequestBatching: boolean;
+  enableIntelligentCaching: boolean;
+  enablePerformanceMonitoring: boolean;
   
   // Migration phases
   phase: 'disabled' | 'testing' | 'gradual' | 'full' | 'complete';
   
-  // A/B testing
+  // Advanced A/B testing and user segmentation
   abTestGroup?: 'control' | 'treatment';
   abTestPercentage?: number;
+  userSegments?: string[];
+  geographicRegions?: string[];
+  deviceTypes?: string[];
+  appVersions?: string[];
+  
+  // Performance thresholds
+  performanceThresholds?: {
+    maxLatencyMs: number;
+    maxErrorRate: number;
+    minThroughput: number;
+    maxMemoryUsageMB: number;
+  };
+  
+  // Circuit breaker configuration
+  circuitBreakerConfig?: {
+    failureThreshold: number;
+    recoveryTimeoutMs: number;
+    halfOpenMaxCalls: number;
+  };
+  
+  // Caching configuration
+  cachingConfig?: {
+    ttlSeconds: number;
+    maxSize: number;
+    enableCompression: boolean;
+    enablePersistence: boolean;
+  };
+  
+  // Monitoring configuration
+  monitoringConfig?: {
+    enableMetrics: boolean;
+    enableTracing: boolean;
+    enableLogging: boolean;
+    samplingRate: number;
+  };
 }
 
 /**
@@ -74,6 +113,10 @@ export const DEFAULT_GRPC_FLAGS: GrpcFeatureFlags = {
   enableRealTimeUpdates: false,
   enableConnectionPooling: true,
   enableCompression: true,
+  enableCircuitBreaker: true,
+  enableRequestBatching: false,
+  enableIntelligentCaching: false,
+  enablePerformanceMonitoring: true,
   
   // Migration phases
   phase: 'disabled',
@@ -81,6 +124,41 @@ export const DEFAULT_GRPC_FLAGS: GrpcFeatureFlags = {
   // A/B testing
   abTestGroup: undefined,
   abTestPercentage: 0,
+  userSegments: [],
+  geographicRegions: [],
+  deviceTypes: [],
+  appVersions: [],
+  
+  // Performance thresholds
+  performanceThresholds: {
+    maxLatencyMs: 1000,
+    maxErrorRate: 0.05,
+    minThroughput: 100,
+    maxMemoryUsageMB: 100,
+  },
+  
+  // Circuit breaker configuration
+  circuitBreakerConfig: {
+    failureThreshold: 5,
+    recoveryTimeoutMs: 30000,
+    halfOpenMaxCalls: 3,
+  },
+  
+  // Caching configuration
+  cachingConfig: {
+    ttlSeconds: 300,
+    maxSize: 1000,
+    enableCompression: true,
+    enablePersistence: false,
+  },
+  
+  // Monitoring configuration
+  monitoringConfig: {
+    enableMetrics: true,
+    enableTracing: true,
+    enableLogging: true,
+    samplingRate: 0.1,
+  },
 };
 
 /**
@@ -127,7 +205,7 @@ export class GrpcFeatureFlagManager {
   }
   
   /**
-   * Check if gRPC is enabled for a specific operation
+   * Check if gRPC is enabled for a specific operation with advanced criteria
    */
   isGrpcEnabledForOperation(operation: string): boolean {
     const operationFlags: Record<string, keyof GrpcFeatureFlags> = {
@@ -149,25 +227,198 @@ export class GrpcFeatureFlagManager {
       return false;
     }
     
-    return this.isEnabled(flagKey);
+    // Check if the operation is enabled
+    if (!this.isEnabled(flagKey)) {
+      return false;
+    }
+    
+    // Check if user is in A/B test group
+    if (!this.isInAbTestGroup()) {
+      return false;
+    }
+    
+    // Check if user meets performance criteria
+    if (!this.meetsPerformanceCriteria()) {
+      return false;
+    }
+    
+    return true;
   }
   
   /**
-   * Check if user is in A/B test group
+   * Check if user is in A/B test group with advanced segmentation
    */
   isInAbTestGroup(): boolean {
     if (!this.flags.abTestGroup || !this.flags.abTestPercentage) {
       return false;
     }
     
-    // Simple hash-based A/B testing
-    const userId = this.getUserId();
-    if (!userId) {
+    // Get user context for advanced segmentation
+    const userContext = this.getUserContext();
+    if (!userContext.userId) {
       return false;
     }
     
-    const hash = this.simpleHash(userId);
+    // Check user segments
+    if (this.flags.userSegments && this.flags.userSegments.length > 0) {
+      if (!this.flags.userSegments.includes(userContext.segment)) {
+        return false;
+      }
+    }
+    
+    // Check geographic regions
+    if (this.flags.geographicRegions && this.flags.geographicRegions.length > 0) {
+      if (!this.flags.geographicRegions.includes(userContext.region)) {
+        return false;
+      }
+    }
+    
+    // Check device types
+    if (this.flags.deviceTypes && this.flags.deviceTypes.length > 0) {
+      if (!this.flags.deviceTypes.includes(userContext.deviceType)) {
+        return false;
+      }
+    }
+    
+    // Check app versions
+    if (this.flags.appVersions && this.flags.appVersions.length > 0) {
+      if (!this.flags.appVersions.includes(userContext.appVersion)) {
+        return false;
+      }
+    }
+    
+    // Advanced hash-based A/B testing with multiple factors
+    const hash = this.advancedHash(userContext);
     return (hash % 100) < this.flags.abTestPercentage;
+  }
+  
+  /**
+   * Check if user meets performance criteria for gRPC
+   */
+  meetsPerformanceCriteria(): boolean {
+    const userContext = this.getUserContext();
+    const thresholds = this.flags.performanceThresholds;
+    
+    if (!thresholds) {
+      return true;
+    }
+    
+    // Check network conditions
+    if (userContext.networkSpeed && userContext.networkSpeed < thresholds.minThroughput) {
+      return false;
+    }
+    
+    // Check device capabilities
+    if (userContext.deviceMemory && userContext.deviceMemory < thresholds.maxMemoryUsageMB) {
+      return false;
+    }
+    
+    return true;
+  }
+  
+  /**
+   * Get user context for advanced segmentation
+   */
+  private getUserContext(): {
+    userId: string | null;
+    segment: string;
+    region: string;
+    deviceType: string;
+    appVersion: string;
+    networkSpeed?: number;
+    deviceMemory?: number;
+  } {
+    const userId = this.getUserId();
+    
+    return {
+      userId,
+      segment: this.getUserSegment(userId),
+      region: this.getUserRegion(),
+      deviceType: this.getDeviceType(),
+      appVersion: this.getAppVersion(),
+      networkSpeed: this.getNetworkSpeed(),
+      deviceMemory: this.getDeviceMemory(),
+    };
+  }
+  
+  /**
+   * Get user segment based on behavior and characteristics
+   */
+  private getUserSegment(userId: string | null): string {
+    if (!userId) return 'anonymous';
+    
+    // This would integrate with your user analytics system
+    // For now, using a simple hash-based segmentation
+    const hash = this.simpleHash(userId);
+    const segments = ['power_user', 'casual_user', 'new_user', 'premium_user'];
+    return segments[hash % segments.length];
+  }
+  
+  /**
+   * Get user geographic region
+   */
+  private getUserRegion(): string {
+    // This would integrate with geolocation services
+    // For now, using a default
+    return 'us-west';
+  }
+  
+  /**
+   * Get device type
+   */
+  private getDeviceType(): string {
+    if (typeof window === 'undefined') return 'server';
+    
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes('mobile')) return 'mobile';
+    if (userAgent.includes('tablet')) return 'tablet';
+    return 'desktop';
+  }
+  
+  /**
+   * Get app version
+   */
+  private getAppVersion(): string {
+    // This would come from your app's version system
+    return '1.0.0';
+  }
+  
+  /**
+   * Get network speed (estimated)
+   */
+  private getNetworkSpeed(): number | undefined {
+    if (typeof navigator === 'undefined' || !('connection' in navigator)) {
+      return undefined;
+    }
+    
+    const connection = (navigator as any).connection;
+    return connection?.effectiveType === '4g' ? 100 : 50;
+  }
+  
+  /**
+   * Get device memory (estimated)
+   */
+  private getDeviceMemory(): number | undefined {
+    if (typeof navigator === 'undefined' || !('deviceMemory' in navigator)) {
+      return undefined;
+    }
+    
+    return (navigator as any).deviceMemory;
+  }
+  
+  /**
+   * Advanced hash function for A/B testing with multiple factors
+   */
+  private advancedHash(userContext: any): number {
+    const factors = [
+      userContext.userId || 'anonymous',
+      userContext.segment,
+      userContext.region,
+      userContext.deviceType,
+      userContext.appVersion,
+    ].join('|');
+    
+    return this.simpleHash(factors);
   }
   
   /**
@@ -330,7 +581,7 @@ export const MIGRATION_PHASES = {
   },
   full: {
     name: 'Full Rollout',
-    description: 'gRPC enabled for all users',
+    description: 'gRPC enabled for all users with advanced features',
     flags: {
       ...DEFAULT_GRPC_FLAGS,
       phase: 'full' as const,
@@ -352,11 +603,15 @@ export const MIGRATION_PHASES = {
       enableGetNotifications: true,
       enableStreaming: true,
       enableRealTimeUpdates: true,
+      enableCircuitBreaker: true,
+      enableRequestBatching: true,
+      enableIntelligentCaching: true,
+      enablePerformanceMonitoring: true,
     },
   },
   complete: {
     name: 'Migration Complete',
-    description: 'REST APIs removed, gRPC only',
+    description: 'REST APIs removed, gRPC only with all advanced features',
     flags: {
       ...DEFAULT_GRPC_FLAGS,
       phase: 'complete' as const,
@@ -378,6 +633,10 @@ export const MIGRATION_PHASES = {
       enableGetNotifications: true,
       enableStreaming: true,
       enableRealTimeUpdates: true,
+      enableCircuitBreaker: true,
+      enableRequestBatching: true,
+      enableIntelligentCaching: true,
+      enablePerformanceMonitoring: true,
     },
   },
 } as const;
