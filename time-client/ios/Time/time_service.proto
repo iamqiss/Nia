@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package sonet.time;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option swift_prefix = "Time";
+
+// Time service for real-time communication
+service TimeService {
+  // Get current server time
+  rpc GetCurrentTime(google.protobuf.Empty) returns (TimeResponse);
+  
+  // Get time with timezone
+  rpc GetTimeWithTimezone(TimezoneRequest) returns (TimeResponse);
+  
+  // Stream real-time time updates
+  rpc StreamTime(google.protobuf.Empty) returns (stream TimeUpdate);
+  
+  // Get time statistics
+  rpc GetTimeStats(google.protobuf.Empty) returns (TimeStatsResponse);
+}
+
+// Request for timezone-specific time
+message TimezoneRequest {
+  string timezone = 1;
+}
+
+// Time response
+message TimeResponse {
+  google.protobuf.Timestamp timestamp = 1;
+  string timezone = 2;
+  int64 unix_timestamp = 3;
+  string formatted_time = 4;
+  bool is_utc = 5;
+}
+
+// Real-time time update
+message TimeUpdate {
+  google.protobuf.Timestamp timestamp = 1;
+  string timezone = 2;
+  int64 unix_timestamp = 3;
+  string formatted_time = 4;
+  int32 update_interval_ms = 5;
+}
+
+// Time statistics response
+message TimeStatsResponse {
+  google.protobuf.Timestamp server_start_time = 1;
+  int64 uptime_seconds = 2;
+  int64 total_requests = 3;
+  double average_response_time_ms = 4;
+  string server_version = 5;
+}
