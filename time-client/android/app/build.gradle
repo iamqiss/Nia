@@ -155,6 +155,15 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    
+    // gRPC dependencies
+    implementation 'io.grpc:grpc-okhttp:1.58.0'
+    implementation 'io.grpc:grpc-protobuf-lite:1.58.0'
+    implementation 'io.grpc:grpc-stub:1.58.0'
+    implementation 'com.google.protobuf:protobuf-javalite:3.24.0'
+    
+    // For streaming
+    implementation 'io.grpc:grpc-netty-shaded:1.58.0'
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
