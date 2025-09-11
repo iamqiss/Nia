@@ -13,7 +13,7 @@
 set -e
 
 # Configuration
-PROTO_DIR="../time-server/proto"
+PROTO_DIR="proto"
 OUTPUT_DIR="android/app/src/main/java/com/timesocial/grpc"
 JAVA_GRPC_PLUGIN="/usr/bin/grpc_java_plugin"  # Will be installed
 JAVA_PLUGIN="protoc-gen-java"  # Built-in with protoc
@@ -65,6 +65,12 @@ SERVICES=(
     "services/timeline.proto"
     "services/media.proto"
     "services/notification.proto"
+    "services/fanout.proto"
+    "services/messaging.proto"
+    "services/search.proto"
+    "services/drafts_service.proto"
+    "services/list_service.proto"
+    "services/starterpack_service.proto"
 )
 
 # Common types
@@ -149,6 +155,12 @@ public class TimeGrpcModule {
         public static final String TIMELINE = "sonet.timeline.TimelineService";
         public static final String MEDIA = "sonet.media.MediaService";
         public static final String NOTIFICATION = "sonet.notification.NotificationService";
+        public static final String FANOUT = "sonet.fanout.FanoutService";
+        public static final String MESSAGING = "sonet.messaging.MessagingService";
+        public static final String SEARCH = "sonet.search.SearchService";
+        public static final String DRAFTS = "sonet.drafts.v1.DraftsService";
+        public static final String LIST = "sonet.list.v1.ListService";
+        public static final String STARTERPACK = "sonet.starterpack.v1.StarterpackService";
     }
     
     // Error types

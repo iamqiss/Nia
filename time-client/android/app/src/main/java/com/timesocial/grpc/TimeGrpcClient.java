@@ -35,6 +35,18 @@ public class TimeGrpcClient {
     private final MediaServiceGrpc.MediaServiceStub mediaServiceAsync;
     private final NotificationServiceGrpc.NotificationServiceBlockingStub notificationService;
     private final NotificationServiceGrpc.NotificationServiceStub notificationServiceAsync;
+    private final FanoutServiceGrpc.FanoutServiceBlockingStub fanoutService;
+    private final FanoutServiceGrpc.FanoutServiceStub fanoutServiceAsync;
+    private final MessagingServiceGrpc.MessagingServiceBlockingStub messagingService;
+    private final MessagingServiceGrpc.MessagingServiceStub messagingServiceAsync;
+    private final SearchServiceGrpc.SearchServiceBlockingStub searchService;
+    private final SearchServiceGrpc.SearchServiceStub searchServiceAsync;
+    private final DraftsServiceGrpc.DraftsServiceBlockingStub draftsService;
+    private final DraftsServiceGrpc.DraftsServiceStub draftsServiceAsync;
+    private final ListServiceGrpc.ListServiceBlockingStub listService;
+    private final ListServiceGrpc.ListServiceStub listServiceAsync;
+    private final StarterpackServiceGrpc.StarterpackServiceBlockingStub starterpackService;
+    private final StarterpackServiceGrpc.StarterpackServiceStub starterpackServiceAsync;
     
     private final TimeGrpcModule.Config config;
     
@@ -68,6 +80,18 @@ public class TimeGrpcClient {
         this.mediaServiceAsync = MediaServiceGrpc.newStub(channel);
         this.notificationService = NotificationServiceGrpc.newBlockingStub(channel);
         this.notificationServiceAsync = NotificationServiceGrpc.newStub(channel);
+        this.fanoutService = FanoutServiceGrpc.newBlockingStub(channel);
+        this.fanoutServiceAsync = FanoutServiceGrpc.newStub(channel);
+        this.messagingService = MessagingServiceGrpc.newBlockingStub(channel);
+        this.messagingServiceAsync = MessagingServiceGrpc.newStub(channel);
+        this.searchService = SearchServiceGrpc.newBlockingStub(channel);
+        this.searchServiceAsync = SearchServiceGrpc.newStub(channel);
+        this.draftsService = DraftsServiceGrpc.newBlockingStub(channel);
+        this.draftsServiceAsync = DraftsServiceGrpc.newStub(channel);
+        this.listService = ListServiceGrpc.newBlockingStub(channel);
+        this.listServiceAsync = ListServiceGrpc.newStub(channel);
+        this.starterpackService = StarterpackServiceGrpc.newBlockingStub(channel);
+        this.starterpackServiceAsync = StarterpackServiceGrpc.newStub(channel);
     }
     
     public TimeGrpcClient(String host, int port) {
@@ -114,6 +138,54 @@ public class TimeGrpcClient {
     
     public NotificationServiceGrpc.NotificationServiceStub getNotificationServiceAsync() {
         return notificationServiceAsync;
+    }
+    
+    public FanoutServiceGrpc.FanoutServiceBlockingStub getFanoutService() {
+        return fanoutService;
+    }
+    
+    public FanoutServiceGrpc.FanoutServiceStub getFanoutServiceAsync() {
+        return fanoutServiceAsync;
+    }
+    
+    public MessagingServiceGrpc.MessagingServiceBlockingStub getMessagingService() {
+        return messagingService;
+    }
+    
+    public MessagingServiceGrpc.MessagingServiceStub getMessagingServiceAsync() {
+        return messagingServiceAsync;
+    }
+    
+    public SearchServiceGrpc.SearchServiceBlockingStub getSearchService() {
+        return searchService;
+    }
+    
+    public SearchServiceGrpc.SearchServiceStub getSearchServiceAsync() {
+        return searchServiceAsync;
+    }
+    
+    public DraftsServiceGrpc.DraftsServiceBlockingStub getDraftsService() {
+        return draftsService;
+    }
+    
+    public DraftsServiceGrpc.DraftsServiceStub getDraftsServiceAsync() {
+        return draftsServiceAsync;
+    }
+    
+    public ListServiceGrpc.ListServiceBlockingStub getListService() {
+        return listService;
+    }
+    
+    public ListServiceGrpc.ListServiceStub getListServiceAsync() {
+        return listServiceAsync;
+    }
+    
+    public StarterpackServiceGrpc.StarterpackServiceBlockingStub getStarterpackService() {
+        return starterpackService;
+    }
+    
+    public StarterpackServiceGrpc.StarterpackServiceStub getStarterpackServiceAsync() {
+        return starterpackServiceAsync;
     }
     
     // MARK: - Connection Management

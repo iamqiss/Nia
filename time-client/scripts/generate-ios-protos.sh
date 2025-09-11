@@ -13,7 +13,7 @@
 set -e
 
 # Configuration
-PROTO_DIR="../time-server/proto"
+PROTO_DIR="proto"
 OUTPUT_DIR="ios/Time/Generated"
 SWIFT_GRPC_PLUGIN="/usr/bin/grpc_cpp_plugin"  # We'll use C++ plugin as fallback
 SWIFT_PLUGIN="protoc-gen-swift"  # Will be installed via Swift package manager
@@ -65,6 +65,12 @@ SERVICES=(
     "services/timeline.proto"
     "services/media.proto"
     "services/notification.proto"
+    "services/fanout.proto"
+    "services/messaging.proto"
+    "services/search.proto"
+    "services/drafts_service.proto"
+    "services/list_service.proto"
+    "services/starterpack_service.proto"
 )
 
 # Common types
@@ -145,6 +151,12 @@ public enum TimeGrpc {
         public static let timeline = "sonet.timeline.TimelineService"
         public static let media = "sonet.media.MediaService"
         public static let notification = "sonet.notification.NotificationService"
+        public static let fanout = "sonet.fanout.FanoutService"
+        public static let messaging = "sonet.messaging.MessagingService"
+        public static let search = "sonet.search.SearchService"
+        public static let drafts = "sonet.drafts.v1.DraftsService"
+        public static let list = "sonet.list.v1.ListService"
+        public static let starterpack = "sonet.starterpack.v1.StarterpackService"
     }
 }
 
