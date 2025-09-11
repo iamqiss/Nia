@@ -1,0 +1,14 @@
+syntax = "proto3";
+package time.fanout;
+
+// Minimal service exposing health and metrics if needed.
+service FanoutAdminService {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc Metrics(MetricsRequest) returns (MetricsResponse);
+}
+
+message HealthRequest {}
+message HealthResponse { string status = 1; }
+message MetricsRequest {}
+message MetricsResponse { string prometheus_text = 1; }
+
