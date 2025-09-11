@@ -1,0 +1,13 @@
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/cmake/RdKafka/RdKafkaConfig.cmake
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/cmake/RdKafka/RdKafkaConfigVersion.cmake
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/cmake/RdKafka/FindLZ4.cmake
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/cmake/RdKafka/RdKafkaTargets.cmake
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/cmake/RdKafka/RdKafkaTargets-debug.cmake
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/share/licenses/librdkafka/LICENSES.txt
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/pkgconfig/rdkafka-static.pc
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/librdkafka.a
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/include/librdkafka/rdkafka.h
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/include/librdkafka/rdkafka_mock.h
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/pkgconfig/rdkafka++-static.pc
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/lib/librdkafka++.a
+/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/include/librdkafka/rdkafkacpp.h

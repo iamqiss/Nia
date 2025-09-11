@@ -1,0 +1,922 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      The system is: Linux - 6.1.147 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /usr/bin/cc 
+      Build flags: -ffunction-sections;-fdata-sections;-fPIC;-m64;--target=x86_64-unknown-linux-gnu
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is Clang, found in:
+        /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/3.31.6/CompilerIdC/a.out
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /usr/bin/c++ 
+      Build flags: -ffunction-sections;-fdata-sections;-fPIC;-m64;--target=x86_64-unknown-linux-gnu
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is Clang, found in:
+        /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/3.31.6/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7e41e/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_7e41e.dir/build.make CMakeFiles/cmTC_7e41e.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG'
+        Building C object CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu    -v -MD -MT CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Ubuntu clang version 20.1.2 (0ubuntu1)
+        Target: x86_64-unknown-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/lib/llvm-20/bin
+        Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Candidate multilib: .;@m64
+        Selected multilib: .;@m64
+         (in-process)
+         "/usr/lib/llvm-20/bin/clang" -cc1 -triple x86_64-unknown-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG -resource-dir /usr/lib/llvm-20/lib/clang/20 -dependency-file CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-20/lib/clang/20/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 20.1.2 based upon LLVM 20.1.2 default target x86_64-pc-linux-gnu
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include"
+        ignoring nonexistent directory "/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/llvm-20/lib/clang/20/include
+         /usr/local/include
+         /usr/include/x86_64-linux-gnu
+         /usr/include
+        End of search list.
+        Linking C executable cmTC_7e41e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7e41e.dir/link.txt --verbose=1
+        Ubuntu clang version 20.1.2 (0ubuntu1)
+        Target: x86_64-unknown-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/lib/llvm-20/bin
+        Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Candidate multilib: .;@m64
+        Selected multilib: .;@m64
+         "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_7e41e /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/14 -L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o /lib/x86_64-linux-gnu/crtn.o
+        GNU ld (GNU Binutils for Ubuntu) 2.44
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu   -v -Wl,-v CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -o cmTC_7e41e
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/llvm-20/lib/clang/20/include]
+          add: [/usr/local/include]
+          add: [/usr/include/x86_64-linux-gnu]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/llvm-20/lib/clang/20/include] ==> [/usr/lib/llvm-20/lib/clang/20/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/lib/llvm-20/lib/clang/20/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7e41e/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_7e41e.dir/build.make CMakeFiles/cmTC_7e41e.dir/build]
+        ignore line: [gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG']
+        ignore line: [Building C object CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu    -v -MD -MT CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Ubuntu clang version 20.1.2 (0ubuntu1)]
+        ignore line: [Target: x86_64-unknown-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/lib/llvm-20/bin]
+        ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        ignore line: [ (in-process)]
+        ignore line: [ "/usr/lib/llvm-20/bin/clang" -cc1 -triple x86_64-unknown-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-5IsJwG -resource-dir /usr/lib/llvm-20/lib/clang/20 -dependency-file CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/llvm-20/lib/clang/20/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 20.1.2 based upon LLVM 20.1.2 default target x86_64-pc-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include"]
+        ignore line: [ignoring nonexistent directory "/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/llvm-20/lib/clang/20/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include/x86_64-linux-gnu]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_7e41e]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7e41e.dir/link.txt --verbose=1]
+        ignore line: [Ubuntu clang version 20.1.2 (0ubuntu1)]
+        ignore line: [Target: x86_64-unknown-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/lib/llvm-20/bin]
+        ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_7e41e /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/14 -L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
+          arg [/usr/bin/ld] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_7e41e] ==> ignore
+          arg [/lib/x86_64-linux-gnu/Scrt1.o] ==> obj [/lib/x86_64-linux-gnu/Scrt1.o]
+          arg [/lib/x86_64-linux-gnu/crti.o] ==> obj [/lib/x86_64-linux-gnu/crti.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/14] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/14]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64]
+          arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+          arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+          arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+          arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_7e41e.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--no-as-needed] ==> ignore
+          arg [-lc] ==> lib [c]
+          arg [-lgcc] ==> lib [gcc]
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--no-as-needed] ==> ignore
+          arg [/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o]
+          arg [/lib/x86_64-linux-gnu/crtn.o] ==> obj [/lib/x86_64-linux-gnu/crtn.o]
+        linker tool for 'C': /usr/bin/ld
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/14] ==> [/usr/lib/gcc/x86_64-linux-gnu/14]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64] ==> [/usr/lib64]
+        collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+        collapse library dir [/lib/../lib64] ==> [/lib64]
+        collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+        implicit objs: [/lib/x86_64-linux-gnu/Scrt1.o;/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o;/lib/x86_64-linux-gnu/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/14;/usr/lib64;/lib/x86_64-linux-gnu;/lib64;/usr/lib/x86_64-linux-gnu;/lib;/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Running the C compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils for Ubuntu) 2.44
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_CXX_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3a278/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_3a278.dir/build.make CMakeFiles/cmTC_3a278.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU'
+        Building CXX object CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu    -v -MD -MT CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Ubuntu clang version 20.1.2 (0ubuntu1)
+        Target: x86_64-unknown-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/lib/llvm-20/bin
+        Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Candidate multilib: .;@m64
+        Selected multilib: .;@m64
+         (in-process)
+         "/usr/lib/llvm-20/bin/clang" -cc1 -triple x86_64-unknown-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU -resource-dir /usr/lib/llvm-20/lib/clang/20 -dependency-file CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward -internal-isystem /usr/lib/llvm-20/lib/clang/20/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 20.1.2 based upon LLVM 20.1.2 default target x86_64-pc-linux-gnu
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include"
+        ignoring nonexistent directory "/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14
+         /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14
+         /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward
+         /usr/lib/llvm-20/lib/clang/20/include
+         /usr/local/include
+         /usr/include/x86_64-linux-gnu
+         /usr/include
+        End of search list.
+        Linking CXX executable cmTC_3a278
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3a278.dir/link.txt --verbose=1
+        Ubuntu clang version 20.1.2 (0ubuntu1)
+        Target: x86_64-unknown-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/lib/llvm-20/bin
+        Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14
+        Candidate multilib: .;@m64
+        Selected multilib: .;@m64
+         "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3a278 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/14 -L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o /lib/x86_64-linux-gnu/crtn.o
+        GNU ld (GNU Binutils for Ubuntu) 2.44
+        /usr/bin/c++  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu   -v -Wl,-v CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_3a278
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14]
+          add: [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14]
+          add: [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward]
+          add: [/usr/lib/llvm-20/lib/clang/20/include]
+          add: [/usr/local/include]
+          add: [/usr/include/x86_64-linux-gnu]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14] ==> [/usr/include/c++/14]
+        collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14] ==> [/usr/include/x86_64-linux-gnu/c++/14]
+        collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward] ==> [/usr/include/c++/14/backward]
+        collapse include dir [/usr/lib/llvm-20/lib/clang/20/include] ==> [/usr/lib/llvm-20/lib/clang/20/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/include/c++/14;/usr/include/x86_64-linux-gnu/c++/14;/usr/include/c++/14/backward;/usr/lib/llvm-20/lib/clang/20/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3a278/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_3a278.dir/build.make CMakeFiles/cmTC_3a278.dir/build]
+        ignore line: [gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU']
+        ignore line: [Building CXX object CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu    -v -MD -MT CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Ubuntu clang version 20.1.2 (0ubuntu1)]
+        ignore line: [Target: x86_64-unknown-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/lib/llvm-20/bin]
+        ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        ignore line: [ (in-process)]
+        ignore line: [ "/usr/lib/llvm-20/bin/clang" -cc1 -triple x86_64-unknown-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-lCIDWU -resource-dir /usr/lib/llvm-20/lib/clang/20 -dependency-file CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward -internal-isystem /usr/lib/llvm-20/lib/clang/20/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 20.1.2 based upon LLVM 20.1.2 default target x86_64-pc-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/14/../../../../x86_64-linux-gnu/include"]
+        ignore line: [ignoring nonexistent directory "/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14]
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward]
+        ignore line: [ /usr/lib/llvm-20/lib/clang/20/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include/x86_64-linux-gnu]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking CXX executable cmTC_3a278]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3a278.dir/link.txt --verbose=1]
+        ignore line: [Ubuntu clang version 20.1.2 (0ubuntu1)]
+        ignore line: [Target: x86_64-unknown-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/lib/llvm-20/bin]
+        ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/14]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3a278 /lib/x86_64-linux-gnu/Scrt1.o /lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/14 -L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o /lib/x86_64-linux-gnu/crtn.o]
+          arg [/usr/bin/ld] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_3a278] ==> ignore
+          arg [/lib/x86_64-linux-gnu/Scrt1.o] ==> obj [/lib/x86_64-linux-gnu/Scrt1.o]
+          arg [/lib/x86_64-linux-gnu/crti.o] ==> obj [/lib/x86_64-linux-gnu/crti.o]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/14] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/14]
+          arg [-L/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64]
+          arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+          arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+          arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+          arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_3a278.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lc] ==> lib [c]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o]
+          arg [/lib/x86_64-linux-gnu/crtn.o] ==> obj [/lib/x86_64-linux-gnu/crtn.o]
+        linker tool for 'CXX': /usr/bin/ld
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/14] ==> [/usr/lib/gcc/x86_64-linux-gnu/14]
+        collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/14/../../../../lib64] ==> [/usr/lib64]
+        collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+        collapse library dir [/lib/../lib64] ==> [/lib64]
+        collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+        collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+        implicit objs: [/lib/x86_64-linux-gnu/Scrt1.o;/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o;/lib/x86_64-linux-gnu/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/14;/usr/lib64;/lib/x86_64-linux-gnu;/lib64;/usr/lib/x86_64-linux-gnu;/lib;/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:6 (project)"
+    message: |
+      Running the CXX compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils for Ubuntu) 2.44
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "CMakeLists.txt:37 (check_library_exists)"
+    checks:
+      - "Looking for pow in m"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "WITH_HDRHISTOGRAM"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_22c1d/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_22c1d.dir/build.make CMakeFiles/cmTC_22c1d.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r'
+        Building C object CMakeFiles/cmTC_22c1d.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu -DCHECK_FUNCTION_EXISTS=pow -MD -MT CMakeFiles/cmTC_22c1d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_22c1d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_22c1d.dir/CheckFunctionExists.c.o -c /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r/CheckFunctionExists.c
+        /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r/CheckFunctionExists.c:7:3: warning: incompatible redeclaration of library function 'pow' [-Wincompatible-library-redeclaration]
+            7 |   CHECK_FUNCTION_EXISTS(void);
+              |   ^
+        <command line>:1:31: note: expanded from macro 'CHECK_FUNCTION_EXISTS'
+            1 | #define CHECK_FUNCTION_EXISTS pow
+              |                               ^
+        /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r/CheckFunctionExists.c:7:3: note: 'pow' is a builtin with type 'double (double, double)'
+        <command line>:1:31: note: expanded from macro 'CHECK_FUNCTION_EXISTS'
+            1 | #define CHECK_FUNCTION_EXISTS pow
+              |                               ^
+        1 warning generated.
+        Linking C executable cmTC_22c1d
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22c1d.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu -DCHECK_FUNCTION_EXISTS=pow CMakeFiles/cmTC_22c1d.dir/CheckFunctionExists.c.o -o cmTC_22c1d  -lm
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-y1O55r'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:83 (try_compile)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "WITH_LIBDL"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_47cac/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_47cac.dir/build.make CMakeFiles/cmTC_47cac.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_47cac.dir/dlopen_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_47cac.dir/dlopen_test.c.o -MF CMakeFiles/cmTC_47cac.dir/dlopen_test.c.o.d -o CMakeFiles/cmTC_47cac.dir/dlopen_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/dlopen_test.c
+        Linking C executable cmTC_47cac
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_47cac.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_47cac.dir/dlopen_test.c.o -o cmTC_47cac  -ldl
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "CMakeLists.txt:132 (try_compile)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "WITH_SASL_CYRUS_BOOL"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_381e1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_381e1.dir/build.make CMakeFiles/cmTC_381e1.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_381e1.dir/libsasl2_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_381e1.dir/libsasl2_test.c.o -MF CMakeFiles/cmTC_381e1.dir/libsasl2_test.c.o.d -o CMakeFiles/cmTC_381e1.dir/libsasl2_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/libsasl2_test.c
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/libsasl2_test.c:2:10: fatal error: 'sasl/sasl.h' file not found
+            2 | #include <sasl/sasl.h>
+              |          ^~~~~~~~~~~~~
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_381e1.dir/build.make:82: CMakeFiles/cmTC_381e1.dir/libsasl2_test.c.o] Error 1
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:134: cmTC_381e1/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:1 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_REGEX"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4ab4e/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_4ab4e.dir/build.make CMakeFiles/cmTC_4ab4e.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_4ab4e.dir/regex_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_4ab4e.dir/regex_test.c.o -MF CMakeFiles/cmTC_4ab4e.dir/regex_test.c.o.d -o CMakeFiles/cmTC_4ab4e.dir/regex_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/regex_test.c
+        Linking C executable cmTC_4ab4e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4ab4e.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_4ab4e.dir/regex_test.c.o -o cmTC_4ab4e
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:7 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_STRNDUP"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_01571/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_01571.dir/build.make CMakeFiles/cmTC_01571.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_01571.dir/strndup_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_01571.dir/strndup_test.c.o -MF CMakeFiles/cmTC_01571.dir/strndup_test.c.o.d -o CMakeFiles/cmTC_01571.dir/strndup_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/strndup_test.c
+        Linking C executable cmTC_01571
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01571.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_01571.dir/strndup_test.c.o -o cmTC_01571
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:13 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_RAND_R"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_353a2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_353a2.dir/build.make CMakeFiles/cmTC_353a2.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_353a2.dir/rand_r_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_353a2.dir/rand_r_test.c.o -MF CMakeFiles/cmTC_353a2.dir/rand_r_test.c.o.d -o CMakeFiles/cmTC_353a2.dir/rand_r_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/rand_r_test.c
+        Linking C executable cmTC_353a2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_353a2.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_353a2.dir/rand_r_test.c.o -o cmTC_353a2
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:19 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_PTHREAD_SETNAME_GNU"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_51b0b/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_51b0b.dir/build.make CMakeFiles/cmTC_51b0b.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_51b0b.dir/pthread_setname_gnu_test.c.o
+        /usr/bin/cc -D_GNU_SOURCE  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_51b0b.dir/pthread_setname_gnu_test.c.o -MF CMakeFiles/cmTC_51b0b.dir/pthread_setname_gnu_test.c.o.d -o CMakeFiles/cmTC_51b0b.dir/pthread_setname_gnu_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/pthread_setname_gnu_test.c
+        Linking C executable cmTC_51b0b
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51b0b.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_51b0b.dir/pthread_setname_gnu_test.c.o -o cmTC_51b0b  -lpthread
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:27 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_PTHREAD_SETNAME_DARWIN"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_68e68/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_68e68.dir/build.make CMakeFiles/cmTC_68e68.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_68e68.dir/pthread_setname_darwin_test.c.o
+        /usr/bin/cc -D_DARWIN_C_SOURCE  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_68e68.dir/pthread_setname_darwin_test.c.o -MF CMakeFiles/cmTC_68e68.dir/pthread_setname_darwin_test.c.o.d -o CMakeFiles/cmTC_68e68.dir/pthread_setname_darwin_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/pthread_setname_darwin_test.c
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/pthread_setname_darwin_test.c:4:9: error: call to undeclared function 'pthread_setname_np'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+            4 |         pthread_setname_np("abc");
+              |         ^
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_68e68.dir/build.make:82: CMakeFiles/cmTC_68e68.dir/pthread_setname_darwin_test.c.o] Error 1
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:134: cmTC_68e68/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:35 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "HAVE_PTHREAD_SETNAME_FREEBSD"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_37704/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_37704.dir/build.make CMakeFiles/cmTC_37704.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_37704.dir/pthread_setname_freebsd_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_37704.dir/pthread_setname_freebsd_test.c.o -MF CMakeFiles/cmTC_37704.dir/pthread_setname_freebsd_test.c.o.d -o CMakeFiles/cmTC_37704.dir/pthread_setname_freebsd_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/pthread_setname_freebsd_test.c
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/pthread_setname_freebsd_test.c:2:10: fatal error: 'pthread_np.h' file not found
+            2 | #include <pthread_np.h>
+              |          ^~~~~~~~~~~~~~
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_37704.dir/build.make:82: CMakeFiles/cmTC_37704.dir/pthread_setname_freebsd_test.c.o] Error 1
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:134: cmTC_37704/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:47 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "_atomics_32"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_934b5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_934b5.dir/build.make CMakeFiles/cmTC_934b5.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_934b5.dir/atomic_32_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_934b5.dir/atomic_32_test.c.o -MF CMakeFiles/cmTC_934b5.dir/atomic_32_test.c.o.d -o CMakeFiles/cmTC_934b5.dir/atomic_32_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/atomic_32_test.c
+        Linking C executable cmTC_934b5
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_934b5.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_934b5.dir/atomic_32_test.c.o -o cmTC_934b5
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:79 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "_atomics_64"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_138c7/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_138c7.dir/build.make CMakeFiles/cmTC_138c7.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_138c7.dir/atomic_64_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_138c7.dir/atomic_64_test.c.o -MF CMakeFiles/cmTC_138c7.dir/atomic_64_test.c.o.d -o CMakeFiles/cmTC_138c7.dir/atomic_64_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/atomic_64_test.c
+        Linking C executable cmTC_138c7
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_138c7.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_138c7.dir/atomic_64_test.c.o -o cmTC_138c7
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:108 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "WITH_C11THREADS"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1cf65/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_1cf65.dir/build.make CMakeFiles/cmTC_1cf65.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_1cf65.dir/c11threads_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_1cf65.dir/c11threads_test.c.o -MF CMakeFiles/cmTC_1cf65.dir/c11threads_test.c.o.d -o CMakeFiles/cmTC_1cf65.dir/c11threads_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/c11threads_test.c
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/c11threads_test.c:8:1: warning: return type of 'main' is not 'int' [-Wmain-return-type]
+            8 | void main(void) {
+              | ^
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/c11threads_test.c:8:1: note: change return type to 'int'
+            8 | void main(void) {
+              | ^~~~
+              | int
+        1 warning generated.
+        Linking C executable cmTC_1cf65
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1cf65.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_1cf65.dir/c11threads_test.c.o -o cmTC_1cf65  -pthread
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "packaging/cmake/try_compile/rdkafka_setup.cmake:117 (try_compile)"
+      - "CMakeLists.txt:204 (include)"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+    buildResult:
+      variable: "WITH_CRC32C_HW"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d1139/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_d1139.dir/build.make CMakeFiles/cmTC_d1139.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_d1139.dir/crc32c_hw_test.c.o
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -MD -MT CMakeFiles/cmTC_d1139.dir/crc32c_hw_test.c.o -MF CMakeFiles/cmTC_d1139.dir/crc32c_hw_test.c.o.d -o CMakeFiles/cmTC_d1139.dir/crc32c_hw_test.c.o -c /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/crc32c_hw_test.c
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/crc32c_hw_test.c:5:1: warning: return type of 'main' is not 'int' [-Wmain-return-type]
+            5 | void main(void) {
+              | ^
+        /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/try_compile/crc32c_hw_test.c:5:1: note: change return type to 'int'
+            5 | void main(void) {
+              | ^~~~
+              | int
+        1 warning generated.
+        Linking C executable cmTC_d1139
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1139.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_d1139.dir/crc32c_hw_test.c.o -o cmTC_d1139
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/try_compile/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "src/CMakeLists.txt:255 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ"
+      binary: "/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/rdkafka-sys-4.9.0+2.10.0/librdkafka/packaging/cmake/Modules/"
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b6495/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_b6495.dir/build.make CMakeFiles/cmTC_b6495.dir/build
+        gmake[1]: Entering directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ'
+        Building C object CMakeFiles/cmTC_b6495.dir/src.c.o
+        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  -fPIE -MD -MT CMakeFiles/cmTC_b6495.dir/src.c.o -MF CMakeFiles/cmTC_b6495.dir/src.c.o.d -o CMakeFiles/cmTC_b6495.dir/src.c.o -c /workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ/src.c
+        Linking C executable cmTC_b6495
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b6495.dir/link.txt --verbose=1
+        /usr/bin/cc  -ffunction-sections -fdata-sections -fPIC -m64 --target=x86_64-unknown-linux-gnu  CMakeFiles/cmTC_b6495.dir/src.c.o -o cmTC_b6495
+        gmake[1]: Leaving directory '/workspace/target/debug/build/rdkafka-sys-4cc6e60716bfbaad/out/build/CMakeFiles/CMakeScratch/TryCompile-WujAeJ'
+        
+      exitCode: 0
+...

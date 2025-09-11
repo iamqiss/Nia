@@ -1,0 +1,10 @@
+/workspace/target/debug/deps/libopentelemetry_prometheus-5c10b3aa3ce7a493.rmeta: /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/lib.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/config.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/resource_selector.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/utils.rs
+
+/workspace/target/debug/deps/libopentelemetry_prometheus-5c10b3aa3ce7a493.rlib: /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/lib.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/config.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/resource_selector.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/utils.rs
+
+/workspace/target/debug/deps/opentelemetry_prometheus-5c10b3aa3ce7a493.d: /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/lib.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/config.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/resource_selector.rs /usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/utils.rs
+
+/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/lib.rs:
+/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/config.rs:
+/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/resource_selector.rs:
+/usr/local/cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.16.0/src/utils.rs:

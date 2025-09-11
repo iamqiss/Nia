@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "fanout-service",
+]
+resolver = "2"
+

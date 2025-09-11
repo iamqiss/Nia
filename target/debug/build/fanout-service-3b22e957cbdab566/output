@@ -1,0 +1,3 @@
+cargo:rerun-if-changed=../time-server/proto
+cargo:rerun-if-changed=../time-server/proto/services/fanout.proto
+cargo:rerun-if-changed=../time-server/proto

@@ -1,0 +1,1 @@
+ProstCodec<fanout::GetFanoutJobStatusResponse, fanout::GetFanoutJobStatusRequest>

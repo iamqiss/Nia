@@ -1,3 +1,15 @@
+Fanout Service (tonic, Rust)
+
+- Create new crate `fanout-service` with workspace config
+- Generate gRPC stubs from `time-server/proto` (fanout, note, common)
+- Implement gRPC server with:
+  - InitiateFanout, GetFanoutJobStatus, CancelFanoutJob
+  - GetUserTier, ProcessFollowerBatch, GetFanoutMetrics
+  - HealthCheck
+- Storage: Redis for timelines, Postgres/Cockroach for jobs/metrics, Kafka for batches
+- Workers: Tokio tasks consuming Kafka, batch size adaptive by tier
+- Observability: Prometheus metrics, OpenTelemetry tracing, structured logs
+- Config via env vars and `config` crate, Dockerfile and docker-compose service
 # Time Social App - Native gRPC Implementation TODO
 
 ## 🎯 Project Overview
