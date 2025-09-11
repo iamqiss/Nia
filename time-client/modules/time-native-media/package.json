@@ -1,0 +1,45 @@
+{
+  "name": "time-native-media",
+  "version": "1.0.0",
+  "description": "Unified native media components for video and image handling with advanced caching and performance optimizations",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "yarn build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest"
+  },
+  "keywords": [
+    "react-native",
+    "media",
+    "video",
+    "image",
+    "cache",
+    "performance",
+    "native",
+    "exoplayer",
+    "avplayer"
+  ],
+  "author": "Time Engineering Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.72.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0"
+  },
+  "files": [
+    "android/",
+    "ios/",
+    "src/",
+    "build/",
+    "*.json",
+    "*.md"
+  ]
+}
