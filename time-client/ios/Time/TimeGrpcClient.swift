@@ -23,6 +23,12 @@ public class TimeGrpcClient: NSObject {
     private var timelineService: TimelineServiceClient?
     private var mediaService: MediaServiceClient?
     private var notificationService: NotificationServiceClient?
+    private var fanoutService: FanoutServiceClient?
+    private var messagingService: MessagingServiceClient?
+    private var searchService: SearchServiceClient?
+    private var draftsService: DraftsServiceClient?
+    private var listService: ListServiceClient?
+    private var starterpackService: StarterpackServiceClient?
     
     private let config: TimeGrpcConfig
     private let group: EventLoopGroup
@@ -63,6 +69,12 @@ public class TimeGrpcClient: NSObject {
             self.timelineService = TimelineServiceClient(channel: channelBuilder)
             self.mediaService = MediaServiceClient(channel: channelBuilder)
             self.notificationService = NotificationServiceClient(channel: channelBuilder)
+            self.fanoutService = FanoutServiceClient(channel: channelBuilder)
+            self.messagingService = MessagingServiceClient(channel: channelBuilder)
+            self.searchService = SearchServiceClient(channel: channelBuilder)
+            self.draftsService = DraftsServiceClient(channel: channelBuilder)
+            self.listService = ListServiceClient(channel: channelBuilder)
+            self.starterpackService = StarterpackServiceClient(channel: channelBuilder)
             
         } catch {
             print("Failed to setup gRPC clients: \(error)")
@@ -94,6 +106,36 @@ public class TimeGrpcClient: NSObject {
     @objc
     public var notificationServiceClient: NotificationServiceClient? {
         return notificationService
+    }
+    
+    @objc
+    public var fanoutServiceClient: FanoutServiceClient? {
+        return fanoutService
+    }
+    
+    @objc
+    public var messagingServiceClient: MessagingServiceClient? {
+        return messagingService
+    }
+    
+    @objc
+    public var searchServiceClient: SearchServiceClient? {
+        return searchService
+    }
+    
+    @objc
+    public var draftsServiceClient: DraftsServiceClient? {
+        return draftsService
+    }
+    
+    @objc
+    public var listServiceClient: ListServiceClient? {
+        return listService
+    }
+    
+    @objc
+    public var starterpackServiceClient: StarterpackServiceClient? {
+        return starterpackService
     }
     
     // MARK: - Connection Management

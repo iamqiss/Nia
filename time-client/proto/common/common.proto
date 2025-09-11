@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package sonet.common;
+
+// Status codes for API responses
+enum StatusCode {
+  STATUS_CODE_UNKNOWN = 0;
+  STATUS_CODE_OK = 1;
+  STATUS_CODE_ERROR = 2;
+  STATUS_CODE_INVALID_REQUEST = 3;
+  STATUS_CODE_UNAUTHORIZED = 4;
+  STATUS_CODE_FORBIDDEN = 5;
+  STATUS_CODE_NOT_FOUND = 6;
+  STATUS_CODE_CONFLICT = 7;
+  STATUS_CODE_INTERNAL_ERROR = 8;
+  STATUS_CODE_SERVICE_UNAVAILABLE = 9;
+}
+
+// Generic status response
+message Status {
+  StatusCode code = 1;
+  string message = 2;
+  map<string, string> details = 3;
+}
+
+// Reserved for shared common messages; currently unused.
+message Empty {}
