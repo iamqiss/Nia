@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package sonet.fanoutin;
+
+import "services/note.proto";
+
+// Enumerates concrete event kinds supported by ingestion
+enum EventKind {
+  EVENT_KIND_UNKNOWN = 0;
+  EVENT_KIND_NOTE_CREATED = 1;
+  EVENT_KIND_NOTE_UPDATED = 2;
+  EVENT_KIND_NOTE_DELETED = 3;
+  // Future: follow events, like events, etc.
+}
+
+message NoteEvent {
+  EventKind kind = 1; // created/updated/deleted
+  sonet.note.Note note = 2;
+}
+
+// Strongly-typed envelope for events
+message EventEnvelope {
+  string id = 1;                 // globally unique event id
+  EventKind kind = 2;            // high-level kind for routing/metrics
+  oneof payload {
+    NoteEvent note_event = 10;
+    // Add future event types here (FollowEvent, LikeEvent, etc.)
+  }
+}
+
+message EventBatchRequest {
+  repeated EventEnvelope events = 1;
+}
+
+message EventBatchResponse {
+  bool accepted = 1;
+  // Optional per-event statuses in the future
+}
+
+// All downstream services that want to receive fanout must implement this
+service FanoutIngestionService {
+  rpc IngestBatch(EventBatchRequest) returns (EventBatchResponse);
+}
+
