@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package time.fanout;
+
+option cc_enable_arenas = true;
+
+message Attribute {
+  string key = 1;
+  string value = 2;
+}
+
+message Event {
+  string id = 1;              // unique event id
+  string type = 2;            // e.g., note.created, user.updated
+  string source = 3;          // originating service
+  int64 timestamp_ms = 4;     // unix epoch ms
+  bytes payload = 5;          // raw payload (JSON or protobuf-encoded)
+  repeated Attribute attributes = 6; // routing hints
+}
+
+message EventBatch {
+  repeated Event events = 1;
+}
+
+message FanoutRequest {
+  EventBatch batch = 1;
+}
+
+message FanoutResponse {
+  uint32 accepted = 1;  // number accepted for processing
+  uint32 rejected = 2;  // dropped due to backpressure or validation
+}
+
+message HealthRequest {}
+message HealthResponse {
+  string status = 1; // HEALTHY/DEGRADED/UNHEALTHY
+}
+
+message MetricsRequest {}
+message MetricsResponse {
+  // Prometheus exposition text format
+  string prometheus = 1;
+}
+
+service FanoutService {
+  rpc Push(FanoutRequest) returns (FanoutResponse);
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc Metrics(MetricsRequest) returns (MetricsResponse);
+}
+
