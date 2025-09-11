@@ -1,4 +1,4 @@
-import {type AppBskyFeedGetSuggestedFeeds} from '@atproto/api'
+import {type AppBskyFeedGetSuggestedFeeds} from '@atproto/api' // Legacy - will be removed
 import {
   type InfiniteData,
   type QueryKey,

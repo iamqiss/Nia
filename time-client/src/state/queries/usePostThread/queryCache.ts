@@ -6,7 +6,7 @@ import {
   type AppBskyUnspeccedGetPostThreadOtherV2,
   type AppBskyUnspeccedGetPostThreadV2,
   AtUri,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient} from '@tanstack/react-query'
 
 import {

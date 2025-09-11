@@ -1,4 +1,4 @@
-import {type ModerationPrefs} from '@atproto/api'
+import {type ModerationPrefs} from '@atproto/api' // Legacy - will be removed
 
 import {DEFAULT_LOGGED_OUT_LABEL_PREFERENCES} from '#/state/queries/preferences/moderation'
 

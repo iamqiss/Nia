@@ -1,4 +1,4 @@
-import {AtpAgent} from '@atproto/api'
+import {AtpAgent} from '@atproto/api' // Legacy - will be removed
 
 import {type SupportedMimeTypes, VIDEO_SERVICE} from '#/lib/constants'
 

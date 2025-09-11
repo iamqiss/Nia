@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {View} from 'react-native'
-import {type AppBskyNotificationDefs} from '@atproto/api'
+import {type AppBskyNotificationDefs} from '@atproto/api' // Legacy - will be removed
 import {type FilterablePreference} from '@atproto/api/dist/client/types/app/bsky/notification/defs'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

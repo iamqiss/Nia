@@ -7,7 +7,7 @@ import {
   moderatePost,
   type ModerationDecision,
   RichText as RichTextAPI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useQueryClient} from '@tanstack/react-query'
 
 import {MAX_POST_LINES} from '#/lib/constants'

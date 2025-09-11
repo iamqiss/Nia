@@ -7,7 +7,7 @@ import {
   AtUri,
   type BskyAgent,
   RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   type QueryClient,
   useMutation,
@@ -203,7 +203,7 @@ export function useEditStarterPackMutation({
       if (removedItems.length !== 0) {
         const chunks = chunk(removedItems, 50)
         for (const chunk of chunks) {
-          await agent.com.atproto.repo.applyWrites({
+          await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
             repo: agent.session!.did,
             writes: chunk.map(i => ({
               $type: 'com.atproto.repo.applyWrites#delete',
@@ -220,7 +220,7 @@ export function useEditStarterPackMutation({
       if (addedProfiles.length > 0) {
         const chunks = chunk(addedProfiles, 50)
         for (const chunk of chunks) {
-          await agent.com.atproto.repo.applyWrites({
+          await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
             repo: agent.session!.did,
             writes: chunk.map(p => ({
               $type: 'com.atproto.repo.applyWrites#create',

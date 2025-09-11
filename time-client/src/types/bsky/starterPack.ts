@@ -1,4 +1,4 @@
-import {AppBskyGraphDefs} from '@atproto/api'
+import {AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
 
 export const isBasicView = AppBskyGraphDefs.isStarterPackViewBasic
 export const isView = AppBskyGraphDefs.isStarterPackView

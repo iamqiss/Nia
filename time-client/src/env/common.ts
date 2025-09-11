@@ -1,4 +1,4 @@
-import {type Did} from '@atproto/api'
+import {type Did} from '@atproto/api' // Legacy - will be removed
 
 import packageJson from '#/../package.json'
 

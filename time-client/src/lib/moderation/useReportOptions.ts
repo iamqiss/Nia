@@ -1,5 +1,5 @@
 import {useMemo} from 'react'
-import {ComAtprotoModerationDefs} from '@atproto/api'
+import {ComAtprotoModerationDefs} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

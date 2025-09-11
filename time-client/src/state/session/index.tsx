@@ -1,5 +1,5 @@
 import React from 'react'
-import {type AtpSessionEvent, type BskyAgent} from '@atproto/api'
+import {type AtpSessionEvent, type BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {isWeb} from '#/platform/detection'
 import * as persisted from '#/state/persisted'

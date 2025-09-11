@@ -3,7 +3,7 @@ import {
   BskyAgent,
   DEFAULT_LABEL_SETTINGS,
   interpretLabelValueDefinitions,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {isNonConfigurableModerationAuthority} from '#/state/session/additional-moderation-authorities'
 import {useLabelersDetailedInfoQuery} from '../labeler'

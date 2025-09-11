@@ -1,4 +1,4 @@
-import {BSKY_LABELER_DID, BskyAgent} from '@atproto/api'
+import {BSKY_LABELER_DID, BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {IS_TEST_USER} from '#/lib/constants'
 import {configureAdditionalModerationAuthorities} from './additional-moderation-authorities'

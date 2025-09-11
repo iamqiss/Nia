@@ -5,7 +5,7 @@ import {
   AppBskyUnspeccedDefs,
   type AppBskyUnspeccedGetPostThreadV2,
   AtUri,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {
   type ApiThreadItem,

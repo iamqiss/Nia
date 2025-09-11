@@ -2,7 +2,7 @@ import {
   type AppBskyFeedDefs,
   type AppBskyFeedGetActorLikes as GetActorLikes,
   type BskyAgent,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 

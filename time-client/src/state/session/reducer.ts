@@ -1,4 +1,4 @@
-import {type AtpSessionEvent, type BskyAgent} from '@atproto/api'
+import {type AtpSessionEvent, type BskyAgent} from '@atproto/api' // Legacy - will be removed
 
 import {createPublicAgent} from './agent'
 import {wrapSessionReducerForLogging} from './logging'

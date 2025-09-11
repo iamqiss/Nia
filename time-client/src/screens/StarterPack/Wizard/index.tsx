@@ -9,7 +9,7 @@ import {
   type AppBskyGraphDefs,
   AtUri,
   type ModerationOpts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect, useNavigation} from '@react-navigation/native'

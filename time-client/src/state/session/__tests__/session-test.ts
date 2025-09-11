@@ -1,4 +1,4 @@
-import {BskyAgent} from '@atproto/api'
+import {BskyAgent} from '@atproto/api' // Legacy - will be removed
 import {describe, expect, it, jest} from '@jest/globals'
 
 import {agentToSessionAccountOrThrow} from '../agent'

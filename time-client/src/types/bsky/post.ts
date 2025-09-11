@@ -8,7 +8,7 @@ import {
   AppBskyFeedDefs,
   AppBskyGraphDefs,
   AppBskyLabelerDefs,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 export type Embed =
   | {

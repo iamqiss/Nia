@@ -4,7 +4,7 @@ import {
   AppBskyRichtextFacet,
   type BskyPreferences,
   RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {nanoid} from 'nanoid/non-secure'
 
 import {type SelfLabel} from '#/lib/moderation'

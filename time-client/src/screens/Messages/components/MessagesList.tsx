@@ -14,7 +14,7 @@ import {
   type AppBskyEmbedRecord,
   AppBskyRichtextFacet,
   RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {useHideBottomBarBorderForScreen} from '#/lib/hooks/useHideBottomBarBorder'
 import {ScrollProvider} from '#/lib/ScrollContext'

@@ -1,4 +1,4 @@
-import {ComAtprotoTempCheckHandleAvailability} from '@atproto/api'
+import {ComAtprotoTempCheckHandleAvailability} from '@atproto/api' // Legacy - will be removed
 import {useQuery} from '@tanstack/react-query'
 
 import {

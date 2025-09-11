@@ -3,7 +3,7 @@ import {
   type $Typed,
   type AppBskyActorDefs,
   AppBskyEmbedExternal,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {isAfter, parseISO} from 'date-fns'
 
 import {useMaybeProfileShadow} from '#/state/cache/profile-shadow'

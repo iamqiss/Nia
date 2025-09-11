@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, AppBskyGraphDefs, AtUri} from '@atproto/api'
+import {type AppBskyActorDefs, AppBskyGraphDefs, AtUri} from '@atproto/api' // Legacy - will be removed
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'

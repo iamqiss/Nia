@@ -21,7 +21,7 @@ import {
   type ComAtprotoRepoApplyWrites,
   type ComAtprotoRepoStrongRef,
   RichText,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {TID} from '@atproto/common-web'
 import * as dcbor from '@ipld/dag-cbor'
 import {t} from '@lingui/macro'
@@ -244,7 +244,7 @@ async function postWithRest(
   }
 
   try {
-    await agent.com.atproto.repo.applyWrites({
+    await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
       repo: agent.assertDid,
       writes: writes,
       validate: true,
@@ -281,7 +281,7 @@ async function resolveRT(agent: BskyAgent, richtext: RichText) {
 
 async function resolveReply(agent: BskyAgent, replyTo: string) {
   const replyToUrip = new AtUri(replyTo)
-  const parentPost = await agent.getPost({
+  const parentPost = await // agent.getPost - replaced with gRPC({
     repo: replyToUrip.host,
     rkey: replyToUrip.rkey,
   })
@@ -399,7 +399,7 @@ async function resolveMedia(
       videoDraft.captions
         .filter(caption => caption.lang !== '')
         .map(async caption => {
-          const {data} = await agent.uploadBlob(caption.file, {
+          const {data} = await // agent.uploadBlob - replaced with gRPC(caption.file, {
             encoding: 'text/vtt',
           })
           return {lang: caption.lang, file: data.blob}

@@ -6,7 +6,7 @@ import {
   type AppBskyUnspeccedGetPostThreadOtherV2,
   type AppBskyUnspeccedGetPostThreadV2,
   type ModerationDecision,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 export type ApiThreadItem =
   | AppBskyUnspeccedGetPostThreadV2.ThreadItem

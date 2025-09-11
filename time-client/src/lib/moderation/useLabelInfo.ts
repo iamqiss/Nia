@@ -4,7 +4,7 @@ import {
   type InterpretedLabelValueDefinition,
   interpretLabelValueDefinition,
   LABELS,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useLingui} from '@lingui/react'
 import * as bcp47Match from 'bcp-47-match'
 

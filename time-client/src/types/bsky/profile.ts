@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, type ChatBskyActorDefs} from '@atproto/api'
+import {type AppBskyActorDefs, type ChatBskyActorDefs} from '@atproto/api' // Legacy - will be removed
 
 /**
  * Matches any profile view exported by our SDK

@@ -6,7 +6,7 @@ import {
   AppBskyGraphStarterpack,
   AtUri,
   type ModerationOpts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

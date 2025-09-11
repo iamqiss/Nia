@@ -3,7 +3,7 @@ import {
   type AppBskyFeedGetFeed as GetCustomFeed,
   BskyAgent,
   jsonStringToLex,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {
   getAppLanguageAsContentLanguage,

@@ -5,7 +5,7 @@ import {
   type BskyAgent,
   type ComAtprotoRepoApplyWrites,
   type Facet,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useMutation} from '@tanstack/react-query'
@@ -44,7 +44,7 @@ export const createStarterPackList = async ({
     },
   )
   if (!list) throw new Error('List creation failed')
-  await agent.com.atproto.repo.applyWrites({
+  await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
     repo: agent.session!.did,
     writes: profiles.map(p => createListItem({did: p.did, listUri: list.uri})),
   })

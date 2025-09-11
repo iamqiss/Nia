@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 import {View} from 'react-native'
 import Animated, {LinearTransition} from 'react-native-reanimated'
-import {type AppBskyActorDefs} from '@atproto/api'
+import {type AppBskyActorDefs} from '@atproto/api' // Legacy - will be removed
 import {TID} from '@atproto/common-web'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

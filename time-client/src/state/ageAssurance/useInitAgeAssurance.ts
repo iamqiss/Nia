@@ -2,7 +2,7 @@ import {
   type AppBskyUnspeccedDefs,
   type AppBskyUnspeccedInitAgeAssurance,
   AtpAgent,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {wait} from '#/lib/async/wait'

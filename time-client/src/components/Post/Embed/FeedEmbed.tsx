@@ -1,5 +1,5 @@
 import {useMemo} from 'react'
-import {moderateFeedGenerator} from '@atproto/api'
+import {moderateFeedGenerator} from '@atproto/api' // Legacy - will be removed
 
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
 import {atoms as a, useTheme} from '#/alf'

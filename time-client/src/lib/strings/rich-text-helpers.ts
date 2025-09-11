@@ -1,4 +1,4 @@
-import {AppBskyRichtextFacet, type RichText} from '@atproto/api'
+import {AppBskyRichtextFacet, type RichText} from '@atproto/api' // Legacy - will be removed
 
 import {linkRequiresWarning} from './url-helpers'
 

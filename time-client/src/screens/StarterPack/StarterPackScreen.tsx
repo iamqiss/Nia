@@ -7,7 +7,7 @@ import {
   AtUri,
   type ModerationOpts,
   RichText as RichTextAPI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

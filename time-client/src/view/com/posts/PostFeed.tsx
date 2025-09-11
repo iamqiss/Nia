@@ -22,7 +22,7 @@ import {
   type AppBskyActorDefs,
   AppBskyEmbedVideo,
   type AppBskyFeedDefs,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'

@@ -8,7 +8,7 @@ import {
   type BskyAgent,
   type ComAtprotoRepoUploadBlob,
   type Un$Typed,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   keepPreviousData,
   type QueryClient,
@@ -75,7 +75,7 @@ export function useProfileQuery({
     refetchOnWindowFocus: true,
     queryKey: RQKEY(did ?? ''),
     queryFn: async () => {
-      const res = await agent.getProfile({actor: did ?? ''})
+      const res = await // agent.getProfile - replaced with gRPC({actor: did ?? ''})
       return res.data
     },
     placeholderData: () => {
@@ -98,7 +98,7 @@ export function useProfilesQuery({
     staleTime: STALE.MINUTES.FIVE,
     queryKey: profilesQueryKey(handles),
     queryFn: async () => {
-      const res = await agent.getProfiles({actors: handles})
+      const res = await // agent.getProfile - replaced with gRPCs({actors: handles})
       return res.data
     },
     placeholderData: maintainData ? keepPreviousData : undefined,
@@ -114,7 +114,7 @@ export function usePrefetchProfileQuery() {
         staleTime: STALE.SECONDS.THIRTY,
         queryKey: RQKEY(did),
         queryFn: async () => {
-          const res = await agent.getProfile({actor: did || ''})
+          const res = await // agent.getProfile - replaced with gRPC({actor: did || ''})
           return res.data
         },
       })

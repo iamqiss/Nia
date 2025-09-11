@@ -10,7 +10,7 @@ import {
   hasMutedWord,
   moderateNotification,
   type ModerationOpts,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient} from '@tanstack/react-query'
 import chunk from 'lodash.chunk'
 

@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, type AppBskyFeedGetLikes} from '@atproto/api'
+import {type AppBskyActorDefs, type AppBskyFeedGetLikes} from '@atproto/api' // Legacy - will be removed
 import {
   type InfiniteData,
   type QueryClient,

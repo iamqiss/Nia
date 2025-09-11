@@ -4,7 +4,7 @@ import {
   AppBskyEmbedRecordWithMedia,
   AppBskyFeedDefs,
   AppBskyFeedPost,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import * as bsky from '#/types/bsky'
 import {isPostInLanguage} from '../../locale/helpers'

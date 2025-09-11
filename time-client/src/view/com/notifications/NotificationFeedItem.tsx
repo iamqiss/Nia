@@ -22,8 +22,8 @@ import {
   moderateProfile,
   type ModerationDecision,
   type ModerationOpts,
-} from '@atproto/api'
-import {AtUri} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
+import {AtUri} from '@atproto/api' // Legacy - will be removed
 import {TID} from '@atproto/common-web'
 import {msg, Plural, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

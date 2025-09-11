@@ -1,5 +1,5 @@
 import {View} from 'react-native'
-import {AppBskyEmbedVideo} from '@atproto/api'
+import {AppBskyEmbedVideo} from '@atproto/api' // Legacy - will be removed
 
 import {logEvent} from '#/lib/statsig/statsig'
 import {type FeedPostSliceItem} from '#/state/queries/post-feed'

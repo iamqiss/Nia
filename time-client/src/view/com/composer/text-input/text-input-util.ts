@@ -1,4 +1,4 @@
-import {type AppBskyRichtextFacet, type RichText} from '@atproto/api'
+import {type AppBskyRichtextFacet, type RichText} from '@atproto/api' // Legacy - will be removed
 
 export type LinkFacetMatch = {
   rt: RichText

@@ -7,7 +7,7 @@ import {
   AtUri,
   moderatePost,
   RichText as RichTextAPI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {Trans} from '@lingui/macro'
 import {useQueryClient} from '@tanstack/react-query'
 

@@ -8,7 +8,7 @@ import {
   type ModerationCause,
   type ModerationOpts,
   type ModerationUI,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'

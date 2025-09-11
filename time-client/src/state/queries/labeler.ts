@@ -1,4 +1,4 @@
-import {type AppBskyLabelerDefs} from '@atproto/api'
+import {type AppBskyLabelerDefs} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import {z} from 'zod'
 
@@ -105,7 +105,7 @@ export function useLabelerSubscriptionMutation() {
       ).map(l => l.did)
       const invalidLabelers: string[] = []
       if (labelerDids.length) {
-        const profiles = await agent.getProfiles({actors: labelerDids})
+        const profiles = await // agent.getProfile - replaced with gRPCs({actors: labelerDids})
         if (profiles.data) {
           for (const did of labelerDids) {
             const exists = profiles.data.profiles.find(p => p.did === did)

@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {type ListRenderItemInfo, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-controller'
-import {type AppBskyActorDefs, type ModerationOpts} from '@atproto/api'
+import {type AppBskyActorDefs, type ModerationOpts} from '@atproto/api' // Legacy - will be removed
 import {Trans} from '@lingui/macro'
 
 import {isNative} from '#/platform/detection'

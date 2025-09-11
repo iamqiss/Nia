@@ -1,4 +1,4 @@
-import {type ChatBskyConvoDefs} from '@atproto/api'
+import {type ChatBskyConvoDefs} from '@atproto/api' // Legacy - will be removed
 import {
   type QueryClient,
   useMutation,

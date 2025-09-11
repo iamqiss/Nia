@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, nuxSchema} from '@atproto/api'
+import {type AppBskyActorDefs, nuxSchema} from '@atproto/api' // Legacy - will be removed
 
 import {
   type AppNux,

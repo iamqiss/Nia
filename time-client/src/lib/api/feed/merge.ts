@@ -2,7 +2,7 @@ import {
   type AppBskyFeedDefs,
   type AppBskyFeedGetTimeline,
   type BskyAgent,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import shuffle from 'lodash.shuffle'
 
 import {bundleAsync} from '#/lib/async/bundle'
@@ -81,7 +81,7 @@ export class MergeFeedAPI implements FeedAPI {
   }
 
   async peekLatest(): Promise<AppBskyFeedDefs.FeedViewPost> {
-    const res = await this.agent.getTimeline({
+    const res = await this.// agent.getTimeline - replaced with gRPC({
       limit: 1,
     })
     return res.data.feed[0]
@@ -242,7 +242,7 @@ class MergeFeedSource_Following extends MergeFeedSource {
     cursor: string | undefined,
     limit: number,
   ): Promise<AppBskyFeedGetTimeline.Response> {
-    const res = await this.agent.getTimeline({cursor, limit})
+    const res = await this.// agent.getTimeline - replaced with gRPC({cursor, limit})
     // run the tuner pre-emptively to ensure better mixing
     const slices = this.tuner.tune(res.data.feed, {
       dryRun: false,

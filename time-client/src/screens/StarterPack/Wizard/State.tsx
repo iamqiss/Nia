@@ -3,7 +3,7 @@ import {
   type AppBskyFeedDefs,
   type AppBskyGraphDefs,
   AppBskyGraphStarterpack,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {msg, plural} from '@lingui/macro'
 
 import {STARTER_PACK_MAX_SIZE} from '#/lib/constants'

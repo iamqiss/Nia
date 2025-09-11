@@ -1,7 +1,7 @@
 import {
   type AppBskyActorDefs,
   type AppBskyActorSearchActors,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {
   type InfiniteData,
   keepPreviousData,

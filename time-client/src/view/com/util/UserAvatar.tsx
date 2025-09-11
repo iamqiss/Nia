@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native'
 import Svg, {Circle, Path, Rect} from 'react-native-svg'
-import {type ModerationUI} from '@atproto/api'
+import {type ModerationUI} from '@atproto/api' // Legacy - will be removed
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'

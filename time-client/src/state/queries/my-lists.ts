@@ -1,4 +1,4 @@
-import {type AppBskyGraphDefs} from '@atproto/api'
+import {type AppBskyGraphDefs} from '@atproto/api' // Legacy - will be removed
 import {type QueryClient, useQuery} from '@tanstack/react-query'
 
 import {accumulate} from '#/lib/async/accumulate'

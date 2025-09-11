@@ -2,7 +2,7 @@ import {
   type AppBskyActorDefs,
   type AppBskyNotificationDeclaration,
   type AppBskyNotificationListActivitySubscriptions,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {t} from '@lingui/macro'
 import {
   type InfiniteData,

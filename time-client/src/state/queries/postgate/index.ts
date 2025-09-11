@@ -6,7 +6,7 @@ import {
   AppBskyFeedPostgate,
   AtUri,
   type BskyAgent,
-} from '@atproto/api'
+} from '@atproto/api' // Legacy - will be removed
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {networkRetry, retry} from '#/lib/async/retry'
