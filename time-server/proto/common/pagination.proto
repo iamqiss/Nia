@@ -2,7 +2,43 @@ syntax = "proto3";
 
 package sonet.common;
 
-// Pagination information for API responses
+// Pagination request parameters
+message PaginationRequest {
+  // Number of items to skip
+  int32 offset = 1;
+  
+  // Maximum number of items to return
+  int32 limit = 2;
+  
+  // Optional cursor for pagination
+  string cursor = 3;
+}
+
+// Pagination response information
+message PaginationResponse {
+  // Number of items to skip
+  int32 offset = 1;
+  
+  // Maximum number of items to return
+  int32 limit = 2;
+  
+  // Total number of items available
+  int32 total_count = 3;
+  
+  // Whether there are more items available
+  bool has_next = 4;
+  
+  // Whether there are previous items available
+  bool has_previous = 5;
+  
+  // Next cursor for pagination
+  string next_cursor = 6;
+  
+  // Previous cursor for pagination
+  string prev_cursor = 7;
+}
+
+// Legacy pagination information for API responses
 message Pagination {
   // Number of items to skip
   int32 offset = 1;
