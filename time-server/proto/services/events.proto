@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package time.events;
+
+// Base event transported across services
+message BaseEvent {
+  string id = 1;
+  string type = 2;
+  string payload_json = 3; // JSON-encoded structured payload
+}
+
+// Batch of events
+message EventBatch {
+  repeated BaseEvent events = 1;
+}
+
+// Acknowledgement
+message Ack {
+  bool ok = 1;
+  string message = 2;
+}
+
+// Sibling services implement this to receive event batches
+service Fanout {
+  rpc DeliverEvents(EventBatch) returns (Ack);
+}
+
