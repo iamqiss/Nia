@@ -13,7 +13,7 @@ public:
         : metrics_(std::move(metrics)) {}
 
     // Load JSON manifests from a directory. Each file describes endpoints for a logical service.
-    // Example schema: {"service_name":"timeline_service","address":"127.0.0.1:50051","method":"IngestEvents","max_batch_size":256}
+    // Example schema: {"service_name":"sonet.fanoutin.FanoutIngestionService","address":"127.0.0.1:50051","method":"IngestBatch","max_batch_size":256}
     bool load_from_dir(const std::string& dir_path);
 
     // For a single event, compute target endpoints. Returns map service_name -> EndpointDescriptor

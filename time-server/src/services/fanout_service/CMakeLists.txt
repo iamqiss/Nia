@@ -11,6 +11,11 @@ set(PROTO_SRC ${CMAKE_CURRENT_SOURCE_DIR}/proto/fanout_service.proto)
 protobuf_generate_cpp(PROTO_CPP PROTO_H ${PROTO_SRC})
 grpc_generate_cpp(GRPC_CPP GRPC_H ${PROTO_SRC})
 
+# Typed ingestion contracts for downstream services
+set(INGEST_PROTO_SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../../proto/services/fanout_ingestion.proto)
+protobuf_generate_cpp(INGEST_PROTO_CPP INGEST_PROTO_H ${INGEST_PROTO_SRC})
+grpc_generate_cpp(INGEST_GRPC_CPP INGEST_GRPC_H ${INGEST_PROTO_SRC})
+
 add_library(fanout_service_lib
     service.cpp
     controllers/fanout_controller.cpp
@@ -20,6 +25,8 @@ add_library(fanout_service_lib
     queues/priority_queue.cpp
     ${PROTO_CPP}
     ${GRPC_CPP}
+    ${INGEST_PROTO_CPP}
+    ${INGEST_GRPC_CPP}
 )
 
 target_include_directories(fanout_service_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

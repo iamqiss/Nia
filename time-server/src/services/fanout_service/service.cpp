@@ -9,6 +9,12 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
+// Generated headers for typed ingestion
+#include "fanout_ingestion.pb.h"
+#include "fanout_ingestion.grpc.pb.h"
+#include "services/note.pb.h"
+#include <google/protobuf/util/json_util.h>
+
 namespace time::fanout_service {
 
 // -------- MetricsRegistry --------
@@ -79,30 +85,56 @@ std::shared_ptr<grpc::Channel> GrpcTransport::get_or_create_channel(const std::s
 }
 
 std::future<bool> GrpcTransport::send_batch(const EndpointDescriptor& endpoint, const EventBatch& batch) {
-    // Use generic stub to call a method expecting a list of events serialized as JSON lines.
-    // This keeps cross-service dependency minimal.
+    // Typed gRPC transport using FanoutIngestionService contracts
     return std::async(std::launch::async, [this, endpoint, batch](){
         auto channel = get_or_create_channel(endpoint.address);
         grpc::ClientContext ctx;
         ctx.set_deadline(std::chrono::system_clock::now() + endpoint.request_timeout);
 
-        // Prepare generic RPC: /{service}/{method}
-        std::string method_full = "/" + endpoint.service_name + "/" + endpoint.method;
-        auto stub = std::make_unique<grpc::GenericStub>(channel);
+        using sonet::fanoutin::EventBatchRequest;
+        using sonet::fanoutin::EventBatchResponse;
+        using sonet::fanoutin::EventEnvelope;
+        using sonet::fanoutin::EventKind;
+        using sonet::fanoutin::FanoutIngestionService;
+        using sonet::fanoutin::NoteEvent;
 
-        grpc::ByteBuffer request_buffer;
-        // Serialize batch as JSON lines for transport-agnostic ingestion
-        nlohmann::json arr = nlohmann::json::array();
+        std::unique_ptr<FanoutIngestionService::Stub> stub = FanoutIngestionService::NewStub(channel);
+
+        EventBatchRequest req;
+        req.mutable_events()->Reserve(static_cast<int>(batch.events.size()));
         for (const auto& e : batch.events) {
-            arr.push_back({{"id", e.id}, {"type", e.type}, {"payload", e.payload}});
+            EventEnvelope* env = req.add_events();
+            env->set_id(e.id);
+            if (e.type == "note.created") {
+                env->set_kind(EventKind::EVENT_KIND_NOTE_CREATED);
+                NoteEvent* ne = env->mutable_note_event();
+                ne->set_kind(EventKind::EVENT_KIND_NOTE_CREATED);
+                if (e.payload.contains("note")) {
+                    std::string note_json = e.payload["note"].dump();
+                    sonet::note::Note note_msg;
+                    google::protobuf::util::JsonParseOptions opts;
+                    opts.ignore_unknown_fields = true;
+                    auto status = google::protobuf::util::JsonStringToMessage(note_json, &note_msg, opts);
+                    if (status.ok()) {
+                        *(ne->mutable_note()) = std::move(note_msg);
+                    }
+                }
+            } else if (e.type == "note.updated") {
+                env->set_kind(EventKind::EVENT_KIND_NOTE_UPDATED);
+                NoteEvent* ne = env->mutable_note_event();
+                ne->set_kind(EventKind::EVENT_KIND_NOTE_UPDATED);
+            } else if (e.type == "note.deleted") {
+                env->set_kind(EventKind::EVENT_KIND_NOTE_DELETED);
+                NoteEvent* ne = env->mutable_note_event();
+                ne->set_kind(EventKind::EVENT_KIND_NOTE_DELETED);
+            } else {
+                env->set_kind(EventKind::EVENT_KIND_UNKNOWN);
+            }
         }
-        auto s = arr.dump();
-        grpc::Slice slice(s.data(), s.size());
-        request_buffer = grpc::ByteBuffer(&slice, 1);
 
-        grpc::ByteBuffer response_buffer;
-        auto status = stub->UnaryCall(&ctx, method_full, request_buffer, &response_buffer);
-        return status.ok();
+        EventBatchResponse resp;
+        auto status = stub->IngestBatch(&ctx, req, &resp);
+        return status.ok() && resp.accepted();
     });
 }
 
