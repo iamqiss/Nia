@@ -1,10 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  AppBskyEmbedRecord,
-  type AppBskyFeedDefs,
-  type AppBskyFeedGetQuotes,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,
@@ -103,7 +97,7 @@ export function* findAllPostsInQueryData(
   >({
     queryKey: [RQKEY_ROOT],
   })
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
   for (const [_queryKey, queryData] of queryDatas) {
     if (!queryData?.pages) {
       continue

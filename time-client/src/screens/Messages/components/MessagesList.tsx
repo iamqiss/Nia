@@ -9,12 +9,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import {type ReanimatedScrollEvent} from 'react-native-reanimated/lib/typescript/hook/commonTypes'
-import {
-  type $Typed,
-  type AppBskyEmbedRecord,
-  AppBskyRichtextFacet,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {useHideBottomBarBorderForScreen} from '#/lib/hooks/useHideBottomBarBorder'
 import {ScrollProvider} from '#/lib/ScrollContext'
@@ -308,7 +303,7 @@ export function MessagesList({
   // -- Message sending
   const onSendMessage = useCallback(
     async (text: string) => {
-      let rt = new RichText({text: text.trimEnd()}, {cleanNewlines: true})
+      let rt = new GrpcRichText({text: text.trimEnd()}, {cleanNewlines: true})
 
       // detect facets without resolution first - this is used to see if there's
       // any post links in the text that we can embed. We do this first because
@@ -359,7 +354,7 @@ export function MessagesList({
                 )
               }
 
-              rt = new RichText({text: rt.text.trim()}, {cleanNewlines: true})
+              rt = new GrpcRichText({text: rt.text.trim()}, {cleanNewlines: true})
             }
           }
         } catch (error) {

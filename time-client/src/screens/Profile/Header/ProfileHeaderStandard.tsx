@@ -1,11 +1,6 @@
 import {memo, useCallback, useMemo, useState} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  moderateProfile,
-  type ModerationOpts,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -33,7 +28,7 @@ import {
   shouldShowKnownFollowers,
 } from '#/components/KnownFollowers'
 import * as Prompt from '#/components/Prompt'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {VerificationCheckButton} from '#/components/verification/VerificationCheckButton'
 import {EditProfileDialog} from './EditProfileDialog'
@@ -44,7 +39,7 @@ import {AnimatedProfileHeaderSuggestedFollows} from './SuggestedFollows'
 
 interface Props {
   profile: AppBskyActorDefs.ProfileViewDetailed
-  descriptionRT: RichTextAPI | null
+  descriptionRT: GrpcRichTextAPI | null
   moderationOpts: ModerationOpts
   hideBackButton?: boolean
   isPlaceholderProfile?: boolean
@@ -292,7 +287,7 @@ let ProfileHeaderStandard = ({
               <ProfileHeaderMetrics profile={profile} />
               {descriptionRT && !moderation.ui('profileView').blur ? (
                 <View pointerEvents="auto">
-                  <RichText
+                  <GrpcRichText
                     testID="profileHeaderDescription"
                     style={[a.text_md]}
                     numberOfLines={15}

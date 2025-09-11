@@ -2,7 +2,7 @@ import {useCallback, useEffect} from 'react'
 import {Platform} from 'react-native'
 import * as Notifications from 'expo-notifications'
 import {getBadgeCountAsync, setBadgeCountAsync} from 'expo-notifications'
-import {type AppBskyNotificationRegisterPush, type AtpAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import debounce from 'lodash.debounce'
 
 import {PUBLIC_APPVIEW_DID, PUBLIC_STAGING_APPVIEW_DID} from '#/lib/constants'
@@ -23,7 +23,7 @@ async function _registerPushToken({
   token,
   extra = {},
 }: {
-  agent: AtpAgent
+  agent: TimeGrpcClient
   currentAccount: SessionAccount
   token: Notifications.DevicePushToken
   extra?: {

@@ -1,15 +1,10 @@
-import {
-  type BskyAgent,
-  type ChatBskyActorDefs,
-  type ChatBskyConvoDefs,
-  type ChatBskyConvoSendMessage,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type MessagesEventBus} from '#/state/messages/events/agent'
 
 export type ConvoParams = {
   convoId: string
-  agent: BskyAgent
+  agent: TimeGrpcClient
   events: MessagesEventBus
   placeholderData?: {
     convo: ChatBskyConvoDefs.ConvoView

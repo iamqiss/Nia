@@ -1,11 +1,11 @@
-import {type AppBskyFeedDefs, type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 
 export class FollowingFeedAPI implements FeedAPI {
-  agent: BskyAgent
+  agent: TimeGrpcClient
 
-  constructor({agent}: {agent: BskyAgent}) {
+  constructor({agent}: {agent: TimeGrpcClient}) {
     this.agent = agent
   }
 

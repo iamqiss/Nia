@@ -1,5 +1,5 @@
 import {type StyleProp, type ViewStyle} from 'react-native'
-import {type ModerationDecision} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {getModerationCauseKey, unique} from '#/lib/moderation'
 import * as Pills from '#/components/Pills'

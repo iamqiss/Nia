@@ -1,15 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react'
 import {AppState} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  AtUri,
-  type BskyAgent,
-  moderatePost,
-  type ModerationDecision,
-  type ModerationPrefs,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,
@@ -233,7 +224,7 @@ export function usePostFeedQuery(
         }
       } catch (e) {
         const feedDescParts = feedDesc.split('|')
-        const feedOwnerDid = new AtUri(feedDescParts[1]).hostname
+        const feedOwnerDid = new GrpcUri(feedDescParts[1]).hostname
 
         if (
           feedDescParts[0] === 'feedgen' &&
@@ -473,7 +464,7 @@ function createApi({
   feedParams: FeedParams
   feedTuners: FeedTunerFn[]
   userInterests?: string
-  agent: BskyAgent
+  agent: TimeGrpcClient
   enableFollowingToDiscoverFallback: boolean
 }) {
   if (feedDesc === 'following') {
@@ -522,7 +513,7 @@ export function* findAllPostsInQueryData(
   queryClient: QueryClient,
   uri: string,
 ): Generator<AppBskyFeedDefs.PostView, undefined> {
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
 
   const queryDatas = queryClient.getQueriesData<
     InfiniteData<FeedPageUnselected>

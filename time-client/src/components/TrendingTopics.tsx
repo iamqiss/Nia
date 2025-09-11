@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {type AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -164,7 +164,7 @@ type ParsedTrendingTopic =
       label: string
       displayName: string
       url: string
-      uri: AtUri
+      uri: GrpcUri
     }
 
 export function useTopic(raw: TrendingTopic): ParsedTrendingTopic {
@@ -203,7 +203,7 @@ export function useTopic(raw: TrendingTopic): ParsedTrendingTopic {
     if (!link.startsWith('at://')) {
       // above logic
     } else {
-      const urip = new AtUri(link)
+      const urip = new GrpcUri(link)
       switch (urip.collection) {
         case 'app.bsky.actor.profile': {
           return {

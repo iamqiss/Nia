@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  AppBskyEmbedRecord,
-  AppBskyEmbedRecordWithMedia,
-  type AppBskyFeedDefs,
-  AppBskyFeedPostgate,
-  AtUri,
-  type BskyAgent,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {networkRetry, retry} from '#/lib/async/retry'
@@ -27,10 +20,10 @@ export async function getPostgateRecord({
   agent,
   postUri,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
 }): Promise<AppBskyFeedPostgate.Record | undefined> {
-  const urip = new AtUri(postUri)
+  const urip = new GrpcUri(postUri)
 
   if (!urip.host.startsWith('did:')) {
     const res = await agent.resolveHandle({
@@ -88,11 +81,11 @@ export async function writePostgateRecord({
   postUri,
   postgate,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   postUri: string
   postgate: AppBskyFeedPostgate.Record
 }) {
-  const postUrip = new AtUri(postUri)
+  const postUrip = new GrpcUri(postUri)
 
   await networkRetry(2, () =>
     agent.api.com.atproto.repo.putRecord({
@@ -109,7 +102,7 @@ export async function upsertPostgate(
     agent,
     postUri,
   }: {
-    agent: BskyAgent
+    agent: TimeGrpcClient
     postUri: string
   },
   callback: (

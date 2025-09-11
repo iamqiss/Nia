@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
 import {type ListRenderItemInfo, View} from 'react-native'
-import {type AppBskyFeedDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {useBottomBarOffset} from '#/lib/hooks/useBottomBarOffset'
 import {isNative, isWeb} from '#/platform/detection'

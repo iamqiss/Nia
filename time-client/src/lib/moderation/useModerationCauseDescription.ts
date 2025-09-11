@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  BSKY_LABELER_DID,
-  type ModerationCause,
-  type ModerationCauseSource,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

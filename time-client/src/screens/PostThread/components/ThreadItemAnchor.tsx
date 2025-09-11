@@ -1,12 +1,6 @@
 import {memo, useCallback, useMemo} from 'react'
 import {type GestureResponderEvent, Text as RNText, View} from 'react-native'
-import {
-  AppBskyFeedDefs,
-  AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  AtUri,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -55,7 +49,7 @@ import {PostControls} from '#/components/PostControls'
 import {useFormatPostStatCount} from '#/components/PostControls/util'
 import {ProfileHoverCard} from '#/components/ProfileHoverCard'
 import * as Prompt from '#/components/Prompt'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import * as Skele from '#/components/Skeleton'
 import {Text} from '#/components/Typography'
 import {VerificationCheckButton} from '#/components/verification/VerificationCheckButton'
@@ -190,7 +184,7 @@ const ThreadItemAnchorInner = memo(function ThreadItemAnchorInner({
   const {isActive: live} = useActorStatus(post.author)
   const richText = useMemo(
     () =>
-      new RichTextAPI({
+      new GrpcRichTextAPI({
         text: record.text,
         facets: record.facets,
       }),
@@ -202,15 +196,15 @@ const ThreadItemAnchorInner = memo(function ThreadItemAnchorInner({
   const isThreadAuthor = getThreadAuthor(post, record) === currentAccount?.did
 
   const likesHref = useMemo(() => {
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     return makeProfileLink(post.author, 'post', urip.rkey, 'liked-by')
   }, [post.uri, post.author])
   const repostsHref = useMemo(() => {
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     return makeProfileLink(post.author, 'post', urip.rkey, 'reposted-by')
   }, [post.uri, post.author])
   const quotesHref = useMemo(() => {
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     return makeProfileLink(post.author, 'post', urip.rkey, 'quotes')
   }, [post.uri, post.author])
 
@@ -220,7 +214,7 @@ const ThreadItemAnchorInner = memo(function ThreadItemAnchorInner({
   const additionalPostAlerts: AppModerationCause[] = useMemo(() => {
     const isPostHiddenByThreadgate = threadgateHiddenReplies.has(post.uri)
     const isControlledByViewer =
-      new AtUri(threadRootUri).host === currentAccount?.did
+      new GrpcUri(threadRootUri).host === currentAccount?.did
     return isControlledByViewer && isPostHiddenByThreadgate
       ? [
           {
@@ -390,7 +384,7 @@ const ThreadItemAnchorInner = memo(function ThreadItemAnchorInner({
               additionalCauses={additionalPostAlerts}
             />
             {richText?.text ? (
-              <RichText
+              <GrpcRichText
                 enableTags
                 selectable
                 value={richText}
@@ -701,7 +695,7 @@ function getThreadAuthor(
     return post.author.did
   }
   try {
-    return new AtUri(record.reply.root.uri).host
+    return new GrpcUri(record.reply.root.uri).host
   } catch {
     return ''
   }

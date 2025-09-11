@@ -1,9 +1,5 @@
 import {useCallback, useState} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyGraphGetStarterPacksWithMembership,
-  AppBskyGraphStarterpack,
-} from '@atproto/api'
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'

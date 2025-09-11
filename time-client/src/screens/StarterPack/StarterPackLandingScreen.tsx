@@ -1,12 +1,7 @@
 import React from 'react'
 import {Pressable, View} from 'react-native'
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated'
-import {
-  AppBskyGraphDefs,
-  AppBskyGraphStarterpack,
-  AtUri,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -30,13 +25,13 @@ import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import {useDialogControl} from '#/components/Dialog'
 import * as FeedCard from '#/components/FeedCard'
-import {useRichText} from '#/components/hooks/useRichText'
+import {useGrpcRichText} from '#/components/hooks/useGrpcRichText'
 import * as Layout from '#/components/Layout'
 import {LinearGradientBackground} from '#/components/LinearGradientBackground'
 import {ListMaybePlaceholder} from '#/components/Lists'
 import {Default as ProfileCard} from '#/components/ProfileCard'
 import * as Prompt from '#/components/Prompt'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import * as bsky from '#/types/bsky'
 
@@ -125,7 +120,7 @@ function LandingScreenLoaded({
   const setActiveStarterPack = useSetActiveStarterPack()
   const {isTabletOrDesktop} = useWebMediaQueries()
   const androidDialogControl = useDialogControl()
-  const [descriptionRt] = useRichText(record.description || '')
+  const [descriptionRt] = useGrpcRichText(record.description || '')
 
   const [appClipOverlayVisible, setAppClipOverlayVisible] =
     React.useState(false)
@@ -198,7 +193,7 @@ function LandingScreenLoaded({
         </LinearGradientBackground>
         <View style={[a.gap_2xl, a.mx_lg, a.my_2xl]}>
           {record.description ? (
-            <RichText value={descriptionRt} style={[a.text_md]} />
+            <GrpcRichText value={descriptionRt} style={[a.text_md]} />
           ) : null}
           <View style={[a.gap_sm]}>
             <Button
@@ -331,7 +326,7 @@ function LandingScreenLoaded({
             cta="Download on Google Play"
             color="primary"
             onPress={() => {
-              const rkey = new AtUri(starterPack.uri).rkey
+              const rkey = new GrpcUri(starterPack.uri).rkey
               if (!rkey) return
 
               const googlePlayUri = createStarterPackGooglePlayUri(

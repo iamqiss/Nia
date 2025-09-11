@@ -1,10 +1,5 @@
 import {useCallback, useState} from 'react'
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  moderatePost,
-  type ModerationDecision,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

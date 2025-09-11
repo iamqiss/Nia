@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs, AppBskyFeedThreadgate} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type ThreadgateAllowUISetting} from '#/state/queries/threadgate/types'
 import * as bsky from '#/types/bsky'

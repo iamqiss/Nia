@@ -104,7 +104,7 @@ class CompleteMigrationManager {
       
       // Initialize migration service
       this.migrationService = new TimeGrpcMigrationService(this.grpcClient);
-      await this.migrationService.initialize();
+      await this.);
       
       // Initialize migration adapter
       this.migrationAdapter = new MigrationAdapter(this.grpcClient, this.featureFlags);

@@ -1,20 +1,16 @@
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedGetActorLikes as GetActorLikes,
-  type BskyAgent,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type FeedAPI, type FeedAPIResponse} from './types'
 
 export class LikesFeedAPI implements FeedAPI {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   params: GetActorLikes.QueryParams
 
   constructor({
     agent,
     feedParams,
   }: {
-    agent: BskyAgent
+    agent: TimeGrpcClient
     feedParams: GetActorLikes.QueryParams
   }) {
     this.agent = agent

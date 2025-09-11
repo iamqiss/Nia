@@ -1,10 +1,6 @@
 import {useMemo} from 'react'
 import {type GestureResponderEvent, View} from 'react-native'
-import {
-  moderateProfile,
-  type ModerationOpts,
-  RichText as RichTextApi,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -37,7 +33,7 @@ import {Check_Stroke2_Corner0_Rounded as Check} from '#/components/icons/Check'
 import {PlusLarge_Stroke2_Corner0_Rounded as Plus} from '#/components/icons/Plus'
 import {Link as InternalLink, type LinkProps} from '#/components/Link'
 import * as Pills from '#/components/Pills'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import {useSimpleVerificationState} from '#/components/verification'
 import {VerificationCheck} from '#/components/verification/VerificationCheck'
@@ -380,7 +376,7 @@ export function Description({
   const profile = useProfileShadow(profileUnshadowed)
   const rt = useMemo(() => {
     if (!('description' in profile)) return
-    const rt = new RichTextApi({text: profile.description || ''})
+    const rt = new GrpcRichTextApi({text: profile.description || ''})
     rt.detectFacetsWithoutResolution()
     return rt
   }, [profile])
@@ -394,7 +390,7 @@ export function Description({
     return null
   return (
     <View style={[a.pt_xs]}>
-      <RichText
+      <GrpcRichText
         value={rt}
         style={[a.leading_snug, style]}
         numberOfLines={numberOfLines}

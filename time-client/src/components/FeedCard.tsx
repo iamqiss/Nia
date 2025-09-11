@@ -1,11 +1,6 @@
 import React from 'react'
 import {type GestureResponderEvent, View} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  AtUri,
-  RichText as RichTextApi,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -32,7 +27,7 @@ import {Pin_Stroke2_Corner0_Rounded as PinIcon} from '#/components/icons/Pin'
 import {Link as InternalLink, type LinkProps} from '#/components/Link'
 import {Loader} from '#/components/Loader'
 import * as Prompt from '#/components/Prompt'
-import {RichText, type RichTextProps} from '#/components/RichText'
+import {GrpcRichText, type GrpcRichTextProps} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import type * as bsky from '#/types/bsky'
 import {Trash_Stroke2_Corner0_Rounded as TrashIcon} from './icons/Trash'
@@ -178,15 +173,15 @@ export function TitleAndBylinePlaceholder({creator}: {creator?: boolean}) {
 export function Description({
   description,
   ...rest
-}: {description?: string} & Partial<RichTextProps>) {
+}: {description?: string} & Partial<GrpcRichTextProps>) {
   const rt = React.useMemo(() => {
     if (!description) return
-    const rt = new RichTextApi({text: description || ''})
+    const rt = new GrpcRichTextApi({text: description || ''})
     rt.detectFacetsWithoutResolution()
     return rt
   }, [description])
   if (!rt) return null
-  return <RichText value={rt} style={[a.leading_snug]} disableLinks {...rest} />
+  return <GrpcRichText value={rt} style={[a.leading_snug]} disableLinks {...rest} />
 }
 
 export function DescriptionPlaceholder() {
@@ -352,7 +347,7 @@ export function createProfileFeedHref({
 }: {
   feed: AppBskyFeedDefs.GeneratorView
 }) {
-  const urip = new AtUri(feed.uri)
+  const urip = new GrpcUri(feed.uri)
   const handleOrDid = feed.creator.handle || feed.creator.did
   return `/profile/${handleOrDid}/feed/${urip.rkey}`
 }

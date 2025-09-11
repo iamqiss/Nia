@@ -1,4 +1,4 @@
-import {ComAtprotoTempCheckHandleAvailability} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useQuery} from '@tanstack/react-query'
 
 import {

@@ -1,9 +1,5 @@
 import {useMemo} from 'react'
-import {
-  type $Typed,
-  type AppBskyActorDefs,
-  AppBskyEmbedExternal,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {isAfter, parseISO} from 'date-fns'
 
 import {useMaybeProfileShadow} from '#/state/cache/profile-shadow'

@@ -1,13 +1,7 @@
 import React from 'react'
 import {View} from 'react-native'
 import {Image} from 'expo-image'
-import {
-  AppBskyGraphDefs,
-  AppBskyGraphStarterpack,
-  AtUri,
-  type ModerationOpts,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -65,7 +59,7 @@ import {
   useReportDialogControl,
 } from '#/components/moderation/ReportDialog'
 import * as Prompt from '#/components/Prompt'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {FeedsList} from '#/components/StarterPack/Main/FeedsList'
 import {PostsList} from '#/components/StarterPack/Main/PostsList'
 import {ProfilesList} from '#/components/StarterPack/Main/ProfilesList'
@@ -205,7 +199,7 @@ function StarterPackScreenLoaded({
   }, [starterPack.uri])
 
   const onOpenShareDialog = React.useCallback(() => {
-    const rkey = new AtUri(starterPack.uri).rkey
+    const rkey = new GrpcUri(starterPack.uri).rkey
     shortenLink(makeStarterPackLink(starterPack.creator.did, rkey)).then(
       res => {
         setLink(res.url)
@@ -402,7 +396,7 @@ function Header({
   }
 
   const richText = record.description
-    ? new RichTextAPI({
+    ? new GrpcRichTextAPI({
         text: record.description,
         facets: record.descriptionFacets,
       })
@@ -459,7 +453,7 @@ function Header({
       {!hasSession || richText || joinedAllTimeCount >= 25 ? (
         <View style={[a.px_lg, a.pt_md, a.pb_sm, a.gap_md]}>
           {richText ? (
-            <RichText value={richText} style={[a.text_md, a.leading_snug]} />
+            <GrpcRichText value={richText} style={[a.text_md, a.leading_snug]} />
           ) : null}
           {!hasSession ? (
             <Button

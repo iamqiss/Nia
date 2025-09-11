@@ -1,4 +1,4 @@
-import {type AppBskyNotificationDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {t} from '@lingui/macro'
 import {
   type QueryClient,

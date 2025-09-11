@@ -1,8 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyBookmarkGetBookmarks,
-  type AppBskyFeedDefs,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,

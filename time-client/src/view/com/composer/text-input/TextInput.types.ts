@@ -1,5 +1,5 @@
 import {type TextInput} from 'react-native'
-import {type RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type TextInputRef = {
   focus: () => void
@@ -21,13 +21,13 @@ export type TextInputRef = {
 
 export type TextInputProps = {
   ref: React.Ref<TextInputRef>
-  richtext: RichText
+  richtext: GrpcRichText
   webForceMinHeight: boolean
   hasRightPadding: boolean
   isActive: boolean
-  setRichText: (v: RichText) => void
+  setGrpcRichText: (v: GrpcRichText) => void
   onPhotoPasted: (uri: string) => void
-  onPressPublish: (richtext: RichText) => void
+  onPressPublish: (richtext: GrpcRichText) => void
   onNewLink: (uri: string) => void
   onError: (err: string) => void
   onFocus: () => void

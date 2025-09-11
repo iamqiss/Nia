@@ -1,12 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {LayoutAnimation, View} from 'react-native'
-import {
-  AppBskyFeedPost,
-  AppBskyRichtextFacet,
-  AtUri,
-  moderatePost,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {type RouteProp, useNavigation, useRoute} from '@react-navigation/native'
@@ -31,7 +25,7 @@ import {Loader} from '#/components/Loader'
 import * as MediaPreview from '#/components/MediaPreview'
 import {ContentHider} from '#/components/moderation/ContentHider'
 import {PostAlerts} from '#/components/moderation/PostAlerts'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import * as bsky from '#/types/bsky'
 
@@ -74,7 +68,7 @@ export function useExtractEmbedFromFacets(
   message: string,
   setEmbed: (embedUrl: string | undefined) => void,
 ) {
-  const rt = new RichTextAPI({text: message})
+  const rt = new GrpcRichTextAPI({text: message})
   rt.detectFacetsWithoutResolution()
 
   let uriFromFacet: string | undefined
@@ -123,7 +117,7 @@ export function MessageInputEmbed({
       )
     ) {
       return {
-        rt: new RichTextAPI({
+        rt: new GrpcRichTextAPI({
           text: post.record.text,
           facets: post.record.facets,
         }),
@@ -157,7 +151,7 @@ export function MessageInputEmbed({
       )
       break
     case 'success':
-      const itemUrip = new AtUri(post.uri)
+      const itemUrip = new GrpcUri(post.uri)
       const itemHref = makeProfileLink(post.author, 'post', itemUrip.rkey)
 
       if (!post || !moderation || !rt || !record) {
@@ -188,7 +182,7 @@ export function MessageInputEmbed({
             <PostAlerts modui={moderation.ui('contentView')} style={a.py_xs} />
             {rt.text && (
               <View style={a.mt_xs}>
-                <RichText
+                <GrpcRichText
                   enableTags
                   testID="postText"
                   value={rt}

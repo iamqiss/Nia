@@ -42,14 +42,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {type ImagePickerAsset} from 'expo-image-picker'
-import {
-  AppBskyFeedDefs,
-  type AppBskyFeedGetPostThread,
-  AppBskyUnspeccedDefs,
-  AtUri,
-  type BskyAgent,
-  type RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {msg, plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -540,7 +533,7 @@ export const ComposePost = ({
           <Toast.Action
             label={_(msg`View post`)}
             onPress={() => {
-              const {host: name, rkey} = new AtUri(postUri)
+              const {host: name, rkey} = new GrpcUri(postUri)
               navigation.navigate('PostThread', {name, rkey})
             }}>
             <Trans context="Action to view the post the user just created">
@@ -796,7 +789,7 @@ let ComposerPost = React.memo(function ComposerPost({
   onClearVideo: (postId: string) => void
   onSelectVideo: (postId: string, asset: ImagePickerAsset) => void
   onError: (error: string) => void
-  onPublish: (richtext: RichText) => void
+  onPublish: (richtext: GrpcRichText) => void
 }) {
   const {currentAccount} = useSession()
   const currentDid = currentAccount!.did
@@ -895,7 +888,7 @@ let ComposerPost = React.memo(function ComposerPost({
           // To avoid overlap with the close button:
           hasRightPadding={isPartOfThread}
           isActive={isActive}
-          setRichText={rt => {
+          setGrpcRichText={rt => {
             dispatchPost({type: 'update_richtext', richtext: rt})
           }}
           onFocus={() => {
@@ -1610,7 +1603,7 @@ function useKeyboardVerticalOffset() {
 }
 
 async function whenAppViewReady(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
   fn: (res: AppBskyFeedGetPostThread.Response) => boolean,
 ) {

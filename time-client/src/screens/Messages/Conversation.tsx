@@ -1,10 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  moderateProfile,
-  type ModerationDecision,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {

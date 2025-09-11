@@ -1,14 +1,5 @@
 import {useCallback} from 'react'
-import {
-  type AppBskyActorDefs,
-  type AppBskyActorGetProfile,
-  type AppBskyActorGetProfiles,
-  type AppBskyActorProfile,
-  AtUri,
-  type BskyAgent,
-  type ComAtprotoRepoUploadBlob,
-  type Un$Typed,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   keepPreviousData,
   type QueryClient,
@@ -515,7 +506,7 @@ function useProfileUnblockMutation() {
       if (!currentAccount) {
         throw new Error('Not signed in')
       }
-      const {rkey} = new AtUri(blockUri)
+      const {rkey} = new GrpcUri(blockUri)
       await agent.app.bsky.graph.block.delete({
         repo: currentAccount.did,
         rkey,
@@ -528,7 +519,7 @@ function useProfileUnblockMutation() {
 }
 
 async function whenAppViewReady(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   actor: string,
   fn: (res: AppBskyActorGetProfile.Response) => boolean,
 ) {

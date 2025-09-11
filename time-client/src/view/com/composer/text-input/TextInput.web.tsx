@@ -8,7 +8,7 @@ import {
 } from 'react'
 import {StyleSheet, View} from 'react-native'
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated'
-import {AppBskyRichtextFacet, RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 import {Document} from '@tiptap/extension-document'
 import Hardbreak from '@tiptap/extension-hard-break'
@@ -47,7 +47,7 @@ export function TextInput({
   webForceMinHeight,
   hasRightPadding,
   isActive,
-  setRichText,
+  setGrpcRichText,
   onPhotoPasted,
   onPressPublish,
   onNewLink,
@@ -249,9 +249,9 @@ export function TextInput({
         const newText = editorJsonToText(json)
         const isPaste = window.event?.type === 'paste'
 
-        const newRt = new RichText({text: newText})
+        const newRt = new GrpcRichText({text: newText})
         newRt.detectFacetsWithoutResolution()
-        setRichText(newRt)
+        setGrpcRichText(newRt)
 
         const nextDetectedUris = new Map<string, LinkFacetMatch>()
         if (newRt.facets) {

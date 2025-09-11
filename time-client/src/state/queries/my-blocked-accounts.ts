@@ -1,4 +1,3 @@
-import {type AppBskyActorDefs, type AppBskyGraphGetBlocks} from '@atproto/api'
 import {
   type InfiniteData,
   type QueryClient,

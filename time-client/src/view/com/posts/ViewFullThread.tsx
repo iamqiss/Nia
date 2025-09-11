@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
 import Svg, {Circle, Line} from 'react-native-svg'
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -20,7 +20,7 @@ export function ViewFullThread({uri}: {uri: string}) {
   } = useInteractionState()
   const pal = usePalette('default')
   const itemHref = React.useMemo(() => {
-    const urip = new AtUri(uri)
+    const urip = new GrpcUri(uri)
     return makeProfileLink({did: urip.hostname, handle: ''}, 'post', urip.rkey)
   }, [uri])
   const {_} = useLingui()

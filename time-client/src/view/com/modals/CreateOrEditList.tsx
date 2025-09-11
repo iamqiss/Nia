@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient'
-import {type AppBskyGraphDefs, RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -71,19 +71,19 @@ export function Component({
   const [isProcessing, setProcessing] = useState<boolean>(false)
   const [name, setName] = useState<string>(list?.name || '')
 
-  const [descriptionRt, setDescriptionRt] = useState<RichTextAPI>(() => {
+  const [descriptionRt, setDescriptionRt] = useState<GrpcRichTextAPI>(() => {
     const text = list?.description
     const facets = list?.descriptionFacets
 
     if (!text || !facets) {
-      return new RichTextAPI({text: text || ''})
+      return new GrpcRichTextAPI({text: text || ''})
     }
 
     // We want to be working with a blank state here, so let's get the
-    // serialized version and turn it back into a RichText
-    const serialized = richTextToString(new RichTextAPI({text, facets}), false)
+    // serialized version and turn it back into a GrpcRichText
+    const serialized = richTextToString(new GrpcRichTextAPI({text, facets}), false)
 
-    const richText = new RichTextAPI({text: serialized})
+    const richText = new GrpcRichTextAPI({text: serialized})
     richText.detectFacetsWithoutResolution()
 
     return richText
@@ -98,7 +98,7 @@ export function Component({
 
   const onDescriptionChange = useCallback(
     (newText: string) => {
-      const richText = new RichTextAPI({text: newText})
+      const richText = new GrpcRichTextAPI({text: newText})
       richText.detectFacetsWithoutResolution()
 
       setDescriptionRt(richText)
@@ -138,7 +138,7 @@ export function Component({
       setError('')
     }
     try {
-      let richText = new RichTextAPI(
+      let richText = new GrpcRichTextAPI(
         {text: descriptionRt.text.trimEnd()},
         {cleanNewlines: true},
       )

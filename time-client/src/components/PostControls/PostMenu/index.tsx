@@ -1,11 +1,6 @@
 import {memo, useMemo, useState} from 'react'
 import {type Insets} from 'react-native'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -36,7 +31,7 @@ let PostMenuButton = ({
   postReqId: string | undefined
   big?: boolean
   record: AppBskyFeedPost.Record
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   timestamp: string
   threadgateRecord?: AppBskyFeedThreadgate.Record
   onShowLess?: (interaction: AppBskyFeedDefs.Interaction) => void

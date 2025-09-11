@@ -3,7 +3,7 @@ import {View} from 'react-native'
 // @ts-expect-error missing types
 import QRCode from 'react-native-qrcode-styled'
 import type ViewShot from 'react-native-view-shot'
-import {type AppBskyGraphDefs, AppBskyGraphStarterpack} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 
 import {isWeb} from '#/platform/detection'

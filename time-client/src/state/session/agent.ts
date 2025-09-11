@@ -1,15 +1,7 @@
-import {
-  Agent as BaseAgent,
-  type AtprotoServiceType,
-  type AtpSessionData,
-  type AtpSessionEvent,
-  BskyAgent,
-  type Did,
-} from '@atproto/api' // Legacy - will be removed
-import {type FetchHandler} from '@atproto/api/dist/agent'
-import {type SessionManager} from '@atproto/api/dist/session-manager'
-import {TID} from '@atproto/common-web'
-import {type FetchHandlerOptions} from '@atproto/xrpc'
+// Migrated to gRPC
+import {type FetchHandler} from '#/lib/grpc/TimeGrpcClient'
+import {type SessionManager} from '#/lib/grpc/TimeGrpcClient'
+import {type FetchHandlerOptions} from '#/lib/grpc/TimeGrpcClient'
 
 import {networkRetry} from '#/lib/async/retry'
 import {
@@ -46,7 +38,7 @@ export function createPublicAgent() {
 export async function createAgentAndResume(
   storedAccount: SessionAccount,
   onSessionChange: (
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     did: string,
     event: AtpSessionEvent,
   ) => void,
@@ -95,7 +87,7 @@ export async function createAgentAndLogin(
     authFactorToken?: string
   },
   onSessionChange: (
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     did: string,
     event: AtpSessionEvent,
   ) => void,
@@ -138,7 +130,7 @@ export async function createAgentAndCreateAccount(
     verificationCode?: string
   },
   onSessionChange: (
-    agent: BskyAgent,
+    agent: TimeGrpcClient,
     did: string,
     event: AtpSessionEvent,
   ) => void,
@@ -165,11 +157,11 @@ export async function createAgentAndCreateAccount(
         await agent.overwriteSavedFeeds([
           {
             ...DISCOVER_SAVED_FEED,
-            id: TID.nextStr(),
+            id: GrpcTID.nextStr(),
           },
           {
             ...TIMELINE_SAVED_FEED,
-            id: TID.nextStr(),
+            id: GrpcTID.nextStr(),
           },
         ])
 
@@ -206,7 +198,7 @@ export async function createAgentAndCreateAccount(
   return agent.prepare(gates, moderation, onSessionChange)
 }
 
-export function agentToSessionAccountOrThrow(agent: BskyAgent): SessionAccount {
+export function agentToSessionAccountOrThrow(agent: TimeGrpcClient): SessionAccount {
   const account = agentToSessionAccount(agent)
   if (!account) {
     throw Error('Expected an active session')
@@ -215,7 +207,7 @@ export function agentToSessionAccountOrThrow(agent: BskyAgent): SessionAccount {
 }
 
 export function agentToSessionAccount(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
 ): SessionAccount | undefined {
   if (!agent.session) {
     return undefined
@@ -241,7 +233,7 @@ export function sessionAccountToSession(
   account: SessionAccount,
 ): AtpSessionData {
   return {
-    // Sorted in the same property order as when returned by BskyAgent (alphabetical).
+    // Sorted in the same property order as when returned by TimeGrpcClient (alphabetical).
     accessJwt: account.accessJwt ?? '',
     did: account.did,
     email: account.email,
@@ -274,7 +266,7 @@ export class Agent extends BaseAgent {
 // Ideally, we wouldn't be doing this. However, since there is so much logic that requires making calls to the PDS right now, it
 // feels safer to just let those run as-is and set the header afterward.
 let realFetch = globalThis.fetch
-class BskyAppAgent extends BskyAgent {
+class BskyAppAgent extends TimeGrpcClient {
   persistSessionHandler: ((event: AtpSessionEvent) => void) | undefined =
     undefined
 
@@ -311,7 +303,7 @@ class BskyAppAgent extends BskyAgent {
     gates: Promise<void>,
     moderation: Promise<void>,
     onSessionChange: (
-      agent: BskyAgent,
+      agent: TimeGrpcClient,
       did: string,
       event: AtpSessionEvent,
     ) => void,

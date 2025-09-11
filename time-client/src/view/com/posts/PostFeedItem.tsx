@@ -1,14 +1,6 @@
 import {memo, useCallback, useMemo, useState} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AppBskyFeedThreadgate,
-  AtUri,
-  type ModerationDecision,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -54,7 +46,7 @@ import {ShowMoreTextButton} from '#/components/Post/ShowMoreTextButton'
 import {PostControls} from '#/components/PostControls'
 import {DiscoverDebug} from '#/components/PostControls/DiscoverDebug'
 import {ProfileHoverCard} from '#/components/ProfileHoverCard'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {SubtleWebHover} from '#/components/SubtleWebHover'
 import * as bsky from '#/types/bsky'
 
@@ -104,7 +96,7 @@ export function PostFeedItem({
   const postShadowed = usePostShadow(post)
   const richText = useMemo(
     () =>
-      new RichTextAPI({
+      new GrpcRichTextAPI({
         text: record.text,
         facets: record.facets,
       }),
@@ -160,7 +152,7 @@ let FeedItemInner = ({
   rootPost,
   onShowLess,
 }: FeedItemProps & {
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   post: Shadow<AppBskyFeedDefs.PostView>
   rootPost: AppBskyFeedDefs.PostView
   onShowLess?: (interaction: AppBskyFeedDefs.Interaction) => void
@@ -173,7 +165,7 @@ let FeedItemInner = ({
   const [hover, setHover] = useState(false)
 
   const href = useMemo(() => {
-    const urip = new AtUri(post.uri)
+    const urip = new GrpcUri(post.uri)
     return makeProfileLink(post.author, 'post', urip.rkey)
   }, [post.uri, post.author])
   const {sendInteraction, feedSourceInfo} = useFeedFeedbackContext()
@@ -492,7 +484,7 @@ let PostContent = ({
   threadgateRecord,
 }: {
   moderation: ModerationDecision
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   postEmbed: AppBskyFeedDefs.PostView['embed']
   postAuthor: AppBskyFeedDefs.PostView['author']
   onOpenEmbed: () => void
@@ -515,7 +507,7 @@ let PostContent = ({
       ? post.record?.reply?.root?.uri || post.uri
       : undefined
     const isControlledByViewer =
-      rootPostUri && new AtUri(rootPostUri).host === currentAccount?.did
+      rootPostUri && new GrpcUri(rootPostUri).host === currentAccount?.did
     return isControlledByViewer && isPostHiddenByThreadgate
       ? [
           {
@@ -544,7 +536,7 @@ let PostContent = ({
       />
       {richText.text ? (
         <>
-          <RichText
+          <GrpcRichText
             enableTags
             testID="postText"
             value={richText}

@@ -1,5 +1,5 @@
 import {type StyleProp, View, type ViewStyle} from 'react-native'
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -113,7 +113,7 @@ function DialogInner({
   const control = Dialog.useDialogContext()
   const t = useTheme()
   const {_} = useLingui()
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
   const {data: profile, isError: isProfileError} = useProfileQuery({
     did: atUri.host,
   })

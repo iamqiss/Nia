@@ -1,12 +1,7 @@
 import React, {useCallback, useMemo} from 'react'
 import {StyleSheet} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import {
-  type AppBskyActorDefs,
-  moderateProfile,
-  type ModerationOpts,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
@@ -196,7 +191,7 @@ function ProfileScreenLoaded({
 
   const description = profile.description ?? ''
   const hasDescription = description !== ''
-  const [descriptionRT, isResolvingDescriptionRT] = useRichText(description)
+  const [descriptionRT, isResolvingDescriptionRT] = useGrpcRichText(description)
   const showPlaceholder = isPlaceholderProfile || isResolvingDescriptionRT
   const moderation = useMemo(
     () => moderateProfile(profile, moderationOpts),
@@ -515,14 +510,14 @@ function ProfileScreenLoaded({
   )
 }
 
-function useRichText(text: string): [RichTextAPI, boolean] {
+function useGrpcRichText(text: string): [GrpcRichTextAPI, boolean] {
   const agent = useAgent()
   const [prevText, setPrevText] = React.useState(text)
-  const [rawRT, setRawRT] = React.useState(() => new RichTextAPI({text}))
-  const [resolvedRT, setResolvedRT] = React.useState<RichTextAPI | null>(null)
+  const [rawRT, setRawRT] = React.useState(() => new GrpcRichTextAPI({text}))
+  const [resolvedRT, setResolvedRT] = React.useState<GrpcRichTextAPI | null>(null)
   if (text !== prevText) {
     setPrevText(text)
-    setRawRT(new RichTextAPI({text}))
+    setRawRT(new GrpcRichTextAPI({text}))
     setResolvedRT(null)
     // This will queue an immediate re-render
   }
@@ -530,7 +525,7 @@ function useRichText(text: string): [RichTextAPI, boolean] {
     let ignore = false
     async function resolveRTFacets() {
       // new each time
-      const resolvedRT = new RichTextAPI({text})
+      const resolvedRT = new GrpcRichTextAPI({text})
       await resolvedRT.detectFacets(agent)
       if (!ignore) {
         setResolvedRT(resolvedRT)

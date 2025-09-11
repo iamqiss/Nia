@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useRef, useState} from 'react'
-import {type AppBskyUnspeccedGetPostThreadV2} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import debounce from 'lodash.debounce'
 
 import {OnceKey, useCallOnce} from '#/lib/hooks/useCallOnce'

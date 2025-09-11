@@ -1,7 +1,7 @@
-import {type AppBskyRichtextFacet, type RichText} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type LinkFacetMatch = {
-  rt: RichText
+  rt: GrpcRichText
   facet: AppBskyRichtextFacet.Main
 }
 

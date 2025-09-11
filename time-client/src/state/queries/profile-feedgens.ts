@@ -1,7 +1,4 @@
-import {
-  type AppBskyFeedGetActorFeeds,
-  moderateFeedGenerator,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryKey,

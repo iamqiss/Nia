@@ -1,21 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type ComAtprotoLabelDefs,
-  interpretLabelValueDefinition,
-  type LabelPreference,
-  LABELS,
-  mock,
-  moderatePost,
-  moderateProfile,
-  type ModerationBehavior,
-  type ModerationDecision,
-  type ModerationOpts,
-  RichText,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -938,7 +923,7 @@ function MockAccountScreen({
           profile={profile}
           moderationOpts={moderationOpts}
           // @ts-ignore ProfileViewBasic is close enough -esb
-          descriptionRT={new RichText({text: profile.description as string})}
+          descriptionRT={new GrpcRichText({text: profile.description as string})}
         />
       </ScreenHider>
     </View>

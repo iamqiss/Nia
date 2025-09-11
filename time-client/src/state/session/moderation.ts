@@ -1,4 +1,4 @@
-import {BSKY_LABELER_DID, BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {IS_TEST_USER} from '#/lib/constants'
 import {configureAdditionalModerationAuthorities} from './additional-moderation-authorities'
@@ -13,7 +13,7 @@ export function configureModerationForGuest() {
 }
 
 export async function configureModerationForAccount(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   account: SessionAccount,
 ) {
   // This global mutation is *only* OK because this code is only relevant for testing.
@@ -38,10 +38,10 @@ export async function configureModerationForAccount(
 }
 
 function switchToBskyAppLabeler() {
-  BskyAgent.configure({appLabelers: [BSKY_LABELER_DID]})
+  TimeGrpcClient.configure({appLabelers: [BSKY_LABELER_DID]})
 }
 
-async function trySwitchToTestAppLabeler(agent: BskyAgent) {
+async function trySwitchToTestAppLabeler(agent: TimeGrpcClient) {
   const did = (
     await agent
       .resolveHandle({handle: 'mod-authority.test'})
@@ -49,6 +49,6 @@ async function trySwitchToTestAppLabeler(agent: BskyAgent) {
   )?.data.did
   if (did) {
     console.warn('USING TEST ENV MODERATION')
-    BskyAgent.configure({appLabelers: [did]})
+    TimeGrpcClient.configure({appLabelers: [did]})
   }
 }

@@ -27,14 +27,7 @@ import {useEventListener} from 'expo'
 import {Image, type ImageStyle} from 'expo-image'
 import {LinearGradient} from 'expo-linear-gradient'
 import {createVideoPlayer, type VideoPlayer, VideoView} from 'expo-video'
-import {
-  AppBskyEmbedVideo,
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AtUri,
-  type ModerationDecision,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {
@@ -98,7 +91,7 @@ import {Link} from '#/components/Link'
 import {ListFooter} from '#/components/Lists'
 import * as Hider from '#/components/moderation/Hider'
 import {PostControls} from '#/components/PostControls'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Text} from '#/components/Typography'
 import * as bsky from '#/types/bsky'
 import {Scrubber, VIDEO_PLAYER_BOTTOM_INSET} from './components/Scrubber'
@@ -717,14 +710,14 @@ function Overlay({
     'ImmersiveVideo',
   )
 
-  const rkey = new AtUri(post.uri).rkey
+  const rkey = new GrpcUri(post.uri).rkey
   const record = bsky.dangerousIsType<AppBskyFeedPost.Record>(
     post.record,
     AppBskyFeedPost.isRecord,
   )
     ? post.record
     : undefined
-  const richText = new RichTextAPI({
+  const richText = new GrpcRichTextAPI({
     text: record?.text || '',
     facets: record?.facets,
   })
@@ -858,7 +851,7 @@ function Overlay({
                   )}
               </View>
               {record?.text?.trim() && (
-                <ExpandableRichTextView
+                <ExpandableGrpcRichTextView
                   value={richText}
                   authorHandle={post.author.handle}
                 />
@@ -914,11 +907,11 @@ function Overlay({
   )
 }
 
-function ExpandableRichTextView({
+function ExpandableGrpcRichTextView({
   value,
   authorHandle,
 }: {
-  value: RichTextAPI
+  value: GrpcRichTextAPI
   authorHandle?: string
 }) {
   const {height: screenHeight} = useSafeAreaFrame()
@@ -951,7 +944,7 @@ function ExpandableRichTextView({
         a.gap_xs,
         expanded ? [a.align_start] : a.flex_row,
       ]}>
-      <RichText
+      <GrpcRichText
         value={value}
         style={[a.text_sm, a.flex_1, a.leading_normal]}
         authorHandle={authorHandle}

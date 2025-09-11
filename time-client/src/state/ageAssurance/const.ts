@@ -1,4 +1,4 @@
-import {type ModerationPrefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {DEFAULT_LOGGED_OUT_LABEL_PREFERENCES} from '#/state/queries/preferences/moderation'
 

@@ -1,14 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyGraphDefs,
-  type AppBskyGraphGetList,
-  type AppBskyGraphList,
-  AtUri,
-  type BskyAgent,
-  type ComAtprotoRepoApplyWrites,
-  type Facet,
-  type Un$Typed,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import chunk from 'lodash.chunk'
 
@@ -127,7 +117,7 @@ export function useListMetadataMutation() {
     ListMetadataMutateParams
   >({
     async mutationFn({uri, name, description, descriptionFacets, avatar}) {
-      const {hostname, rkey} = new AtUri(uri)
+      const {hostname, rkey} = new GrpcUri(uri)
       if (!currentAccount) {
         throw new Error('Not signed in')
       }
@@ -218,7 +208,7 @@ export function useListDeleteMutation() {
       const createDel = (
         uri: string,
       ): $Typed<ComAtprotoRepoApplyWrites.Delete> => {
-        const urip = new AtUri(uri)
+        const urip = new GrpcUri(uri)
         return {
           $type: 'com.atproto.repo.applyWrites#delete',
           collection: urip.collection,
@@ -231,7 +221,7 @@ export function useListDeleteMutation() {
 
       // apply in chunks
       for (const writesChunk of chunk(writes, 10)) {
-        await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+        await 
           repo: currentAccount.did,
           writes: writesChunk,
         })
@@ -301,7 +291,7 @@ export function useListBlockMutation() {
 }
 
 async function whenAppViewReady(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
   fn: (res: AppBskyGraphGetList.Response) => boolean,
 ) {

@@ -1,4 +1,4 @@
-import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 /**
  * @note It is recommended, on web, to use the `file` instance of the file
@@ -7,7 +7,7 @@ import {type BskyAgent, type ComAtprotoRepoUploadBlob} from '@atproto/api' // Le
  * be passed directly to this function.
  */
 export async function uploadBlob(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   input: string | Blob,
   encoding?: string,
 ): Promise<ComAtprotoRepoUploadBlob.Response> {

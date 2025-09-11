@@ -1,16 +1,4 @@
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedLike,
-  AppBskyFeedPost,
-  AppBskyFeedRepost,
-  type AppBskyGraphDefs,
-  AppBskyGraphStarterpack,
-  type AppBskyNotificationListNotifications,
-  type BskyAgent,
-  hasMutedWord,
-  moderateNotification,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type QueryClient} from '@tanstack/react-query'
 import chunk from 'lodash.chunk'
 
@@ -46,7 +34,7 @@ export async function fetchPage({
   fetchAdditionalData,
   reasons,
 }: {
-  agent: BskyAgent
+  agent: TimeGrpcClient
   cursor: string | undefined
   limit: number
   queryClient: QueryClient
@@ -204,7 +192,7 @@ export function groupNotifications(
 }
 
 async function fetchSubjects(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   groupedNotifs: FeedNotification[],
 ): Promise<{
   posts: Map<string, AppBskyFeedDefs.PostView>

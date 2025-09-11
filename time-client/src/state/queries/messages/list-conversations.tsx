@@ -1,10 +1,5 @@
 import {createContext, useCallback, useContext, useEffect, useMemo} from 'react'
-import {
-  ChatBskyConvoDefs,
-  type ChatBskyConvoListConvos,
-  moderateProfile,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,

@@ -1,6 +1,5 @@
 import React from 'react'
 import {View} from 'react-native'
-import {TID} from '@atproto/common-web'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -49,12 +48,12 @@ export function NoFeedsPinned({
       {
         ...DISCOVER_SAVED_FEED,
         pinned: true,
-        id: TID.nextStr(),
+        id: GrpcTID.nextStr(),
       },
       {
         ...TIMELINE_SAVED_FEED,
         pinned: true,
-        id: TID.nextStr(),
+        id: GrpcTID.nextStr(),
       },
       ...remainingSavedFeeds,
     ]

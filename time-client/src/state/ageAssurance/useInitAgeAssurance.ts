@@ -1,8 +1,4 @@
-import {
-  type AppBskyUnspeccedDefs,
-  type AppBskyUnspeccedInitAgeAssurance,
-  AtpAgent,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {wait} from '#/lib/async/wait'
@@ -66,7 +62,7 @@ export function useInitAgeAssurance() {
         lxm: `app.bsky.unspecced.initAgeAssurance`,
       })
 
-      const appView = new AtpAgent({service: APPVIEW})
+      const appView = new TimeGrpcClient({service: APPVIEW})
       appView.sessionManager.session = {...agent.session!}
       appView.sessionManager.session.accessJwt = token
       appView.sessionManager.session.refreshJwt = ''

@@ -1,11 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyActorDefs,
-  type AppBskyGraphGetStarterPack,
-  type BskyAgent,
-  type ComAtprotoRepoApplyWrites,
-  type Facet,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useMutation} from '@tanstack/react-query'
@@ -28,7 +21,7 @@ export const createStarterPackList = async ({
   description?: string
   descriptionFacets?: Facet[]
   profiles: bsky.profile.AnyProfileView[]
-  agent: BskyAgent
+  agent: TimeGrpcClient
 }): Promise<{uri: string; cid: string}> => {
   if (profiles.length === 0) throw new Error('No profiles given')
 
@@ -44,7 +37,7 @@ export const createStarterPackList = async ({
     },
   )
   if (!list) throw new Error('List creation failed')
-  await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+  await 
     repo: agent.session!.did,
     writes: profiles.map(p => createListItem({did: p.did, listUri: list.uri})),
   })
@@ -152,7 +145,7 @@ function createListItem({
 }
 
 async function whenAppViewReady(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   uri: string,
   fn: (res?: AppBskyGraphGetStarterPack.Response) => boolean,
 ) {

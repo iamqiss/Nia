@@ -1,16 +1,9 @@
-import {
-  type $Typed,
-  type AppBskyGraphFollow,
-  type AppBskyGraphGetFollows,
-  type BskyAgent,
-  type ComAtprotoRepoApplyWrites,
-} from '@atproto/api' // Legacy - will be removed
-import {TID} from '@atproto/common-web'
+// Migrated to gRPC
 import chunk from 'lodash.chunk'
 
 import {until} from '#/lib/async/until'
 
-export async function bulkWriteFollows(agent: BskyAgent, dids: string[]) {
+export async function bulkWriteFollows(agent: TimeGrpcClient, dids: string[]) {
   const session = agent.session
 
   if (!session) {
@@ -29,13 +22,13 @@ export async function bulkWriteFollows(agent: BskyAgent, dids: string[]) {
     followRecords.map(r => ({
       $type: 'com.atproto.repo.applyWrites#create',
       collection: 'app.bsky.graph.follow',
-      rkey: TID.nextStr(),
+      rkey: GrpcTID.nextStr(),
       value: r,
     }))
 
   const chunks = chunk(followWrites, 50)
   for (const chunk of chunks) {
-    await // agent.com.atproto.repo.applyWrites - replaced with gRPC({
+    await 
       repo: session.did,
       writes: chunk,
     })
@@ -53,7 +46,7 @@ export async function bulkWriteFollows(agent: BskyAgent, dids: string[]) {
 }
 
 async function whenFollowsIndexed(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   actor: string,
   fn: (res: AppBskyGraphGetFollows.Response) => boolean,
 ) {

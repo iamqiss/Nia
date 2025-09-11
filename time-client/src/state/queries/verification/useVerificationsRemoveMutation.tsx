@@ -1,8 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  type AppBskyActorGetProfile,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation} from '@tanstack/react-query'
 
 import {until} from '#/lib/async/until'
@@ -34,7 +30,7 @@ export function useVerificationsRemoveMutation() {
         uris.map(uri => {
           return agent.app.bsky.graph.verification.delete({
             repo: currentAccount.did,
-            rkey: new AtUri(uri).rkey,
+            rkey: new GrpcUri(uri).rkey,
           })
         }),
       )

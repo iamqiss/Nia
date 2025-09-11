@@ -1,5 +1,5 @@
 import {createUploadTask, FileSystemUploadType} from 'expo-file-system'
-import {type AppBskyVideoDefs, type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type I18n} from '@lingui/core'
 import {msg} from '@lingui/macro'
 import {nanoid} from 'nanoid/non-secure'
@@ -19,7 +19,7 @@ export async function uploadVideo({
   _,
 }: {
   video: CompressedVideo
-  agent: BskyAgent
+  agent: TimeGrpcClient
   did: string
   setProgress: (progress: number) => void
   signal: AbortSignal

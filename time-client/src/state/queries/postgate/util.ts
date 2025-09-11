@@ -1,11 +1,4 @@
-import {
-  type $Typed,
-  AppBskyEmbedRecord,
-  AppBskyEmbedRecordWithMedia,
-  type AppBskyFeedDefs,
-  type AppBskyFeedPostgate,
-  AtUri,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export const POSTGATE_COLLECTION = 'app.bsky.feed.postgate'
 
@@ -154,7 +147,7 @@ export function getMaybeDetachedQuoteEmbed({
   if (AppBskyEmbedRecord.isView(post.embed)) {
     // detached
     if (AppBskyEmbedRecord.isViewDetached(post.embed.record)) {
-      const urip = new AtUri(post.embed.record.uri)
+      const urip = new GrpcUri(post.embed.record.uri)
       return {
         embed: post.embed,
         uri: urip.toString(),
@@ -165,7 +158,7 @@ export function getMaybeDetachedQuoteEmbed({
 
     // post
     if (AppBskyEmbedRecord.isViewRecord(post.embed.record)) {
-      const urip = new AtUri(post.embed.record.uri)
+      const urip = new GrpcUri(post.embed.record.uri)
       return {
         embed: post.embed,
         uri: urip.toString(),
@@ -176,7 +169,7 @@ export function getMaybeDetachedQuoteEmbed({
   } else if (AppBskyEmbedRecordWithMedia.isView(post.embed)) {
     // detached
     if (AppBskyEmbedRecord.isViewDetached(post.embed.record.record)) {
-      const urip = new AtUri(post.embed.record.record.uri)
+      const urip = new GrpcUri(post.embed.record.record.uri)
       return {
         embed: post.embed,
         uri: urip.toString(),
@@ -187,7 +180,7 @@ export function getMaybeDetachedQuoteEmbed({
 
     // post
     if (AppBskyEmbedRecord.isViewRecord(post.embed.record.record)) {
-      const urip = new AtUri(post.embed.record.record.uri)
+      const urip = new GrpcUri(post.embed.record.record.uri)
       return {
         embed: post.embed,
         uri: urip.toString(),

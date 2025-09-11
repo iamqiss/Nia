@@ -1,5 +1,5 @@
 import {type ImagePickerAsset} from 'expo-image-picker'
-import {type AppBskyVideoDefs, type BlobRef, type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {type I18n} from '@lingui/core'
 import {msg} from '@lingui/macro'
 
@@ -31,7 +31,7 @@ export type VideoAction =
   | {type: 'to_error'; error: string; signal: AbortSignal}
   | {
       type: 'to_done'
-      blobRef: BlobRef
+      blobRef: GrpcBlobRef
       signal: AbortSignal
     }
   | {type: 'update_progress'; progress: number; signal: AbortSignal}
@@ -125,7 +125,7 @@ type DoneState = {
   asset: ImagePickerAsset
   video: CompressedVideo
   jobId?: undefined
-  pendingPublish: {blobRef: BlobRef}
+  pendingPublish: {blobRef: GrpcBlobRef}
   altText: string
   captions: CaptionsTrack[]
 }
@@ -259,7 +259,7 @@ function trunc2dp(num: number) {
 export async function processVideo(
   asset: ImagePickerAsset,
   dispatch: (action: VideoAction) => void,
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   did: string,
   signal: AbortSignal,
   _: I18n['_'],
@@ -328,7 +328,7 @@ export async function processVideo(
 
     const videoAgent = createVideoAgent()
     let status: AppBskyVideoDefs.JobStatus | undefined
-    let blob: BlobRef | undefined
+    let blob: GrpcBlobRef | undefined
     try {
       const response = await videoAgent.app.bsky.video.getJobStatus({jobId})
       status = response.data.jobStatus

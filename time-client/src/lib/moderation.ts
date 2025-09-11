@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  type AppBskyLabelerDefs,
-  BskyAgent,
-  type ComAtprotoLabelDefs,
-  type InterpretedLabelValueDefinition,
-  LABELS,
-  type ModerationCause,
-  type ModerationOpts,
-  type ModerationUI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {sanitizeDisplayName} from '#/lib/strings/display-names'
 import {sanitizeHandle} from '#/lib/strings/handles'
@@ -88,9 +79,9 @@ export function isAppLabeler(
     | AppBskyLabelerDefs.LabelerViewDetailed,
 ): boolean {
   if (typeof labeler === 'string') {
-    return BskyAgent.appLabelers.includes(labeler)
+    return TimeGrpcClient.appLabelers.includes(labeler)
   }
-  return BskyAgent.appLabelers.includes(labeler.creator.did)
+  return TimeGrpcClient.appLabelers.includes(labeler.creator.did)
 }
 
 export function isLabelerSubscribed(

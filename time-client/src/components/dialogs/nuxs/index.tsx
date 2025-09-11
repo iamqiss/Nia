@@ -1,6 +1,4 @@
 import React from 'react'
-import {type AppBskyActorDefs} from '@atproto/api'
-
 import {useGate} from '#/lib/statsig/statsig'
 import {logger} from '#/logger'
 import {STALE} from '#/state/queries'

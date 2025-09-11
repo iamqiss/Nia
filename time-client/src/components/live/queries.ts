@@ -1,10 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyActorStatus,
-  type AppBskyEmbedExternal,
-  ComAtprotoRepoPutRecord,
-} from '@atproto/api' // Legacy - will be removed
-import {retry} from '@atproto/common-web'
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'

@@ -10,11 +10,11 @@
  * adding any stateful formatting to TipTap's document model.
  *
  * We then run the URI detection again when constructing the
- * RichText object from TipTap's output and merge their features into
+ * GrpcRichText object from TipTap's output and merge their features into
  * the facet-set.
  */
 
-import {URL_REGEX} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Mark} from '@tiptap/core'
 import {type Node as ProsemirrorNode} from '@tiptap/pm/model'
 import {Plugin, PluginKey} from '@tiptap/pm/state'

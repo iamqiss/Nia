@@ -1,4 +1,4 @@
-import {type AppBskyActorDefs, AppBskyGraphDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -62,7 +62,7 @@ export function MoreOptionsMenu({
   const isOwner = currentAccount?.did === list.creator.did
 
   const onPressShare = () => {
-    const {rkey} = new AtUri(list.uri)
+    const {rkey} = new GrpcUri(list.uri)
     const url = toShareUrl(`/profile/${list.creator.did}/lists/${rkey}`)
     shareUrl(url)
   }

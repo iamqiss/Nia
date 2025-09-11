@@ -1,7 +1,7 @@
 import React from 'react'
 import {View} from 'react-native'
 import {Image} from 'expo-image'
-import {AppBskyGraphStarterpack, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Plural, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -115,7 +115,7 @@ export function useStarterPackLink({
   const {_} = useLingui()
   const qc = useQueryClient()
   const {rkey, handleOrDid} = React.useMemo(() => {
-    const rkey = new AtUri(view.uri).rkey
+    const rkey = new GrpcUri(view.uri).rkey
     const {creator} = view
     return {rkey, handleOrDid: creator.handle || creator.did}
   }, [view])
@@ -145,7 +145,7 @@ export function Link({
   const queryClient = useQueryClient()
   const {record} = starterPack
   const {rkey, handleOrDid} = React.useMemo(() => {
-    const rkey = new AtUri(starterPack.uri).rkey
+    const rkey = new GrpcUri(starterPack.uri).rkey
     const {creator} = starterPack
     return {rkey, handleOrDid: creator.handle || creator.did}
   }, [starterPack])

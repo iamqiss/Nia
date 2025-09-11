@@ -1,13 +1,4 @@
-import {
-  type $Typed,
-  type AppBskyFeedDefs,
-  type AppBskyFeedPost,
-  type AppBskyUnspeccedDefs,
-  type AppBskyUnspeccedGetPostThreadV2,
-  AtUri,
-  moderatePost,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {makeProfileLink} from '#/lib/routes/links'
 import {
@@ -108,7 +99,7 @@ export function readMore({
   skippedIndentIndices,
   postData,
 }: TraversalMetadata): Extract<ThreadItem, {type: 'readMore'}> {
-  const urip = new AtUri(postData.uri)
+  const urip = new GrpcUri(postData.uri)
   const href = makeProfileLink(
     {
       did: urip.host,
@@ -130,7 +121,7 @@ export function readMore({
 export function readMoreUp({
   postData,
 }: TraversalMetadata): Extract<ThreadItem, {type: 'readMoreUp'}> {
-  const urip = new AtUri(postData.uri)
+  const urip = new GrpcUri(postData.uri)
   const href = makeProfileLink(
     {
       did: urip.host,

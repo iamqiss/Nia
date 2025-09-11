@@ -7,12 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
-import {
-  type AppBskyActorDefs,
-  type AppBskyLabelerDefs,
-  type ModerationOpts,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useIsFocused} from '@react-navigation/native'
 
 import {isNative} from '#/platform/detection'
@@ -50,7 +45,7 @@ export {ProfileHeaderLoading}
 interface Props {
   profile: AppBskyActorDefs.ProfileViewDetailed
   labeler: AppBskyLabelerDefs.LabelerViewDetailed | undefined
-  descriptionRT: RichTextAPI | null
+  descriptionRT: GrpcRichTextAPI | null
   moderationOpts: ModerationOpts
   hideBackButton?: boolean
   isPlaceholderProfile?: boolean

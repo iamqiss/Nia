@@ -1,10 +1,5 @@
 import {useMemo} from 'react'
-import {
-  type AppBskyActorDefs,
-  AppBskyFeedDefs,
-  AtUri,
-  moderatePost,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {
@@ -326,7 +321,7 @@ export function* findAllPostsInQueryData(
   queryClient: QueryClient,
   uri: string,
 ): Generator<AppBskyFeedDefs.PostView, undefined> {
-  const atUri = new AtUri(uri)
+  const atUri = new GrpcUri(uri)
 
   const queryDatas = queryClient.getQueriesData<
     InfiniteData<{

@@ -1,11 +1,6 @@
 import React, {useCallback} from 'react'
 import {type ListRenderItemInfo, View} from 'react-native'
-import {
-  type AppBskyActorDefs,
-  type AppBskyGraphGetList,
-  AtUri,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type UseInfiniteQueryResult,
@@ -58,7 +53,7 @@ export const ProfilesList = React.forwardRef<SectionRef, ProfilesListProps>(
       )
       .map(p => p.subject)
       .reverse()
-    const isOwn = new AtUri(listUri).host === currentAccount?.did
+    const isOwn = new GrpcUri(listUri).host === currentAccount?.did
 
     const getSortedProfiles = () => {
       if (!profiles) return

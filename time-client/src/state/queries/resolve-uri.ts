@@ -1,4 +1,4 @@
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type QueryClient,
   useQuery,
@@ -14,7 +14,7 @@ export const RQKEY = (didOrHandle: string) => [RQKEY_ROOT, didOrHandle]
 
 type UriUseQueryResult = UseQueryResult<{did: string; uri: string}, Error>
 export function useResolveUriQuery(uri: string | undefined): UriUseQueryResult {
-  const urip = new AtUri(uri || '')
+  const urip = new GrpcUri(uri || '')
   const res = useResolveDidQuery(urip.host)
   if (res.data) {
     urip.host = res.data

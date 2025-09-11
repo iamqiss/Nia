@@ -1,4 +1,4 @@
-import {type Did} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import packageJson from '#/../package.json'
 

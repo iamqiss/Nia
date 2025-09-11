@@ -1,8 +1,7 @@
 import {useCallback, useState} from 'react'
 import {View} from 'react-native'
 import Animated, {LinearTransition} from 'react-native-reanimated'
-import {type AppBskyActorDefs} from '@atproto/api' // Legacy - will be removed
-import {TID} from '@atproto/common-web'
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect} from '@react-navigation/native'
@@ -130,7 +129,7 @@ function SavedFeedsInner({
                 setCurrentFeeds(
                   RECOMMENDED_SAVED_FEEDS.map(f => ({
                     ...f,
-                    id: TID.nextStr(),
+                    id: GrpcTID.nextStr(),
                   })),
                 )
               }
@@ -173,7 +172,7 @@ function SavedFeedsInner({
               onAddFeed={() =>
                 setCurrentFeeds(feeds => [
                   ...feeds,
-                  {...TIMELINE_SAVED_FEED, id: TID.next().toString()},
+                  {...TIMELINE_SAVED_FEED, id: GrpcTID.next().toString()},
                 ])
               }
             />

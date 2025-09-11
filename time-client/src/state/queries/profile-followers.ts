@@ -1,7 +1,4 @@
-import {
-  type AppBskyActorDefs,
-  type AppBskyGraphGetFollowers,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   type QueryClient,

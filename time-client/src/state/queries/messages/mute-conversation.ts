@@ -1,8 +1,4 @@
-import {
-  type ChatBskyConvoDefs,
-  type ChatBskyConvoListConvos,
-  type ChatBskyConvoMuteConvo,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {
   type InfiniteData,
   useMutation,

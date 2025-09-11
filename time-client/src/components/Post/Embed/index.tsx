@@ -1,13 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {
-  type $Typed,
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  AtUri,
-  moderatePost,
-  RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {Trans} from '@lingui/macro'
 import {useQueryClient} from '@tanstack/react-query'
 
@@ -21,7 +14,7 @@ import {PostMeta} from '#/view/com/util/PostMeta'
 import {atoms as a, useTheme} from '#/alf'
 import {ContentHider} from '#/components/moderation/ContentHider'
 import {PostAlerts} from '#/components/moderation/PostAlerts'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import {Embed as StarterPackCard} from '#/components/StarterPack/StarterPackCard'
 import {SubtleWebHover} from '#/components/SubtleWebHover'
 import * as bsky from '#/types/bsky'
@@ -248,7 +241,7 @@ export function QuoteEmbed({
   const t = useTheme()
   const queryClient = useQueryClient()
   const pal = usePalette('default')
-  const itemUrip = new AtUri(quote.uri)
+  const itemUrip = new GrpcUri(quote.uri)
   const itemHref = makeProfileLink(quote.author, 'post', itemUrip.rkey)
   const itemTitle = `Post by ${quote.author.handle}`
 
@@ -262,7 +255,7 @@ export function QuoteEmbed({
       return undefined
     const {text, facets} = quote.record
     return text.trim()
-      ? new RichTextAPI({text: text, facets: facets})
+      ? new GrpcRichTextAPI({text: text, facets: facets})
       : undefined
   }, [quote.record])
 
@@ -307,7 +300,7 @@ export function QuoteEmbed({
                 />
               ) : null}
               {richText ? (
-                <RichText
+                <GrpcRichText
                   value={richText}
                   style={a.text_md}
                   numberOfLines={20}

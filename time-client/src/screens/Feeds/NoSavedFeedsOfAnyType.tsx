@@ -1,5 +1,4 @@
 import {View} from 'react-native'
-import {TID} from '@atproto/common-web'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -30,7 +29,7 @@ export function NoSavedFeedsOfAnyType({
     await overwriteSavedFeeds(
       RECOMMENDED_SAVED_FEEDS.map(f => ({
         ...f,
-        id: TID.nextStr(),
+        id: GrpcTID.nextStr(),
       })),
     )
   }

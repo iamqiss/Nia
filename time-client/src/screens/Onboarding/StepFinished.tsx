@@ -7,14 +7,7 @@ import Animated, {
   SlideOutLeft,
 } from 'react-native-reanimated'
 import {Image} from 'expo-image'
-import {
-  type AppBskyActorDefs,
-  type AppBskyActorProfile,
-  type AppBskyGraphDefs,
-  AppBskyGraphStarterpack,
-  type Un$Typed,
-} from '@atproto/api' // Legacy - will be removed
-import {TID} from '@atproto/common-web'
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useQueryClient} from '@tanstack/react-query'
@@ -127,17 +120,17 @@ export function StepFinished() {
           const feedsToSave: AppBskyActorDefs.SavedFeed[] = [
             {
               ...DISCOVER_SAVED_FEED,
-              id: TID.nextStr(),
+              id: GrpcTID.nextStr(),
             },
             {
               ...TIMELINE_SAVED_FEED,
-              id: TID.nextStr(),
+              id: GrpcTID.nextStr(),
             },
           ]
           if (gate('onboarding_add_video_feed')) {
             feedsToSave.push({
               ...VIDEO_SAVED_FEED,
-              id: TID.nextStr(),
+              id: GrpcTID.nextStr(),
             })
           }
 
@@ -148,7 +141,7 @@ export function StepFinished() {
                 type: 'feed',
                 value: f.uri,
                 pinned: true,
-                id: TID.nextStr(),
+                id: GrpcTID.nextStr(),
               })),
             )
           }

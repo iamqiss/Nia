@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {View} from 'react-native'
-import {type AppBskyFeedDefs, AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {PressableScale} from '#/lib/custom-animations/PressableScale'
 import {makeCustomFeedLink} from '#/lib/routes/links'
@@ -49,7 +49,7 @@ export function FeedLink({
   children?: React.ReactNode
 }) {
   const t = useTheme()
-  const {host: did, rkey} = useMemo(() => new AtUri(feed.uri), [feed.uri])
+  const {host: did, rkey} = useMemo(() => new GrpcUri(feed.uri), [feed.uri])
   return (
     <Link
       to={makeCustomFeedLink(did, rkey)}

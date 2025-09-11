@@ -14,7 +14,7 @@
  * -prf
  */
 
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
 import {STALE} from '#/state/queries'
@@ -176,7 +176,7 @@ export function useListMembershipRemoveMutation({
       if (!currentAccount) {
         throw new Error('Not signed in')
       }
-      const membershipUrip = new AtUri(membershipUri)
+      const membershipUrip = new GrpcUri(membershipUri)
       await agent.app.bsky.graph.listitem.delete({
         repo: currentAccount.did,
         rkey: membershipUrip.rkey,

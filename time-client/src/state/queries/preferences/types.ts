@@ -1,8 +1,4 @@
-import {
-  type BskyFeedViewPreference,
-  type BskyPreferences,
-  type BskyThreadViewPreference,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export type UsePreferencesQueryResponse = Omit<
   BskyPreferences,

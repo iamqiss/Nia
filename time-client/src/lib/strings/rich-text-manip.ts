@@ -1,8 +1,8 @@
-import {AppBskyRichtextFacet, type RichText, UnicodeString} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {toShortUrl} from './url-helpers'
 
-export function shortenLinks(rt: RichText): RichText {
+export function shortenLinks(rt: GrpcRichText): GrpcRichText {
   if (!rt.facets?.length) {
     return rt
   }
@@ -33,7 +33,7 @@ export function shortenLinks(rt: RichText): RichText {
 }
 
 // filter out any mention facets that didn't map to a user
-export function stripInvalidMentions(rt: RichText): RichText {
+export function stripInvalidMentions(rt: GrpcRichText): GrpcRichText {
   if (!rt.facets?.length) {
     return rt
   }

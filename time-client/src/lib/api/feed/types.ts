@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 export interface FeedAPIResponse {
   cursor?: string

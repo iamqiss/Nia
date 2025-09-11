@@ -18,7 +18,7 @@ export class MigrationScript {
   
   constructor() {
     this.featureFlags = GrpcFeatureFlagManager.getInstance();
-    this.apiMigrationService = ApiMigrationService.getInstance();
+    this.apiMigrationService = ;
   }
   
   /**

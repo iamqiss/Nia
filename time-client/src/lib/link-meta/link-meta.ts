@@ -1,4 +1,4 @@
-import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {LINK_META_PROXY} from '#/lib/constants'
 import {getGiphyMetaUri} from '#/lib/strings/embed-player'
@@ -25,7 +25,7 @@ export interface LinkMeta {
 }
 
 export async function getLinkMeta(
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   url: string,
   timeout = 15e3,
 ): Promise<LinkMeta> {

@@ -1,4 +1,4 @@
-import {type AppBskyActorGetProfile} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation} from '@tanstack/react-query'
 
 import {until} from '#/lib/async/until'

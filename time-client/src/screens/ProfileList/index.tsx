@@ -1,12 +1,7 @@
 import {useCallback, useMemo, useRef} from 'react'
 import {View} from 'react-native'
 import {useAnimatedRef} from 'react-native-reanimated'
-import {
-  AppBskyGraphDefs,
-  AtUri,
-  moderateUserList,
-  type ModerationOpts,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useFocusEffect, useIsFocused} from '@react-navigation/native'
@@ -63,7 +58,7 @@ function ProfileListScreenInner(props: Props) {
   const {_} = useLingui()
   const {name: handleOrDid, rkey} = props.route.params
   const {data: resolvedUri, error: resolveError} = useResolveUriQuery(
-    AtUri.make(handleOrDid, 'app.bsky.graph.list', rkey).toString(),
+    GrpcUri.make(handleOrDid, 'app.bsky.graph.list', rkey).toString(),
   )
   const {data: preferences} = usePreferencesQuery()
   const {data: list, error: listError} = useListQuery(resolvedUri?.uri)

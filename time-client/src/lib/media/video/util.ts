@@ -1,4 +1,4 @@
-import {AtpAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type SupportedMimeTypes, VIDEO_SERVICE} from '#/lib/constants'
 
@@ -17,7 +17,7 @@ export const createVideoEndpointUrl = (
 }
 
 export function createVideoAgent() {
-  return new AtpAgent({
+  return new TimeGrpcClient({
     service: VIDEO_SERVICE,
   })
 }

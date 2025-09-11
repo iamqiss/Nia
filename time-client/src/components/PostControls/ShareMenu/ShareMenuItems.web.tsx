@@ -1,5 +1,5 @@
 import {memo, useMemo} from 'react'
-import {AtUri} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -45,7 +45,7 @@ let ShareMenuItems = ({
   const postAuthor = useProfileShadow(post.author)
 
   const href = useMemo(() => {
-    const urip = new AtUri(postUri)
+    const urip = new GrpcUri(postUri)
     return makeProfileLink(postAuthor, 'post', urip.rkey)
   }, [postUri, postAuthor])
 
@@ -139,7 +139,7 @@ let ShareMenuItems = ({
           <>
             <Menu.Divider />
             <Menu.Item
-              testID="postAtUriShareBtn"
+              testID="postGrpcUriShareBtn"
               label={_(msg`Copy post at:// URI`)}
               onPress={onShareATURI}>
               <Menu.ItemText>

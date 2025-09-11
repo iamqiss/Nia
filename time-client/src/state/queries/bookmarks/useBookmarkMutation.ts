@@ -1,4 +1,4 @@
-import {type AppBskyFeedDefs} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 import {isNetworkError} from '#/lib/strings/errors'

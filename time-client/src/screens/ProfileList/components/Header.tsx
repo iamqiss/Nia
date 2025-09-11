@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {View} from 'react-native'
-import {AppBskyGraphDefs, RichText as RichTextAPI} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -19,7 +19,7 @@ import {atoms as a} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import {Pin_Stroke2_Corner0_Rounded as PinIcon} from '#/components/icons/Pin'
 import {Loader} from '#/components/Loader'
-import {RichText} from '#/components/RichText'
+import {GrpcRichText} from '#/components/GrpcRichText'
 import * as Toast from '#/components/Toast'
 import {MoreOptionsMenu} from './MoreOptionsMenu'
 import {SubscribeMenu} from './SubscribeMenu'
@@ -131,7 +131,7 @@ export function Header({
   const descriptionRT = useMemo(
     () =>
       list.description
-        ? new RichTextAPI({
+        ? new GrpcRichTextAPI({
             text: list.description,
             facets: list.descriptionFacets,
           })
@@ -200,7 +200,7 @@ export function Header({
       </ProfileSubpageHeader>
       {descriptionRT ? (
         <View style={[a.px_lg, a.pt_sm, a.pb_sm, a.gap_md]}>
-          <RichText value={descriptionRT} style={[a.text_md, a.leading_snug]} />
+          <GrpcRichText value={descriptionRT} style={[a.text_md, a.leading_snug]} />
         </View>
       ) : null}
     </>

@@ -9,7 +9,7 @@ export const RQKEY_LINK = (url: string) => [RQKEY_LINK_ROOT, url]
 const RQKEY_GIF_ROOT = 'resolve-gif'
 export const RQKEY_GIF = (url: string) => [RQKEY_GIF_ROOT, url]
 
-import {type BskyAgent} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 
 import {type ResolvedLink, resolveGif, resolveLink} from '#/lib/api/resolve'
 import {type Gif} from './tenor'
@@ -26,7 +26,7 @@ export function useResolveLinkQuery(url: string) {
 }
 export function fetchResolveLinkQuery(
   queryClient: QueryClient,
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   url: string,
 ) {
   return queryClient.fetchQuery({
@@ -57,7 +57,7 @@ export function useResolveGifQuery(gif: Gif) {
 }
 export function fetchResolveGifQuery(
   queryClient: QueryClient,
-  agent: BskyAgent,
+  agent: TimeGrpcClient,
   gif: Gif,
 ) {
   return queryClient.fetchQuery({

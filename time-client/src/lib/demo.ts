@@ -1,4 +1,4 @@
-import {type AppBskyFeedGetFeed} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {subDays, subMinutes} from 'date-fns'
 
 const DID = `did:plc:z72i7hdynmk6r22z27h6tvur`

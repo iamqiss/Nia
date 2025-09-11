@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useState} from 'react'
-import {type AppBskyFeedGetLikes as GetLikes} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 

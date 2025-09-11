@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  type AppBskyFeedDefs,
-  type AppBskyGraphDefs,
-  AppBskyGraphStarterpack,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg, plural} from '@lingui/macro'
 
 import {STARTER_PACK_MAX_SIZE} from '#/lib/constants'

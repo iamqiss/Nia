@@ -6,13 +6,7 @@ import {
   type ViewStyle,
 } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
-import {
-  type AppBskyFeedDefs,
-  AppBskyFeedPost,
-  type AppBskyFeedThreadgate,
-  AtUri,
-  type RichText as RichTextAPI,
-} from '@atproto/api' // Legacy - will be removed
+// Migrated to gRPC
 import {msg} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {useNavigation} from '@react-navigation/native'
@@ -99,7 +93,7 @@ let PostMenuItems = ({
   postFeedContext: string | undefined
   postReqId: string | undefined
   record: AppBskyFeedPost.Record
-  richText: RichTextAPI
+  richText: GrpcRichTextAPI
   style?: StyleProp<ViewStyle>
   hitSlop?: PressableProps['hitSlop']
   size?: 'lg' | 'md' | 'sm'
@@ -150,7 +144,7 @@ let PostMenuItems = ({
   )
   const isPostHidden = hiddenPosts && hiddenPosts.includes(postUri)
   const isAuthor = postAuthor.did === currentAccount?.did
-  const isRootPostAuthor = new AtUri(rootUri).host === currentAccount?.did
+  const isRootPostAuthor = new GrpcUri(rootUri).host === currentAccount?.did
   const threadgateHiddenReplies = useMergedThreadgateHiddenReplies({
     threadgateRecord,
   })
@@ -169,7 +163,7 @@ let PostMenuItems = ({
   })
 
   const href = useMemo(() => {
-    const urip = new AtUri(postUri)
+    const urip = new GrpcUri(postUri)
     return makeProfileLink(postAuthor, 'post', urip.rkey)
   }, [postUri, postAuthor])
 
