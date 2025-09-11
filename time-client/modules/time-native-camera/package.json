@@ -1,0 +1,36 @@
+{
+  "name": "time-native-camera",
+  "version": "1.0.0",
+  "description": "Native camera module for Time client with gRPC media service integration",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "react-native",
+    "camera",
+    "native",
+    "ios",
+    "android",
+    "grpc",
+    "media"
+  ],
+  "author": "Neo Qiss",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.0",
+    "@grpc/proto-loader": "^0.7.8",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-native": "^0.79.3",
+    "typescript": "~5.8.3"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}
