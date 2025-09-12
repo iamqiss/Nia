@@ -1,0 +1,533 @@
+{
+  "moderation_config": {
+    "version": "1.0",
+    "last_updated": "2025-9-12",
+    "appeal_process": true,
+    "context_aware": true,
+    "multi_language_support": true,
+    "geo_sensitivity": true,
+    "transparency_reporting": true,
+    "supported_languages": ["en", "es", "fr", "ar", "zh", "de", "pt", "ru", "ja", "ko"],
+    "default_language": "en",
+    "whitelist_domains": ["news.com", "reuters.com", "bbc.com", "ap.org", "cnn.com"]
+  },
+  "severity_levels": {
+    "1": { 
+      "name": "low", 
+      "action": "flag_for_review", 
+      "escalation_threshold": 5,
+      "rate_limit_thresholds": {
+        "violations_24h": 10,
+        "violations_7d": 20,
+        "escalation_action": "rate_limit",
+        "escalation_duration": "12_hours"
+      }
+    },
+    "2": { 
+      "name": "medium", 
+      "action": "downrank_or_tag", 
+      "escalation_threshold": 3,
+      "rate_limit_thresholds": {
+        "violations_24h": 5,
+        "violations_7d": 10,
+        "escalation_action": "temporary_suspend",
+        "escalation_duration": "24_hours"
+      }
+    },
+    "3": { 
+      "name": "high", 
+      "action": "remove_content", 
+      "escalation_threshold": 2,
+      "rate_limit_thresholds": {
+        "violations_24h": 3,
+        "violations_7d": 5,
+        "escalation_action": "temporary_suspend",
+        "escalation_duration": "7_days"
+      }
+    },
+    "4": { 
+      "name": "critical", 
+      "action": "permanent_ban", 
+      "escalation_threshold": 1,
+      "rate_limit_thresholds": {
+        "violations_24h": 1,
+        "violations_7d": 1,
+        "escalation_action": "permanent_ban",
+        "escalation_duration": "permanent"
+      }
+    }
+  },
+  "available_actions": {
+    "flag_for_review": { "description": "Queue for human moderator review", "user_visible": false },
+    "downrank_or_tag": { "description": "Reduce visibility and add warning label", "user_visible": true },
+    "remove_content": { "description": "Delete post but keep account active", "user_visible": true },
+    "shadowban": { "description": "Hide content from others but not from user", "user_visible": false, "duration": "configurable" },
+    "temporary_suspend": { "description": "Suspend account for specified duration", "user_visible": true, "duration": "configurable" },
+    "permanent_ban": { "description": "Permanently ban user account", "user_visible": true, "reversible": false },
+    "require_verification": { "description": "Require phone/email verification to continue", "user_visible": true },
+    "rate_limit": { "description": "Limit posting frequency", "user_visible": true, "duration": "configurable" }
+  },
+  "logging": {
+    "store_flagged_posts": true,
+    "retain_for_days": 90,
+    "include_user_metadata": ["user_id", "account_age", "post_id", "violation_history", "account_verification_status", "geographic_region", "user_language"],
+    "anonymize_after_days": 30,
+    "export_format": "jsonl",
+    "ml_training_ready": true,
+    "transparency_reporting": {
+      "enabled": true,
+      "generate_monthly_reports": true,
+      "include_metrics": [
+        "total_violations_by_category",
+        "enforcement_actions_taken", 
+        "appeals_filed_and_outcomes",
+        "geographic_breakdown",
+        "language_breakdown",
+        "false_positive_rates",
+        "human_vs_automated_decisions",
+        "average_review_time"
+      ],
+      "public_dashboard": true,
+      "anonymized_case_studies": true
+    }
+  },
+  "moderation_rules": [
+    {
+      "rule_id": "direct_threats",
+      "category": "Direct Threats & Violence",
+      "priority": 2,
+      "severity": 4,
+      "action": "permanent_ban",
+      "description": "Direct threats against individuals or groups",
+      "keywords": {
+        "en": ["i will kill", "going to murder", "i'll shoot", "bomb your", "rape you", "find where you live", "hunt you down", "execute you", "string you up", "going to hurt", "beat you up", "stab you", "slice your throat"],
+        "es": ["te voy a matar", "voy a matarte", "te voy a violar", "voy a encontrarte"],
+        "fr": ["je vais te tuer", "je vais te violer", "je vais te trouver"]
+      },
+      "context_exceptions": ["educational", "artistic", "historical", "news_reporting"],
+      "requires_human_review": true,
+      "escalation_modifier": 2.0
+    },
+    {
+      "rule_id": "racial_slurs",
+      "category": "Hate Speech - Racial/Ethnic",
+      "severity": 3,
+      "action": "remove_content",
+      "description": "Slurs targeting race or ethnicity",
+      "keywords": [
+        "n-word", "ch*nk", "g*ok", "sp*c", "p*ki", "k*ffir", "towelhead", 
+        "raghead", "wetback", "beaner", "curry muncher", "sand n*gger"
+      ],
+      "context_exceptions": ["educational", "news_reporting"],
+      "auto_escalate": true,
+      "escalation_modifier": 1.5
+    },
+    {
+      "rule_id": "religious_hatred",
+      "category": "Hate Speech - Religion",
+      "severity": 3,
+      "action": "remove_content",
+      "keywords": [
+        "k*ke", "y*d", "christ killer", "muslim terrorist", "hinduism is stupid", "christians are sheep"
+      ],
+      "pattern_matching": [
+        { "include": ["all", "every"], "must_also_include": ["muslims are", "jews are", "christians are"], "followed_by_negative": true },
+        { "include": ["jews control"], "any_following": ["media", "banks", "world", "government"] }
+      ],
+      "context_exceptions": ["educational", "historical", "news_reporting"]
+    },
+    {
+      "rule_id": "lgbtq_hatred",
+      "category": "Hate Speech - LGBTQ+",
+      "severity": 3,
+      "action": "remove_content",
+      "keywords": [
+        "f*ggot", "tranny", "d*ke", "perverts", "abomination", "mental illness"
+      ],
+      "pattern_matching": [
+        { "include": ["groomer"], "must_also_include": ["gay", "trans", "lgbtq", "homosexual"] },
+        { "include": ["mental illness"], "must_also_include": ["transgender", "gay", "lgbtq"] },
+        { "include": ["perverts"], "must_also_include": ["lgbtq", "gay community", "pride"] }
+      ],
+      "context_exceptions": ["educational", "news_reporting"]
+    },
+    {
+      "rule_id": "disability_slurs",
+      "category": "Hate Speech - Disability",
+      "severity": 2,
+      "action": "downrank_or_tag",
+      "keywords": [
+        "retard", "r*tard", "mongoloid", "cripple", "vegetable", "braindead"
+      ],
+      "pattern_matching": [
+        { "include": ["autist"], "must_also_include": ["insult", "stupid", "dumb"], "context": "insulting" }
+      ],
+      "context_exceptions": ["educational", "medical", "self_reference"]
+    },
+    {
+      "rule_id": "doxxing",
+      "category": "Doxxing & Personal Info",
+      "severity": 4,
+      "action": "ban_user",
+      "description": "Sharing private information without consent",
+      "keywords": [
+        "home address", "phone number", "social security", "credit card", "bank account"
+      ],
+      "patterns_regex": [
+        "\\b\\d{3}[-.]\\d{3}[-.]\\d{4}\\b",
+        "\\b\\d{3}\\s\\d{3}\\s\\d{4}\\b",
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{1,5}\\s\\w+\\s(street|st|avenue|ave|road|rd|drive|dr|lane|ln|court|ct|boulevard|blvd)\\b",
+        "\\b\\d{3}-\\d{2}-\\d{4}\\b",
+        "\\b\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}\\b"
+      ],
+      "whitelist_patterns": [
+        "customer service: \\d{3}-\\d{3}-\\d{4}",
+        "contact us at [a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+"
+      ],
+      "report_to_authorities": false,
+      "escalation_modifier": 3.0
+    },
+    {
+      "rule_id": "spam_behavior",
+      "category": "Spam & Manipulation", 
+      "priority": 5,
+      "severity": 2,
+      "action": "shadowban",
+      "suspension_duration": "3_days",
+      "description": "Repetitive or manipulative content",
+      "behavioral_patterns": [
+        {
+          "type": "identical_posts_multiple_accounts",
+          "threshold": 3,
+          "time_window": "1_hour",
+          "severity_modifier": 1.5
+        },
+        {
+          "type": "rapid_fire_posting",
+          "threshold": 10,
+          "time_window": "1_minute",
+          "severity_modifier": 1.2
+        },
+        {
+          "type": "mass_mentions",
+          "threshold": 5,
+          "per_post": true,
+          "severity_modifier": 1.3
+        },
+        {
+          "type": "follow_unfollow_spam",
+          "threshold": 50,
+          "time_window": "1_hour",
+          "severity_modifier": 1.0
+        }
+      ],
+      "content_behavioral_fusion": {
+        "spam_plus_hate": { "escalation_modifier": 2.0 },
+        "spam_plus_political": { "escalation_modifier": 1.5 },
+        "new_account_spam": { "requires_phone_verification": true }
+      }
+    },
+    {
+      "rule_id": "political_inflammatory",
+      "category": "Political Content - Inflammatory",
+      "priority": 6,
+      "severity": 1,
+      "action": "flag_for_review",
+      "description": "Potentially divisive political content",
+      "keywords": {
+        "en": ["stolen election", "deep state", "destroy america", "civil war", "revolution", "overthrow government"],
+        "es": ["elección robada", "estado profundo", "destruir américa"],
+        "fr": ["élection volée", "état profond", "détruire l'amérique"]
+      },
+      "pattern_matching": [
+        { "include": ["kill all"], "must_also_include": ["republicans", "democrats", "conservatives", "liberals"] },
+        { "include": ["voter fraud"], "must_also_include": ["conspiracy", "rigged", "fake"] },
+        { "include": ["fascist", "communist"], "context": "direct_insult", "requires_personal_attack": true }
+      ],
+      "context_exceptions": ["educational", "historical", "news_reporting", "academic_analysis"],
+      "requires_human_review": true,
+      "regional_sensitivity": true
+    },
+    {
+      "rule_id": "health_misinfo",
+      "category": "Misinformation - Health",
+      "severity": 2,
+      "action": "downrank_or_tag",
+      "keywords": [
+        "vaccines cause autism", "covid is fake", "drink bleach", "miracle cure",
+        "doctors don't want you to know", "big pharma conspiracy"
+      ],
+      "pattern_matching": [
+        { "include": ["natural immunity"], "must_also_include": ["only", "better than vaccine", "don't need vaccine"] }
+      ],
+      "requires_fact_check": true,
+      "context_exceptions": ["educational", "medical_professional"]
+    },
+    {
+      "rule_id": "explicit_sexual",
+      "category": "Explicit Sexual Content",
+      "severity": 3,
+      "action": "remove_content",
+      "keywords": [
+        "hardcore porn", "xxx content", "gangbang", "cumshot", "creampie",
+        "fisting", "rimjob", "deepthroat", "amateur porn", "sex tape"
+      ],
+      "pattern_matching": [
+        { "include": ["facial"], "must_also_include": ["porn", "xxx", "sexual"], "context": "sexual" },
+        { "include": ["onlyfans"], "must_also_include": ["link", "subscribe", "free"], "context": "promotion" }
+      ],
+      "age_verification_required": true
+    },
+    {
+      "rule_id": "artistic_nudity",
+      "category": "Artistic/Educational Nudity",
+      "severity": 1,
+      "action": "flag_for_review",
+      "keywords": [
+        "artistic nude", "renaissance art", "life drawing", "anatomy study",
+        "breastfeeding", "medical diagram", "cultural ceremony", "indigenous art"
+      ],
+      "whitelist_sources": ["museums", "educational institutions", "art galleries", "medical journals"],
+      "context_exceptions": ["educational", "artistic", "medical", "cultural"],
+      "requires_content_warning": true
+    },
+    {
+      "rule_id": "self_harm",
+      "category": "Self-Harm & Suicide",
+      "severity": 3,
+      "action": "remove_content",
+      "description": "Content promoting or instructing self-harm",
+      "keywords": [
+        "how to kill yourself", "suicide methods", "cutting tutorial", "overdose guide",
+        "hanging instructions", "self harm tips", "razor blade cutting"
+      ],
+      "pattern_matching": [
+        { "include": ["want to die"], "must_also_include": ["so bad", "right now", "today"], "context": "immediate_crisis" }
+      ],
+      "support_resources": true,
+      "crisis_intervention": true,
+      "escalation_modifier": 0.8
+    },
+    {
+      "rule_id": "graphic_violence",
+      "category": "Graphic Violence/Gore",
+      "severity": 3,
+      "action": "remove_content",
+      "keywords": [
+        "beheading video", "execution footage", "torture video", "dismemberment",
+        "real death", "gore video", "accident footage", "murder scene",
+        "blood everywhere", "severed limbs", "entrails", "decapitation"
+      ],
+      "context_exceptions": ["news_reporting", "educational", "historical"]
+    },
+    {
+      "rule_id": "child_safety",
+      "category": "Child Safety",
+      "priority": 1,
+      "severity": 4,
+      "action": "permanent_ban",
+      "description": "Any content sexualizing minors",
+      "keywords": {
+        "en": ["child porn", "cp", "preteen", "loli", "shota", "jailbait"],
+        "es": ["pornografía infantil", "menores desnudos"],
+        "fr": ["pornographie enfantine", "enfants nus"]
+      },
+      "pattern_matching": [
+        { "include": ["barely legal"], "must_also_include": ["underage", "young", "teen"], "context": "sexual" },
+        { "include": ["school girl"], "must_also_include": ["sexy", "hot", "porn"], "context": "sexual" }
+      ],
+      "report_to_authorities": true,
+      "zero_tolerance": true,
+      "escalation_modifier": 10.0
+    },
+    {
+      "rule_id": "terrorism",
+      "category": "Terrorism & Extremism",
+      "severity": 4,
+      "action": "ban_user",
+      "keywords": [
+        "bomb making", "terrorist attack", "isis", "al qaeda", "mass shooting plan",
+        "vehicular attack", "pressure cooker bomb", "ammonium nitrate", "homemade explosive"
+      ],
+      "pattern_matching": [
+        { "include": ["how to make"], "must_also_include": ["bomb", "explosive", "ied"], "context": "instructional" }
+      ],
+      "report_to_authorities": true,
+      "escalation_modifier": 5.0
+    }
+  ],
+  "regional_overrides": {
+    "description": "Geographic-specific moderation adjustments for legal compliance",
+    "regions": {
+      "eu": {
+        "description": "European Union - GDPR compliance, stricter hate speech laws",
+        "rule_modifications": {
+          "political_inflammatory": { "action": "downrank_or_tag", "severity": 2 },
+          "hate_speech_racial": { "severity": 4, "action": "permanent_ban" },
+          "misinformation": { "requires_fact_check": true, "action": "remove_content" }
+        },
+        "additional_protections": ["right_to_be_forgotten", "data_portability"],
+        "appeals_timeline": "72_hours"
+      },
+      "us": {
+        "description": "United States - First Amendment considerations",
+        "rule_modifications": {
+          "political_inflammatory": { "action": "flag_for_review", "severity": 1 },
+          "hate_speech_racial": { "severity": 3, "context_exceptions": ["political_speech"] }
+        },
+        "protected_categories": ["political_speech", "religious_expression"],
+        "appeals_timeline": "24_hours"
+      },
+      "uk": {
+        "description": "United Kingdom - Online Safety Act compliance",
+        "rule_modifications": {
+          "political_inflammatory": { "action": "downrank_or_tag", "severity": 2 },
+          "hate_speech_all": { "severity": 4, "action": "temporary_suspend" },
+          "misinformation": { "action": "remove_content", "requires_warning_label": true }
+        }
+      },
+      "au": {
+        "description": "Australia - eSafety Commissioner guidelines",
+        "rule_modifications": {
+          "cyberbullying": { "severity": 3, "escalation_modifier": 2.0 },
+          "self_harm": { "crisis_intervention": true, "required_resources": "lifeline_au" }
+        }
+      },
+      "de": {
+        "description": "Germany - NetzDG compliance",
+        "rule_modifications": {
+          "hate_speech_all": { "severity": 4, "action": "permanent_ban", "report_timeline": "24_hours" },
+          "holocaust_denial": { "severity": 4, "action": "permanent_ban", "zero_tolerance": true }
+        },
+        "additional_rules": ["holocaust_denial", "nazi_symbolism"]
+      }
+    },
+    "default_region": "us",
+    "user_region_detection": "ip_geolocation",
+    "allow_user_override": false
+  },
+  "ai_detection": {
+    "enabled": false,
+    "future_ready": true,
+    "planned_features": {
+      "ai_generated_text": {
+        "description": "Detect GPT/LLM generated content",
+        "confidence_threshold": 0.8,
+        "action": "flag_for_review",
+        "require_disclosure": true
+      },
+      "ai_generated_images": {
+        "description": "Detect AI-generated images/deepfakes",
+        "confidence_threshold": 0.85,
+        "action": "require_ai_label",
+        "techniques": ["perceptual_hashing", "gan_detection", "metadata_analysis"]
+      },
+      "voice_cloning": {
+        "description": "Detect AI voice synthesis",
+        "confidence_threshold": 0.9,
+        "action": "remove_content",
+        "require_consent": true
+      }
+    },
+    "integration_ready": {
+      "api_endpoints": "/ai-detection/text, /ai-detection/image, /ai-detection/audio",
+      "webhook_support": true,
+      "batch_processing": true,
+      "real_time_analysis": false
+    },
+    "current_mode": "review_queue_only",
+    "upgrade_path": "plugin_architecture"
+  },
+    "behavioral_content_fusion": [
+      {
+        "condition": "spam_behavior + hate_speech_content",
+        "escalation_modifier": 2.5,
+        "description": "Users who spam hateful content escalate faster"
+      },
+      {
+        "condition": "new_account + severity_2_plus",
+        "escalation_modifier": 1.8,
+        "requires_phone_verification": true,
+        "description": "New accounts with problematic content need verification"
+      },
+      {
+        "condition": "multiple_categories_same_day",
+        "escalation_modifier": 1.5,
+        "description": "Violations across different categories in same day"
+      }
+    ],
+    "escalation_thresholds": {
+      "severity_1": { "violations_to_escalate": 5, "time_window": "7_days" },
+      "severity_2": { "violations_to_escalate": 3, "time_window": "7_days" },
+      "severity_3": { "violations_to_escalate": 2, "time_window": "30_days" },
+      "severity_4": { "violations_to_escalate": 1, "time_window": "permanent" }
+    }
+  },
+  "context_analysis": {
+    "standardized_exceptions": ["educational", "artistic", "historical", "news_reporting", "medical", "cultural", "academic_analysis"],
+    "context_detection": {
+      "educational": ["discussing", "explaining", "teaching about", "academic paper", "research"],
+      "news_reporting": ["according to reports", "breaking news", "reuters reports", "cnn says"],
+      "historical": ["in world war", "during the holocaust", "historical context", "in the past"],
+      "artistic": ["art piece", "sculpture", "painting", "artistic expression", "museum"],
+      "medical": ["medical condition", "doctor says", "health professional", "medical journal"]
+    }
+  },
+  "appeals_process": {
+    "automatic_review_after": "24_hours",
+    "human_review_required": ["severity_3", "severity_4", "context_disputed"],
+    "user_can_appeal": true,
+    "appeal_window": "7_days",
+    "appeal_success_rate_tracking": true,
+    "false_positive_learning": true,
+    "appeal_outcomes": {
+      "full_restore": {
+        "description": "Completely reverse the moderation action",
+        "restores_content": true,
+        "removes_account_penalty": true,
+        "adds_to_whitelist": false
+      },
+      "partial_restore": {
+        "description": "Restore content but keep account warning",
+        "restores_content": true, 
+        "removes_account_penalty": false,
+        "reduces_penalty_severity": true
+      },
+      "content_warning_only": {
+        "description": "Restore content with warning label",
+        "restores_content": true,
+        "adds_content_warning": true,
+        "removes_account_penalty": true
+      },
+      "reject_appeal": {
+        "description": "Maintain original moderation decision",
+        "restores_content": false,
+        "removes_account_penalty": false,
+        "can_appeal_again": false
+      },
+      "escalate_penalty": {
+        "description": "Increase penalty after human review reveals worse violation",
+        "restores_content": false,
+        "increases_penalty": true,
+        "rare_case": true
+      }
+    }
+  },
+  "rule_conflict_resolution": {
+    "description": "When multiple rules trigger on same content",
+    "resolution_strategy": "highest_priority_wins",
+    "priority_override_conditions": [
+      {
+        "condition": "child_safety_always_wins",
+        "description": "Child safety rules override all others regardless of priority"
+      },
+      {
+        "condition": "legal_compliance_priority", 
+        "description": "Rules with legal implications take precedence"
+      }
+    ],
+    "combine_penalties": false,
+    "log_all_triggered_rules": true
+  }
+        }
