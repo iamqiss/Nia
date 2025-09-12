@@ -1,0 +1,397 @@
+{
+  "mental_health_intervention_config": {
+    "version": "2.0",
+    "last_updated": "2025-09-12",
+    "multi_language_support": true,
+    "regional_compliance": true,
+    "ai_ready": true,
+    "supported_languages": ["en", "es", "fr", "de", "pt", "it", "zh", "ja", "ko", "ar"],
+    "default_language": "en"
+  },
+  "detection_system": {
+    "primary_method": "NLP_keyword_and_context_analysis",
+    "confidence_threshold": 0.7,
+    "severity_levels": {
+      "1": {
+        "name": "mild_concern",
+        "description": "General sadness or stress indicators",
+        "confidence_range": [0.3, 0.5],
+        "intervention": "gentle_resources"
+      },
+      "2": {
+        "name": "moderate_risk", 
+        "description": "Clear distress signals or concerning language",
+        "confidence_range": [0.5, 0.8],
+        "intervention": "proactive_support"
+      },
+      "3": {
+        "name": "high_risk",
+        "description": "Direct self-harm references or suicidal ideation",
+        "confidence_range": [0.8, 1.0],
+        "intervention": "crisis_intervention"
+      }
+    },
+    "target_signals": {
+      "suicidal_ideation": {
+        "keywords": {
+          "en": ["want to die", "kill myself", "end it all", "not worth living", "better off dead", "suicide", "take my own life", "no point in living"],
+          "es": ["quiero morir", "matarme", "suicidio", "no vale la pena vivir"],
+          "fr": ["veux mourir", "me tuer", "suicide", "plus envie de vivre"]
+        },
+        "context_patterns": [
+          { "include": ["can't", "cannot"], "must_also_include": ["go on", "take it", "handle this"] },
+          { "include": ["planning", "plan to"], "must_also_include": ["kill", "die", "end"] }
+        ],
+        "severity": 3,
+        "immediate_intervention": true
+      },
+      "self_harm": {
+        "keywords": {
+          "en": ["cut myself", "hurt myself", "razor blade", "cutting", "self harm", "burn myself", "punish myself"],
+          "es": ["cortarme", "hacerme daño", "autolesión"],
+          "fr": ["me couper", "me faire mal", "automutilation"]
+        },
+        "context_patterns": [
+          { "include": ["want to"], "must_also_include": ["cut", "hurt", "harm"] },
+          { "include": ["deserve to"], "must_also_include": ["suffer", "pain", "hurt"] }
+        ],
+        "severity": 3,
+        "immediate_intervention": true
+      },
+      "depression_indicators": {
+        "keywords": {
+          "en": ["hopeless", "worthless", "empty inside", "nothing matters", "so tired", "can't sleep", "no energy", "hate myself"],
+          "es": ["sin esperanza", "inútil", "vacío por dentro", "me odio"],
+          "fr": ["sans espoir", "inutile", "vide à l'intérieur", "je me déteste"]
+        },
+        "context_patterns": [
+          { "include": ["feel", "feeling"], "must_also_include": ["hopeless", "worthless", "empty", "numb"] },
+          { "include": ["everything is"], "must_also_include": ["pointless", "meaningless", "hopeless"] }
+        ],
+        "severity": 2,
+        "gentle_intervention": true
+      },
+      "crisis_phrases": {
+        "keywords": {
+          "en": ["goodbye cruel world", "final goodbye", "last post", "won't see me again", "going away forever", "can't take anymore"],
+          "es": ["adiós mundo cruel", "último adiós", "no me verán más"],
+          "fr": ["adieu monde cruel", "dernier adieu", "ne me reverrez plus"]
+        },
+        "severity": 3,
+        "emergency_protocol": true
+      },
+      "eating_disorder_signals": {
+        "keywords": {
+          "en": ["don't deserve food", "fat and disgusting", "purge", "restrict calories", "thinspo", "pro ana", "pro mia"],
+          "es": ["no merezco comida", "gordo y asqueroso", "purgar"],
+          "fr": ["ne mérite pas de nourriture", "gros et dégoûtant"]
+        },
+        "severity": 2,
+        "specialized_resources": true
+      },
+      "substance_abuse_crisis": {
+        "keywords": {
+          "en": ["overdose", "too many pills", "drink until", "numb the pain", "escape reality"],
+          "es": ["sobredosis", "demasiadas pastillas", "adormecer el dolor"],
+          "fr": ["surdose", "trop de pilules", "engourdir la douleur"]
+        },
+        "severity": 3,
+        "addiction_resources": true
+      }
+    },
+    "behavioral_patterns": {
+      "posting_frequency_drop": {
+        "description": "User who normally posts regularly suddenly stops",
+        "threshold": "70% decrease in activity for 7+ days",
+        "severity": 1,
+        "gentle_check_in": true
+      },
+      "isolation_indicators": {
+        "description": "Language suggesting withdrawal from social connections",
+        "patterns": ["pushing everyone away", "better alone", "nobody understands"],
+        "severity": 2
+      },
+      "time_sensitive_posts": {
+        "description": "Posts scheduled or with finality language",
+        "patterns": ["posting at 3am repeatedly", "final message", "last time"],
+        "severity": 3,
+        "immediate_review": true
+      }
+    }
+  },
+  "intervention_strategies": {
+    "gentle_resources": {
+      "trigger_conditions": ["severity_1", "mild_concern"],
+      "approach": "non_intrusive_support",
+      "bottom_sheet": {
+        "title": {
+          "en": "Taking Care of Yourself?",
+          "es": "¿Te Estás Cuidando?",
+          "fr": "Prenez-Vous Soin de Vous?"
+        },
+        "message": {
+          "en": "We noticed you might be going through a tough time. Remember, it's okay to not be okay.",
+          "es": "Notamos que podrías estar pasando por un momento difícil. Recuerda, está bien no estar bien.",
+          "fr": "Nous avons remarqué que vous traversez peut-être une période difficile. Rappelez-vous, il est normal de ne pas aller bien."
+        },
+        "resources": [
+          {
+            "type": "self_care",
+            "links": [
+              { "label": "Self-Care Tips", "url": "https://time.app/mental-health/self-care" },
+              { "label": "Meditation & Mindfulness", "url": "https://time.app/mental-health/meditation" },
+              { "label": "Connect with Community", "url": "https://time.app/support-groups" }
+            ]
+          }
+        ],
+        "dismissible": true,
+        "follow_up_in": "7_days"
+      }
+    },
+    "proactive_support": {
+      "trigger_conditions": ["severity_2", "moderate_risk"],
+      "approach": "caring_intervention",
+      "bottom_sheet": {
+        "title": {
+          "en": "You're Not Alone",
+          "es": "No Estás Solo",
+          "fr": "Vous N'Êtes Pas Seul"
+        },
+        "message": {
+          "en": "It sounds like you're struggling right now. Reaching out for help is a sign of strength, not weakness.",
+          "es": "Parece que estás luchando ahora mismo. Pedir ayuda es una señal de fortaleza, no de debilidad.",
+          "fr": "Il semble que vous traversez des difficultés en ce moment. Demander de l'aide est un signe de force, pas de faiblesse."
+        },
+        "resources": [
+          {
+            "type": "immediate_support",
+            "links": [
+              { "label": "Text Crisis Helpline", "url": "sms:741741", "priority": "high" },
+              { "label": "24/7 Support Chat", "url": "https://suicidepreventionlifeline.org/chat" },
+              { "label": "Find Local Resources", "url": "https://time.app/mental-health/local" }
+            ]
+          }
+        ],
+        "dismissible": false,
+        "require_acknowledgment": true,
+        "follow_up_in": "24_hours"
+      }
+    },
+    "crisis_intervention": {
+      "trigger_conditions": ["severity_3", "high_risk", "emergency_protocol"],
+      "approach": "immediate_intervention",
+      "priority": "highest",
+      "bottom_sheet": {
+        "title": {
+          "en": "Crisis Support Available Now",
+          "es": "Apoyo de Crisis Disponible Ahora",
+          "fr": "Soutien de Crise Disponible Maintenant"
+        },
+        "message": {
+          "en": "We're concerned about your safety. Please know that people care about you and want to help.",
+          "es": "Estamos preocupados por tu seguridad. Por favor, sabe que hay gente que se preocupa por ti y quiere ayudar.",
+          "fr": "Nous sommes préoccupés par votre sécurité. Sachez que des gens se soucient de vous et veulent vous aider."
+        },
+        "emergency_contacts": {
+          "us": [
+            { "label": "Call 988 - Suicide & Crisis Lifeline", "url": "tel:988", "available": "24/7" },
+            { "label": "Text HOME to 741741", "url": "sms:741741", "available": "24/7" },
+            { "label": "Call 911 - Emergency Services", "url": "tel:911", "emergency": true }
+          ],
+          "uk": [
+            { "label": "Call 116 123 - Samaritans", "url": "tel:116123", "available": "24/7" },
+            { "label": "Text SHOUT to 85258", "url": "sms:85258" }
+          ],
+          "au": [
+            { "label": "Call 13 11 14 - Lifeline", "url": "tel:131114", "available": "24/7" }
+          ]
+        },
+        "dismissible": false,
+        "mandatory_interaction": true,
+        "notify_moderators": true,
+        "follow_up_in": "1_hour"
+      }
+    },
+    "specialized_interventions": {
+      "eating_disorder": {
+        "resources": [
+          { "label": "National Eating Disorders Association", "url": "https://www.nationaleatingdisorders.org" },
+          { "label": "NEDA Helpline", "url": "tel:1-800-931-2237" }
+        ]
+      },
+      "addiction_support": {
+        "resources": [
+          { "label": "SAMHSA National Helpline", "url": "tel:1-800-662-4357" },
+          { "label": "Find Treatment Centers", "url": "https://findtreatment.samhsa.gov" }
+        ]
+      },
+      "lgbtq_specific": {
+        "resources": [
+          { "label": "Trevor Project Crisis Line", "url": "tel:1-866-488-7386" },
+          { "label": "LGBT National Hotline", "url": "tel:1-888-843-4564" }
+        ]
+      },
+      "veterans_support": {
+        "resources": [
+          { "label": "Veterans Crisis Line", "url": "tel:1-800-273-8255" },
+          { "label": "Military Crisis Line Text", "url": "sms:838255" }
+        ]
+      }
+    }
+  },
+  "regional_compliance": {
+    "us": {
+      "legal_requirements": ["hipaa_compliance", "informed_consent"],
+      "mandatory_reporting": false,
+      "primary_resources": ["988_lifeline", "crisis_text_line"]
+    },
+    "eu": {
+      "legal_requirements": ["gdpr_compliance", "data_minimization"],
+      "mandatory_reporting": false,
+      "primary_resources": ["eu_suicide_prevention_network"]
+    },
+    "uk": {
+      "legal_requirements": ["data_protection_act"],
+      "mandatory_reporting": false,
+      "primary_resources": ["samaritans", "shout"]
+    },
+    "au": {
+      "legal_requirements": ["privacy_act_compliance"],
+      "mandatory_reporting": false,
+      "primary_resources": ["lifeline_australia", "beyond_blue"]
+    }
+  },
+  "advanced_features": {
+    "ai_enhancement": {
+      "enabled": false,
+      "future_ready": true,
+      "planned_capabilities": {
+        "sentiment_analysis": {
+          "description": "Analyze emotional tone and intensity",
+          "confidence_threshold": 0.85,
+          "real_time_monitoring": true
+        },
+        "behavioral_prediction": {
+          "description": "Identify at-risk users before crisis",
+          "predictive_models": ["posting_pattern_analysis", "social_connection_changes"],
+          "early_intervention": true
+        },
+        "personalized_resources": {
+          "description": "Tailor interventions to individual needs",
+          "factors": ["age", "location", "previous_interactions", "preferred_support_types"]
+        }
+      }
+    },
+    "peer_support_integration": {
+      "trained_peer_supporters": true,
+      "volunteer_network": {
+        "screening_required": true,
+        "training_program": "mental_health_first_aid",
+        "supervision": "licensed_professionals"
+      },
+      "peer_matching": {
+        "based_on": ["age", "experiences", "language", "timezone"],
+        "privacy_protected": true
+      }
+    },
+    "follow_up_system": {
+      "automated_check_ins": true,
+      "check_in_schedule": {
+        "severity_1": ["7_days", "30_days"],
+        "severity_2": ["24_hours", "7_days", "30_days"],
+        "severity_3": ["1_hour", "24_hours", "7_days", "30_days"]
+      },
+      "check_in_methods": ["gentle_notification", "private_message", "resource_sharing"],
+      "user_can_opt_out": true,
+      "privacy_first": true
+    }
+  },
+  "exceptions_and_context": {
+    "educational_content": {
+      "allowed": true,
+      "requires_context": ["academic_discussion", "awareness_campaigns", "prevention_education"],
+      "professional_accounts": ["therapists", "counselors", "mental_health_advocates"]
+    },
+    "research_queries": {
+      "allowed": true,
+      "indicators": ["research purposes", "academic study", "statistics", "for school"],
+      "reduced_intervention": true
+    },
+    "creative_expression": {
+      "allowed": true,
+      "indicators": ["song lyrics", "poetry", "art therapy", "creative writing"],
+      "context_aware": true,
+      "offer_support_anyway": true
+    },
+    "news_reporting": {
+      "allowed": true,
+      "verified_journalists": true,
+      "suicide_reporting_guidelines": "who_guidelines_compliant"
+    }
+  },
+  "privacy_and_ethics": {
+    "data_handling": {
+      "minimal_collection": true,
+      "no_profiling": true,
+      "anonymize_immediately": true,
+      "user_consent": "opt_out_model"
+    },
+    "ethical_guidelines": {
+      "non_judgmental": true,
+      "culturally_sensitive": true,
+      "age_appropriate": true,
+      "professional_boundaries": true
+    },
+    "staff_protocols": {
+      "crisis_response_team": true,
+      "24_7_availability": true,
+      "licensed_professionals": true,
+      "trauma_informed_care": true
+    }
+  },
+  "logging_and_analytics": {
+    "intervention_logging": {
+      "store_incident_flags": true,
+      "retain_for_days": 90,
+      "anonymize_after_days": 1,
+      "export_format": "jsonl",
+      "include_metadata": ["intervention_type", "severity", "user_engagement", "follow_up_outcome"]
+    },
+    "effectiveness_metrics": {
+      "generate_reports": true,
+      "metrics": [
+        "total_interventions_by_severity",
+        "user_engagement_rates",
+        "resource_click_through_rates", 
+        "follow_up_completion_rates",
+        "crisis_de_escalation_success",
+        "false_positive_rates",
+        "geographic_usage_patterns",
+        "multilingual_effectiveness"
+      ],
+      "research_partnerships": {
+        "anonymized_data_sharing": true,
+        "academic_institutions": true,
+        "suicide_prevention_research": true,
+        "user_consent_required": true
+      }
+    },
+    "continuous_improvement": {
+      "a_b_testing": {
+        "intervention_messages": true,
+        "resource_recommendations": true,
+        "ui_design_elements": true
+      },
+      "user_feedback": {
+        "post_intervention_surveys": true,
+        "anonymous_feedback": true,
+        "suggestion_system": true
+      },
+      "expert_review": {
+        "quarterly_audits": true,
+        "clinical_advisory_board": true,
+        "crisis_intervention_specialists": true
+      }
+    }
+  }
+}
