@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <mutex>
 #include <chrono>
 #include <functional>
 #include <grpcpp/grpcpp.h>
@@ -106,6 +107,12 @@ private:
     // Service State
     std::atomic<bool> running_{false};
     std::chrono::steady_clock::time_point startTime_;
+
+    // Local in-memory fallback cache (LRU-lite via size cap & FIFO eviction)
+    std::unordered_map<std::string, std::string> local_cache_;
+    std::deque<std::string> local_cache_fifo_;
+    std::mutex local_cache_mutex_;
+    static constexpr size_t kLocalCacheMaxEntries_ = 512;
 
     // Internal Methods
     grpc::Status ProcessVideoFeedRequest(
@@ -221,6 +228,17 @@ private:
     void CacheResponse(
         const std::string& cacheKey,
         const proto::services::VideoFeedResponse& response
+    );
+
+    // Serialization helpers
+    bool SerializeResponse(
+        const proto::services::VideoFeedResponse& response,
+        std::string& out
+    );
+
+    bool DeserializeResponse(
+        const std::string& data,
+        proto::services::VideoFeedResponse* response
     );
 
     // Error Handling
